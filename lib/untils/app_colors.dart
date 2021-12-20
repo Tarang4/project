@@ -13,3 +13,4 @@ const colorOrange=Color(0xffFF3D00);
 const colorPink=Color(0xffE80057);
 Color colorBlack4=const Color(0xff000000).withOpacity(0.40);
 Color colorBlack3=const Color(0xff000000).withOpacity(0.35);
+Color colorTransparent=Colors.transparent;

@@ -17,21 +17,28 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool validateStructure(String value) {
+    String pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regExp = RegExp(pattern);
+    return regExp.hasMatch(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.only(top: 15),
-          padding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height / 15.53,
-              bottom: MediaQuery.of(context).size.height / 5.76,
-              left: 16,
-              right: 16),
+          margin: const EdgeInsets.only(top: 0),
+          padding: EdgeInsets.only(left: 16, right: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Form(key: loginScreenKey,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.175,
+              ),
+              Form(
+                key: loginScreenKey,
                 child: Card(
                   elevation: 6.8,
                   child: Padding(
@@ -123,8 +130,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         Container(
                           width: double.infinity,
                           height: 33,
-
                           child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+
+                                return 'Please Enter Password';
+                              }
+                              if(_passwordController.text.length<8){
+                                return 'Please Enter 8 Digits Password';
+                              }
+                            },
                             controller: _passwordController,
                             textInputAction: TextInputAction.done,
                             keyboardType: TextInputType.emailAddress,
@@ -134,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.normal),
                             decoration: const InputDecoration(
-                              border: UnderlineInputBorder(
+                                border: UnderlineInputBorder(
                                 borderSide: BorderSide(color: colorGreen),
                               ),
                               focusedBorder: UnderlineInputBorder(
@@ -156,20 +171,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontWeight: FontWeight.normal),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 25,
                         ),
                         InkWell(
                           onTap: () {
-
                             if (loginScreenKey.currentState!.validate()) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => SignUpScreen()));
+
+                              if (_passwordController.text.length > 7) {
+                              }
                             }
-
-
                           },
                           child: Container(
                             height: 50,
@@ -256,4 +271,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+
 }
