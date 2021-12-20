@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/untils/app_fonts.dart';
 
 import 'app_colors.dart';
 
@@ -41,7 +42,7 @@ class _CategoriesContainerState extends State<CategoriesContainer> {
           ),
           Text(
             name,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+            style: defaultTextStyle(fontSize: 12.0,fontWeight: FontWeight.w400)
           ),
         ],
       ),

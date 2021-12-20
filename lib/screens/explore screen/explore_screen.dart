@@ -4,6 +4,7 @@ import 'package:untitled/modal/categories_modal.dart';
 import 'package:untitled/modal/product_modal.dart';
 import 'package:untitled/screens/search%20screen/search_s2.dart';
 import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/untils/categories_container.dart';
 import 'package:untitled/untils/product_container.dart';
 
@@ -28,62 +29,62 @@ class _ExploreScreenState extends State<ExploreScreen> {
         pImage: "assets/images/G2.png",
         pName: "BeoPlay Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "700"),
+        pPrice: "\$700"),
     ProductModal(
         pImage: "assets/images/icons/G1.png",
         pName: "ll Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "700"),
+        pPrice: "\$700"),
     ProductModal(
         pImage: "assets/images/G2.png",
         pName: "BeoPlay Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "700"),
+        pPrice: "\$700"),
     ProductModal(
         pImage: "assets/images/icons/G1.png",
         pName: "ll Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "700"),
+        pPrice: "\$700"),
     ProductModal(
         pImage: "assets/images/G2.png",
         pName: "BeoPlay Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "700"),
+        pPrice: "\$700"),
     ProductModal(
         pImage: "assets/images/icons/G1.png",
         pName: "ll Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "700"),
+        pPrice: "\$700"),
     ProductModal(
         pImage: "assets/images/G2.png",
         pName: "BeoPlay Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "700"),
+        pPrice: "\$700"),
     ProductModal(
         pImage: "assets/images/icons/G1.png",
         pName: "ll Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "700"),
+        pPrice: "\$700"),
     ProductModal(
         pImage: "assets/images/two.jpg",
         pName: "BeoPlay Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "700"),
+        pPrice: "\$700"),
     ProductModal(
         pImage: "assets/images/icons/G1.png",
         pName: "ll Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "700"),
+        pPrice: "\$700"),
     ProductModal(
         pImage: "assets/images/two.jpg",
         pName: "BeoPlay Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "700"),
+        pPrice: "\$700"),
     ProductModal(
         pImage: "assets/images/icons/G1.png",
         pName: "ll Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "700"),
+        pPrice: "\$700"),
   ];
 
   @override
@@ -168,10 +169,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       "Categories",
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          defaultTextStyle(),
                     ),
                     const SizedBox(
                       height: 19,
@@ -198,15 +199,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Text(
                     "Best Selling",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: defaultTextStyle(),
                   ),
                   Text(
                     "See All",
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                    style: defaultTextStyle(
+                      fontColors: colorBlack,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w400
+                    ),
                   ),
                 ],
               ),
@@ -215,14 +219,16 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 height: 2000,
                 child: GridView.builder(
                     shrinkWrap: true,
+                    padding: const EdgeInsets.only(bottom: 10, top: 20),
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: productList.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.6,
-                            crossAxisSpacing: 14,
-                            mainAxisSpacing: 18),
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.6,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 18,
+                    ),
                     itemBuilder: (BuildContext context, int index) {
                       ProductModal productModal = productList[index];
                       return ProductContainer(
