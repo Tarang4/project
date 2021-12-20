@@ -45,6 +45,7 @@ class _ProductContainerState extends State<ProductContainer> {
         Container(
           height: MediaQuery.of(context).size.height * 0.27,
           width: double.infinity,
+          // padding: const EdgeInsets.only(left: 0,right: 7,),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
           child: Image.asset(
             image,
