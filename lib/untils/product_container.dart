@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/untils/app_fonts.dart';
 
 import 'app_colors.dart';
 
@@ -41,9 +40,10 @@ class _ProductContainerState extends State<ProductContainer> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          height: MediaQuery.of(context).size.height/3.9,
+          height: MediaQuery.of(context).size.height * 0.27,
           width: double.infinity,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
           child: Image.asset(
@@ -51,20 +51,28 @@ class _ProductContainerState extends State<ProductContainer> {
             fit: BoxFit.cover,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10,bottom: 3),
-          child: Text(
-            name,
-            style: defaultTextStyle(fontSize: 16.0,fontWeight: FontWeight.w500),
-          ),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(
+          name,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(
+          height: 3,
         ),
         Text(
           info,
-          style: defaultTextStyle(fontSize: 12.0,fontWeight: FontWeight.w400,fontColors: colorGrey),
+          style: const TextStyle(
+              fontSize: 12, fontWeight: FontWeight.normal, color: colorGrey),
+        ),
+        const SizedBox(
+          height: 3,
         ),
         Text(
           price,
-          style: defaultTextStyle(fontSize: 16.0,fontWeight: FontWeight.w500,fontColors: colorGreen),
+          style: const TextStyle(
+              fontSize: 16, fontWeight: FontWeight.normal, color: colorGreen),
         ),
       ],
     );

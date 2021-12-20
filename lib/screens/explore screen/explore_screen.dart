@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
 import 'package:untitled/modal/categories_modal.dart';
 import 'package:untitled/modal/product_modal.dart';
 import 'package:untitled/screens/search%20screen/search_s2.dart';
 import 'package:untitled/untils/app_colors.dart';
-import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/untils/categories_container.dart';
 import 'package:untitled/untils/product_container.dart';
 
@@ -29,62 +29,62 @@ class _ExploreScreenState extends State<ExploreScreen> {
         pImage: "assets/images/G2.png",
         pName: "BeoPlay Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "\$700"),
+        pPrice: "700"),
     ProductModal(
         pImage: "assets/images/icons/G1.png",
         pName: "ll Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "\$700"),
+        pPrice: "700"),
     ProductModal(
         pImage: "assets/images/G2.png",
         pName: "BeoPlay Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "\$700"),
+        pPrice: "700"),
     ProductModal(
         pImage: "assets/images/icons/G1.png",
         pName: "ll Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "\$700"),
+        pPrice: "700"),
     ProductModal(
         pImage: "assets/images/G2.png",
         pName: "BeoPlay Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "\$700"),
+        pPrice: "700"),
     ProductModal(
         pImage: "assets/images/icons/G1.png",
         pName: "ll Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "\$700"),
+        pPrice: "700"),
     ProductModal(
         pImage: "assets/images/G2.png",
         pName: "BeoPlay Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "\$700"),
+        pPrice: "700"),
     ProductModal(
         pImage: "assets/images/icons/G1.png",
         pName: "ll Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "\$700"),
+        pPrice: "700"),
     ProductModal(
         pImage: "assets/images/two.jpg",
         pName: "BeoPlay Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "\$700"),
+        pPrice: "700"),
     ProductModal(
         pImage: "assets/images/icons/G1.png",
         pName: "ll Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "\$700"),
+        pPrice: "700"),
     ProductModal(
         pImage: "assets/images/two.jpg",
         pName: "BeoPlay Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "\$700"),
+        pPrice: "700"),
     ProductModal(
         pImage: "assets/images/icons/G1.png",
         pName: "ll Speaker",
         pInfo: "BeoPlay Speaker",
-        pPrice: "\$700"),
+        pPrice: "700"),
   ];
 
   @override
@@ -169,10 +169,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Categories",
                       style:
-                          defaultTextStyle(),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 19,
@@ -199,45 +199,34 @@ class _ExploreScreenState extends State<ExploreScreen> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: const [
                   Text(
                     "Best Selling",
-                    style: defaultTextStyle(),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     "See All",
-                    style: defaultTextStyle(
-                      fontColors: colorBlack,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w400
-                    ),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
                   ),
                 ],
               ),
               const SizedBox(height: 0),
-              SizedBox(
-                height: 2000,
-                child: GridView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.only(bottom: 10, top: 20),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: productList.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.6,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 18,
-                    ),
-                    itemBuilder: (BuildContext context, int index) {
-                      ProductModal productModal = productList[index];
-                      return ProductContainer(
-                        pInfo: productModal.pInfo,
-                        pImage: productModal.pImage,
-                        pName: productModal.pName,
-                        pPrice: productModal.pPrice,
-                      );
-                    }),
+              IntrinsicGridView.vertical(
+                padding:
+                EdgeInsets.only(top: 16),
+                columnCount: 2,
+                verticalSpace: 10,
+                horizontalSpace: 10,
+                children: List.generate(
+                  productList.length,
+                      (index) => ProductContainer(
+                    pImage: productList[index].pImage,
+                    pName: productList[index].pName,
+                    pInfo: productList[index].pInfo,
+                    pPrice: productList[index].pPrice,
+                  ),
+                ),
               )
             ],
           ),
