@@ -43,9 +43,9 @@ class _ProductContainerState extends State<ProductContainer> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          height: MediaQuery.of(context).size.height * 0.27,
+          height: MediaQuery.of(context).size.height /3,
           width: double.infinity,
-          // padding: const EdgeInsets.only(left: 0,right: 7,),
+          // padding: const EdgeInsets.only(left: 3,right: 3,),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
           child: Image.asset(
             image,
@@ -79,3 +79,5 @@ class _ProductContainerState extends State<ProductContainer> {
     );
   }
 }
+
+

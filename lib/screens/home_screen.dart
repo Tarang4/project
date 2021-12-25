@@ -28,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: buildMyNavBar(context),
     );
   }
-
   Container buildMyNavBar(BuildContext context) {
     return Container(
       height: 74,
