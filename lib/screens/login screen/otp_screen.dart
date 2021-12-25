@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/login%20screen/login_screen.dart';
 import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/untils/app_fonts.dart';
 
 class VerificationScreen extends StatefulWidget {
   const VerificationScreen({Key? key}) : super(key: key);
@@ -17,12 +18,18 @@ class _VerificationScreenState extends State<VerificationScreen> {
   final TextEditingController text4 = TextEditingController();
   final TextEditingController text5 = TextEditingController();
   final TextEditingController text6 = TextEditingController();
+  final FocusNode focusNode1 = FocusNode();
+  final FocusNode focusNode2 = FocusNode();
+  final FocusNode focusNode3 = FocusNode();
+  final FocusNode focusNode4 = FocusNode();
+  final FocusNode focusNode5 = FocusNode();
+  final FocusNode focusNode6 = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.only(left: 16, bottom: 20, right: 15),
+        padding: const EdgeInsets.only(left: 16, bottom: 20, right: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -59,21 +66,21 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Verification,",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                      "Verification",
+                      style: defaultTextStyle(
+                          fontSize: 30.0, fontWeight: FontWeight.w700),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 9,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.7,
-                      child: const Text(
+                      child: Text(
                         "A 6 - Digit PIN has been sent to your email address, enter it below to continue",
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: colorGrey,
-                            fontWeight: FontWeight.normal),
+                        style: defaultTextStyle(
+                            fontSize: 14.0,
+                            fontColors: colorGrey,
+                            fontWeight: FontWeight.w400),
                       ),
                     ),
                     Padding(
@@ -82,22 +89,69 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             TextFieldEmailVerification(
+                              focusNode: focusNode1,
                               code: text1,
+                              onChanged: (value) {
+                                FocusScope.of(context).requestFocus(focusNode2);
+                                if (value.isEmpty) {
+                                  FocusScope.of(context)
+                                      .requestFocus(focusNode1);
+                                }
+                              },
                             ),
                             TextFieldEmailVerification(
+                              focusNode: focusNode2,
+                              onChanged: (value) {
+                                FocusScope.of(context).requestFocus(focusNode3);
+                                if (value.isEmpty) {
+                                  FocusScope.of(context)
+                                      .requestFocus(focusNode1);
+                                }
+                              },
                               code: text2,
                             ),
                             TextFieldEmailVerification(
+                              focusNode: focusNode3,
+                              onChanged: (value) {
+                                FocusScope.of(context).requestFocus(focusNode4);
+                                if (value.isEmpty) {
+                                  FocusScope.of(context)
+                                      .requestFocus(focusNode2);
+                                }
+                              },
                               code: text3,
                             ),
                             TextFieldEmailVerification(
+                              focusNode: focusNode4,
                               code: text4,
+                              onChanged: (value) {
+                                FocusScope.of(context).requestFocus(focusNode5);
+                                if (value.isEmpty) {
+                                  FocusScope.of(context)
+                                      .requestFocus(focusNode3);
+                                }
+                              },
                             ),
                             TextFieldEmailVerification(
+                              focusNode: focusNode5,
                               code: text5,
+                              onChanged: (value) {
+                                FocusScope.of(context).requestFocus(focusNode6);
+                                if (value.isEmpty) {
+                                  FocusScope.of(context)
+                                      .requestFocus(focusNode4);
+                                }
+                              },
                             ),
                             TextFieldEmailVerification(
+                              focusNode: focusNode6,
                               code: text6,
+                              onChanged: (value) {
+                                if (value.isEmpty) {
+                                  FocusScope.of(context)
+                                      .requestFocus(focusNode5);
+                                }
+                              },
                             ),
                           ]),
                     ),
@@ -111,11 +165,16 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       child: Container(
                         height: 50,
                         width: MediaQuery.of(context).size.height,
-                        color: colorGreen,
+                        decoration: BoxDecoration(
+                            color: colorGreen,
+                            borderRadius: BorderRadius.circular(4)),
                         alignment: Alignment.center,
-                        child: const Text(
+                        child: Text(
                           "CONTINUE",
-                          style: TextStyle(color: colorWhite),
+                          style: defaultTextStyle(
+                              fontSize: 14.0,
+                              fontColors: colorWhite,
+                              fontWeight: FontWeight.w400),
                         ),
                       ),
                     )
@@ -132,19 +191,20 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
 class TextFieldEmailVerification extends StatelessWidget {
   final TextEditingController code;
+  final String? last;
+  final ValueChanged<String>? onChanged;
+  final FocusNode? focusNode;
 
   const TextFieldEmailVerification({
     Key? key,
     required this.code,
+    this.last,
+    this.onChanged,
+    this.focusNode,
   }) : super(key: key);
 
   @override
-
-
   Widget build(BuildContext context) {
-
-
-
     return Container(
         height: 40,
         width: 40,
@@ -156,17 +216,13 @@ class TextFieldEmailVerification extends StatelessWidget {
           controller: code,
           textInputAction: TextInputAction.next,
           autofocus: true,
-          onChanged: (v){
-            do {
-              FocusScope.of(context).nextFocus();
-            } while (FocusScope.of(context).focusedChild?.context?.widget is! EditableText);
-
-          },
-            cursorColor: Colors.black.withOpacity(0.5),
+          onChanged: onChanged,
+          focusNode: focusNode,
+          cursorColor: Colors.black.withOpacity(0.5),
           style: const TextStyle(
               color: colorBlack, fontSize: 19, fontWeight: FontWeight.normal),
           maxLength: 1,
-          scrollPadding: EdgeInsets.only(bottom: 5, top: 5),
+          scrollPadding: const EdgeInsets.only(bottom: 5, top: 5),
           decoration: const InputDecoration(
             contentPadding: EdgeInsets.only(top: 7),
             counterText: '',
@@ -178,7 +234,5 @@ class TextFieldEmailVerification extends StatelessWidget {
             ),
           ),
         ));
-
   }
-
 }

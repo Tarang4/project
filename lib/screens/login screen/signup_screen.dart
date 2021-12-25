@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/untils/app_fonts.dart';
 
 import 'otp_screen.dart';
 
@@ -14,7 +15,6 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final signupScreenKey = GlobalKey<FormState>();
 
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _signEmailController = TextEditingController();
   final TextEditingController _signPasswordController = TextEditingController();
@@ -24,12 +24,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.only( left: 16, bottom: 20, right: 15),
-          child: Form(key: signupScreenKey,
+          padding: const EdgeInsets.only(left: 16, bottom: 20, right: 15),
+          child: Form(
+            key: signupScreenKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height:MediaQuery.of(context).size.height*0.1,),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                ),
                 InkWell(
                   onTap: () {
                     Navigator.pop(context);
@@ -48,8 +51,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height:MediaQuery.of(context).size.height*0.06,),
-
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.06,
+                ),
                 Card(
                   elevation: 6.8,
                   child: Padding(
@@ -59,19 +63,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Sign Up,",
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
+                          "Sign Up",
+                          style: defaultTextStyle(
+                              fontSize: 30.0, fontWeight: FontWeight.w700),
                         ),
                         SizedBox(
                           height: 48,
                         ),
-                        const Text(
+                        Text(
                           "Name",
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: colorBlack,
-                              fontWeight: FontWeight.normal),
+                          style: defaultTextStyle(
+                              fontSize: 14.0,
+                              fontColors: colorGrey,
+                              fontWeight: FontWeight.w400),
                         ),
                         const SizedBox(
                           height: 17,
@@ -79,16 +83,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Container(
                           width: double.infinity,
                           height: 33,
-
                           child: TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {
-
                                 return 'Please Enter Your Name';
                               }
-
                             },
-
                             controller: _nameController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
@@ -110,12 +110,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 39,
                         ),
-                        const Text(
+                        Text(
                           "Email",
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: colorBlack,
-                              fontWeight: FontWeight.normal),
+                          style: defaultTextStyle(
+                            fontSize: 14.0,
+                            fontColors: colorGrey,
+                            fontWeight: FontWeight.w400),
                         ),
                         const SizedBox(
                           height: 17,
@@ -123,7 +123,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Container(
                           width: double.infinity,
                           height: 33,
-
                           child: TextFormField(
                             validator: (value) {
                               if (!EmailValidator.validate(value ?? "")) {
@@ -132,7 +131,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             },
                             controller: _signEmailController,
                             textInputAction: TextInputAction.next,
-
                             keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.black,
                             style: const TextStyle(
@@ -152,12 +150,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 39,
                         ),
-                        const Text(
+                        Text(
                           "Password",
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: colorBlack,
-                              fontWeight: FontWeight.normal),
+                          style: defaultTextStyle(
+                              fontSize: 14.0,
+                              fontColors: colorGrey,
+                              fontWeight: FontWeight.w400),
                         ),
                         const SizedBox(
                           height: 17,
@@ -165,14 +163,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Container(
                           width: double.infinity,
                           height: 33,
-
                           child: TextFormField(
+                            obscureText: true,
                             validator: (value) {
                               if (value!.isEmpty) {
-
                                 return 'Please Enter Password';
                               }
-                              if(_signPasswordController.text.length<8){
+                              if (_signPasswordController.text.length < 8) {
                                 return 'Please Enter 8 Digits Password';
                               }
                             },
@@ -206,10 +203,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => VerificationScreen()));
+                                      builder: (context) =>
+                                          VerificationScreen()));
 
-                              if (_signPasswordController.text.length > 7) {
-                              }
+                              if (_signPasswordController.text.length > 7) {}
                             }
                           },
                           child: Container(
