@@ -6,8 +6,10 @@ TextStyle defaultTextStyle({
   fontSize = 18.0,
   fontColors = Colors.black,
   fontFamily = "SF",
+  wordSpacing=0.1,
 }) {
   return TextStyle(
+      wordSpacing: wordSpacing,
       fontWeight: fontWeight,
       fontSize: fontSize,
       color: fontColors,
