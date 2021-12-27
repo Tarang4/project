@@ -26,5 +26,5 @@ class CartModel{
   late final String cartImage;
   late final String cartName;
   late final String cartPrice;
-  CartModel({required this.cartImage,required this.cartName,required this.cartPrice});
+  CartModel({required this.cartImage,required this.cartName,required this.cartPrice,});
 }
