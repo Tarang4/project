@@ -87,16 +87,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             });
                           },
                           child: isZero == true
-                              ? Icon(
-                                  Icons.star,
-                                  size: 60,
-                                  color: colorYellow,
-                                )
-                              : Icon(
-                                  Icons.star_border_outlined,
-                                  size: 60,
-                                  color: colorLightGrey,
-                                ),
+                              ? iconStarYellow()
+                              :iconStarOutLine(),
                         ),
                         InkWell(
                           onTap: () {
@@ -110,16 +102,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             });
                           },
                           child: isOne == true
-                              ? Icon(
-                                  Icons.star,
-                                  size: 60,
-                                  color: colorYellow,
-                                )
-                              : Icon(
-                                  Icons.star_border_outlined,
-                                  size: 60,
-                                  color: colorLightGrey,
-                                ),
+                              ? iconStarYellow()
+                              :iconStarOutLine(),
                         ),
                         InkWell(
                           onTap: () {
@@ -133,16 +117,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             });
                           },
                           child: isTwo == true
-                              ? Icon(
-                                  Icons.star,
-                                  size: 60,
-                                  color: colorYellow,
-                                )
-                              : Icon(
-                                  Icons.star_border_outlined,
-                                  size: 60,
-                                  color: colorLightGrey,
-                                ),
+                              ? iconStarYellow()
+                              :iconStarOutLine(),
                         ),
                         InkWell(
                           onTap: () {
@@ -156,16 +132,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             });
                           },
                           child: isThree == true
-                              ? Icon(
-                                  Icons.star,
-                                  size: 60,
-                                  color: colorYellow,
-                                )
-                              : Icon(
-                                  Icons.star_border_outlined,
-                                  size: 60,
-                                  color: colorLightGrey,
-                                ),
+                              ? iconStarYellow()
+                              :iconStarOutLine(),
                         ),
                         InkWell(
                           onTap: () {
@@ -248,6 +216,20 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
         ],
       ),
+    );
+  }
+  iconStarYellow(){
+    return const Icon(
+      Icons.star,
+      size: 60,
+      color: colorYellow,
+    );
+  }
+  iconStarOutLine(){
+    return const Icon(
+      Icons.star_border_outlined,
+      size: 60,
+      color: colorLightGrey,
     );
   }
 
