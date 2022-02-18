@@ -1,9 +1,15 @@
+// ignore_for_file: prefer_const_constructors
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:untitled/modal/user_model.dart';
+import 'package:untitled/screens/login%20screen/submit_screen2.dart';
 import 'package:untitled/untils/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
+import 'package:untitled/untils/user_database_util.dart';
 
-import 'otp_screen.dart';
+import 'login_screen.dart';
+
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -13,11 +19,13 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final signupScreenKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey();
+  TextEditingController email = TextEditingController();
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lastName = TextEditingController();
+  TextEditingController password = TextEditingController();
 
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _signEmailController = TextEditingController();
-  final TextEditingController _signPasswordController = TextEditingController();
+  bool isShow = true;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Container(
           padding: const EdgeInsets.only(left: 16, bottom: 20, right: 15),
           child: Form(
-            key: signupScreenKey,
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -35,21 +43,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
                   },
                   child: Container(
-                    width: 20,
-                    margin: const EdgeInsets.only(
-                      bottom: 10,
-                      top: 10,
-                    ),
-                    alignment: Alignment.centerLeft,
-                    child: Image.asset(
-                      "assets/images/Icon_Arrow-Left@3x.png",
-                      height: 15,
-                      width: 8,
-                    ),
-                  ),
+                      width: 20,
+                      margin: const EdgeInsets.only(
+                        bottom: 10,
+                        top: 10,
+                      ),
+                      alignment: Alignment.centerLeft,
+                      child: const Icon(Icons.arrow_back)),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.06,
@@ -67,11 +70,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           style: defaultTextStyle(
                               fontSize: 30.0, fontWeight: FontWeight.w700),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 48,
                         ),
                         Text(
-                          "Name",
+                          "First Name",
                           style: defaultTextStyle(
                               fontSize: 14.0,
                               fontColors: colorGrey,
@@ -80,16 +83,56 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 17,
                         ),
-                        Container(
+                        SizedBox(
                           width: double.infinity,
                           height: 33,
                           child: TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Please Enter Your Name';
+                                return 'First Name';
                               }
                             },
-                            controller: _nameController,
+                            controller: firstName,
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.text,
+                            cursorColor: Colors.black,
+                            style: const TextStyle(
+                                color: colorBlack,
+                                fontSize: 18,
+                                fontWeight: FontWeight.normal),
+                            decoration: const InputDecoration(
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide(color: colorLightGrey),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: colorGreen),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 39,
+                        ),
+                        Text(
+                          "Last Name",
+                          style: defaultTextStyle(
+                              fontSize: 14.0,
+                              fontColors: colorGrey,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        const SizedBox(
+                          height: 17,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 33,
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'First Name';
+                              }
+                            },
+                            controller: lastName,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
                             cursorColor: Colors.black,
@@ -113,14 +156,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Text(
                           "Email",
                           style: defaultTextStyle(
-                            fontSize: 14.0,
-                            fontColors: colorGrey,
-                            fontWeight: FontWeight.w400),
+                              fontSize: 14.0,
+                              fontColors: colorGrey,
+                              fontWeight: FontWeight.w400),
                         ),
                         const SizedBox(
                           height: 17,
                         ),
-                        Container(
+                        SizedBox(
                           width: double.infinity,
                           height: 33,
                           child: TextFormField(
@@ -129,7 +172,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 return 'Enter valid email';
                               }
                             },
-                            controller: _signEmailController,
+                            controller: email,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.black,
@@ -160,7 +203,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 17,
                         ),
-                        Container(
+                        SizedBox(
                           width: double.infinity,
                           height: 33,
                           child: TextFormField(
@@ -169,11 +212,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               if (value!.isEmpty) {
                                 return 'Please Enter Password';
                               }
-                              if (_signPasswordController.text.length < 8) {
+                              if (password.text.length < 8) {
                                 return 'Please Enter 8 Digits Password';
                               }
                             },
-                            controller: _signPasswordController,
+                            controller: password,
                             textInputAction: TextInputAction.done,
                             keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.black,
@@ -194,19 +237,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 5,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 60,
                         ),
                         InkWell(
-                          onTap: () {
-                            if (signupScreenKey.currentState!.validate()) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          VerificationScreen()));
-
-                              if (_signPasswordController.text.length > 7) {}
+                          onTap: () async {
+                            try{
+                              if (_formKey.currentState!.validate()) {
+                                UserModel user = UserModel(
+                                    email: email.text,
+                                    firstName: firstName.text,
+                                    password: password.text);
+                                await DatabaseUtils.db.insertData(user);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const SubmitScreen2()));
+                              }
+                            }
+                            catch(e){
+                              Fluttertoast.showToast(
+                                  msg: "Account Already Exist",
+                                  backgroundColor: Colors.white54,
+                                  textColor: Colors.white,
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1);
                             }
                           },
                           child: Container(
@@ -215,7 +272,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             color: colorGreen,
                             alignment: Alignment.center,
                             child: const Text(
-                              "SIGN IN",
+                              "SIGN UP",
                               style: TextStyle(color: colorWhite),
                             ),
                           ),

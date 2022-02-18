@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: buildMyNavBar(context),
     );
   }
+
   Container buildMyNavBar(BuildContext context) {
     return Container(
       height: 74,
@@ -103,39 +104,40 @@ class _HomeScreenState extends State<HomeScreen> {
                     : const Icon(Icons.card_travel),
               )),
           InkWell(
-              enableFeedback: false,
-              splashColor: Colors.white,
-              onTap: () {
-                setState(() {
-                  pageIndex = 2;
-                });
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width / 3,
-                alignment: Alignment.center,
-                child: pageIndex == 2
-                    ? Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            "Account",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Container(
-                            height: 3,
-                            width: 8,
-                            decoration: BoxDecoration(
-                                color: colorBlack,
-                                borderRadius: BorderRadius.circular(10)),
-                          )
-                        ],
-                      )
-                    : const Icon(Icons.person),
-              )),
+            enableFeedback: false,
+            splashColor: Colors.white,
+            onTap: () {
+              setState(() {
+                pageIndex = 2;
+              });
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width / 3,
+              alignment: Alignment.center,
+              child: pageIndex == 2
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          "Account",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        Container(
+                          height: 3,
+                          width: 8,
+                          decoration: BoxDecoration(
+                              color: colorBlack,
+                              borderRadius: BorderRadius.circular(10)),
+                        )
+                      ],
+                    )
+                  : const Icon(Icons.person),
+            ),
+          ),
         ],
       ),
     );

@@ -1,42 +1,37 @@
 // ignore_for_file: sized_box_for_whitespace, prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:untitled/modal/user_model.dart';
-import 'package:untitled/screens/home_screen.dart';
-import 'package:untitled/screens/login%20screen/forget_screen.dart';
-import 'package:untitled/screens/login%20screen/sign_up_screen.dart';
 import 'package:untitled/untils/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/untils/user_database_util.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+
+class ForgetScreen extends StatefulWidget {
+  final String email;
+
+  const ForgetScreen({Key? key, required this.email}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _ForgetScreenState createState() => _ForgetScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ForgetScreenState extends State<ForgetScreen> {
+  late String email;
   final loginScreenKey = GlobalKey<FormState>();
   List<UserModel> modelList = [];
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _password1Controller = TextEditingController();
+  final TextEditingController _password2Controller = TextEditingController();
   FocusNode emailFocus = FocusNode();
 
-  bool validateStructure(String value) {
-    String pattern =
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-    RegExp regExp = RegExp(pattern);
-    return regExp.hasMatch(value);
-  }
-
-  bool validatePassword(String value) {
-    RegExp regex =
-        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-    return regex.hasMatch(value);
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    email = widget.email;
   }
 
   @override
@@ -67,45 +62,27 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Welcome,",
+                              "Forget Password",
                               style: defaultTextStyle(
-                                  fontSize: 30.0, fontWeight: FontWeight.w700),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SignUpScreen()));
-                              },
-                              child: Text(
-                                "Sign",
-                                style: defaultTextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w400,
-                                    fontColors: colorGreen,),
-                              ),
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w400,
+                                  fontColors: colorGreen),
                             ),
                           ],
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        Text("Sign in to Continue",
-                            style: defaultTextStyle(
-                                fontSize: 14.0,
-                                fontColors: colorGrey,
-                                fontWeight: FontWeight.w400),),
                         const SizedBox(
                           height: 40,
                         ),
-                        Text("Email",
+                        Text("Phone",
                             style: defaultTextStyle(
                                 fontColors: colorGrey,
                                 fontSize: 14.0,
-                                fontWeight: FontWeight.w400,),),
+                                fontWeight: FontWeight.w400)),
                         const SizedBox(
-                          height: 17,
+                          height: 25,
                         ),
                         Container(
                           width: double.infinity,
@@ -113,14 +90,44 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: TextFormField(
                             focusNode: emailFocus,
                             autofocus: true,
-                            validator: (value) {
-                              if (!EmailValidator.validate(value ?? "")) {
-                                return 'Enter valid email';
-                              }
-                            },
-                            controller: _emailController,
+                            maxLength: 10,
+                            controller: _phoneController,
                             textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.phone,
+                            cursorColor: Colors.black,
+                            style: const TextStyle(
+                                color: colorBlack,
+                                fontSize: 18,
+                                fontWeight: FontWeight.normal),
+                            decoration: const InputDecoration(
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide(color: colorGreen),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: colorGreen),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text("Enter New Password",
+                            style: defaultTextStyle(
+                                fontColors: colorGrey,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w400)),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 33,
+                          child: TextFormField(
+                            obscureText: true,
+                            controller: _password1Controller,
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.text,
                             cursorColor: Colors.black,
                             style: const TextStyle(
                                 color: colorBlack,
@@ -139,22 +146,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 39,
                         ),
-                        Text("Password",
+                        Text("Confirm Password",
                             style: defaultTextStyle(
                                 fontColors: colorGrey,
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.w400)),
-                        const SizedBox(
-                          height: 17,
-                        ),
+                        const SizedBox(height: 10),
                         Container(
                           width: double.infinity,
                           height: 33,
                           child: TextFormField(
                             obscureText: true,
-                            controller: _passwordController,
+                            controller: _password2Controller,
                             textInputAction: TextInputAction.done,
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.text,
                             cursorColor: Colors.black,
                             style: const TextStyle(
                                 color: colorBlack,
@@ -171,29 +176,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         const SizedBox(
-                          height: 19,
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: InkWell(
-                            onTap: () {
-                              forgotClick();
-                            },
-                            child: Text(
-                              "Forgot Password?",
-                              style: defaultTextStyle(
-                                  fontSize: 14.0, fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 25,
+                          height: 46,
                         ),
                         InkWell(
                           onTap: () async {
-                            if (loginScreenKey.currentState!.validate()) {
-                              logIn();
-                            }
+                            // if (loginScreenKey.currentState!.validate()) {
+                            //   logIn();
+                            // }
+                            logIn();
                           },
                           child: Container(
                             height: 50,
@@ -204,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             alignment: Alignment.center,
                             child: Text(
-                              "SIGN IN",
+                              "Change Password",
                               style: defaultTextStyle(
                                   fontColors: colorWhite,
                                   fontSize: 14.0,
@@ -224,35 +214,38 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-save() async {
-  final SharedPreferences sharedPreferences =
-  await SharedPreferences.getInstance();
-  sharedPreferences.setBool("isLogin", true);
-}
-logIn() async {
+  logIn() async {
     Database db = await DatabaseUtils.db.database;
-    final result = await db
-        .rawQuery("SELECT * FROM USER WHERE email=?", [_emailController.text]);
+
+    final result = await db.rawQuery(
+        "SELECT * FROM USER WHERE email=? AND phone=?",
+        [email.toString(), _phoneController.text]);
     if (result.isNotEmpty) {
-      final result = await db.rawQuery(
-          "SELECT * FROM USER WHERE email=? AND password=?",
-          [_emailController.text, _passwordController.text]);
-      if (result.isNotEmpty) {
-        await save();
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()));
-      } else {
+      if(_password1Controller.text==_password2Controller.text){
+
+      await DatabaseUtils.db.updatePassword(
+          email: email.toString(),
+          phone: _phoneController.text.toString(),
+          password: _password2Controller.text.toString());
+      Fluttertoast.showToast(
+          msg: "password Updated",
+          backgroundColor: Colors.white54,
+          textColor: Colors.white,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1);}else{
         Fluttertoast.showToast(
-            msg: "Wrong Password",
+            msg: "Enter/ Same Password",
             backgroundColor: Colors.white54,
             textColor: Colors.white,
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1);
+
       }
     } else {
       Fluttertoast.showToast(
-          msg: "Please Sign-Up",
+          msg: "Enter Valid Phone Number",
           backgroundColor: Colors.white54,
           textColor: Colors.white,
           toastLength: Toast.LENGTH_SHORT,
@@ -260,27 +253,4 @@ logIn() async {
           timeInSecForIosWeb: 1);
     }
   }
-forgotClick() async {
-    Database db = await DatabaseUtils.db.database;
-    final result = await db
-        .rawQuery("SELECT * FROM USER WHERE email=?", [_emailController.text]);
-    if (result.isNotEmpty) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ForgetScreen(
-                email: _emailController.text
-                    .toString(),
-              )));
-    } else {
-      Fluttertoast.showToast(
-          msg: "Wrong Email!",
-          backgroundColor: Colors.white54,
-          textColor: Colors.white,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
-    }
-  }
-
 }
