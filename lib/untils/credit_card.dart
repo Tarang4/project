@@ -17,11 +17,11 @@ class DbHelper {
 
   createDatabase() async {
     String path = await getDatabasesPath();
-    String dbPath = join(path,"cards.db");
+    String dbPath = join(path, "payment_card.db");
     if (FileSystemEntity.typeSync(dbPath) == FileSystemEntityType.notFound) {
       ByteData data = await rootBundle.load("assets/databases/ecommerce.db");
       List<int> bytes =
-      data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(dbPath).writeAsBytes(bytes);
     }
     var db = await openDatabase(dbPath);
@@ -36,6 +36,33 @@ class DbHelper {
     map["cvv"] = card.cvv;
     final db = await database;
     await db?.insert("payment_card", map);
+  }
+
+  // updateCard(int id) async {
+  //   var db = await database;
+  //   await db?.update('payment_card', CardModel().toJson(),
+  //       where: 'id=?', whereArgs: [id]);
+  //   getData();
+  // }
+
+  updatedCard({
+    required int id,
+    required String cardNumber,
+    required String expiryDate,
+    required String cardName,
+    required String cvv,
+  }) async {
+    try {
+      final db = await database;
+      Map<String, dynamic> map = {};
+      map['id'] = id;
+      map['cardnumber'] = cardNumber;
+      map['expirydate'] = expiryDate;
+      map['cardname'] = cardName;
+      map['cvv'] = cvv;
+      await db.update("payment_card", map, where: "id=?", whereArgs: [id]);
+      getData();
+    } catch (e) {}
   }
 
   delete(int id) async {

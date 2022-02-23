@@ -15,36 +15,21 @@ import '../cart screen/cart_screen.dart';
 import '../explore screen/explore_screen.dart';
 import 'card_screen.dart';
 
-class EditCard extends StatefulWidget {
-  final int id;
-  final String cardNumber;
-  final String expiryDate;
-  final String cardname;
-  final String cvv;
-
-  const EditCard(
-      {Key? key,
-      required this.id,
-      required this.cardNumber,
-      required this.cardname,
-      required this.expiryDate,
-      required this.cvv})
-      : super(key: key);
+class AddCard extends StatefulWidget {
+  const AddCard({Key? key}) : super(key: key);
 
   @override
-  _EditCardState createState() => _EditCardState();
+  _AddCardState createState() => _AddCardState();
 }
 
-class _EditCardState extends State<EditCard> {
-  List<CardModel> cardList = [];
-  late int _id;
-  late String _cardNumber = '';
-  late String _expiryDate = '';
-  String _cardHolderName = '';
-  String _cvvCode = '';
-  final bool _isCvvFocused = false;
-  final bool _useGlassMorphism = false;
-  final bool _useBackgroundImage = false;
+class _AddCardState extends State<AddCard> {
+  String cardNumber = '';
+  String expiryDate = '';
+  String cardHolderName = '';
+  String cvvCode = '';
+  bool isCvvFocused = false;
+  bool useGlassMorphism = false;
+  bool useBackgroundImage = false;
   OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   int pageIndex = 0;
@@ -53,19 +38,6 @@ class _EditCardState extends State<EditCard> {
     const CartScreen(),
     const AccountScreen(),
   ];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setState(() {
-      _id = widget.id;
-      _cardNumber = widget.cardNumber;
-      _expiryDate = widget.expiryDate;
-      _cardHolderName = widget.cardname;
-      _cvvCode = widget.cvv;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,18 +71,17 @@ class _EditCardState extends State<EditCard> {
             ),
             CreditCardWidget(
               glassmorphismConfig:
-                  _useGlassMorphism ? Glassmorphism.defaultConfig() : null,
-              cardNumber: _cardNumber,
-              expiryDate: _expiryDate,
-              cardHolderName: _cardHolderName,
-              cvvCode: _cvvCode,
-              showBackView: _isCvvFocused,
+                  useGlassMorphism ? Glassmorphism.defaultConfig() : null,
+              cardNumber: cardNumber,
+              expiryDate: expiryDate,
+              cardHolderName: cardHolderName,
+              cvvCode: cvvCode,
+              showBackView: isCvvFocused,
               obscureCardNumber: true,
               obscureCardCvv: true,
               isHolderNameVisible: true,
               cardBgColor: Colors.green,
-              backgroundImage:
-                  _useBackgroundImage ? 'assets/card_bg.png' : null,
+              backgroundImage: useBackgroundImage ? 'assets/card_bg.png' : null,
               isSwipeGestureEnabled: true,
               onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
               customCardTypeIcons: <CustomCardTypeIcon>[
@@ -132,28 +103,26 @@ class _EditCardState extends State<EditCard> {
                       formKey: formKey,
                       obscureCvv: true,
                       obscureNumber: true,
-                      cardNumber: _cardNumber,
-                      cvvCode: _cvvCode,
+                      cardNumber: cardNumber,
+                      cvvCode: cvvCode,
                       isHolderNameVisible: true,
                       isCardNumberVisible: true,
                       isExpiryDateVisible: true,
-                      cardHolderName: _cardHolderName,
-                      expiryDate: _expiryDate,
+                      cardHolderName: cardHolderName,
+                      expiryDate: expiryDate,
                       themeColor: Colors.blue,
                       textColor: Colors.black,
                       cardNumberDecoration: InputDecoration(
                         labelText: 'Card Number',
                         hintText: 'XXXX XXXX XXXX XXXX',
                         hintStyle: const TextStyle(color: Colors.black),
-                        labelStyle: const TextStyle(
-                          color: colorGrey,
-                        ),
+                        labelStyle: const TextStyle(color: colorGrey,),
                         focusedBorder: border,
                         enabledBorder: border,
                       ),
                       expiryDateDecoration: InputDecoration(
                         hintStyle: const TextStyle(color: Colors.black),
-                        labelStyle: const TextStyle(color: colorGrey),
+                        labelStyle: const TextStyle(color:colorGrey),
                         focusedBorder: border,
                         enabledBorder: border,
                         labelText: 'Expired Date',
@@ -218,8 +187,8 @@ class _EditCardState extends State<EditCard> {
                   InkWell(
                     onTap: () async {
                       if (formKey.currentState!.validate()) {
-                        updateCard();
-                        print("UPDATED");
+                        insertCard();
+                        print("SAVED");
                       } else {
                         print('invalid!');
                       }
@@ -233,7 +202,7 @@ class _EditCardState extends State<EditCard> {
                           color: colorGreen,
                           borderRadius: BorderRadius.circular(5)),
                       child: Text(
-                        "UPDATE",
+                        "SAVE",
                         style: defaultTextStyle(
                             fontColors: colorWhite,
                             fontSize: 14.0,
@@ -367,23 +336,24 @@ class _EditCardState extends State<EditCard> {
 
   void onCreditCardModelChange(CreditCardModel? creditCardModel) {
     setState(() {
-      _cardNumber = creditCardModel!.cardNumber;
-      _expiryDate = creditCardModel.expiryDate;
-      _cardHolderName = creditCardModel.cardHolderName;
-      _cvvCode = creditCardModel.cvvCode;
+      cardNumber = creditCardModel!.cardNumber;
+      expiryDate = creditCardModel.expiryDate;
+      cardHolderName = creditCardModel.cardHolderName;
+      cvvCode = creditCardModel.cvvCode;
     });
   }
 
-  updateCard() async {
-    await DbHelper().updatedCard(
-      id: _id,
-      cardNumber: _cardNumber.toString(),
-      expiryDate: _expiryDate.toString(),
-      cardName: _cardHolderName.toString(),
-      cvv: _cvvCode.toString(),
+  insertCard() async {
+    CardModel card = CardModel(
+      cardnumber: cardNumber,
+      cardname: cardHolderName,
+      expirydate: expiryDate,
+      cvv: cvvCode,
     );
-    Navigator.pop(context);
-    // Navigator.pushReplacement(
-    //     context, MaterialPageRoute(builder: (context) => const CardsScreen()));
+    await DbHelper().insert(card);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const CardsScreen()));
   }
 }
