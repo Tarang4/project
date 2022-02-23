@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/cards%20screen/card_screen.dart';
-import 'package:untitled/screens/cards%20screen/edit_card.dart';
+import 'package:untitled/screens/cards%20screen/addnew_card.dart';
 import 'package:untitled/screens/login%20screen/edit_by_email.dart';
 import 'package:untitled/untils/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';

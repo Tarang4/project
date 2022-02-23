@@ -3,21 +3,27 @@ import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_credit_card/custom_card_type_icon.dart';
 import 'package:flutter_credit_card/glassmorphism_config.dart';
+import 'package:untitled/modal/credit_card_model.dart';
+import 'package:untitled/screens/cards%20screen/addnew_card.dart';
 import 'package:untitled/screens/cards%20screen/edit_card.dart';
 import '../../untils/app_colors.dart';
 import '../../untils/app_fonts.dart';
+import '../../untils/credit_card.dart';
 import '../account screen/account_screen.dart';
 import '../cart screen/cart_screen.dart';
 import '../explore screen/explore_screen.dart';
 
 class CardsScreen extends StatefulWidget {
-  const CardsScreen({Key? key}) : super(key: key);
+  const CardsScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _CardsScreenState createState() => _CardsScreenState();
 }
 
 class _CardsScreenState extends State<CardsScreen> {
+  late int id;
   String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';
@@ -27,13 +33,19 @@ class _CardsScreenState extends State<CardsScreen> {
   bool useBackgroundImage = false;
   OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  List<CardModel> cardList = [];
   int pageIndex = 0;
   final pages = [
     const ExploreScreen(),
     const CartScreen(),
     const AccountScreen(),
   ];
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,35 +76,79 @@ class _CardsScreenState extends State<CardsScreen> {
                 ),
               ],
             ),
-            InkWell(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>EditCard()));
-              },
-              child: CreditCardWidget(
-                glassmorphismConfig:
-                    useGlassMorphism ? Glassmorphism.defaultConfig() : null,
-                cardNumber: cardNumber,
-                expiryDate: expiryDate,
-                cardHolderName: cardHolderName,
-                cvvCode: cvvCode,
-                showBackView: isCvvFocused,
-                obscureCardNumber: true,
-                obscureCardCvv: true,
-                isHolderNameVisible: true,
-                cardBgColor: Colors.green,
-                backgroundImage: useBackgroundImage ? 'assets/card_bg.png' : null,
-                isSwipeGestureEnabled: true,
-                onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
-                customCardTypeIcons: <CustomCardTypeIcon>[
-                  CustomCardTypeIcon(
-                    cardType: CardType.mastercard,
-                    cardImage: Image.asset(
-                      'assets/mastercard.png',
-                      height: 48,
-                      width: 48,
+            Expanded(
+              child: ListView.builder(
+                itemCount: cardList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  CardModel card = cardList[index];
+                  return InkWell(
+                    onTap: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditCard(
+                            id: card.id!,
+                            cardNumber: card.cardnumber.toString(),
+                            expiryDate: card.expirydate.toString(),
+                             cardname: card.cardname.toString(),
+                            cvv: card.cvv.toString(),
+                          ),
+                        ),
+                      ).then((value) =>getData());
+                    },
+                    child: CreditCardWidget(
+                      glassmorphismConfig: useGlassMorphism
+                          ? Glassmorphism.defaultConfig()
+                          : null,
+                      cardNumber: card.cardnumber.toString(),
+                      expiryDate: card.expirydate.toString(),
+                      cardHolderName: card.cardname.toString(),
+                      cvvCode: card.cvv.toString(),
+                      showBackView: isCvvFocused,
+                      obscureCardNumber: true,
+                      obscureCardCvv: true,
+                      isHolderNameVisible: true,
+                      cardBgColor: Colors.green,
+                      backgroundImage:
+                          useBackgroundImage ? 'assets/card_bg.png' : null,
+                      isSwipeGestureEnabled: true,
+                      onCreditCardWidgetChange:
+                          (CreditCardBrand creditCardBrand) {},
+                      customCardTypeIcons: <CustomCardTypeIcon>[
+                        CustomCardTypeIcon(
+                          cardType: CardType.mastercard,
+                          cardImage: Image.asset(
+                            'assets/mastercard.png',
+                            height: 48,
+                            width: 48,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                  );
+                },
+              ),
+            ),
+            InkWell(
+              splashColor: Colors.transparent,
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddCard()));
+              },
+              child: Container(
+                height: 50,
+                width: 146,
+                margin: const EdgeInsets.only(left: 200, top: 10),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: colorGreen, borderRadius: BorderRadius.circular(5)),
+                child: Text(
+                  "NEW",
+                  style: defaultTextStyle(
+                      fontColors: colorWhite,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400),
+                ),
               ),
             ),
           ],
@@ -214,5 +270,12 @@ class _CardsScreenState extends State<CardsScreen> {
         ],
       ),
     );
+  }
+
+  getData() async {
+    List<CardModel> model = await DbHelper().getData();
+    setState(() {
+      cardList = model;
+    });
   }
 }
