@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:untitled/screens/account%20screen/profine_screen.dart';
+import 'package:untitled/screens/account%20screen/treckorder_screen.dart';
+import 'package:untitled/screens/account%20screen/wishlist_screen.dart';
 import 'package:untitled/screens/cards%20screen/card_screen.dart';
 import 'package:untitled/screens/cards%20screen/edit_card.dart';
 import 'package:untitled/screens/login%20screen/edit_by_email.dart';
@@ -67,14 +70,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EditByEmail(
-                            email: "",
-                            profile: "",
-                            username: "",
-                            address: "",
-                            phone: "",
-                            pincode: "",
-                            city: ""),
+                        builder: (context) => ProfileScreen(),
                       ),
                     );
                   }),
@@ -93,7 +89,9 @@ class _AccountScreenState extends State<AccountScreen> {
                   context: context,
                   title: "Wishlist",
                   icon: "assets/images/icons/Icon_Wishlist.png",
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>WishListScreen()));
+                  }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
               ),
@@ -109,7 +107,9 @@ class _AccountScreenState extends State<AccountScreen> {
                   context: context,
                   title: "Track Order",
                   icon: "assets/images/icons/Icon_Order.png",
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TrackOrderScreen()));
+                  }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
               ),

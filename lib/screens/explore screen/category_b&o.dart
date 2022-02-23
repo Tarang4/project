@@ -259,7 +259,7 @@ class _CategoriesBOState extends State<CategoriesBO> {
                           pImage: BOList[index].BOImage,
                           pName: BOList[index].BOName,
                           pInfo: BOList[index].BOInfo,
-                          pPrice: BOList[index].BOPrice,
+                          pPrice: BOList[index].BOPrice, onTap: () {  },
                         ),
                       ),
                     ),

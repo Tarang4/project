@@ -226,7 +226,7 @@ class _GadgetsScreenState extends State<GadgetsScreen> {
                           pImage: gadgetsList[index].gImage,
                           pName: gadgetsList[index].gName,
                           pInfo: gadgetsList[index].gInfo,
-                          pPrice: gadgetsList[index].gPrice,
+                          pPrice: gadgetsList[index].gPrice, onTap: () {  },
                         ),
                       ),
                     ),

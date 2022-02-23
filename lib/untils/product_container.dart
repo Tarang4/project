@@ -7,13 +7,15 @@ class ProductContainer extends StatefulWidget {
   final String pName;
   final String pInfo;
   final String pPrice;
+  final GestureTapCallback onTap;
 
   const ProductContainer(
       {Key? key,
       required this.pImage,
       required this.pName,
       required this.pInfo,
-      required this.pPrice})
+      required this.pPrice,
+      required this.onTap})
       : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class _ProductContainerState extends State<ProductContainer> {
   late final String name;
   late final String info;
   late final String price;
+  late final GestureTapCallback onTap;
 
   @override
   void initState() {
@@ -34,50 +37,52 @@ class _ProductContainerState extends State<ProductContainer> {
     name = widget.pName;
     info = widget.pInfo;
     price = widget.pPrice;
+    onTap = widget.onTap;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height /3,
-          width: double.infinity,
-          // padding: const EdgeInsets.only(left: 3,right: 3,),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
-          child: Image.asset(
-            image,
-            fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height / 3,
+            width: double.infinity,
+            // padding: const EdgeInsets.only(left: 3,right: 3,),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+            child: Image.asset(
+              image,
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          name,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(
-          height: 3,
-        ),
-        Text(
-          info,
-          style: const TextStyle(
-              fontSize: 12, fontWeight: FontWeight.normal, color: colorGrey),
-        ),
-        const SizedBox(
-          height: 3,
-        ),
-        Text(
-          price,
-          style: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.normal, color: colorGreen),
-        ),
-      ],
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            name,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(
+            height: 3,
+          ),
+          Text(
+            info,
+            style: const TextStyle(
+                fontSize: 12, fontWeight: FontWeight.normal, color: colorGrey),
+          ),
+          const SizedBox(
+            height: 3,
+          ),
+          Text(
+            price,
+            style: const TextStyle(
+                fontSize: 16, fontWeight: FontWeight.normal, color: colorGreen),
+          ),
+        ],
+      ),
     );
   }
 }
-
-

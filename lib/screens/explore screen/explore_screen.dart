@@ -1,12 +1,18 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
 import 'package:untitled/modal/categories_modal.dart';
 import 'package:untitled/modal/product_modal.dart';
+import 'package:untitled/screens/explore%20screen/categories_screen/men_screen.dart';
+import 'package:untitled/screens/explore%20screen/categories_screen/women_screen.dart';
+import 'package:untitled/screens/explore%20screen/seeall_screen.dart';
 import 'package:untitled/screens/search%20screen/search_s2.dart';
 import 'package:untitled/untils/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/untils/categories_container.dart';
 import 'package:untitled/untils/product_container.dart';
+
+import 'categories_product.dart';
+import 'categories_screen/perfumes_screen.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({Key? key}) : super(key: key);
@@ -22,12 +28,22 @@ class _ExploreScreenState extends State<ExploreScreen> {
     CategoriesModal(catImage: "assets/images/icons/C3.png", catName: "Device"),
     CategoriesModal(catImage: "assets/images/icons/C4.png", catName: "Games"),
     CategoriesModal(catImage: "assets/images/icons/C5.png", catName: "Gadgets"),
-    CategoriesModal(catImage: "assets/images/icons/C3.png", catName: "Man"),
+    CategoriesModal(
+        catImage: "assets/images/icons/C3.png", catName: "perfumes"),
   ];
   List<FeturedBrand> fetureBrand = [
-    FeturedBrand(name: "B&o", logo: "assets/images/Group 337.png", products: "5696 Products"),
-    FeturedBrand(name: "Beats", logo: "assets/images/Group 338.png", products: "1124 Products"),
-    FeturedBrand(name: "B&o", logo: "assets/images/Group 337.png", products: "5696 Products"),
+    FeturedBrand(
+        name: "B&o",
+        logo: "assets/images/Group 337.png",
+        products: "5696 Products"),
+    FeturedBrand(
+        name: "Beats",
+        logo: "assets/images/Group 338.png",
+        products: "1124 Products"),
+    FeturedBrand(
+        name: "B&o",
+        logo: "assets/images/Group 337.png",
+        products: "5696 Products"),
   ];
   List<ProductModal> productList = [
     ProductModal(
@@ -54,25 +70,26 @@ class _ExploreScreenState extends State<ExploreScreen> {
   List<RecoList> recoList = [
     RecoList(
         image: "assets/images/reco2.png",
-        title: "Wireless Remote",
-        detail: "Tesla Inc",
+        name: "Wireless Remote",
+        info: "Tesla Inc",
         price: "\$790"),
     RecoList(
         image: "assets/images/reco2.png",
-        title: "Airdrops",
-        detail: "Apple Inc",
+        name: "Airdrops",
+        info: "Apple Inc",
         price: "\$120"),
     RecoList(
         image: "assets/images/reco1.png",
-        title: "Wireless Remote",
-        detail: "Tesla Inc",
+        name: "Wireless Remote",
+        info: "Tesla Inc",
         price: "\$790"),
     RecoList(
         image: "assets/images/reco2.png",
-        title: "Airdrops",
-        detail: "Apple Inc",
+        name: "Airdrops",
+        info: "Apple Inc",
         price: "\$120"),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +99,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 16,top: 20,right: 16),
+                padding: const EdgeInsets.only(left: 16, top: 20, right: 16),
                 child: Hero(
                   tag: "search",
                   child: Material(
@@ -98,7 +115,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const SearchS2()));
+                                        builder: (context) =>
+                                            const SearchS2()));
                               },
                               child: Container(
                                 height: 40,
@@ -152,11 +170,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 16,right: 16,top: 28),
+                      padding:
+                          const EdgeInsets.only(left: 16, right: 16, top: 28),
                       child: Text(
                         "Categories",
-                        style:
-                            defaultTextStyle(),
+                        style: defaultTextStyle(),
                       ),
                     ),
                     const SizedBox(
@@ -165,7 +183,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     SizedBox(
                       height: 90,
                       child: ListView.builder(
-                        padding: const EdgeInsets.only(left: 16),
+                          padding: const EdgeInsets.only(left: 16),
                           scrollDirection: Axis.horizontal,
                           itemCount: categoriesList.length,
                           itemBuilder: (BuildContext context, index) {
@@ -174,6 +192,45 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             return CategoriesContainer(
                               catImage: categoriesModal.catImage,
                               catName: categoriesModal.catName,
+                              onTap: () {
+                               if(index==0){
+                                 Navigator.push(
+                                     context,
+                                     MaterialPageRoute(
+                                         builder: (context) => MenScreen()));
+                               }
+                               else if(index==1){
+                                 Navigator.push(
+                                     context,
+                                     MaterialPageRoute(
+                                         builder: (context) => WomenScreen()));
+                               }
+                               else if(index==2){
+                                 Navigator.push(
+                                     context,
+                                     MaterialPageRoute(
+                                         builder: (context) => WomenScreen()));
+                               }
+                               else if(index==4){
+                                 Navigator.push(
+                                     context,
+                                     MaterialPageRoute(
+                                         builder: (context) => WomenScreen()));
+                               }
+
+                               else if(index==3){
+                                 Navigator.push(
+                                     context,
+                                     MaterialPageRoute(
+                                         builder: (context) => WomenScreen()));
+                               }
+                               else if(index==5){
+                                 Navigator.push(
+                                     context,
+                                     MaterialPageRoute(
+                                         builder: (context) => PerfumesScreen()));
+                               }
+                              },
                             );
                           }),
                     )
@@ -181,7 +238,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 16,right: 16,top: 30),
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -189,30 +246,47 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       "Best Selling",
                       style: defaultTextStyle(),
                     ),
-                    Text(
-                      "See All",
-                      style: defaultTextStyle(
-                        fontColors: colorBlack,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w400
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SeeAllScreen()));
+                      },
+                      child: Hero(
+                        tag: 'seeAll',
+                        child: Material(
+                          child: Text(
+                            "See All",
+                            style: defaultTextStyle(
+                                fontColors: colorBlack,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
               IntrinsicGridView.vertical(
-                padding:
-                const EdgeInsets.only(top: 21,left: 5,right: 5),
+                padding: const EdgeInsets.only(top: 21, left: 5, right: 5),
                 columnCount: 2,
                 verticalSpace: 14,
                 horizontalSpace: 16,
                 children: List.generate(
                   productList.length,
-                      (index) => ProductContainer(
+                  (index) => ProductContainer(
                     pImage: productList[index].pImage,
                     pName: productList[index].pName,
                     pInfo: productList[index].pInfo,
                     pPrice: productList[index].pPrice,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CategoriesProduct()));
+                    },
                   ),
                 ),
               ),
@@ -261,17 +335,17 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   height: 40,
                                   width: 40,
                                   margin: const EdgeInsets.only(
-                                      left: 22,
-                                      top: 20,
-                                      bottom: 20,
-                                      right: 20),
+                                      left: 22, top: 20, bottom: 20, right: 20),
                                   decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,),
-                                  child: Image.asset(feb.logo??"",fit: BoxFit.cover,),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Image.asset(
+                                    feb.logo ?? "",
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                                 Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -335,7 +409,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ],
               ),
               Container(
-                height: 400,
+                height: 380,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: recoList.length,
@@ -343,57 +417,49 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       RecoList recList = recoList[index];
                       return SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 319,
-                              width: 164,
-                              margin:
-                              const EdgeInsets.only(right: 16, left: 15),
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
+                        child: Padding(
+                          padding:                                  const EdgeInsets.only(right: 5, left: 18),
+
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 300,
+                                width: 164,
+
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                ),
+                                child: Image.asset(
+                                  recList.image ?? "",
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                              child: Image.asset(
-                                recList.image ?? "",
-                                fit: BoxFit.cover,
+                              const SizedBox(
+                                height: 10,
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 16, top: 10, bottom: 3),
-                              child: Text(
-                                recList.title ?? "",
+                              Text(
+                                recList.name??"",
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              Text(
+                                recList.info??"",
                                 style: const TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: "SF",
-                                    fontWeight: FontWeight.w400),
+                                    fontSize: 12, fontWeight: FontWeight.normal, color: colorGrey),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 16, top: 3, bottom: 3),
-                              child: Text(
-                                recList.detail ?? "",
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              Text(
+                                recList.price??"",
                                 style: const TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: "SF",
-                                    fontWeight: FontWeight.w400),
+                                    fontSize: 16, fontWeight: FontWeight.normal, color: colorGreen),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 16, top: 3, bottom: 3),
-                              child: Text(
-                                recList.price ?? "",
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: "SF",
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     }),

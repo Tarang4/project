@@ -13,10 +13,10 @@ class  FeturedBrand{
 }
 class RecoList{
   String? image;
-  String? title;
-  String? detail;
+  String? name;
+  String? info;
   String? price;
-  RecoList({this.image,this.title,this.detail,this.price});
+  RecoList({this.image,this.name,this.info,this.price});
 }
 class  TopBrand{
   String? logo;
