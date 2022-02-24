@@ -5,12 +5,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:untitled/modal/user_model.dart';
-import 'package:untitled/screens/home_screen.dart';
+import 'package:untitled/screens/explore%20screen/explore_screen.dart';
 import 'package:untitled/screens/login%20screen/forget_screen.dart';
 import 'package:untitled/screens/login%20screen/sign_up_screen.dart';
 import 'package:untitled/untils/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/untils/user_database_util.dart';
+import '../../modal/authenticaion_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -81,9 +82,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Text(
                                 "Sign",
                                 style: defaultTextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w400,
-                                    fontColors: colorGreen,),
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w400,
+                                  fontColors: colorGreen,
+                                ),
                               ),
                             ),
                           ],
@@ -91,19 +93,24 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text("Sign in to Continue",
-                            style: defaultTextStyle(
-                                fontSize: 14.0,
-                                fontColors: colorGrey,
-                                fontWeight: FontWeight.w400),),
+                        Text(
+                          "Sign in to Continue",
+                          style: defaultTextStyle(
+                              fontSize: 14.0,
+                              fontColors: colorGrey,
+                              fontWeight: FontWeight.w400),
+                        ),
                         const SizedBox(
                           height: 40,
                         ),
-                        Text("Email",
-                            style: defaultTextStyle(
-                                fontColors: colorGrey,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400,),),
+                        Text(
+                          "Email",
+                          style: defaultTextStyle(
+                            fontColors: colorGrey,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                         const SizedBox(
                           height: 17,
                         ),
@@ -192,7 +199,29 @@ class _LoginScreenState extends State<LoginScreen> {
                         InkWell(
                           onTap: () async {
                             if (loginScreenKey.currentState!.validate()) {
-                              logIn();
+                              AuthenticationHelper()
+                                  .signIn(
+                                      email: _emailController.text,
+                                      password: _passwordController.text)
+                                  .then(
+                                (result) {
+                                  if (result == null) {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ExploreScreen()));
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg: "Please Sign-up !",
+                                        backgroundColor: Colors.white54,
+                                        textColor: Colors.white,
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1);
+                                  }
+                                },
+                              );
                             }
                           },
                           child: Container(
@@ -224,43 +253,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-save() async {
-  final SharedPreferences sharedPreferences =
-  await SharedPreferences.getInstance();
-  sharedPreferences.setBool("isLogin", true);
-}
-logIn() async {
-    Database db = await DatabaseUtils.db.database;
-    final result = await db
-        .rawQuery("SELECT * FROM USER WHERE email=?", [_emailController.text]);
-    if (result.isNotEmpty) {
-      final result = await db.rawQuery(
-          "SELECT * FROM USER WHERE email=? AND password=?",
-          [_emailController.text, _passwordController.text]);
-      if (result.isNotEmpty) {
-        await save();
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()));
-      } else {
-        Fluttertoast.showToast(
-            msg: "Wrong Password",
-            backgroundColor: Colors.white54,
-            textColor: Colors.white,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
-      }
-    } else {
-      Fluttertoast.showToast(
-          msg: "Please Sign-Up",
-          backgroundColor: Colors.white54,
-          textColor: Colors.white,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
-    }
+  save() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    sharedPreferences.setBool("isLogin", true);
   }
-forgotClick() async {
+
+  forgotClick() async {
     Database db = await DatabaseUtils.db.database;
     final result = await db
         .rawQuery("SELECT * FROM USER WHERE email=?", [_emailController.text]);
@@ -269,9 +268,8 @@ forgotClick() async {
           context,
           MaterialPageRoute(
               builder: (context) => ForgetScreen(
-                email: _emailController.text
-                    .toString(),
-              )));
+                    email: _emailController.text.toString(),
+                  )));
     } else {
       Fluttertoast.showToast(
           msg: "Wrong Email!",
@@ -282,5 +280,4 @@ forgotClick() async {
           timeInSecForIosWeb: 1);
     }
   }
-
 }

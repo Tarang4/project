@@ -301,7 +301,6 @@ class _CategoriesBOState extends State<CategoriesBO> {
       ),
     );
   }
-
   categoryClick({
     bool All = true,
     bool Headphone = false,

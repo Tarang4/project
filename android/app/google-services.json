@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "245543465987",
+    "project_id": "snatchkart-99b13",
+    "storage_bucket": "snatchkart-99b13.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245543465987:android:2aabb9160a6c6b5dbc0a36",
+        "android_client_info": {
+          "package_name": "com.example.untitled"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "245543465987-045um1to75mnt9qo3fjkfnocg9mp96eg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrsculPXHjyzQ7tOeVnVSx503H__Wrhcs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "245543465987-045um1to75mnt9qo3fjkfnocg9mp96eg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

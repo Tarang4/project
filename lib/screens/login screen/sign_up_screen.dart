@@ -1,15 +1,11 @@
-// ignore_for_file: prefer_const_constructors
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:untitled/modal/user_model.dart';
 import 'package:untitled/screens/login%20screen/submit_screen2.dart';
 import 'package:untitled/untils/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
-import 'package:untitled/untils/user_database_util.dart';
-
+import '../../modal/authenticaion_model.dart';
 import 'login_screen.dart';
-
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -43,7 +39,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const LoginScreen()));
                   },
                   child: Container(
                       width: 20,
@@ -242,29 +239,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         InkWell(
                           onTap: () async {
-                            try{
+                            try {
                               if (_formKey.currentState!.validate()) {
-                                UserModel user = UserModel(
-                                    email: email.text,
-                                    firstName: firstName.text,
-                                    password: password.text);
-                                await DatabaseUtils.db.insertData(user);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                        const SubmitScreen2()));
+                                AuthenticationHelper()
+                                    .signUp(
+                                        email: email.text,
+                                        password: password.text)
+                                    .then((result) {
+                                  if (result == null) {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginScreen()));
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg: "Account Already Exist",
+                                        backgroundColor: Colors.white54,
+                                        textColor: Colors.white,
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1);
+                                  }
+                                });
                               }
-                            }
-                            catch(e){
-                              Fluttertoast.showToast(
-                                  msg: "Account Already Exist",
-                                  backgroundColor: Colors.white54,
-                                  textColor: Colors.white,
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1);
-                            }
+                            } catch (e) {}
                           },
                           child: Container(
                             height: 50,

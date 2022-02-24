@@ -8,6 +8,7 @@ import 'package:flutter_credit_card/custom_card_type_icon.dart';
 import 'package:flutter_credit_card/glassmorphism_config.dart';
 import 'package:untitled/modal/credit_card_model.dart';
 import 'package:untitled/screens/account%20screen/account_screen.dart';
+import 'package:untitled/untils/user_database_util.dart';
 import '../../untils/app_colors.dart';
 import '../../untils/app_fonts.dart';
 import '../../untils/credit_card.dart';
@@ -123,6 +124,33 @@ class _EditCardState extends State<EditCard> {
                   ),
                 ),
               ],
+            ),
+            InkWell(
+              onTap: () async {
+                await DbHelper().delete(_id);
+                setState(() {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CardsScreen()));
+                });
+              },
+              child: Container(
+                height: 30,
+                width: 120,
+                margin: const EdgeInsets.only(left: 235),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: colorGreen),
+                    borderRadius: BorderRadius.circular(5)),
+                child: Text(
+                  "REMOVE CARD",
+                  style: defaultTextStyle(
+                      fontColors: colorBlack,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400),
+                ),
+              ),
             ),
             Expanded(
               child: SingleChildScrollView(
