@@ -1,12 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:io';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:untitled/screens/account%20screen/account_screen.dart';
-import 'package:untitled/screens/login%20screen/submit_screen2.dart';
+import 'package:untitled/screens/account%20screen/profine_screen.dart';
 import 'package:untitled/untils/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/untils/user_database_util.dart';
@@ -425,7 +424,7 @@ class _EditByEmailState extends State<EditByEmail> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const SubmitScreen2()));
+                                            const ProfileScreen()));
                                 // Fluttertoast.showToast(
                                 //     msg: "Account Already Exist",
                                 //     backgroundColor: Colors.white54,

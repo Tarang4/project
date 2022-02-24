@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled/screens/login%20screen/login_types.dart';
 import 'package:untitled/screens/login%20screen/spalsh_screen.dart';
 
 Future<void> main() async {
@@ -7,7 +8,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp( const MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: SplashScreen(),
+    home: LoginTypes(),
   ));
 }
 

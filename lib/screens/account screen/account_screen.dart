@@ -59,7 +59,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             fontSize: 26.0, fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        AuthenticationHelper().user.toString(),
+                        "show mail",
                         style: defaultTextStyle(
                             fontSize: 14.0, fontWeight: FontWeight.w400),
                       )

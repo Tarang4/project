@@ -1,7 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:untitled/screens/login%20screen/submit_screen2.dart';
 import 'package:untitled/untils/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import '../../modal/authenticaion_model.dart';

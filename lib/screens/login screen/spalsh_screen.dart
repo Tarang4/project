@@ -4,8 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled/screens/login%20screen/submit_screen2.dart';
-
+import 'package:untitled/screens/explore%20screen/explore_screen.dart';
 import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -27,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => isLogin ? SubmitScreen2() : LoginScreen()));
+              builder: (context) => isLogin ? ExploreScreen() : LoginScreen()));
     });
   }
 
