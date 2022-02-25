@@ -38,13 +38,6 @@ class DbHelper {
     await db?.insert("payment_card", map);
   }
 
-  // updateCard(int id) async {
-  //   var db = await database;
-  //   await db?.update('payment_card', CardModel().toJson(),
-  //       where: 'id=?', whereArgs: [id]);
-  //   getData();
-  // }
-
   updatedCard({
     required int id,
     required String cardNumber,

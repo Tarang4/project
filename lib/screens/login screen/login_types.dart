@@ -40,16 +40,16 @@ class _LoginTypesState extends State<LoginTypes> {
                       Text(
                         "Welcome,",
                         style: defaultTextStyle(
-                            fontSize: 30.0, fontWeight: FontWeight.w700),
+                            fontSize: 20.0, fontWeight: FontWeight.w700),
                       ),
                       Text(
                         "SnatchKart,",
                         style: defaultTextStyle(
                           fontColors: colorGreen,
-                            fontSize: 30.0, fontWeight: FontWeight.w700),
+                            fontSize: 25.0, fontWeight: FontWeight.w700),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 4,
                       ),
                       Text(
                         "Sign in to Continue",
