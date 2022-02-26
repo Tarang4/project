@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../untils/app_colors.dart';
 import '../../untils/app_fonts.dart';
-import '../explore screen/explore_screen.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 
@@ -34,6 +33,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
   final TextEditingController _phone = TextEditingController();
   bool isLoading = false;
   String? verificationId;
+  String? number;
   int? forceResendingToken;
 
   @override
@@ -104,6 +104,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                               style: TextStyle(fontSize: 16),
                               disableLengthCheck: false,
                               textAlignVertical: TextAlignVertical.center,
+                              dropdownTextStyle: TextStyle(fontSize: 16),
                               dropdownIcon: Icon(Icons.arrow_drop_down,
                                   color: colorGreen),
                               decoration: const InputDecoration(
@@ -118,6 +119,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                               initialCountryCode: 'IN',
                               onChanged: (phone) {
                                 print(phone.completeNumber);
+                                number=phone.completeNumber.toString();
                               },
                             ),
                             Padding(
@@ -132,6 +134,9 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                                 fieldStyle: FieldStyle.underline,
                                 onCompleted: (pin) {
                                   print("Completed:" + pin);
+                                  var otp=pin.toString();
+                                  print(otp);
+
                                 },
                               ),
                             ),
@@ -140,17 +145,8 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                             ),
                             InkWell(
                               onTap: () async {
-                                await phoneSignIn(phoneNumber: _phone.text);
+                                await phoneSignIn(phoneNumber: number.toString());
                                 await _verifyOtp();
-                                setState(
-                                  () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ExploreScreen()));
-                                  },
-                                );
                               },
                               child: Container(
                                 height: 50,
@@ -189,7 +185,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
 
   Future<void> phoneSignIn({required String phoneNumber}) async {
     await _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
+        phoneNumber: phoneNumber.toString(),
         verificationCompleted: _onVerificationCompleted,
         verificationFailed: _onVerificationFailed,
         codeSent: _onCodeSent,
@@ -223,7 +219,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
 
   _verifyOtp() {
     final AuthCredential authCredential = PhoneAuthProvider.credential(
-        verificationId: verificationId ?? "", smsCode: Completer().toString());
+        verificationId: verificationId ?? "", smsCode: otp.text);
     _onVerificationCompleted(authCredential);
   }
 }
