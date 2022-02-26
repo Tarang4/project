@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/login%20screen/login_screen.dart';
 import 'package:untitled/screens/login%20screen/phone_login.dart';
+import 'package:untitled/screens/login%20screen/sign_up_screen.dart';
 
-import '../../untils/app_colors.dart';
+import '../../config/app_colors.dart';
 import '../../untils/app_fonts.dart';
 
 class LoginTypes extends StatefulWidget {
@@ -45,8 +46,9 @@ class _LoginTypesState extends State<LoginTypes> {
                       Text(
                         "SnatchKart,",
                         style: defaultTextStyle(
-                          fontColors: colorGreen,
-                            fontSize: 25.0, fontWeight: FontWeight.w700),
+                            fontColors: colorGreen,
+                            fontSize: 25.0,
+                            fontWeight: FontWeight.w700),
                       ),
                       const SizedBox(
                         height: 4,
@@ -64,7 +66,8 @@ class _LoginTypesState extends State<LoginTypes> {
                       Align(
                         alignment: Alignment.center,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15,right: 15,bottom: 30,top: 15),
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 15, bottom: 30, top: 15),
                           child: Image.asset(
                             "assets/images/logo/logo2.png",
                             height: 120,
@@ -79,8 +82,7 @@ class _LoginTypesState extends State<LoginTypes> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: colorWhite,
-                            border:
-                                Border.all(width: 0.8, color: colorGrey)),
+                            border: Border.all(width: 0.8, color: colorGrey)),
                         alignment: Alignment.center,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -105,42 +107,13 @@ class _LoginTypesState extends State<LoginTypes> {
                       const SizedBox(
                         height: 17,
                       ),
-                      Container(
-                        height: 50,
-                        width: MediaQuery.of(context).size.height,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: colorWhite,
-                            border:
-                                Border.all(width: 0.8, color: colorGrey)),
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Image.asset(
-                                "assets/images/logo-facebook.png",
-                              ),
-                            ),
-                            Text(
-                              "Continue With Facebook",
-                              style: defaultTextStyle(
-                                fontColors: colorBlack,
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 17,
-                      ),
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           setState(() {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>PhoneLoginScreen()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PhoneLoginScreen()));
                           });
                         },
                         child: Container(
@@ -149,15 +122,14 @@ class _LoginTypesState extends State<LoginTypes> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: colorWhite,
-                              border:
-                                  Border.all(width: 0.8, color: colorGrey)),
+                              border: Border.all(width: 0.8, color: colorGrey)),
                           alignment: Alignment.center,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Padding(
                                   padding: EdgeInsets.all(8),
-                                  child:Icon(Icons.phone)),
+                                  child: Icon(Icons.phone)),
                               Text(
                                 "Continue With Phone",
                                 style: defaultTextStyle(
@@ -174,9 +146,52 @@ class _LoginTypesState extends State<LoginTypes> {
                         height: 17,
                       ),
                       InkWell(
-                        onTap: (){
+                        onTap: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpScreen()));
+                        },
+                        child: Container(
+                          height: 50,
+                          width: MediaQuery.of(context).size.height,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: colorWhite,
+                              border: Border.all(width: 0.8, color: colorGrey)),
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Image.asset(
+                                  "assets/images/icons/signUp.png",
+                                  color: colorGreen,
+                                ),
+                              ),
+                              Text(
+                                "Continue With Sign Up",
+                                style: defaultTextStyle(
+                                  fontColors: colorBlack,
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 17,
+                      ),
+                      InkWell(
+                        onTap: () {
                           setState(() {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()));
                           });
                         },
                         child: Container(
@@ -188,7 +203,7 @@ class _LoginTypesState extends State<LoginTypes> {
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                            "Log in ",
+                            "Log in",
                             style: defaultTextStyle(
                               fontColors: colorWhite,
                               fontSize: 14.0,

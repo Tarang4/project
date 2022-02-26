@@ -1,7 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/config/app_colors.dart';
+import 'package:untitled/repository/auth/login-signup_repository.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import '../../modal/authenticaion_model.dart';
 import 'login_screen.dart';
@@ -34,12 +35,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.1,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.1,
                 ),
                 InkWell(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const LoginScreen()));
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()));
                   },
                   child: Container(
                       width: 20,
@@ -51,7 +56,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: const Icon(Icons.arrow_back)),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.06,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.06,
                 ),
                 Card(
                   elevation: 6.8,
@@ -238,7 +246,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         InkWell(
                           onTap: () async {
-                            try {
+                            AuthRepository.signup(context: context,
+                              firstName: firstName.text,
+                              lastName: lastName.text,
+                              email: email.text,
+                              password: password.text
+                            );
+                            /*try {
                               if (_formKey.currentState!.validate()) {
                                 AuthenticationHelper()
                                     .signUp(
@@ -262,11 +276,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   }
                                 });
                               }
-                            } catch (e) {}
+                            } catch (e) {}*/
                           },
                           child: Container(
                             height: 50,
-                            width: MediaQuery.of(context).size.height,
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .height,
                             color: colorGreen,
                             alignment: Alignment.center,
                             child: const Text(

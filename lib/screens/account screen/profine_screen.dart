@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';import 'package:untitled/untils/app_colors.dart';
+import 'package:image_picker/image_picker.dart';import 'package:untitled/config/app_colors.dart';
 
 import 'forget_password.dart';
 
@@ -297,147 +297,147 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text("Address",
-                            style: TextStyle(
-                                color: colorGrey,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 33,
-                          child: TextFormField(
-                            controller: _addressController,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please Enter Address';
-                              }
-                            },
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.streetAddress,
-                            cursorColor: Colors.black,
-                            style: const TextStyle(
-                                color: colorBlack,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal),
-                            decoration: const InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 150,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text("city",
-                                      style: TextStyle(
-                                          color: colorGrey,
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w400)),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    width: double.infinity,
-                                    height: 33,
-                                    child: TextFormField(
-                                      controller: _cityController,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Please Enter City';
-                                        }
-                                      },
-                                      textInputAction: TextInputAction.next,
-                                      keyboardType: TextInputType.text,
-                                      cursorColor: Colors.black,
-                                      style: const TextStyle(
-                                          color: colorBlack,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.normal),
-                                      decoration: const InputDecoration(
-                                        border: UnderlineInputBorder(
-                                          borderSide:
-                                          BorderSide(color: colorGreen),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                          BorderSide(color: colorGreen),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: Container(
-                                width: 150,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Pin Code",
-                                        style: TextStyle(
-                                            color: colorGrey,
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.w400)),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      width: double.infinity,
-                                      height: 33,
-                                      child: TextFormField(
-                                        controller: _pinCodeController,
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'Please Enter PinCode';
-                                          }
-                                          if (_passwordController.text.length <
-                                              6) {
-                                            return 'Please Enter valid PinCode';
-                                          }
-                                        },
-                                        textInputAction: TextInputAction.next,
-                                        keyboardType: TextInputType.number,
-                                        cursorColor: Colors.black,
-                                        style: const TextStyle(
-                                            color: colorBlack,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.normal),
-                                        decoration: const InputDecoration(
-                                          border: UnderlineInputBorder(
-                                            borderSide:
-                                            BorderSide(color: colorGreen),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide:
-                                            BorderSide(color: colorGreen),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        // const Text("Address",
+                        //     style: TextStyle(
+                        //         color: colorGrey,
+                        //         fontSize: 14.0,
+                        //         fontWeight: FontWeight.w400)),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // Container(
+                        //   width: double.infinity,
+                        //   height: 33,
+                        //   child: TextFormField(
+                        //     controller: _addressController,
+                        //     validator: (value) {
+                        //       if (value!.isEmpty) {
+                        //         return 'Please Enter Address';
+                        //       }
+                        //     },
+                        //     textInputAction: TextInputAction.next,
+                        //     keyboardType: TextInputType.streetAddress,
+                        //     cursorColor: Colors.black,
+                        //     style: const TextStyle(
+                        //         color: colorBlack,
+                        //         fontSize: 18,
+                        //         fontWeight: FontWeight.normal),
+                        //     decoration: const InputDecoration(
+                        //       border: UnderlineInputBorder(
+                        //         borderSide: BorderSide(color: colorGreen),
+                        //       ),
+                        //       focusedBorder: UnderlineInputBorder(
+                        //         borderSide: BorderSide(color: colorGreen),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // const SizedBox(
+                        //   height: 20,
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Container(
+                        //       width: 150,
+                        //       child: Column(
+                        //         crossAxisAlignment: CrossAxisAlignment.start,
+                        //         children: [
+                        //           const Text("city",
+                        //               style: TextStyle(
+                        //                   color: colorGrey,
+                        //                   fontSize: 14.0,
+                        //                   fontWeight: FontWeight.w400)),
+                        //           const SizedBox(
+                        //             height: 10,
+                        //           ),
+                        //           Container(
+                        //             width: double.infinity,
+                        //             height: 33,
+                        //             child: TextFormField(
+                        //               controller: _cityController,
+                        //               validator: (value) {
+                        //                 if (value!.isEmpty) {
+                        //                   return 'Please Enter City';
+                        //                 }
+                        //               },
+                        //               textInputAction: TextInputAction.next,
+                        //               keyboardType: TextInputType.text,
+                        //               cursorColor: Colors.black,
+                        //               style: const TextStyle(
+                        //                   color: colorBlack,
+                        //                   fontSize: 18,
+                        //                   fontWeight: FontWeight.normal),
+                        //               decoration: const InputDecoration(
+                        //                 border: UnderlineInputBorder(
+                        //                   borderSide:
+                        //                   BorderSide(color: colorGreen),
+                        //                 ),
+                        //                 focusedBorder: UnderlineInputBorder(
+                        //                   borderSide:
+                        //                   BorderSide(color: colorGreen),
+                        //                 ),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //     SizedBox(
+                        //       width: 10,
+                        //     ),
+                        //     Expanded(
+                        //       child: Container(
+                        //         width: 150,
+                        //         child: Column(
+                        //           crossAxisAlignment: CrossAxisAlignment.start,
+                        //           children: [
+                        //             const Text("Pin Code",
+                        //                 style: TextStyle(
+                        //                     color: colorGrey,
+                        //                     fontSize: 14.0,
+                        //                     fontWeight: FontWeight.w400)),
+                        //             const SizedBox(
+                        //               height: 10,
+                        //             ),
+                        //             Container(
+                        //               width: double.infinity,
+                        //               height: 33,
+                        //               child: TextFormField(
+                        //                 controller: _pinCodeController,
+                        //                 validator: (value) {
+                        //                   if (value!.isEmpty) {
+                        //                     return 'Please Enter PinCode';
+                        //                   }
+                        //                   if (_passwordController.text.length <
+                        //                       6) {
+                        //                     return 'Please Enter valid PinCode';
+                        //                   }
+                        //                 },
+                        //                 textInputAction: TextInputAction.next,
+                        //                 keyboardType: TextInputType.number,
+                        //                 cursorColor: Colors.black,
+                        //                 style: const TextStyle(
+                        //                     color: colorBlack,
+                        //                     fontSize: 18,
+                        //                     fontWeight: FontWeight.normal),
+                        //                 decoration: const InputDecoration(
+                        //                   border: UnderlineInputBorder(
+                        //                     borderSide:
+                        //                     BorderSide(color: colorGreen),
+                        //                   ),
+                        //                   focusedBorder: UnderlineInputBorder(
+                        //                     borderSide:
+                        //                     BorderSide(color: colorGreen),
+                        //                   ),
+                        //                 ),
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
 
                         const SizedBox(
                           height: 20,

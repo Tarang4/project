@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import '../../untils/app_colors.dart';
+import '../../config/app_colors.dart';
 import '../../untils/app_fonts.dart';
 import '../explore screen/explore_screen.dart';
 import 'package:otp_text_field/otp_field.dart';
@@ -31,6 +32,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
   final FocusNode focusNode5 = FocusNode();
   final FocusNode focusNode6 = FocusNode();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   bool isLoading = false;
   String? verificationId;
   String? number;
@@ -132,7 +134,14 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                                 onTap: () async {
                                   await phoneSignIn(
                                       phoneNumber: number.toString());
-                                  await _verifyOtp();
+                                  Fluttertoast.showToast(
+                                      msg: "OTP Sent",
+                                      backgroundColor: Colors.white54,
+                                      textColor: Colors.white,
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1);
+
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
@@ -175,10 +184,6 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                             InkWell(
                               onTap: () async {
                                 await _verifyOtp();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ExploreScreen()));
                               },
                               child: Container(
                                 height: 50,
@@ -229,7 +234,14 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
     try {
       UserCredential user = await _auth.signInWithCredential(authCredential);
       User? currentUser = _auth.currentUser;
-      if (user.user?.uid == currentUser!.uid) {}
+      if (user.user?.uid == currentUser!.uid) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ExploreScreen()));
+
+
+      }
     } catch (e) {}
   }
 

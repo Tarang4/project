@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/account%20screen/account_screen.dart';
 import 'package:untitled/screens/cart%20screen/cart_screen.dart';
-import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/config/app_colors.dart';
 
 import 'explore screen/explore_screen.dart';
 

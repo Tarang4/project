@@ -6,7 +6,7 @@ import 'package:untitled/screens/explore%20screen/categories_screen/men_screen.d
 import 'package:untitled/screens/explore%20screen/categories_screen/women_screen.dart';
 import 'package:untitled/screens/explore%20screen/seeall_screen.dart';
 import 'package:untitled/screens/search%20screen/search_s2.dart';
-import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/untils/categories_container.dart';
 import 'package:untitled/untils/product_container.dart';

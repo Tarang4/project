@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
+import '../config/app_colors.dart';
 
 class ProductContainer extends StatefulWidget {
   final String pImage;

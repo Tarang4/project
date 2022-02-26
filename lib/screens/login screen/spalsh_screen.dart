@@ -6,16 +6,18 @@ import 'package:flutter_animator/animation/animation_preferences.dart';
 import 'package:flutter_animator/animation/animator_play_states.dart';
 import 'package:flutter_animator/widgets/attention_seekers/bounce.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/screens/explore%20screen/explore_screen.dart';
 import 'package:untitled/screens/login%20screen/login_types.dart';
-import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 
-class SecondScreen extends StatefulWidget {
+class SplashScreen extends StatefulWidget {
   @override
-  _SecondScreenState createState() => _SecondScreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SecondScreenState extends State<SecondScreen>
+class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late AnimationController scaleController;
   late Animation<double> scaleAnimation;
@@ -45,11 +47,19 @@ class _SecondScreenState extends State<SecondScreen>
           }
         },
       );
-
     scaleAnimation =
         Tween<double>(begin: 0.0, end: 12).animate(scaleController);
 
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 2), () async {
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      var obtainEmail = sharedPreferences.getString('email');
+      bool isLogin=sharedPreferences.getBool("isLogin")??false;
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+              isLogin ? const ExploreScreen() : const LoginTypes()));
       setState(() {
         scaleController.forward();
       });

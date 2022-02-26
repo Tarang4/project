@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/cart%20screen/cart_screen.dart';
 import 'package:untitled/screens/checkout_screen/checkout_address.dart';
-import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 
 class CheckoutDelivery extends StatefulWidget {
@@ -24,10 +24,7 @@ class _CheckoutDeliveryState extends State<CheckoutDelivery> {
               children: [
                 IconButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CartScreen()));
+                    Navigator.pop(context);
                   },
                   icon: const Icon(
                     Icons.arrow_back_ios_rounded,

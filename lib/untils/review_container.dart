@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
+import '../config/app_colors.dart';
 import 'app_fonts.dart';
 
 class ReviewContainer extends StatefulWidget {

@@ -1,17 +1,19 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/repository/auth/login-signup_repository.dart';
 import 'package:untitled/screens/account%20screen/profine_screen.dart';
-import 'package:untitled/screens/account%20screen/treckorder_screen.dart';
 import 'package:untitled/screens/account%20screen/wishlist_screen.dart';
 import 'package:untitled/screens/cards%20screen/card_screen.dart';
-import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/screens/checkout_screen/checkout_delivery.dart';
+import 'package:untitled/screens/checkout_screen/treckorder_screen.dart';
+import 'package:untitled/screens/login%20screen/login_types.dart';
+import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/widget/account/account_widget.dart';
-
 import '../../modal/authenticaion_model.dart';
 import '../cart screen/cart_screen.dart';
 import '../explore screen/explore_screen.dart';
-import '../login screen/login_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -70,18 +72,19 @@ class _AccountScreenState extends State<AccountScreen> {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 26,
               ),
-              accountOption(
-                  context: context,
-                  title: "Edit Profile",
-                  icon: "assets/images/icons/Icon_Edit-Profile.png",
-                  onPressed: () {
-                    Navigator.push(
+              InkWell(
+                onTap: (){
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProfileScreen(),
-                      ),
-                    );
-                  }),
+                      builder: (context) => ProfileScreen()));
+                },
+                child: accountOption(
+                    context: context,
+                    title: "Edit Profile",
+                    icon: "assets/images/icons/Icon_Edit-Profile.png",
+                   ),
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
               ),
@@ -89,64 +92,91 @@ class _AccountScreenState extends State<AccountScreen> {
                   context: context,
                   title: "Shipping Address",
                   icon: "assets/images/icons/Icon_Location.png",
-                  onPressed: () {}),
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
               ),
-              accountOption(
-                  context: context,
-                  title: "Wishlist",
-                  icon: "assets/images/icons/Icon_Wishlist.png",
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>WishListScreen()));
-                  }),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>WishListScreen()));
+                },
+                child: accountOption(
+                    context: context,
+                    title: "Wishlist",
+                    icon: "assets/images/icons/Icon_Wishlist.png",
+                    ),
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
               ),
-              accountOption(
-                  context: context,
-                  title: "Order History",
-                  icon: "assets/images/icons/Icon_History.png",
-                  onPressed: () {}),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TrackOrderScreen()));
+
+                },
+                child: accountOption(
+                    context: context,
+                    title: "Order History",
+                    icon: "assets/images/icons/Icon_History.png",
+                    ),
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
               ),
-              accountOption(
-                  context: context,
-                  title: "Track Order",
-                  icon: "assets/images/icons/Icon_Order.png",
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TrackOrderScreen()));
-                  }),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckoutDelivery()));
+                },
+                child: accountOption(
+                    context: context,
+                    title: "Track Order",
+                    icon: "assets/images/icons/Icon_Order.png",
+                    ),
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
               ),
-              accountOption(
-                  context: context,
-                  title: "Cards",
-                  icon: "assets/images/icons/Icon_Payment.png",
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CardsScreen()));
-                  }),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CardsScreen()));
+                },
+                child: accountOption(
+                    context: context,
+                    title: "Cards",
+                    icon: "assets/images/icons/Icon_Payment.png",
+                    ),
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
               ),
-              accountOption(
-                  context: context,
-                  title: "Notifications",
-                  icon: "assets/images/icons/Icon_Alert.png",
-                  onPressed: () {}),
+              InkWell(
+                onTap: (){},
+                child: accountOption(
+                    context: context,
+                    title: "Notifications",
+                    icon: "assets/images/icons/Icon_Alert.png",
+                   ),
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
               ),
-              accountOption(
-                  context: context,
-                  title: "log Out",
-                  icon: "assets/images/icons/Icon_Exit.png",
-                  onPressed: () {
-                    AuthenticationHelper().signOut();
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
-                  }),
+              InkWell(
+                onTap: () async {
+                  AuthRepository.logout(context: context);
+                  /*AuthenticationHelper().signOut();
+                  final SharedPreferences sharePrefrences =
+                      await SharedPreferences.getInstance();
+                  sharePrefrences.remove("Email");
+                  sharePrefrences.remove("PassWord");
+                  sharePrefrences.setBool("isLogin", false);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginTypes()));*/
+                },
+                child: accountOption(
+                    context: context,
+                    title: "log Out",
+                    icon: "assets/images/icons/Icon_Exit.png",
+                    ),
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
               ),

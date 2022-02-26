@@ -4,7 +4,7 @@ import 'package:untitled/modal/product_modal.dart';
 import 'package:untitled/screens/explore%20screen/categories_product.dart';
 import 'package:untitled/screens/explore%20screen/seeall_screen.dart';
 import 'package:untitled/untils/app_fonts.dart';
-import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/product_container.dart';
 
 import '../cart screen/cart_screen.dart';
