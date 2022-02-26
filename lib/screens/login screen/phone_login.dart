@@ -1,7 +1,12 @@
+import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../untils/app_colors.dart';
 import '../../untils/app_fonts.dart';
+import '../explore screen/explore_screen.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/style.dart';
 
 class PhoneLoginScreen extends StatefulWidget {
   const PhoneLoginScreen({Key? key}) : super(key: key);
@@ -11,123 +16,263 @@ class PhoneLoginScreen extends StatefulWidget {
 }
 
 class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
+  final focus = FocusNode();
+  final TextEditingController digit1 = TextEditingController();
+  final TextEditingController digit2 = TextEditingController();
+  final TextEditingController digit3 = TextEditingController();
+  final TextEditingController digit4 = TextEditingController();
+  final TextEditingController digit5 = TextEditingController();
+  final TextEditingController digit6 = TextEditingController();
+  final TextEditingController otp = TextEditingController();
+  final FocusNode focusNode1 = FocusNode();
+  final FocusNode focusNode2 = FocusNode();
+  final FocusNode focusNode3 = FocusNode();
+  final FocusNode focusNode4 = FocusNode();
+  final FocusNode focusNode5 = FocusNode();
+  final FocusNode focusNode6 = FocusNode();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _phone = TextEditingController();
+  bool isLoading = false;
+  String? verificationId;
+  int? forceResendingToken;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-      children: [
-        Container(
-          margin: const EdgeInsets.only(top: 0),
-          padding: const EdgeInsets.only(left: 16, right: 16),
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.175,
-                ),
-                Card(
-                  elevation: 8,
-                  shadowColor: colorBlack,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 16, right: 16, top: 14, bottom: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Welcome,",
-                          style: defaultTextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.w700),
-                        ),
-                        Text(
-                          "SnatchKart,",
-                          style: defaultTextStyle(
-                              fontColors: colorGreen,
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          "Sign in to Continue",
-                          style: defaultTextStyle(
-                              fontSize: 14.0,
-                              fontColors: colorGrey,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 15, right: 15, bottom: 30, top: 15),
-                            child: Image.asset(
-                              "assets/images/logo/logo2.png",
-                              height: 120,
-                              width: 120,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        ),
-                        IntlPhoneField(
-                          decoration: const InputDecoration(
-                            hintText: 'Phone Number',
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          initialCountryCode: 'IN',
-                          onChanged: (phone) {
-                            print(phone.completeNumber);
-                          },
-                        ),
-                        const SizedBox(
-                          height: 17,
-                        ),
-                        const SizedBox(
-                          height: 17,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              // Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
-                            });
-                          },
-                          child: Container(
-                            height: 50,
-                            width: MediaQuery.of(context).size.height,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: colorGreen,
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Verify With OTP",
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 0),
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.175,
+                    ),
+                    Card(
+                      elevation: 8,
+                      shadowColor: colorBlack,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 16, right: 16, top: 14, bottom: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Welcome,",
                               style: defaultTextStyle(
-                                fontColors: colorWhite,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w700,
+                                  fontSize: 20.0, fontWeight: FontWeight.w700),
+                            ),
+                            Text(
+                              "SnatchKart,",
+                              style: defaultTextStyle(
+                                  fontColors: colorGreen,
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Text(
+                              "Sign in to Continue",
+                              style: defaultTextStyle(
+                                  fontSize: 14.0,
+                                  fontColors: colorGrey,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, bottom: 30, top: 15),
+                                child: Image.asset(
+                                  "assets/images/logo/logo2.png",
+                                  height: 120,
+                                  width: 120,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
-                          ),
+                            IntlPhoneField(
+                              cursorColor: colorGreen,
+                              style: TextStyle(fontSize: 16),
+                              disableLengthCheck: false,
+                              textAlignVertical: TextAlignVertical.center,
+                              dropdownIcon: Icon(Icons.arrow_drop_down,
+                                  color: colorGreen),
+                              decoration: const InputDecoration(
+                                hintText: 'Phone Number',
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: colorGreen,
+                                    width: 1,
+                                  ),
+                                ),
+                              ),
+                              initialCountryCode: 'IN',
+                              onChanged: (phone) {
+                                print(phone.completeNumber);
+                              },
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: OTPTextField(
+                                length: 6,
+                                width: 300,
+                                fieldWidth: 43,
+                                style: TextStyle(fontSize: 17),
+                                textFieldAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                fieldStyle: FieldStyle.underline,
+                                onCompleted: (pin) {
+                                  print("Completed:" + pin);
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                await phoneSignIn(phoneNumber: _phone.text);
+                                await _verifyOtp();
+                                setState(
+                                  () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ExploreScreen()));
+                                  },
+                                );
+                              },
+                              child: Container(
+                                height: 50,
+                                width: MediaQuery.of(context).size.height,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: colorGreen,
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Verify With OTP",
+                                  style: defaultTextStyle(
+                                    fontColors: colorWhite,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 17,
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          height: 17,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
+            ],
           ),
         ),
-      ],
-    ),
-            )));
+      ),
+    );
+  }
+
+  Future<void> phoneSignIn({required String phoneNumber}) async {
+    await _auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: _onVerificationCompleted,
+        verificationFailed: _onVerificationFailed,
+        codeSent: _onCodeSent,
+        forceResendingToken: forceResendingToken,
+        codeAutoRetrievalTimeout: _onCodeTimeout);
+  }
+
+  _onVerificationCompleted(AuthCredential authCredential) async {
+    try {
+      UserCredential user = await _auth.signInWithCredential(authCredential);
+      User? currentUser = _auth.currentUser;
+      if (user.user?.uid == currentUser!.uid) {}
+    } catch (e) {}
+  }
+
+  _onVerificationFailed(FirebaseAuthException exception) {
+    print(exception);
+    if (exception.code == 'invalid-phone-number') {}
+  }
+
+  _onCodeSent(String verificationId, int? forceResendingToken) {
+    verificationId = verificationId;
+    forceResendingToken = forceResendingToken;
+    print(forceResendingToken);
+    print("code sent");
+  }
+
+  _onCodeTimeout(String timeout) {
+    return null;
+  }
+
+  _verifyOtp() {
+    final AuthCredential authCredential = PhoneAuthProvider.credential(
+        verificationId: verificationId ?? "", smsCode: Completer().toString());
+    _onVerificationCompleted(authCredential);
+  }
+}
+
+class TextFieldEmailVerification extends StatelessWidget {
+  final TextEditingController code;
+  final String? last;
+  final ValueChanged<String>? onChanged;
+  final FocusNode? focusNode;
+
+  const TextFieldEmailVerification({
+    Key? key,
+    required this.code,
+    this.last,
+    this.onChanged,
+    this.focusNode,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      width: 40,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4)),
+      child: TextFormField(
+        textAlign: TextAlign.center,
+        keyboardType: TextInputType.number,
+        cursorHeight: 25,
+        controller: code,
+        textInputAction: TextInputAction.next,
+        autofocus: true,
+        onChanged: onChanged,
+        focusNode: focusNode,
+        cursorColor: Colors.black.withOpacity(0.5),
+        style: const TextStyle(
+            color: colorBlack, fontSize: 19, fontWeight: FontWeight.normal),
+        maxLength: 1,
+        scrollPadding: const EdgeInsets.only(bottom: 5, top: 5),
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.only(top: 7),
+          counterText: '',
+          hintStyle: TextStyle(color: Colors.black, fontSize: 20.0),
+          border:
+              OutlineInputBorder(borderSide: BorderSide(color: colorLightGrey)),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: colorGreen),
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -88,7 +88,7 @@ class _AddCardState extends State<AddCard> {
                 CustomCardTypeIcon(
                   cardType: CardType.mastercard,
                   cardImage: Image.asset(
-                    'assets/mastercard.png',
+                    'packages/flutter_credit_card/icons/mastercard.png',
                     height: 48,
                     width: 48,
                   ),
