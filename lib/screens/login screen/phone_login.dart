@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../untils/app_colors.dart';
 import '../../untils/app_fonts.dart';
+import '../explore screen/explore_screen.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 
@@ -30,7 +31,6 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
   final FocusNode focusNode5 = FocusNode();
   final FocusNode focusNode6 = FocusNode();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final TextEditingController _phone = TextEditingController();
   bool isLoading = false;
   String? verificationId;
   String? number;
@@ -119,24 +119,53 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                               initialCountryCode: 'IN',
                               onChanged: (phone) {
                                 print(phone.completeNumber);
-                                number=phone.completeNumber.toString();
+                                number = phone.completeNumber.toString();
                               },
                             ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                onTap: () async {
+                                  await phoneSignIn(
+                                      phoneNumber: number.toString());
+                                  await _verifyOtp();
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 30,
+                                  width: 70,
+                                  child: Text(
+                                    "Get OTP",
+                                    style: defaultTextStyle(
+                                      fontColors: colorGreen,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.only(
+                                  left: 8, right: 8, bottom: 10),
                               child: OTPTextField(
                                 length: 6,
                                 width: 300,
                                 fieldWidth: 43,
-                                style: TextStyle(fontSize: 17),
+                                style: TextStyle(
+                                  fontSize: 17,
+                                ),
                                 textFieldAlignment:
                                     MainAxisAlignment.spaceAround,
                                 fieldStyle: FieldStyle.underline,
                                 onCompleted: (pin) {
                                   print("Completed:" + pin);
-                                  var otp=pin.toString();
+                                  var otp = pin.toString();
                                   print(otp);
-
                                 },
                               ),
                             ),
@@ -145,8 +174,11 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                             ),
                             InkWell(
                               onTap: () async {
-                                await phoneSignIn(phoneNumber: number.toString());
                                 await _verifyOtp();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ExploreScreen()));
                               },
                               child: Container(
                                 height: 50,
