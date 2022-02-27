@@ -12,7 +12,7 @@ import 'package:untitled/screens/login%20screen/phone_login.dart';
 // import 'package:untitled/screens/login%20screen/phone_login.dart';
 import 'package:untitled/screens/login%20screen/sign_up_screen.dart';
 
-import '../../untils/app_colors.dart';
+import '../../config/app_colors.dart';
 import '../../untils/app_fonts.dart';
 import '../explore screen/explore_screen.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/checkout_screen/checkout_address.dart';
 import 'package:untitled/screens/checkout_screen/checkout_delivery.dart';
-import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 
 class Stepper1 extends StatefulWidget {

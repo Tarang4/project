@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../untils/app_colors.dart';
+import '../../config/app_colors.dart';
 import '../../untils/app_fonts.dart';
 import '../explore screen/explore_screen.dart';
 import 'package:otp_text_field/otp_field.dart';

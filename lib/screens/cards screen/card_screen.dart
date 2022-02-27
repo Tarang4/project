@@ -6,7 +6,7 @@ import 'package:flutter_credit_card/glassmorphism_config.dart';
 import 'package:untitled/modal/credit_card_model.dart';
 import 'package:untitled/screens/cards%20screen/addnew_card.dart';
 import 'package:untitled/screens/cards%20screen/edit_card.dart';
-import '../../untils/app_colors.dart';
+import '../../config/app_colors.dart';
 import '../../untils/app_fonts.dart';
 import '../../untils/credit_card.dart';
 import '../account screen/account_screen.dart';
@@ -118,7 +118,7 @@ class _CardsScreenState extends State<CardsScreen> {
                         CustomCardTypeIcon(
                           cardType: CardType.mastercard,
                           cardImage: Image.asset(
-                            'assets/mastercard.png',
+                            'packages/flutter_credit_card/icons/mastercard.png',
                             height: 48,
                             width: 48,
                           ),

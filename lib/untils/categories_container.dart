@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/untils/app_fonts.dart';
 
-import 'app_colors.dart';
+import '../config/app_colors.dart';
 
 class CategoriesContainer extends StatefulWidget {
   final String catImage;

@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/screens/account%20screen/profine_screen.dart';
-import 'package:untitled/screens/account%20screen/treckorder_screen.dart';
 import 'package:untitled/screens/account%20screen/wishlist_screen.dart';
 import 'package:untitled/screens/cards%20screen/card_screen.dart';
 import 'package:untitled/screens/login%20screen/login_types.dart';
-import 'package:untitled/untils/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/widget/account/account_widget.dart';
 
+import '../../config/app_colors.dart';
 import '../../modal/authenticaion_model.dart';
 import '../cart screen/cart_screen.dart';
+import '../checkout_screen/treckorder_screen.dart';
 import '../explore screen/explore_screen.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -40,7 +40,6 @@ class _AccountScreenState extends State<AccountScreen> {
     setState(() {});
   }
 
-
   int pageIndex = 0;
   final pages = [
     const ExploreScreen(),
@@ -54,6 +53,7 @@ class _AccountScreenState extends State<AccountScreen> {
     super.initState();
     retrieve();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +86,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             fontSize: 26.0, fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        FirebaseAuth.instance.currentUser?.email??"null",
+                        FirebaseAuth.instance.currentUser?.email ?? "null",
                         style: defaultTextStyle(
                             fontSize: 14.0, fontWeight: FontWeight.w400),
                       )
@@ -125,7 +125,10 @@ class _AccountScreenState extends State<AccountScreen> {
                   title: "Wishlist",
                   icon: "assets/images/icons/Icon_Wishlist.png",
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>WishListScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WishListScreen()));
                   }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
@@ -143,7 +146,10 @@ class _AccountScreenState extends State<AccountScreen> {
                   title: "Track Order",
                   icon: "assets/images/icons/Icon_Order.png",
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TrackOrderScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TrackOrderScreen()));
                   }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
@@ -153,7 +159,8 @@ class _AccountScreenState extends State<AccountScreen> {
                   title: "Cards",
                   icon: "assets/images/icons/Icon_Payment.png",
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CardsScreen()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => CardsScreen()));
                   }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
@@ -171,16 +178,14 @@ class _AccountScreenState extends State<AccountScreen> {
                   title: "log Out",
                   icon: "assets/images/icons/Icon_Exit.png",
                   onPressed: () {
-
                     setState(() {
                       deleteSharedPreferences();
                       GoogleSignIn().signOut();
                       AuthenticationHelper().signOut();
                     });
 
-
-
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginTypes()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginTypes()));
                   }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
@@ -189,9 +194,9 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
         ),
       ),
-
     );
   }
+
   Container buildMyNavBar(BuildContext context) {
     return Container(
       height: 74,
@@ -204,7 +209,8 @@ class _AccountScreenState extends State<AccountScreen> {
               onTap: () {
                 setState(() {
                   pageIndex = 0;
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ExploreScreen()));
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => ExploreScreen()));
                 });
               },
               child: Container(
@@ -212,25 +218,25 @@ class _AccountScreenState extends State<AccountScreen> {
                 alignment: Alignment.center,
                 child: pageIndex == 0
                     ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      "Explore",
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Container(
-                      height: 3,
-                      width: 7,
-                      decoration: BoxDecoration(
-                          color: colorBlack,
-                          borderRadius: BorderRadius.circular(10)),
-                    )
-                  ],
-                )
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            "Explore",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Container(
+                            height: 3,
+                            width: 7,
+                            decoration: BoxDecoration(
+                                color: colorBlack,
+                                borderRadius: BorderRadius.circular(10)),
+                          )
+                        ],
+                      )
                     : const Icon(Icons.home_filled),
               )),
           InkWell(
@@ -239,7 +245,8 @@ class _AccountScreenState extends State<AccountScreen> {
               onTap: () {
                 setState(() {
                   pageIndex = 1;
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>CartScreen()));
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => CartScreen()));
                 });
               },
               child: Container(
@@ -247,25 +254,25 @@ class _AccountScreenState extends State<AccountScreen> {
                 alignment: Alignment.center,
                 child: pageIndex == 1
                     ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      "Cart",
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Container(
-                      height: 3,
-                      width: 5,
-                      decoration: BoxDecoration(
-                          color: colorBlack,
-                          borderRadius: BorderRadius.circular(10)),
-                    )
-                  ],
-                )
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            "Cart",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Container(
+                            height: 3,
+                            width: 5,
+                            decoration: BoxDecoration(
+                                color: colorBlack,
+                                borderRadius: BorderRadius.circular(10)),
+                          )
+                        ],
+                      )
                     : const Icon(Icons.card_travel),
               )),
           InkWell(
@@ -274,7 +281,8 @@ class _AccountScreenState extends State<AccountScreen> {
             onTap: () {
               setState(() {
                 pageIndex = 2;
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AccountScreen()));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => AccountScreen()));
               });
             },
             child: Container(
@@ -282,25 +290,25 @@ class _AccountScreenState extends State<AccountScreen> {
               alignment: Alignment.center,
               child: pageIndex == 2
                   ? Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    "Account",
-                    style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Container(
-                    height: 3,
-                    width: 8,
-                    decoration: BoxDecoration(
-                        color: colorBlack,
-                        borderRadius: BorderRadius.circular(10)),
-                  )
-                ],
-              )
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          "Account",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        Container(
+                          height: 3,
+                          width: 8,
+                          decoration: BoxDecoration(
+                              color: colorBlack,
+                              borderRadius: BorderRadius.circular(10)),
+                        )
+                      ],
+                    )
                   : const Icon(Icons.person),
             ),
           ),
@@ -308,5 +316,4 @@ class _AccountScreenState extends State<AccountScreen> {
       ),
     );
   }
-
 }

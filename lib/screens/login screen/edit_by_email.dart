@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:untitled/screens/account%20screen/account_screen.dart';
 import 'package:untitled/screens/account%20screen/profine_screen.dart';
-import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/untils/user_database_util.dart';
 

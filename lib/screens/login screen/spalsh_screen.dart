@@ -11,8 +11,9 @@ import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/screens/explore%20screen/explore_screen.dart';
 import 'package:untitled/screens/login%20screen/login_types.dart';
-import 'package:untitled/untils/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
+
+import '../../config/app_colors.dart';
 
 bool? finalLogin;
 

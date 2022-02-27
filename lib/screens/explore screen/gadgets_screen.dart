@@ -3,7 +3,7 @@ import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
 import 'package:untitled/modal/categories_modal.dart';
 import 'package:untitled/modal/product_modal.dart';
 import 'package:untitled/screens/search%20screen/search_s2.dart';
-import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/untils/product_container.dart';
 

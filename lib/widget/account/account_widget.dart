@@ -6,9 +6,8 @@ Widget accountOption({
   @required String? title,
   @required String? icon,
   @required Function()? onPressed,
-}){
+}) {
   return GestureDetector(
-    onTap: onPressed,
     child: Row(
       children: [
         Image.asset(
@@ -20,8 +19,7 @@ Widget accountOption({
         ),
         Text(
           title!,
-          style: defaultTextStyle(
-              fontSize: 18.0, fontWeight: FontWeight.w400),
+          style: defaultTextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
         ),
         const Spacer(),
         const Icon(

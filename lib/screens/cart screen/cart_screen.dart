@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/modal/product_modal.dart';
-import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/screens/checkout_screen/checkout_delivery.dart';
+import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 
 import '../account screen/account_screen.dart';
+import '../checkout_screen/checkout_address.dart';
 import '../explore screen/explore_screen.dart';
 
 class CartScreen extends StatefulWidget {
@@ -203,19 +205,24 @@ class _CartScreenState extends State<CartScreen> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 65,
                   ),
-                  Container(
-                    height: 50,
-                    width: 146,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: colorGreen,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Text(
-                      "CHECKOUT",
-                      style: defaultTextStyle(
-                          fontColors: colorWhite,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w400),
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckoutDelivery()));
+                    },
+                    child: Container(
+                      height: 50,
+                      width: 146,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: colorGreen,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Text(
+                        "CHECKOUT",
+                        style: defaultTextStyle(
+                            fontColors: colorWhite,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400),
+                      ),
                     ),
                   )
                 ],

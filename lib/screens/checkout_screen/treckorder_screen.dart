@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/untils/app_fonts.dart';
-import 'package:untitled/untils/app_colors.dart';
-
+import 'package:untitled/config/app_colors.dart';
 import '../cart screen/cart_screen.dart';
 import '../explore screen/explore_screen.dart';
-import 'account_screen.dart';
+import '../account screen/account_screen.dart';
 
 class TrackOrderScreen extends StatefulWidget {
   const TrackOrderScreen({Key? key}) : super(key: key);
@@ -27,6 +26,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
         child: Column(
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 IconButton(
                   onPressed: () {
@@ -38,7 +38,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                   ),
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
+                  width: MediaQuery.of(context).size.width / 3.8,
                 ),
                 Text(
                   "Track Order",
@@ -63,7 +63,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                     height: 19,
                   ),
                   Container(
-                    height: 140,
+                    height: 139,
                     padding: EdgeInsets.only(
                         top: 18, left: 20, right: 20, bottom: 17),
                     color: Colors.white,
@@ -108,75 +108,75 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                           height: double.infinity,
                           color: Colors.blue,
                           width: 100,
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              height: 175,
-              width: double.infinity,
-              margin: EdgeInsets.only(top: 30, left: 16, right: 16, bottom: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "sept 23, 2021",
-                    style: defaultTextStyle(
-                        fontSize: 17.0, fontWeight: FontWeight.w400),
-                  ),
-                  SizedBox(
-                    height: 19,
-                  ),
-                  Container(
-                    height: 140,
-                    padding: EdgeInsets.only(
-                        top: 18, left: 20, right: 20, bottom: 17),
-                    color: Colors.white,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "OD-87801226 -N",
-                              style: defaultTextStyle(
-                                  fontSize: 20.0, fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              "\$400",
-                              style: defaultTextStyle(
-                                  fontSize: 15.0,
-                                  fontColors: colorGreen,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 25),
-                              height: 30,
-                              alignment: Alignment.center,
-                              width: 80,
-                              child: Text(
-                                "In Transit",
-                                style: defaultTextStyle(
-                                    fontSize: 15.0,
-                                    fontColors: Colors.white,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              decoration: BoxDecoration(
-                                  color: colorYellow,
-                                  borderRadius: BorderRadius.circular(4)),
-                            )
-                          ],
                         ),
                         Container(
-                          height: double.infinity,
-                          color: Colors.blue,
-                          width: 100,
-                        )
+                          height: 175,
+                          width: double.infinity,
+                          margin: EdgeInsets.only(top: 30, left: 16, right: 16, bottom: 30),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "sept 23, 2021",
+                                style: defaultTextStyle(
+                                    fontSize: 17.0, fontWeight: FontWeight.w400),
+                              ),
+                              SizedBox(
+                                height: 19,
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    top: 18, left: 20, right: 20, bottom: 17),
+                                color: Colors.white,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "OD-87801226 -N",
+                                          style: defaultTextStyle(
+                                              fontSize: 20.0, fontWeight: FontWeight.w500),
+                                        ),
+                                        Text(
+                                          "\$400",
+                                          style: defaultTextStyle(
+                                              fontSize: 15.0,
+                                              fontColors: colorGreen,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 25),
+                                          height: 30,
+                                          alignment: Alignment.center,
+                                          width: 80,
+                                          child: Text(
+                                            "In Transit",
+                                            style: defaultTextStyle(
+                                                fontSize: 15.0,
+                                                fontColors: Colors.white,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          decoration: BoxDecoration(
+                                              color: colorYellow,
+                                              borderRadius: BorderRadius.circular(4)),
+                                        )
+                                      ],
+                                    ),
+                                    Container(
+                                      height: double.infinity,
+                                      color: Colors.blue,
+                                      width: 100,
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
                       ],
                     ),
                   )

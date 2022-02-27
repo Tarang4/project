@@ -7,10 +7,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:untitled/modal/user_model.dart';
+import 'package:untitled/repository/auth/login-signup_repository.dart';
 import 'package:untitled/screens/explore%20screen/explore_screen.dart';
 import 'package:untitled/screens/login%20screen/forget_screen.dart';
-import 'package:untitled/screens/login%20screen/sign_up_screen.dart';
-import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/untils/user_database_util.dart';
 import '../../modal/authenticaion_model.dart';
@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   List<UserModel> modelList = [];
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  FocusNode emailFocus = FocusNode();
+  // FocusNode emailFocus = FocusNode();
 
   bool validateStructure(String value) {
     String pattern =
@@ -43,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
         RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
     return regex.hasMatch(value);
   }
+  bool isLogin=false;
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: double.infinity,
                           height: 33,
                           child: TextFormField(
-                            focusNode: emailFocus,
+                            // focusNode: emailFocus,
                             autofocus: true,
                             validator: (value) {
                               if (!EmailValidator.validate(value ?? "")) {
@@ -208,7 +209,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         InkWell(
                           onTap: () async {
-                            if (loginScreenKey.currentState!.validate()) {
+                            AuthRepository.signIn(context: context, email: _emailController.text, password: _passwordController.text);
+                            /*if (loginScreenKey.currentState!.validate()) {
                               AuthenticationHelper()
                                   .signIn(
                                       email: _emailController.text,
@@ -242,7 +244,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   }
                                 },
                               );
-                            }
+                              final SharedPreferences sharePrefrences =
+                              await SharedPreferences.getInstance();
+                              sharePrefrences.setString("Email", _emailController.text);
+                              sharePrefrences.setString("PassWord", _passwordController.text);
+                              sharePrefrences.setBool("isLogin", true);
+                            }*/
                           },
                           child: Container(
                             height: 50,
@@ -271,12 +278,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  save() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    sharedPreferences.setBool("isLogin", true);
   }
 
   forgotClick() async {

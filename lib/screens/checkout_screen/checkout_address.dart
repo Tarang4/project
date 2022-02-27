@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/checkout_screen/checkout_delivery.dart';
-import 'package:untitled/untils/app_colors.dart';
+import 'package:untitled/screens/checkout_screen/checkout_payment.dart';
+import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 
 class CheckAddress extends StatefulWidget {
@@ -23,15 +24,12 @@ class _CheckAddressState extends State<CheckAddress> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                SizedBox(height: MediaQuery.of(context).size.height/45),
                 Row(
                   children: [
                     IconButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const CheckoutDelivery()));
+                        Navigator.pop(context);
                       },
                       icon: const Icon(
                         Icons.arrow_back_ios_rounded,
@@ -302,7 +300,7 @@ class _CheckAddressState extends State<CheckAddress> {
                     ],
                   )),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height/7.5,),
+                SizedBox(height: MediaQuery.of(context).size.height/8,),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 10,
                   width: double.infinity,
@@ -338,7 +336,7 @@ class _CheckAddressState extends State<CheckAddress> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const CheckAddress()));
+                                  builder: (context) => const CheckoutPayment()));
                         },
                         child: Container(
                           height: 50,
