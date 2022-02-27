@@ -1,41 +1,57 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
+import 'dart:core';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/animation/animation_preferences.dart';
 import 'package:flutter_animator/animation/animator_play_states.dart';
 import 'package:flutter_animator/widgets/attention_seekers/bounce.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/screens/explore%20screen/explore_screen.dart';
 import 'package:untitled/screens/login%20screen/login_types.dart';
 import 'package:untitled/untils/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 
-class SecondScreen extends StatefulWidget {
+bool? finalLogin;
+
+class SplashScreen extends StatefulWidget {
   @override
-  _SecondScreenState createState() => _SecondScreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SecondScreenState extends State<SecondScreen>
+class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late AnimationController scaleController;
   late Animation<double> scaleAnimation;
 
+  Future getSharedPreferencesData() async {
+    bool? emailSd;
+
+    final SharedPreferences prefe = await SharedPreferences.getInstance();
+    emailSd = (prefe.getBool('isLogin') ?? false);
+    setState(() {
+      finalLogin = emailSd;
+    });
+    print(finalLogin);
+  }
+
   @override
   void initState() {
     super.initState();
-
     scaleController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1500),
     )..addStatusListener(
         (status) {
           if (status == AnimationStatus.completed) {
-            Navigator.of(context).pushReplacement(
-              PageTransition(
-                type: PageTransitionType.bottomToTop,
-                child: LoginTypes(),
-              ),
-            );
+            getSharedPreferencesData().whenComplete(() async {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) =>
+                    finalLogin == false ? LoginTypes() : ExploreScreen(),
+              ));
+            });
             Timer(
               Duration(milliseconds: 300),
               () {

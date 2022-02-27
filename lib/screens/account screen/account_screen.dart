@@ -1,9 +1,12 @@
-// ignore_for_file: prefer_const_constructors
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/screens/account%20screen/profine_screen.dart';
 import 'package:untitled/screens/account%20screen/treckorder_screen.dart';
 import 'package:untitled/screens/account%20screen/wishlist_screen.dart';
 import 'package:untitled/screens/cards%20screen/card_screen.dart';
+import 'package:untitled/screens/login%20screen/login_types.dart';
 import 'package:untitled/untils/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/widget/account/account_widget.dart';
@@ -11,7 +14,6 @@ import 'package:untitled/widget/account/account_widget.dart';
 import '../../modal/authenticaion_model.dart';
 import '../cart screen/cart_screen.dart';
 import '../explore screen/explore_screen.dart';
-import '../login screen/login_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -21,12 +23,37 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  late SharedPreferences prefs;
+  bool? emailSd;
+
+  deleteSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.remove('isLogin');
+    // prefs.remove('phone');
+    setState(() {});
+  }
+
+  retrieve() async {
+    prefs = await SharedPreferences.getInstance();
+    emailSd = prefs.getBool('isLogin')!;
+    // passwordSd = prefs.getString('password')!;
+    setState(() {});
+  }
+
+
   int pageIndex = 0;
   final pages = [
     const ExploreScreen(),
     const CartScreen(),
     const AccountScreen(),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    retrieve();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,12 +81,12 @@ class _AccountScreenState extends State<AccountScreen> {
                   Column(
                     children: [
                       Text(
-                        "David Spade",
+                        "$emailSd",
                         style: defaultTextStyle(
                             fontSize: 26.0, fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        "show mail",
+                        FirebaseAuth.instance.currentUser?.email??"null",
                         style: defaultTextStyle(
                             fontSize: 14.0, fontWeight: FontWeight.w400),
                       )
@@ -144,8 +171,16 @@ class _AccountScreenState extends State<AccountScreen> {
                   title: "log Out",
                   icon: "assets/images/icons/Icon_Exit.png",
                   onPressed: () {
-                    AuthenticationHelper().signOut();
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+
+                    setState(() {
+                      deleteSharedPreferences();
+                      GoogleSignIn().signOut();
+                      AuthenticationHelper().signOut();
+                    });
+
+
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginTypes()));
                   }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
@@ -154,7 +189,7 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: buildMyNavBar(context),
+
     );
   }
   Container buildMyNavBar(BuildContext context) {

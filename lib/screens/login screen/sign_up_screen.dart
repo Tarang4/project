@@ -1,6 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/screens/explore%20screen/explore_screen.dart';
+import 'package:untitled/screens/login%20screen/login_types.dart';
 import 'package:untitled/untils/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import '../../modal/authenticaion_model.dart';
@@ -15,12 +18,20 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
+  bool isPassword=true;
+
   TextEditingController email = TextEditingController();
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
   TextEditingController password = TextEditingController();
 
   bool isShow = true;
+
+  save() async {
+    final SharedPreferences sharedPreferences =
+    await SharedPreferences.getInstance();
+    sharedPreferences.setBool("isLogin", true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +49,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const LoginScreen()));
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => const LoginTypes()));
                   },
                   child: Container(
                       width: 20,
@@ -54,101 +65,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: MediaQuery.of(context).size.height * 0.06,
                 ),
                 Card(
-                  elevation: 6.8,
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 16, right: 16, top: 14, bottom: 16),
+                        left: 16, right: 16, top: 30, bottom: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Sign Up",
+                          "Sign Up,",
                           style: defaultTextStyle(
                               fontSize: 30.0, fontWeight: FontWeight.w700),
                         ),
                         const SizedBox(
                           height: 48,
                         ),
-                        Text(
-                          "First Name",
-                          style: defaultTextStyle(
-                              fontSize: 14.0,
-                              fontColors: colorGrey,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        const SizedBox(
-                          height: 17,
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 33,
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'First Name';
-                              }
-                            },
-                            controller: firstName,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.text,
-                            cursorColor: Colors.black,
-                            style: const TextStyle(
-                                color: colorBlack,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal),
-                            decoration: const InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorLightGrey),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 39,
-                        ),
-                        Text(
-                          "Last Name",
-                          style: defaultTextStyle(
-                              fontSize: 14.0,
-                              fontColors: colorGrey,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        const SizedBox(
-                          height: 17,
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 33,
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'First Name';
-                              }
-                            },
-                            controller: lastName,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.text,
-                            cursorColor: Colors.black,
-                            style: const TextStyle(
-                                color: colorBlack,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal),
-                            decoration: const InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorLightGrey),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 39,
-                        ),
+
+
                         Text(
                           "Email",
                           style: defaultTextStyle(
@@ -203,7 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           width: double.infinity,
                           height: 33,
                           child: TextFormField(
-                            obscureText: true,
+                            obscureText: isPassword,
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Please Enter Password';
@@ -220,7 +152,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: colorBlack,
                                 fontSize: 18,
                                 fontWeight: FontWeight.normal),
-                            decoration: const InputDecoration(
+                            decoration:  InputDecoration(
+                              suffixIcon: IconButton(
+                                icon: isPassword
+                                    ? Icon(
+                                  Icons.visibility,
+                                  color: Colors.black,
+                                )
+                                    : Icon(Icons.visibility_off,
+                                    color: Colors.black),
+                                onPressed: () {
+                                  setState(() {
+                                    isPassword = !isPassword;
+                                  });
+                                },
+                              ),
                               border: UnderlineInputBorder(
                                 borderSide: BorderSide(color: colorGreen),
                               ),
@@ -245,12 +191,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         email: email.text,
                                         password: password.text)
                                     .then((result) {
-                                  if (result == null) {
+                                  if (result == null) {save();
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const LoginScreen()));
+                                                const ExploreScreen()));
+                                  Fluttertoast.showToast(
+                                      msg: "SignUp Successfully",
+                                      backgroundColor: Colors.green.withOpacity(0.7),
+                                      textColor: Colors.white,
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1);
                                   } else {
                                     Fluttertoast.showToast(
                                         msg: "Account Already Exist",

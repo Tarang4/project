@@ -1,4 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, prefer_const_constructors
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -21,6 +23,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool isPassword = true;
+
   final loginScreenKey = GlobalKey<FormState>();
   List<UserModel> modelList = [];
   final TextEditingController _emailController = TextEditingController();
@@ -71,22 +75,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               "Welcome,",
                               style: defaultTextStyle(
                                   fontSize: 30.0, fontWeight: FontWeight.w700),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SignUpScreen()));
-                              },
-                              child: Text(
-                                "Sign",
-                                style: defaultTextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.w400,
-                                  fontColors: colorGreen,
-                                ),
-                              ),
                             ),
                           ],
                         ),
@@ -158,7 +146,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: double.infinity,
                           height: 33,
                           child: TextFormField(
-                            obscureText: true,
+                            obscureText: isPassword,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please Enter Password';
+                              }
+                              if (_passwordController.text.length < 8) {
+                                return 'Please Enter 8 Digits Password';
+                              }
+                            },
                             controller: _passwordController,
                             textInputAction: TextInputAction.done,
                             keyboardType: TextInputType.emailAddress,
@@ -167,7 +163,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: colorBlack,
                                 fontSize: 18,
                                 fontWeight: FontWeight.normal),
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                icon: isPassword
+                                    ? Icon(
+                                        Icons.visibility,
+                                        color: Colors.black,
+                                      )
+                                    : Icon(Icons.visibility_off,
+                                        color: Colors.black),
+                                onPressed: () {
+                                  setState(() {
+                                    isPassword = !isPassword;
+                                  });
+                                },
+                              ),
                               border: UnderlineInputBorder(
                                 borderSide: BorderSide(color: colorGreen),
                               ),
@@ -184,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: () {
-                              forgotClick();
+                              // forgotClick();
                             },
                             child: Text(
                               "Forgot Password?",
@@ -206,15 +216,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                   .then(
                                 (result) {
                                   if (result == null) {
+                                    save();
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 ExploreScreen()));
-                                  } else {
+                                    print(e);
                                     Fluttertoast.showToast(
-                                        msg: "Please Sign-up !",
-                                        backgroundColor: Colors.white54,
+                                        msg: "LogIn Successfully",
+                                        backgroundColor: Colors.green.withOpacity(0.7),
+                                        textColor: Colors.white,
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1);
+                                  } else {
+                                    print(e);
+                                    Fluttertoast.showToast(
+                                        msg: "Please Check Email And Password!",
+                                        backgroundColor: Colors.grey,
                                         textColor: Colors.white,
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.BOTTOM,
