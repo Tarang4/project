@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:untitled/config/FireStore_string.dart';
 import 'package:untitled/untils/toast/flutter_toast_method.dart';
 
+import '../../main.dart';
 import '../../modal/firebse_usermodal/firebase_usermodal.dart';
 import '../../screens/account screen/account_screen.dart';
 import '../../screens/explore screen/explore_screen.dart';
@@ -41,6 +42,13 @@ class UserUpDateRepository {
       await _profileCollection.doc(_auth.currentUser?.uid).update(data);
 
 
+      pref!.setString(LocalStorageKey.firstName, data[LocalStorageKey.firstName]);
+      pref!.setString(LocalStorageKey.lastName, data[LocalStorageKey.lastName]);
+      pref!.setString(LocalStorageKey.gender, data[LocalStorageKey.gender]);
+      pref!.setString(LocalStorageKey.birthdate, data[LocalStorageKey.birthdate]);
+      if(data[LocalStorageKey.profilePhoto] != "" || data[LocalStorageKey.profilePhoto] != null){
+        pref!.setString(LocalStorageKey.profilePhoto, data[LocalStorageKey.profilePhoto]);
+      }
 
       ToastMethod.simpleToast(context: context, massage: "Update Successfully");
       Navigator.push(

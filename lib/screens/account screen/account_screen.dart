@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/config/local_storage.dart';
 import 'package:untitled/screens/account%20screen/address_screen.dart';
+import 'package:untitled/screens/account%20screen/profine_screen.dart';
 import 'package:untitled/screens/account%20screen/wishlist_screen.dart';
 import 'package:untitled/screens/cards%20screen/card_screen.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/widget/account/account_widget.dart';
 
+import '../../config/Localstorage_string.dart';
 import '../../config/app_colors.dart';
 import '../../main.dart';
 import '../../repository/auth/auth_reposetory.dart';
@@ -26,10 +28,10 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   late SharedPreferences prefs;
   bool? isLogin;
-  String emails = pref!.getString(LocalStorage.email)!;
-  String firstName = pref!.getString(LocalStorage.firstName)!;
-  String lastName = pref!.getString(LocalStorage.lastName)!;
-  bool? isLogins = pref!.getBool(LocalStorage.isLogin);
+  String emails = pref!.getString(LocalStorageKey.email)!;
+  String firstName = pref!.getString(LocalStorageKey.firstName)!;
+  String lastName = pref!.getString(LocalStorageKey.lastName)!;
+  bool? isLogins = pref!.getBool(LocalStorageKey.isLogin);
 
   // deleteSharedPreferences() async {
   //   prefs = await SharedPreferences.getInstance();
@@ -40,7 +42,7 @@ class _AccountScreenState extends State<AccountScreen> {
   //
   retrieve() async {
     prefs = await SharedPreferences.getInstance();
-    bool? isLogins = prefs.getBool(LocalStorage.isLogin);
+    bool? isLogins = prefs.getBool(LocalStorageKey.isLogin);
     // passwordSd = prefs.getString('password')!;
     setState(() {
       isLogin = isLogins;
@@ -93,15 +95,11 @@ class _AccountScreenState extends State<AccountScreen> {
                             fontSize: 12.0, fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        firstName.toString(),
+                        "${firstName.toString()} ${lastName.toString()}",
                         style: defaultTextStyle(
-                            fontSize: 26.0, fontWeight: FontWeight.w500),
+                            fontSize: 28.0, fontWeight: FontWeight.w500),
                       ),
-                      Text(
-                        lastName.toString(),
-                        style: defaultTextStyle(
-                            fontSize: 26.0, fontWeight: FontWeight.w400),
-                      )
+
                     ],
                   ),
                 ],
@@ -117,7 +115,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EditProfileScreen(),
+                        builder: (context) => ProfileScreen(),
                       ),
                     );
                   }),

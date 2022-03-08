@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:untitled/modal/address_modal.dart';
 
 import '../../config/FireStore_string.dart';
+import '../../config/Localstorage_string.dart';
 import '../../config/local_storage.dart';
 import '../../main.dart';
 import '../../untils/toast/flutter_toast_method.dart';
@@ -22,7 +23,7 @@ class AddressRepository {
     var id = _auth.currentUser?.uid;
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    String Uid = pref!.getString(LocalStorage.userId)!;
+    String Uid = pref!.getString(LocalStorageKey.userId)!;
 
     final CollectionReference _addressCollection = firebaseFirestore
         .collection(FirebaseString.userCollection)
@@ -79,7 +80,7 @@ class AddressRepository {
       @required String? addPinCode}) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     var id = _auth.currentUser?.uid;
-    String Uid = pref!.getString(LocalStorage.userId)!;
+    String Uid = pref!.getString(LocalStorageKey.userId)!;
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 

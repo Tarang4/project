@@ -15,7 +15,7 @@ class DebitCardModal {
   factory DebitCardModal.fromDocs(DocumentSnapshot? documentSnapshot){
     return DebitCardModal(
       userId: documentSnapshot!['userId'],
-      cardId: documentSnapshot!['cardId'],
+      cardId: documentSnapshot['cardId'],
       cardName:  documentSnapshot['cardName'],
       cardNo: documentSnapshot['cardNo'],
       cvv: documentSnapshot['cvv'],

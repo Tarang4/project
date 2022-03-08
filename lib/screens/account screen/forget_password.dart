@@ -5,8 +5,9 @@ import 'package:sqflite/sqflite.dart';
 
 class ForgotPassword extends StatefulWidget {
   final String email;
+  final String phone;
 
-  const ForgotPassword({Key? key, required this.email}) : super(key: key);
+  const ForgotPassword({Key? key, required this.email, required this.phone}) : super(key: key);
 
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();
@@ -16,6 +17,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   bool isPasswordOdd = true;
   bool isPasswordNew = true;
   late String email;
+  late String phone;
   final loginScreenKey = GlobalKey<FormState>();
 
   final TextEditingController _oldController = TextEditingController();
@@ -24,24 +26,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   final TextEditingController _new2Controller = TextEditingController();
   FocusNode emailFocus = FocusNode();
 
-  bool validateStructure(String value) {
-    String pattern =
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-    RegExp regExp = RegExp(pattern);
-    return regExp.hasMatch(value);
-  }
-
-  bool validatePassword(String value) {
-    RegExp regex =
-        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-    return regex.hasMatch(value);
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     email = widget.email;
+    phone = widget.phone;
   }
 
   @override

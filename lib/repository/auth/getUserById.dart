@@ -5,6 +5,7 @@ import 'package:untitled/config/firebaseString.dart';
 import 'package:untitled/config/local_storage.dart';
 import 'package:untitled/untils/loading_dialog/dialog.dart';
 
+import '../../config/Localstorage_string.dart';
 import '../../untils/toast/flutter_toast_method.dart';
 
 class GetUserById {
@@ -18,8 +19,8 @@ class GetUserById {
         .collection(FirebaseString.userCollection)
         .doc(userId!)
         .get();
-    print("data is ${documentSnapshot[LocalStorage.email]}");
-    if (documentSnapshot[LocalStorage.userId] != null) {
+    print("data is ${documentSnapshot[LocalStorageKey.email]}");
+    if (documentSnapshot[LocalStorageKey.userId] != null) {
 
       print("data is ${documentSnapshot.data()}");
       // hideLoadingDialog(context: context);

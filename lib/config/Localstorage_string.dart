@@ -8,13 +8,16 @@ class LocalStorageKey {
   static const password = "password";
   static const phone = "phone";
   static const gender = "gender";
+  static const birthdate = "Birthdate";
   static const addStreetNo = "addStreetNo";
   static const addStreet = "addStreet";
   static const addCity = "addCity";
   static const addPinCode = "addPinCode";
   static const createAt = "createAt";
-  static const wishList = "WishList";
+  static const upDateAt = "updateAt";
+  static const wishList = "wishList";
 }
+
 
 class LocalStorageCardKey {
   static const cardId = "cardId";

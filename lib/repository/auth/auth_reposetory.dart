@@ -7,16 +7,13 @@ import 'package:untitled/config/FireStore_string.dart';
 import 'package:untitled/screens/explore%20screen/explore_screen.dart';
 import 'package:untitled/screens/login%20screen/all_type_screnn.dart';
 import 'package:untitled/screens/login%20screen/edit_profile_screnn.dart';
-import 'package:untitled/screens/login%20screen/verification_screen.dart';
 import 'package:untitled/untils/toast/flutter_toast_method.dart';
-
 import '../../config/Localstorage_string.dart';
-import '../../config/shared_preference_data.dart';
 import '../../main.dart';
 import 'getUserById.dart';
-import '../../screens/login screen/login_screen.dart';
 import '../../untils/loading_dialog/dialog.dart';
 import '../../untils/toast/toast_message.dart';
+
 
 class AuthRepository {
   static Future<User?> signIn({
@@ -24,7 +21,7 @@ class AuthRepository {
     @required String? email,
     @required String? password,
   }) async {
-    // showLoadingDialog(context: context);
+    showLoadingDialog(context: context);
     await Firebase.initializeApp();
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -47,6 +44,8 @@ class AuthRepository {
           pref!.setString(LocalStorageKey.userId, userDetailModel[LocalStorageKey.userId]);
           pref!.setString(LocalStorageKey.firstName, userDetailModel[LocalStorageKey.firstName]);
           pref!.setString(LocalStorageKey.lastName, userDetailModel[LocalStorageKey.lastName]);
+          pref!.setString(LocalStorageKey.gender, userDetailModel[LocalStorageKey.gender]);
+          pref!.setString(LocalStorageKey.birthdate, userDetailModel[LocalStorageKey.birthdate]);
           pref!.setString(LocalStorageKey.email, userDetailModel[LocalStorageKey.email]);
           pref!.setString(LocalStorageKey.phone, userDetailModel[LocalStorageKey.phone]);
 
@@ -127,36 +126,25 @@ class AuthRepository {
           "updateAt": todayDate.toString()
         };
 
-        // Map<String, dynamic> dataa = <String, dynamic>{
-        //   "email": email,
-        //   "name": name,
-        //   "password": password,
-        //   "phone": phone,
-        //   "userId": userCredential.user!.uid,
-        //   "profilephoto": "",
-        //
-        // };
+
         await documentReference.set(data).whenComplete(() async {
           isSuccess = true;
           print(
               "add successfully -------------------------------------------------------");
           hideLoadingDialog(context: context);
 
-          SharedPreferenceUsers.saveData(
-            context: context,
-            firstName: data[LocalStorageKey.userId],
-            email: data[LocalStorageKey.email],
-            password: data[LocalStorageKey.password],
-            isLogin: true,
-            phone: data[LocalStorageKey.phone],
-          );
+          ToastMethod.simpleToast(massage: "successfully");
+          pref?.setBool(LocalStorageKey.isLogin, true);
+          pref!.setString(LocalStorageKey.userId, data[LocalStorageKey.userId]);
+          pref!.setString(LocalStorageKey.email, data[LocalStorageKey.email]);
+          pref!.setString(LocalStorageKey.phone, data[LocalStorageKey.phone]);
+          pref!.setString(LocalStorageKey.password, data[LocalStorageKey.password]);
+          if(data[LocalStorageKey.profilePhoto] != "" || data[LocalStorageKey.profilePhoto] != null){
+            pref!.setString(LocalStorageKey.profilePhoto, data[LocalStorageKey.profilePhoto]);
+          }
 
-          // pref!.setString(PrefString.userId, data['userId']);
-          // pref!.setString(PrefString.userName, data['name']);
-          // pref!.setString(PrefString.userPhone, data['phone']);
-          // pref!.setString(PrefString.userEmail, data['email']);
-          // pref!.setBool(PrefString.isLogin, true);
-          // pref!.setString(PrefString.userProfile, "");
+
+
           Navigator.pushAndRemoveUntil(
               context!,
               CupertinoPageRoute(builder: (context) => const EditProfileScreen()),

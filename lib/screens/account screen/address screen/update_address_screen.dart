@@ -33,7 +33,7 @@ class UpdateAddress extends StatefulWidget {
 
 class _UpdateAddressState extends State<UpdateAddress> {
   GlobalKey<FormState> _formkey = GlobalKey();
-  String? refid;
+  String? refId;
   TextEditingController _street1 = TextEditingController();
   TextEditingController _street2 = TextEditingController();
   TextEditingController _city = TextEditingController();
@@ -41,6 +41,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
   TextEditingController _country = TextEditingController();
   TextEditingController _fullName = TextEditingController();
   TextEditingController _pin = TextEditingController();
+
 
   @override
   void initState() {
@@ -54,7 +55,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
     _fullName.text = widget.fullName;
     _pin.text = widget.pin;
     _pin.text = widget.pin;
-    refid = widget.refid;
+    refId = widget.refid;
   }
 
   @override
@@ -363,7 +364,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
         state: _state.text,
         city: _city.text,
         addPinCode: _pin.text,
-        refId: refid);
+        refId: refId);
 
     Navigator.pop(context);
     // Navigator.pushReplacement(

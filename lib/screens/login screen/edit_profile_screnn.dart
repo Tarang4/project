@@ -3,27 +3,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:untitled/config/app_colors.dart';
+import 'package:untitled/screens/explore%20screen/explore_screen.dart';
 import '../../repository/add_account/update_usersdata_respository.dart';
 import '../../untils/app_fonts.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String? password;
-
   const EditProfileScreen({Key? key, this.password}) : super(key: key);
-
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _fNameController = TextEditingController();
-
   final TextEditingController _lNameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _birthDayController = TextEditingController();
-
   FocusNode emailFocus = FocusNode();
-
   int? isGender;
   bool isPassword = true;
   final ImagePicker _imagePicker = ImagePicker();
@@ -318,7 +313,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 profilePhoto: '',
 
                                 context: context,
-                              );
+                              ).then((value) {
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ExploreScreen()));
+                              });
                             }
                           },
                           child: Container(

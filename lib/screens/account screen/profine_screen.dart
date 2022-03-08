@@ -7,6 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/toast/flutter_toast_method.dart';
 
+import '../../config/Localstorage_string.dart';
+import '../../main.dart';
 import '../../repository/add_account/update_usersdata_respository.dart';
 import 'forget_password.dart';
 
@@ -19,25 +21,36 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _fNameController = TextEditingController();
-
   final TextEditingController _lNameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _addressNoController = TextEditingController();
-  final TextEditingController _pinCodeController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
-
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
+  final TextEditingController _birthDateController = TextEditingController();
   FocusNode emailFocus = FocusNode();
-
   int? isGender;
   bool isPassword = true;
   final ImagePicker _imagePicker = ImagePicker();
   String? photo;
   final updateScreenKey = GlobalKey<FormState>();
+
+
+  String email = pref!.getString(LocalStorageKey.email)!;
+  String phone = pref!.getString(LocalStorageKey.phone)!;
+  String firstName = pref!.getString(LocalStorageKey.firstName)!;
+  String lastName = pref!.getString(LocalStorageKey.lastName)!;
+  String gender = pref!.getString(LocalStorageKey.gender)!;
+  String birthdate = pref!.getString(LocalStorageKey.birthdate)!;
+  bool? isLogins = pref!.getBool(LocalStorageKey.isLogin);
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _fNameController.text=firstName;
+    _lNameController.text=lastName;
+    isGender=int.parse(gender);
+    _birthDateController.text=birthdate;
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +91,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     firstName: _fNameController.text,
                                     lastName: _lNameController.text,
                                     gender: isGender.toString(),
+                                    birthDate:_birthDateController.text,
                                     profilePhoto: '',
-                                    context: context, birthDate: _phoneController.text,
-                                  ).whenComplete(() {
-                                    ToastMethod.simpleToast(
-                                        massage: "update successfully");
 
-                                    Navigator.pop(context);
-                                  });
+                                    context: context,
+                                  );
+
                                 }
                               },
                               child: Text(
@@ -260,7 +271,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text("Mobile Number",
+                        Text("BirthDate",
                             style: TextStyle(
                                 color: colorGrey,
                                 fontSize: 14.0,
@@ -276,11 +287,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               if (value!.isEmpty) {
                                 return 'Please Enter Phone Number';
                               }
-                              if (_phoneController.text.length < 10) {
+                              if (_birthDateController.text.length < 10) {
                                 return 'Wrong Phone Number';
                               }
                             },
-                            controller: _phoneController,
+                            controller: _birthDateController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.number,
                             cursorColor: Colors.black,
@@ -301,195 +312,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text("Address No",
-                            style: TextStyle(
-                                color: colorGrey,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 33,
-                          child: TextFormField(
-                            controller: _addressNoController,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please Enter Address';
-                              }
-                            },
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.streetAddress,
-                            cursorColor: Colors.black,
-                            style: const TextStyle(
-                                color: colorBlack,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal),
-                            decoration: const InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Text("Address",
-                            style: TextStyle(
-                                color: colorGrey,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 33,
-                          child: TextFormField(
-                            controller: _addressController,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please Enter Address';
-                              }
-                            },
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.streetAddress,
-                            cursorColor: Colors.black,
-                            style: const TextStyle(
-                                color: colorBlack,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal),
-                            decoration: const InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 150,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text("city",
-                                      style: TextStyle(
-                                          color: colorGrey,
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w400)),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    width: double.infinity,
-                                    height: 33,
-                                    child: TextFormField(
-                                      controller: _cityController,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Please Enter City';
-                                        }
-                                      },
-                                      textInputAction: TextInputAction.next,
-                                      keyboardType: TextInputType.text,
-                                      cursorColor: Colors.black,
-                                      style: const TextStyle(
-                                          color: colorBlack,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.normal),
-                                      decoration: const InputDecoration(
-                                        border: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: colorGreen),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: colorGreen),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: Container(
-                                width: 150,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Pin Code",
-                                        style: TextStyle(
-                                            color: colorGrey,
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.w400)),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      width: double.infinity,
-                                      height: 33,
-                                      child: TextFormField(
-                                        controller: _pinCodeController,
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'Please Enter PinCode';
-                                          }
-                                          if (_pinCodeController.text.length <
-                                              6) {
-                                            return 'Please Enter valid PinCode';
-                                          }
-                                        },
-                                        textInputAction: TextInputAction.next,
-                                        keyboardType: TextInputType.number,
-                                        cursorColor: Colors.black,
-                                        style: const TextStyle(
-                                            color: colorBlack,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.normal),
-                                        decoration: const InputDecoration(
-                                          border: UnderlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: colorGreen),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: colorGreen),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
                         TextButton(
                           onPressed: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ForgotPassword(
-                                          email: '',
+                                          email: email, phone: phone,
                                         )));
                           },
                           child: Text(
