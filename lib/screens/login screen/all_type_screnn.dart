@@ -1,20 +1,12 @@
-import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled/modal/authenticaion_model.dart';
-import 'package:untitled/screens/home_screen.dart';
 import 'package:untitled/screens/login%20screen/login_screen.dart';
-import 'package:untitled/screens/login%20screen/phone_login.dart';
-// import 'package:untitled/screens/login%20screen/phone_login.dart';
+
 import 'package:untitled/screens/login%20screen/sign_up_screen.dart';
 
 import '../../config/app_colors.dart';
 import '../../untils/app_fonts.dart';
-import '../explore screen/explore_screen.dart';
 
 class LoginTypes extends StatefulWidget {
   const LoginTypes({Key? key}) : super(key: key);
@@ -26,9 +18,10 @@ class LoginTypes extends StatefulWidget {
 class _LoginTypesState extends State<LoginTypes> {
   save() async {
     final SharedPreferences sharedPreferences =
-    await SharedPreferences.getInstance();
+        await SharedPreferences.getInstance();
     sharedPreferences.setBool("isLogin", true);
   }
+
   bool isLoading = false;
 
   @override
@@ -93,7 +86,6 @@ class _LoginTypesState extends State<LoginTypes> {
                           ),
                         ),
                       ),
-
                       InkWell(
                         onTap: () {
                           Navigator.push(
@@ -130,118 +122,85 @@ class _LoginTypesState extends State<LoginTypes> {
                       const SizedBox(
                         height: 17,
                       ),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PhoneLoginScreen()));
-                          });
-                        },
-                        child: Container(
-                          height: 50,
-                          width: MediaQuery.of(context).size.height,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: colorWhite,
-                              border: Border.all(width: 0.8, color: colorGrey)),
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Icon(Icons.phone)),
-                              Text(
-                                "Continue With Phone",
-                                style: defaultTextStyle(
-                                  fontColors: colorBlack,
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 17,
-                      ), InkWell(  onTap: () async {
-                        setState(() {
-                          isLoading = true;
-                        });
-
-                        try {
-                          final GoogleSignInAccount? googleSignInAccount =
-                          await GoogleSignIn().signIn();
-                          final GoogleSignInAuthentication
-                          googleSignInAuthentication =
-                          await googleSignInAccount!.authentication;
-                          final AuthCredential credential =
-                          GoogleAuthProvider.credential(
-                            accessToken:
-                            googleSignInAuthentication.accessToken,
-                            idToken: googleSignInAuthentication.idToken,
-                          );
-                          await FirebaseAuth.instance
-                              .signInWithCredential(credential);
-                        } catch (e) {
-                          Fluttertoast.showToast(
-                              msg: "Select Google Account",
-                              backgroundColor: Colors.white54,
-                              textColor: Colors.white,
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1);
-
-                          throw e;
-                        }
-                        save() ;
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ExploreScreen()));
-                        Fluttertoast.showToast(
-                            msg: "SignIn Successfully",
-                            backgroundColor: Colors.green.withOpacity(0.7),
-                            textColor: Colors.white,
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1);
-
-                        setState(() {
-                          isLoading = false;
-                        });
-                      },
-                        child: Container(
-                            height: 50,
-                            width: MediaQuery.of(context).size.height,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: colorWhite,
-                                border: Border.all(width: 0.8, color: colorGrey)),
-                            alignment: Alignment.center,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Image.asset(
-                                    "assets/images/google-logo.png",
-                                  ),
-                                ),
-                                Text(
-                                  "Continue With Google",
-                                  style: defaultTextStyle(
-                                    fontColors: colorBlack,
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            )),
-                      ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     setState(() {
+                      //       Navigator.push(
+                      //           context,
+                      //           MaterialPageRoute(
+                      //               builder: (context) => PhoneLoginScreen()));
+                      //     });
+                      //   },
+                      //   child: Container(
+                      //     height: 50,
+                      //     width: MediaQuery.of(context).size.height,
+                      //     decoration: BoxDecoration(
+                      //         borderRadius: BorderRadius.circular(10),
+                      //         color: colorWhite,
+                      //         border: Border.all(width: 0.8, color: colorGrey)),
+                      //     alignment: Alignment.center,
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: [
+                      //         const Padding(
+                      //             padding: EdgeInsets.all(8),
+                      //             child: Icon(Icons.phone)),
+                      //         Text(
+                      //           "Continue With Phone",
+                      //           style: defaultTextStyle(
+                      //             fontColors: colorBlack,
+                      //             fontSize: 15.0,
+                      //             fontWeight: FontWeight.w700,
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      // const SizedBox(
+                      //   height: 17,
+                      // ),
+                      // InkWell(
+                      //   onTap: () async {
+                      //     setState(() {
+                      //       isLoading = true;
+                      //     });
+                      //
+                      //     GoogleLogInUsers.googleLoginUser(context: context);
+                      //
+                      //     setState(() {
+                      //       isLoading = false;
+                      //     });
+                      //   },
+                      //   child: Container(
+                      //       height: 50,
+                      //       width: MediaQuery.of(context).size.height,
+                      //       decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(10),
+                      //           color: colorWhite,
+                      //           border:
+                      //               Border.all(width: 0.8, color: colorGrey)),
+                      //       alignment: Alignment.center,
+                      //       child: Row(
+                      //         mainAxisAlignment: MainAxisAlignment.center,
+                      //         children: [
+                      //           Padding(
+                      //             padding: const EdgeInsets.all(12),
+                      //             child: Image.asset(
+                      //               "assets/images/google-logo.png",
+                      //             ),
+                      //           ),
+                      //           Text(
+                      //             "Continue With Google",
+                      //             style: defaultTextStyle(
+                      //               fontColors: colorBlack,
+                      //               fontSize: 15.0,
+                      //               fontWeight: FontWeight.w700,
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       )),
+                      // ),
                       const SizedBox(
                         height: 17,
                       ),

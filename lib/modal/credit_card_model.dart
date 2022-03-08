@@ -1,32 +1,47 @@
-class CardModel {
-  int? id;
-  String? cardnumber;
-  String? expirydate;
-  String? cardname;
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class DebitCardModal {
+  String? cardId;
+  String? userId;
+  String? cardNo;
   String? cvv;
+  String? expDate;
+  String? cardName;
 
-  CardModel({
-    this.id,
-    this.cardnumber,
-    this.expirydate,
-    this.cardname,
-    this.cvv,
-  });
+  DebitCardModal({this.cardId,this.userId, this.cardNo, this.cvv, this.expDate, this.cardName});
 
-  CardModel.fromJson(Map<String, dynamic> map) {
-    id = map["id"];
-    cardnumber = map["cardnumber"];
-    expirydate = map["expirydate"];
-    cardname = map["cardname"];
-    cvv = map["cvv"];
+
+
+  factory DebitCardModal.fromDocs(DocumentSnapshot? documentSnapshot){
+    return DebitCardModal(
+      userId: documentSnapshot!['userId'],
+      cardId: documentSnapshot!['cardId'],
+      cardName:  documentSnapshot['cardName'],
+      cardNo: documentSnapshot['cardNo'],
+      cvv: documentSnapshot['cvv'],
+      expDate: documentSnapshot['exp_date'],
+    );
   }
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "cardnumber": cardnumber,
-    "expirydate": expirydate,
-    "cardname": cardname,
-    "cvv": cvv,
-  };
 
+
+  DebitCardModal.fromJson(Map<String, dynamic> json) {
+    userId = json['card_Id'];
+    cardId = json['user_Id'];
+    cardNo = json['card_No'];
+    cvv = json['cvv'];
+    expDate = json['exp_date'];
+    cardName = json['cardName'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['user_Id'] = this.userId;
+    data['card_Id'] = this.cardId;
+    data['card_No'] = this.cardNo;
+    data['cvv'] = this.cvv;
+    data['exp_date'] = this.expDate;
+    data['cardName'] = this.cardName;
+    return data;
+  }
 }

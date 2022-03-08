@@ -1,13 +1,14 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled/screens/explore%20screen/explore_screen.dart';
-import 'package:untitled/screens/login%20screen/login_types.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:untitled/screens/login%20screen/all_type_screnn.dart';
+import 'package:untitled/screens/login%20screen/verification_screen.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import '../../config/app_colors.dart';
-import '../../modal/authenticaion_model.dart';
-import 'login_screen.dart';
+import '../../controller/auth/signup_controller.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -18,20 +19,17 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
-  bool isPassword=true;
+  final SignupController _controller = Get.put(SignupController());
 
-  TextEditingController email = TextEditingController();
-  TextEditingController firstName = TextEditingController();
-  TextEditingController lastName = TextEditingController();
-  TextEditingController password = TextEditingController();
+  bool isPassword = true;
+  String? number;
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  String phoneController = '';
+  TextEditingController passwordController = TextEditingController();
 
   bool isShow = true;
-
-  save() async {
-    final SharedPreferences sharedPreferences =
-    await SharedPreferences.getInstance();
-    sharedPreferences.setBool("isLogin", true);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +47,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => const LoginTypes()));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginTypes()));
                   },
                   child: Container(
                       width: 20,
@@ -79,8 +79,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 48,
                         ),
-
-
                         Text(
                           "Email",
                           style: defaultTextStyle(
@@ -100,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 return 'Enter valid email';
                               }
                             },
-                            controller: email,
+                            controller: emailController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.black,
@@ -119,10 +117,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                         const SizedBox(
-                          height: 39,
+                          height: 20,
                         ),
                         Text(
-                          "Password",
+                          "Enter Phone Number",
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              color: colorGrey,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        IntlPhoneField(
+                          cursorColor: colorGreen,
+                          style: TextStyle(fontSize: 16),
+                          disableLengthCheck: false,
+                          textAlignVertical: TextAlignVertical.center,
+                          dropdownTextStyle: TextStyle(fontSize: 16),
+                          dropdownIcon:
+                              Icon(Icons.arrow_drop_down, color: colorGreen),
+                          decoration: const InputDecoration(
+                            hintText: 'Phone Number',
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: colorGreen,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          initialCountryCode: 'IN',
+                          onChanged: (phone) {
+                            print(phone.completeNumber);
+                            phoneController = phone.completeNumber.toString();
+                          },
+                        ),
+                        Text(
+                          "Enter Password",
                           style: defaultTextStyle(
                               fontSize: 14.0,
                               fontColors: colorGrey,
@@ -140,11 +171,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               if (value!.isEmpty) {
                                 return 'Please Enter Password';
                               }
-                              if (password.text.length < 8) {
+                              if (passwordController.text.length < 8) {
                                 return 'Please Enter 8 Digits Password';
                               }
                             },
-                            controller: password,
+                            controller: passwordController,
                             textInputAction: TextInputAction.done,
                             keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.black,
@@ -152,15 +183,73 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: colorBlack,
                                 fontSize: 18,
                                 fontWeight: FontWeight.normal),
-                            decoration:  InputDecoration(
+                            decoration: InputDecoration(
                               suffixIcon: IconButton(
                                 icon: isPassword
                                     ? Icon(
-                                  Icons.visibility,
-                                  color: Colors.black,
-                                )
+                                        Icons.visibility,
+                                        color: Colors.black,
+                                      )
                                     : Icon(Icons.visibility_off,
-                                    color: Colors.black),
+                                        color: Colors.black),
+                                onPressed: () {
+                                  setState(() {
+                                    isPassword = !isPassword;
+                                  });
+                                },
+                              ),
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide(color: colorGreen),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: colorGreen),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Conform Password",
+                          style: defaultTextStyle(
+                              fontSize: 14.0,
+                              fontColors: colorGrey,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        const SizedBox(
+                          height: 17,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 33,
+                          child: TextFormField(
+                            obscureText: isPassword,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please Enter Password';
+                              }
+                              if (passwordController.text.length < 8) {
+                                return 'Please Enter 8 Digits Password';
+                              }
+                            },
+                            controller: passwordController,
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.emailAddress,
+                            cursorColor: Colors.black,
+                            style: const TextStyle(
+                                color: colorBlack,
+                                fontSize: 18,
+                                fontWeight: FontWeight.normal),
+                            decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                icon: isPassword
+                                    ? Icon(
+                                        Icons.visibility,
+                                        color: Colors.black,
+                                      )
+                                    : Icon(Icons.visibility_off,
+                                        color: Colors.black),
                                 onPressed: () {
                                   setState(() {
                                     isPassword = !isPassword;
@@ -184,38 +273,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         InkWell(
                           onTap: () async {
-                            try {
-                              if (_formKey.currentState!.validate()) {
-                                AuthenticationHelper()
-                                    .signUp(
-                                        email: email.text,
-                                        password: password.text)
-                                    .then((result) {
-                                  if (result == null) {save();
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const ExploreScreen()));
-                                  Fluttertoast.showToast(
-                                      msg: "SignUp Successfully",
-                                      backgroundColor: Colors.green.withOpacity(0.7),
-                                      textColor: Colors.white,
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1);
-                                  } else {
-                                    Fluttertoast.showToast(
-                                        msg: "Account Already Exist",
-                                        backgroundColor: Colors.white54,
-                                        textColor: Colors.white,
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1);
-                                  }
-                                });
-                              }
-                            } catch (e) {}
+                            if (_formKey.currentState!.validate() == true) {
+                              FocusScope.of(context).unfocus();
+                              print(
+                                  "check value -- ${_controller.checkBoxValue.value}");
+                              // if (_controller.checkBoxValue.value == true) {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) =>
+                                          OtpVerificationScreen(
+                                            email: emailController.text,
+                                            phoneNumber: phoneController,
+                                            password: passwordController.text,
+                                            isSignUp: true,
+                                          )));
+                              // } else {
+                              //   ToastMessage.errorToast(
+                              //       context: context,
+                              //       description:
+                              //       "Please apply terms and conditions");
+                              // }
+                            }
                           },
                           child: Container(
                             height: 50,

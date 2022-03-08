@@ -1,3 +1,3 @@
-class FireBaseString{
-  static const String userCollection = "user";
-}
+// class FireBaseString{
+//   static const String userCollection = "user";
+// }

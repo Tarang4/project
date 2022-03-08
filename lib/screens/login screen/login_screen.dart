@@ -1,19 +1,12 @@
 // ignore_for_file: sized_box_for_whitespace, prefer_const_constructors
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:untitled/modal/user_model.dart';
-import 'package:untitled/repository/auth/login-signup_repository.dart';
-import 'package:untitled/screens/explore%20screen/explore_screen.dart';
-import 'package:untitled/screens/login%20screen/forget_screen.dart';
 import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
-import 'package:untitled/untils/user_database_util.dart';
-import '../../modal/authenticaion_model.dart';
+import '../../repository/auth/auth_reposetory.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -27,8 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final loginScreenKey = GlobalKey<FormState>();
   List<UserModel> modelList = [];
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   // FocusNode emailFocus = FocusNode();
 
   bool validateStructure(String value) {
@@ -44,6 +37,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return regex.hasMatch(value);
   }
   bool isLogin=false;
+
+  save() async {
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool("isLogin", true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 return 'Enter valid email';
                               }
                             },
-                            controller: _emailController,
+                            controller: emailController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.black,
@@ -152,11 +150,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (value!.isEmpty) {
                                 return 'Please Enter Password';
                               }
-                              if (_passwordController.text.length < 8) {
+                              if (passwordController.text.length < 8) {
                                 return 'Please Enter 8 Digits Password';
                               }
                             },
-                            controller: _passwordController,
+                            controller: passwordController,
                             textInputAction: TextInputAction.done,
                             keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.black,
@@ -209,47 +207,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         InkWell(
                           onTap: () async {
-                            AuthRepository.signIn(context: context, email: _emailController.text, password: _passwordController.text);
-                            /*if (loginScreenKey.currentState!.validate()) {
-                              AuthenticationHelper()
-                                  .signIn(
-                                      email: _emailController.text,
-                                      password: _passwordController.text)
-                                  .then(
-                                (result) {
-                                  if (result == null) {
-                                    save();
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ExploreScreen()));
-                                    print(e);
-                                    Fluttertoast.showToast(
-                                        msg: "LogIn Successfully",
-                                        backgroundColor: Colors.green.withOpacity(0.7),
-                                        textColor: Colors.white,
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1);
-                                  } else {
-                                    print(e);
-                                    Fluttertoast.showToast(
-                                        msg: "Please Check Email And Password!",
-                                        backgroundColor: Colors.grey,
-                                        textColor: Colors.white,
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1);
-                                  }
-                                },
-                              );
-                              final SharedPreferences sharePrefrences =
-                              await SharedPreferences.getInstance();
-                              sharePrefrences.setString("Email", _emailController.text);
-                              sharePrefrences.setString("PassWord", _passwordController.text);
-                              sharePrefrences.setBool("isLogin", true);
-                            }*/
+                            // AuthRepository.signIn(context: context, email: _emailController.text, password: _passwordController.text);
+                            if (loginScreenKey.currentState!.validate()) {
+                              AuthRepository.signIn(
+                                  context: context,
+                                  email: emailController.value.text,
+                                  password:
+                                  passwordController.value.text);
+
+                            }
                           },
                           child: Container(
                             height: 50,
@@ -280,25 +246,5 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  forgotClick() async {
-    Database db = await DatabaseUtils.db.database;
-    final result = await db
-        .rawQuery("SELECT * FROM USER WHERE email=?", [_emailController.text]);
-    if (result.isNotEmpty) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ForgetScreen(
-                    email: _emailController.text.toString(),
-                  )));
-    } else {
-      Fluttertoast.showToast(
-          msg: "Wrong Email!",
-          backgroundColor: Colors.white54,
-          textColor: Colors.white,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
-    }
-  }
+
 }

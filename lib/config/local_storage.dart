@@ -1,8 +1,8 @@
 class LocalStorage{
-  static const userId = "user-Id";
-  static const firstName = "first-Name";
-  static const lastName = "last-Name";
+  static const userId = "userId";
+  static const firstName = "firstName";
+  static const lastName = "lastName";
   static const email = "email";
-  static const userProfile = "user-profile";
+  static const userProfile = "profilePhoto";
   static const isLogin = "isLogin";
 }

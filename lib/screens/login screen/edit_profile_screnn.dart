@@ -1,35 +1,26 @@
 import 'dart:io';
-
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:untitled/config/app_colors.dart';
-import 'package:untitled/untils/toast/flutter_toast_method.dart';
-
 import '../../repository/add_account/update_usersdata_respository.dart';
-import 'forget_password.dart';
+import '../../untils/app_fonts.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class EditProfileScreen extends StatefulWidget {
+  final String? password;
+
+  const EditProfileScreen({Key? key, this.password}) : super(key: key);
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _fNameController = TextEditingController();
 
   final TextEditingController _lNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _addressNoController = TextEditingController();
-  final TextEditingController _pinCodeController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
-
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _birthDayController = TextEditingController();
 
   FocusNode emailFocus = FocusNode();
 
@@ -37,7 +28,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isPassword = true;
   final ImagePicker _imagePicker = ImagePicker();
   String? photo;
+  String? password;
   final updateScreenKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    password = widget.password;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,20 +72,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             TextButton(
                               onPressed: () async {
-                                if (updateScreenKey.currentState!.validate()) {
-                                  UserUpDateRepository.upDateProfile(
-                                    firstName: _fNameController.text,
-                                    lastName: _lNameController.text,
-                                    gender: isGender.toString(),
-                                    profilePhoto: '',
-                                    context: context, birthDate: _phoneController.text,
-                                  ).whenComplete(() {
-                                    ToastMethod.simpleToast(
-                                        massage: "update successfully");
-
-                                    Navigator.pop(context);
-                                  });
-                                }
+                                // if (updateScreenKey.currentState!.validate()) {
+                                //   UpdateUserData.upDateProfile(
+                                //     firstName: _fNameController.text,
+                                //     lastName: _lNameController.text,
+                                //     gender: isGender.toString(),
+                                //     phone: _phoneController.text,
+                                //     addStreetNo: _addressNoController.text,
+                                //     addPinCode: _pinCodeController.text,
+                                //     addCity: _cityController.text,
+                                //     context: context,
+                                //     addStreet: _addressController.text, profilePhoto: '',
+                                //
+                                //   ).whenComplete(() {
+                                //
+                                //     ToastMethod.simpleToast(massage: "update successfully");
+                                //
+                                //     Navigator.pop(context);
+                                //
+                                //   });
+                                // }
                               },
                               child: Text(
                                 "Save",
@@ -260,7 +265,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text("Mobile Number",
+                        Text("BirthDate",
                             style: TextStyle(
                                 color: colorGrey,
                                 fontSize: 14.0,
@@ -276,11 +281,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               if (value!.isEmpty) {
                                 return 'Please Enter Phone Number';
                               }
-                              if (_phoneController.text.length < 10) {
+                              if (_birthDayController.text.length < 10) {
                                 return 'Wrong Phone Number';
                               }
                             },
-                            controller: _phoneController,
+                            controller: _birthDayController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.number,
                             cursorColor: Colors.black,
@@ -298,208 +303,62 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
+
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text("Address No",
-                            style: TextStyle(
-                                color: colorGrey,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 33,
-                          child: TextFormField(
-                            controller: _addressNoController,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please Enter Address';
-                              }
-                            },
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.streetAddress,
-                            cursorColor: Colors.black,
-                            style: const TextStyle(
-                                color: colorBlack,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal),
-                            decoration: const InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Text("Address",
-                            style: TextStyle(
-                                color: colorGrey,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 33,
-                          child: TextFormField(
-                            controller: _addressController,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please Enter Address';
-                              }
-                            },
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.streetAddress,
-                            cursorColor: Colors.black,
-                            style: const TextStyle(
-                                color: colorBlack,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal),
-                            decoration: const InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 150,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text("city",
-                                      style: TextStyle(
-                                          color: colorGrey,
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w400)),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    width: double.infinity,
-                                    height: 33,
-                                    child: TextFormField(
-                                      controller: _cityController,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Please Enter City';
-                                        }
-                                      },
-                                      textInputAction: TextInputAction.next,
-                                      keyboardType: TextInputType.text,
-                                      cursorColor: Colors.black,
-                                      style: const TextStyle(
-                                          color: colorBlack,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.normal),
-                                      decoration: const InputDecoration(
-                                        border: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: colorGreen),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: colorGreen),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: Container(
-                                width: 150,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Pin Code",
-                                        style: TextStyle(
-                                            color: colorGrey,
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.w400)),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      width: double.infinity,
-                                      height: 33,
-                                      child: TextFormField(
-                                        controller: _pinCodeController,
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'Please Enter PinCode';
-                                          }
-                                          if (_pinCodeController.text.length <
-                                              6) {
-                                            return 'Please Enter valid PinCode';
-                                          }
-                                        },
-                                        textInputAction: TextInputAction.next,
-                                        keyboardType: TextInputType.number,
-                                        cursorColor: Colors.black,
-                                        style: const TextStyle(
-                                            color: colorBlack,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.normal),
-                                        decoration: const InputDecoration(
-                                          border: UnderlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: colorGreen),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: colorGreen),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ForgotPassword(
-                                          email: '',
-                                        )));
+                        InkWell(
+                          onTap: () {
+                            if (updateScreenKey.currentState!.validate()) {
+                              UserUpDateRepository.upDateProfile(
+                                firstName: _fNameController.text,
+                                lastName: _lNameController.text,
+                                gender: isGender.toString(),
+                               birthDate:_birthDayController.text,
+                                profilePhoto: '',
+
+                                context: context,
+                              );
+                            }
                           },
-                          child: Text(
-                            "Forgot Password",
-                            style: TextStyle(
+                          child: Container(
+                            height: 50,
+                            width: MediaQuery.of(context).size.height,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: colorGreen,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Create Account ",
+                              style: defaultTextStyle(
+                                fontColors: colorWhite,
                                 fontSize: 14.0,
-                                fontWeight: FontWeight.w400,
-                                color: colorGreen),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           ),
                         ),
+                        const SizedBox(
+                          height: 29,
+                        ),
+                        // TextButton(
+                        //   onPressed: () {
+                        //     // Navigator.push(
+                        //     //     context,
+                        //     //     MaterialPageRoute(
+                        //     //         builder: (context) => ForgotPassword(
+                        //     //           email: '',
+                        //     //         )));
+                        //   },
+                        //   child: Text(
+                        //     "Forgot Password",
+                        //     style: TextStyle(
+                        //         fontSize: 14.0,
+                        //         fontWeight: FontWeight.w400,
+                        //         color: colorGreen),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

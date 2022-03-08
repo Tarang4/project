@@ -1,19 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled/screens/account%20screen/profine_screen.dart';
+import 'package:untitled/config/local_storage.dart';
+import 'package:untitled/screens/account%20screen/address_screen.dart';
 import 'package:untitled/screens/account%20screen/wishlist_screen.dart';
 import 'package:untitled/screens/cards%20screen/card_screen.dart';
-import 'package:untitled/screens/login%20screen/login_types.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/widget/account/account_widget.dart';
 
 import '../../config/app_colors.dart';
-import '../../modal/authenticaion_model.dart';
+import '../../main.dart';
+import '../../repository/auth/auth_reposetory.dart';
 import '../cart screen/cart_screen.dart';
-import '../checkout_screen/treckorder_screen.dart';
 import '../explore screen/explore_screen.dart';
+import '../login screen/edit_profile_screnn.dart';
+import 'address screen/address_detail.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -24,20 +25,26 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   late SharedPreferences prefs;
-  bool? emailSd;
+  bool? isLogin;
+  String emails = pref!.getString(LocalStorage.email)!;
+  String firstName = pref!.getString(LocalStorage.firstName)!;
+  String lastName = pref!.getString(LocalStorage.lastName)!;
+  bool? isLogins = pref!.getBool(LocalStorage.isLogin);
 
-  deleteSharedPreferences() async {
-    prefs = await SharedPreferences.getInstance();
-    prefs.remove('isLogin');
-    // prefs.remove('phone');
-    setState(() {});
-  }
-
+  // deleteSharedPreferences() async {
+  //   prefs = await SharedPreferences.getInstance();
+  //   prefs.remove('isLogin');
+  //   // prefs.remove('phone');
+  //   setState(() {});
+  // }
+  //
   retrieve() async {
     prefs = await SharedPreferences.getInstance();
-    emailSd = prefs.getBool('isLogin')!;
+    bool? isLogins = prefs.getBool(LocalStorage.isLogin);
     // passwordSd = prefs.getString('password')!;
-    setState(() {});
+    setState(() {
+      isLogin = isLogins;
+    });
   }
 
   int pageIndex = 0;
@@ -51,7 +58,7 @@ class _AccountScreenState extends State<AccountScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    retrieve();
+    // retrieve();
   }
 
   @override
@@ -81,14 +88,19 @@ class _AccountScreenState extends State<AccountScreen> {
                   Column(
                     children: [
                       Text(
-                        "$emailSd",
+                        isLogins.toString(),
+                        style: defaultTextStyle(
+                            fontSize: 12.0, fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        firstName.toString(),
                         style: defaultTextStyle(
                             fontSize: 26.0, fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        FirebaseAuth.instance.currentUser?.email ?? "null",
+                        lastName.toString(),
                         style: defaultTextStyle(
-                            fontSize: 14.0, fontWeight: FontWeight.w400),
+                            fontSize: 26.0, fontWeight: FontWeight.w400),
                       )
                     ],
                   ),
@@ -105,7 +117,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProfileScreen(),
+                        builder: (context) => EditProfileScreen(),
                       ),
                     );
                   }),
@@ -116,7 +128,12 @@ class _AccountScreenState extends State<AccountScreen> {
                   context: context,
                   title: "Shipping Address",
                   icon: "assets/images/icons/Icon_Location.png",
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddressDetail()));
+                  }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
               ),
@@ -149,7 +166,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => TrackOrderScreen()));
+                            builder: (context) => EditProfileScreen()));
                   }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
@@ -178,14 +195,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   title: "log Out",
                   icon: "assets/images/icons/Icon_Exit.png",
                   onPressed: () {
-                    setState(() {
-                      deleteSharedPreferences();
-                      GoogleSignIn().signOut();
-                      AuthenticationHelper().signOut();
-                    });
-
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginTypes()));
+                    AuthRepository.logout(context: context);
                   }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,

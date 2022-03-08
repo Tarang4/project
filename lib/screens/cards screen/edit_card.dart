@@ -8,8 +8,8 @@ import 'package:flutter_credit_card/custom_card_type_icon.dart';
 import 'package:flutter_credit_card/glassmorphism_config.dart';
 import 'package:untitled/modal/credit_card_model.dart';
 import 'package:untitled/screens/account%20screen/account_screen.dart';
-import 'package:untitled/untils/user_database_util.dart';
 import '../../config/app_colors.dart';
+import '../../repository/add_account/add_cards_repository.dart';
 import '../../untils/app_fonts.dart';
 import '../../untils/credit_card.dart';
 import '../cart screen/cart_screen.dart';
@@ -17,19 +17,19 @@ import '../explore screen/explore_screen.dart';
 import 'card_screen.dart';
 
 class EditCard extends StatefulWidget {
-  final int id;
   final String cardNumber;
-  final String expiryDate;
-  final String cardname;
+  final String id;
+  final String cardName;
+  final String expDate;
   final String cvv;
 
   const EditCard(
       {Key? key,
-      required this.id,
       required this.cardNumber,
-      required this.cardname,
-      required this.expiryDate,
-      required this.cvv})
+      required this.expDate,
+      required this.cvv,
+      required this.cardName,
+      required this.id})
       : super(key: key);
 
   @override
@@ -37,15 +37,14 @@ class EditCard extends StatefulWidget {
 }
 
 class _EditCardState extends State<EditCard> {
-  List<CardModel> cardList = [];
-  late int _id;
-  late String _cardNumber = '';
-  late String _expiryDate = '';
-  String _cardHolderName = '';
-  String _cvvCode = '';
-  final bool _isCvvFocused = false;
-  final bool _useGlassMorphism = false;
-  final bool _useBackgroundImage = false;
+  String cardNumber = '';
+  String expiryDate = '';
+  String cardHolderName = '';
+  String cvvCode = '';
+  String? cardId;
+  bool isCvvFocused = false;
+  bool useGlassMorphism = false;
+  bool useBackgroundImage = false;
   OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   int pageIndex = 0;
@@ -59,13 +58,11 @@ class _EditCardState extends State<EditCard> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    setState(() {
-      _id = widget.id;
-      _cardNumber = widget.cardNumber;
-      _expiryDate = widget.expiryDate;
-      _cardHolderName = widget.cardname;
-      _cvvCode = widget.cvv;
-    });
+    cardNumber = widget.cardNumber;
+    cardHolderName = widget.cardName;
+    cvvCode = widget.cvv;
+    expiryDate = widget.expDate;
+    cardId=widget.id;
   }
 
   @override
@@ -100,18 +97,17 @@ class _EditCardState extends State<EditCard> {
             ),
             CreditCardWidget(
               glassmorphismConfig:
-                  _useGlassMorphism ? Glassmorphism.defaultConfig() : null,
-              cardNumber: _cardNumber,
-              expiryDate: _expiryDate,
-              cardHolderName: _cardHolderName,
-              cvvCode: _cvvCode,
-              showBackView: _isCvvFocused,
+                  useGlassMorphism ? Glassmorphism.defaultConfig() : null,
+              cardNumber: cardNumber,
+              expiryDate: expiryDate,
+              cardHolderName: cardHolderName,
+              cvvCode: cvvCode,
+              showBackView: isCvvFocused,
               obscureCardNumber: true,
               obscureCardCvv: true,
               isHolderNameVisible: true,
               cardBgColor: Colors.green,
-              backgroundImage:
-                  _useBackgroundImage ? 'assets/card_bg.png' : null,
+              backgroundImage: useBackgroundImage ? 'assets/card_bg.png' : null,
               isSwipeGestureEnabled: true,
               onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
               customCardTypeIcons: <CustomCardTypeIcon>[
@@ -125,33 +121,6 @@ class _EditCardState extends State<EditCard> {
                 ),
               ],
             ),
-            InkWell(
-              onTap: () async {
-                await DbHelper().delete(_id);
-                setState(() {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CardsScreen()));
-                });
-              },
-              child: Container(
-                height: 30,
-                width: 120,
-                margin: const EdgeInsets.only(left: 235),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: colorGreen),
-                    borderRadius: BorderRadius.circular(5)),
-                child: Text(
-                  "REMOVE CARD",
-                  style: defaultTextStyle(
-                      fontColors: colorBlack,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w400),
-                ),
-              ),
-            ),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -160,13 +129,13 @@ class _EditCardState extends State<EditCard> {
                       formKey: formKey,
                       obscureCvv: true,
                       obscureNumber: true,
-                      cardNumber: _cardNumber,
-                      cvvCode: _cvvCode,
+                      cardNumber: cardNumber,
+                      cvvCode: cvvCode,
                       isHolderNameVisible: true,
                       isCardNumberVisible: true,
                       isExpiryDateVisible: true,
-                      cardHolderName: _cardHolderName,
-                      expiryDate: _expiryDate,
+                      cardHolderName: cardHolderName,
+                      expiryDate: expiryDate,
                       themeColor: Colors.blue,
                       textColor: Colors.black,
                       cardNumberDecoration: InputDecoration(
@@ -220,6 +189,7 @@ class _EditCardState extends State<EditCard> {
                   InkWell(
                     onTap: () {
                       setState(() {
+                        CardRepository.cardDetailDelete(context: context);
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -235,7 +205,7 @@ class _EditCardState extends State<EditCard> {
                           border: Border.all(width: 1, color: colorGreen),
                           borderRadius: BorderRadius.circular(5)),
                       child: Text(
-                        "CANCLE",
+                        "CANCEL",
                         style: defaultTextStyle(
                             fontColors: colorBlack,
                             fontSize: 14.0,
@@ -247,7 +217,7 @@ class _EditCardState extends State<EditCard> {
                     onTap: () async {
                       if (formKey.currentState!.validate()) {
                         updateCard();
-                        print("UPDATED");
+                        print("SAVED");
                       } else {
                         print('invalid!');
                       }
@@ -261,7 +231,7 @@ class _EditCardState extends State<EditCard> {
                           color: colorGreen,
                           borderRadius: BorderRadius.circular(5)),
                       child: Text(
-                        "UPDATE",
+                        "Update",
                         style: defaultTextStyle(
                             fontColors: colorWhite,
                             fontSize: 14.0,
@@ -395,21 +365,23 @@ class _EditCardState extends State<EditCard> {
 
   void onCreditCardModelChange(CreditCardModel? creditCardModel) {
     setState(() {
-      _cardNumber = creditCardModel!.cardNumber;
-      _expiryDate = creditCardModel.expiryDate;
-      _cardHolderName = creditCardModel.cardHolderName;
-      _cvvCode = creditCardModel.cvvCode;
+      cardNumber = creditCardModel!.cardNumber;
+      expiryDate = creditCardModel.expiryDate;
+      cardHolderName = creditCardModel.cardHolderName;
+      cvvCode = creditCardModel.cvvCode;
     });
   }
 
   updateCard() async {
-    await DbHelper().updatedCard(
-      id: _id,
-      cardNumber: _cardNumber.toString(),
-      expiryDate: _expiryDate.toString(),
-      cardName: _cardHolderName.toString(),
-      cvv: _cvvCode.toString(),
+    CardRepository.cardDetailUpdate(
+        context: context,
+        cardName: cardHolderName.toString(),
+        cardNo: cardNumber.toString(),
+        cvv: cvvCode.toString(),
+        exp_date: expiryDate.toString(), cardId: cardId.toString(),
+
     );
+
     Navigator.pop(context);
     // Navigator.pushReplacement(
     //     context, MaterialPageRoute(builder: (context) => const CardsScreen()));

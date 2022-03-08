@@ -3,7 +3,6 @@ import 'package:untitled/config/app_colors.dart';
 
 void showLoadingDialog({
   @required BuildContext? context,
-  Color? barrierColor,
 }) {
   Future.delayed(const Duration(seconds: 0), () {
     showDialog(

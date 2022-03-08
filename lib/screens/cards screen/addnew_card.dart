@@ -9,6 +9,7 @@ import 'package:flutter_credit_card/glassmorphism_config.dart';
 import 'package:untitled/modal/credit_card_model.dart';
 import 'package:untitled/screens/account%20screen/account_screen.dart';
 import '../../config/app_colors.dart';
+import '../../repository/add_account/add_cards_repository.dart';
 import '../../untils/app_fonts.dart';
 import '../../untils/credit_card.dart';
 import '../cart screen/cart_screen.dart';
@@ -344,13 +345,12 @@ class _AddCardState extends State<AddCard> {
   }
 
   insertCard() async {
-    CardModel card = CardModel(
-      cardnumber: cardNumber,
-      cardname: cardHolderName,
-      expirydate: expiryDate,
-      cvv: cvvCode,
-    );
-    await DbHelper().insert(card);
+
+    CardRepository.cardDetailAdd(context: context, cardName: cardHolderName.toString(), cardNo: cardNumber.toString(), cvv: cvvCode.toString(), exp_date: expiryDate.toString());
+
+
+
+
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(

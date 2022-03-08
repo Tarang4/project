@@ -7,7 +7,7 @@ Widget accountOption({
   @required String? icon,
   @required Function()? onPressed,
 }) {
-  return GestureDetector(
+  return GestureDetector(onTap: onPressed,
     child: Row(
       children: [
         Image.asset(
