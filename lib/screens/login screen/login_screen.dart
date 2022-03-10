@@ -1,5 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, prefer_const_constructors
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -194,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgetScreen(email: emailController.text)));
+                            Navigator.push(context, CupertinoPageRoute(builder: (context)=>ForgetScreen(email: emailController.text)));
                             },
                             child: Text(
                               "Forgot Password?",

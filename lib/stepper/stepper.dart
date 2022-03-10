@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/checkout_screen/checkout_address.dart';
 import 'package:untitled/screens/checkout_screen/checkout_delivery.dart';
@@ -370,7 +371,7 @@ class _Stepper1State extends State<Stepper1> {
                           onTap: () {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(
+                                CupertinoPageRoute(
                                     builder: (
                                         context) => const CheckoutDelivery()));
                           },
@@ -395,7 +396,7 @@ class _Stepper1State extends State<Stepper1> {
                           onTap: () {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(
+                                CupertinoPageRoute(
                                     builder: (
                                         context) => const CheckAddress()));
                           },
@@ -629,7 +630,7 @@ class _Stepper1State extends State<Stepper1> {
                             onTap: () {
                               Navigator.push(
                                   context,
-                                  MaterialPageRoute(
+                                  CupertinoPageRoute(
                                       builder: (
                                           context) => const CheckoutDelivery()));
                             },
@@ -654,7 +655,7 @@ class _Stepper1State extends State<Stepper1> {
                             onTap: () {
                               Navigator.push(
                                   context,
-                                  MaterialPageRoute(
+                                  CupertinoPageRoute(
                                       builder: (
                                           context) => const CheckAddress()));
                             },

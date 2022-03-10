@@ -49,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onTap: () {
                     Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                             builder: (context) => const LoginTypes()));
                   },
                   child: Container(

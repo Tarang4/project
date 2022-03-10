@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
 import 'package:untitled/modal/product_modal.dart';
@@ -59,7 +60,7 @@ class _CategoriesBOState extends State<CategoriesBO> {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                             builder: (context) => const GadgetsScreen()));
                   },
                   icon: const Icon(
@@ -91,7 +92,7 @@ class _CategoriesBOState extends State<CategoriesBO> {
                           onPressed: () {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(
+                                CupertinoPageRoute(
                                     builder: (context) => SearchS2()));
                           },
                         ),

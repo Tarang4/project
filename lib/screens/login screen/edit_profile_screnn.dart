@@ -314,7 +314,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                                 context: context,
                               ).then((value) {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ExploreScreen()));
+                                Navigator.push(context, CupertinoPageRoute(builder: (context)=>ExploreScreen()));
                               });
                             }
                           },
@@ -343,7 +343,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         //   onPressed: () {
                         //     // Navigator.push(
                         //     //     context,
-                        //     //     MaterialPageRoute(
+                        //     //     CupertinoPageRoute(
                         //     //         builder: (context) => ForgotPassword(
                         //     //           email: '',
                         //     //         )));

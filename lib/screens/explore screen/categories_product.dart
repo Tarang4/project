@@ -235,7 +235,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                       tag: "review",
                       child: Material(
                         child: TextButton(
-                          onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context)=>ReviewScreen())); },
+                          onPressed: () { Navigator.push(context, CupertinoPageRoute(builder: (context)=>ReviewScreen())); },
                           child: Text(
                             "Write your",
                             style: defaultTextStyle(

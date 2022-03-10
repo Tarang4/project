@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:scroll_date_picker/scroll_date_picker.dart';
 import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/toast/flutter_toast_method.dart';
 
@@ -29,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final ImagePicker _imagePicker = ImagePicker();
   String? photo;
   final updateScreenKey = GlobalKey<FormState>();
-
+  DateTime _selectedDate = DateTime.now();
 
   String prefEmail = pref!.getString(LocalStorageKey.email)!;
   String phone = pref!.getString(LocalStorageKey.phone)!;
@@ -40,17 +41,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String birthdate = pref!.getString(LocalStorageKey.birthdate)!;
   bool? isLogins = pref!.getBool(LocalStorageKey.isLogin);
 
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    _fNameController.text=firstName;
-    _lNameController.text=lastName;
-    isGender=int.parse(gender);
-    _birthDateController.text=birthdate;
-
+    _fNameController.text = firstName;
+    _lNameController.text = lastName;
+    isGender = int.parse(gender);
+    _birthDateController.text = birthdate;
   }
 
   @override
@@ -83,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Text(
                               "Edit Your Details",
                               style: TextStyle(
-                                  fontSize: 30.0, fontWeight: FontWeight.w700),
+                                  fontSize: 20.0, fontWeight: FontWeight.w700),
                             ),
                             TextButton(
                               onPressed: () async {
@@ -92,12 +90,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     firstName: _fNameController.text,
                                     lastName: _lNameController.text,
                                     gender: isGender.toString(),
-                                    birthDate:_birthDateController.text,
+                                    birthDate: _birthDateController.text,
                                     profilePhoto: '',
-
                                     context: context,
                                   );
-
                                 }
                               },
                               child: Text(
@@ -164,6 +160,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               }
                             },
                             controller: _fNameController,
+                            textCapitalization: TextCapitalization.sentences,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
                             cursorColor: Colors.black,
@@ -204,7 +201,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               }
                             },
                             controller: _lNameController,
-                            textInputAction: TextInputAction.next,
+                            textInputAction: TextInputAction.done,
+                            textCapitalization: TextCapitalization.sentences,
                             keyboardType: TextInputType.text,
                             cursorColor: Colors.black,
                             style: const TextStyle(
@@ -284,14 +282,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: double.infinity,
                           height: 33,
                           child: TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please Enter Phone Number';
-                              }
-                              if (_birthDateController.text.length < 10) {
-                                return 'Wrong Phone Number';
-                              }
-                            },
                             controller: _birthDateController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.number,
@@ -310,6 +300,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
+                        Container(
+                          height: 200,
+                          color: Colors.transparent,
+                          margin: EdgeInsets.only(top: 15),
+                          child: ScrollDatePicker(
+                            style: DatePickerStyle(
+                                selectedTextStyle: TextStyle(
+                                    color: colorGreen,
+                                    fontWeight: FontWeight.w500)),
+                            selectedDate: _selectedDate,
+                            locale: DatePickerLocale.enUS,
+                            onDateTimeChanged: (DateTime value) {
+                              setState(() {
+                                _selectedDate = value;
+                                _birthDateController.text =
+                                    "${_selectedDate.day.toString()} -${_selectedDate.month.toString()} -${_selectedDate.year.toString()}";
+                              });
+                            },
+                          ),
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -318,7 +328,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChangePassword(email: prefEmail,)));
+                                    builder: (context) => ChangePassword(
+                                          email: prefEmail,
+                                        )));
                           },
                           child: Text(
                             "Forgot Password",

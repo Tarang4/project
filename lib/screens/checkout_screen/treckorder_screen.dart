@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/config/app_colors.dart';
@@ -201,7 +202,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
               onTap: () {
                 setState(() {
                   pageIndex = 0;
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ExploreScreen()));
+                  Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context)=>ExploreScreen()));
                 });
               },
               child: Container(
@@ -236,7 +237,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
               onTap: () {
                 setState(() {
                   pageIndex = 1;
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>CartScreen()));
+                  Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context)=>CartScreen()));
                 });
               },
               child: Container(
@@ -271,7 +272,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
             onTap: () {
               setState(() {
                 pageIndex = 2;
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AccountScreen()));
+                Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context)=>AccountScreen()));
               });
             },
             child: Container(

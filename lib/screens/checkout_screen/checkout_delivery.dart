@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled/screens/cart%20screen/cart_screen.dart';
 import 'package:untitled/screens/checkout_screen/checkout_address.dart';
 import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
@@ -251,7 +251,7 @@ class _CheckoutDeliveryState extends State<CheckoutDelivery> {
                     onTap: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          CupertinoPageRoute(
                               builder: (context) => CheckAddress()));
                     },
                     child: Container(

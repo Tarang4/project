@@ -8,7 +8,6 @@ import 'package:untitled/screens/account%20screen/wishlist_screen.dart';
 import 'package:untitled/screens/cards%20screen/card_screen.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/widget/account/account_widget.dart';
-
 import '../../config/Localstorage_string.dart';
 import '../../config/app_colors.dart';
 import '../../main.dart';

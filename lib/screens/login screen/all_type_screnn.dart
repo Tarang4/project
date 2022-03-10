@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/screens/login%20screen/login_screen.dart';
@@ -90,7 +91,7 @@ class _LoginTypesState extends State<LoginTypes> {
                         onTap: () {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                   builder: (context) => SignUpScreen()));
                         },
                         child: Container(
@@ -127,7 +128,7 @@ class _LoginTypesState extends State<LoginTypes> {
                       //     setState(() {
                       //       Navigator.push(
                       //           context,
-                      //           MaterialPageRoute(
+                      //           CupertinoPageRoute(
                       //               builder: (context) => PhoneLoginScreen()));
                       //     });
                       //   },
@@ -209,7 +210,7 @@ class _LoginTypesState extends State<LoginTypes> {
                           setState(() {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(
+                                CupertinoPageRoute(
                                     builder: (context) => LoginScreen()));
                           });
                         },

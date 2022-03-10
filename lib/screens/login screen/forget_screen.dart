@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sqflite/sqflite.dart';
@@ -175,7 +176,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
           .then((value) async {
        await pref!.clear();
         ToastMethod.simpleToast(massage: "Send Link Your Email");
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+        Navigator.push(context, CupertinoPageRoute(builder: (context)=>LoginScreen()));
       }).catchError((onError) {
         if (onError.toString().contains("ERROR_USER_NOT_FOUND")) {
           ToastMethod.simpleToast(massage: "user not Found ");

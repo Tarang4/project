@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
 
@@ -99,7 +100,7 @@ class _MenScreenState extends State<MenScreen> {
                     onTap: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          CupertinoPageRoute(
                               builder: (context) => CategoriesProduct()));
                     },
                   ),

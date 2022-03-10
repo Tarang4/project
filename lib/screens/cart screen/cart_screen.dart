@@ -1,11 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/modal/product_modal.dart';
 import 'package:untitled/screens/checkout_screen/checkout_delivery.dart';
 import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/untils/app_fonts.dart';
-
 import '../account screen/account_screen.dart';
-import '../checkout_screen/checkout_address.dart';
 import '../explore screen/explore_screen.dart';
 
 class CartScreen extends StatefulWidget {
@@ -207,7 +206,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   InkWell(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckoutDelivery()));
+                      Navigator.push(context, CupertinoPageRoute(builder: (context)=>CheckoutDelivery()));
                     },
                     child: Container(
                       height: 50,
@@ -249,7 +248,7 @@ class _CartScreenState extends State<CartScreen> {
                 setState(() {
                   pageIndex = 0;
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => ExploreScreen()));
+                      CupertinoPageRoute(builder: (context) => ExploreScreen()));
                 });
               },
               child: Container(
@@ -285,7 +284,7 @@ class _CartScreenState extends State<CartScreen> {
                 setState(() {
                   pageIndex = 1;
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => CartScreen()));
+                      CupertinoPageRoute(builder: (context) => CartScreen()));
                 });
               },
               child: Container(
@@ -321,7 +320,7 @@ class _CartScreenState extends State<CartScreen> {
               setState(() {
                 pageIndex = 2;
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => AccountScreen()));
+                    CupertinoPageRoute(builder: (context) => AccountScreen()));
               });
             },
             child: Container(

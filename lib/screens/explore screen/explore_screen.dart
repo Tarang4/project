@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
 import 'package:untitled/modal/categories_modal.dart';
@@ -122,7 +123,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               onTap: () {
                                 Navigator.push(
                                     context,
-                                    MaterialPageRoute(
+                                    CupertinoPageRoute(
                                         builder: (context) =>
                                             const SearchS2()));
                               },
@@ -204,38 +205,38 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                if(index==0){
                                  Navigator.push(
                                      context,
-                                     MaterialPageRoute(
+                                     CupertinoPageRoute(
                                          builder: (context) => MenScreen()));
                                }
                                else if(index==1){
                                  Navigator.push(
                                      context,
-                                     MaterialPageRoute(
+                                     CupertinoPageRoute(
                                          builder: (context) => WomenScreen()));
                                }
                                else if(index==2){
                                  Navigator.push(
                                      context,
-                                     MaterialPageRoute(
+                                     CupertinoPageRoute(
                                          builder: (context) => WomenScreen()));
                                }
                                else if(index==4){
                                  Navigator.push(
                                      context,
-                                     MaterialPageRoute(
+                                     CupertinoPageRoute(
                                          builder: (context) => WomenScreen()));
                                }
 
                                else if(index==3){
                                  Navigator.push(
                                      context,
-                                     MaterialPageRoute(
+                                     CupertinoPageRoute(
                                          builder: (context) => WomenScreen()));
                                }
                                else if(index==5){
                                  Navigator.push(
                                      context,
-                                     MaterialPageRoute(
+                                     CupertinoPageRoute(
                                          builder: (context) => PerfumesScreen()));
                                }
                               },
@@ -258,7 +259,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       onPressed: () {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(
+                            CupertinoPageRoute(
                                 builder: (context) => SeeAllScreen()));
                       },
                       child: Hero(
@@ -292,7 +293,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     onTap: () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          CupertinoPageRoute(
                               builder: (context) => CategoriesProduct()));
                     },
                   ),
@@ -491,7 +492,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
               onTap: () {
                 setState(() {
                   pageIndex = 0;
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ExploreScreen()));
+                  Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context)=>ExploreScreen()));
                 });
               },
               child: Container(
@@ -526,7 +527,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
               onTap: () {
                 setState(() {
                   pageIndex = 1;
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>CartScreen()));
+                  Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context)=>CartScreen()));
                 });
               },
               child: Container(
@@ -561,7 +562,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
             onTap: () {
               setState(() {
                 pageIndex = 2;
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AccountScreen()));
+                Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context)=>AccountScreen()));
               });
             },
             child: Container(

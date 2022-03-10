@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_print
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
@@ -52,7 +53,7 @@ class _AddCardState extends State<AddCard> {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                             builder: (context) => const CardsScreen()));
                   },
                   icon: const Icon(
@@ -117,13 +118,15 @@ class _AddCardState extends State<AddCard> {
                         labelText: 'Card Number',
                         hintText: 'XXXX XXXX XXXX XXXX',
                         hintStyle: const TextStyle(color: Colors.black),
-                        labelStyle: const TextStyle(color: colorGrey,),
+                        labelStyle: const TextStyle(
+                          color: colorGrey,
+                        ),
                         focusedBorder: border,
                         enabledBorder: border,
                       ),
                       expiryDateDecoration: InputDecoration(
                         hintStyle: const TextStyle(color: Colors.black),
-                        labelStyle: const TextStyle(color:colorGrey),
+                        labelStyle: const TextStyle(color: colorGrey),
                         focusedBorder: border,
                         enabledBorder: border,
                         labelText: 'Expired Date',
@@ -164,7 +167,7 @@ class _AddCardState extends State<AddCard> {
                       setState(() {
                         Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(
+                            CupertinoPageRoute(
                                 builder: (context) => CardsScreen()));
                       });
                     },
@@ -345,15 +348,14 @@ class _AddCardState extends State<AddCard> {
   }
 
   insertCard() async {
-
-    CardRepository.cardDetailAdd(context: context, cardName: cardHolderName.toString(), cardNo: cardNumber.toString(), cvv: cvvCode.toString(), exp_date: expiryDate.toString());
-
-
-
+    CardRepository.cardDetailAdd(
+        context: context,
+        cardName: cardHolderName.toString(),
+        cardNo: cardNumber.toString(),
+        cvv: cvvCode.toString(),
+        exp_date: expiryDate.toString());
 
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const CardsScreen()));
+        context, CupertinoPageRoute(builder: (context) => const CardsScreen()));
   }
 }

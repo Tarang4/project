@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
@@ -11,7 +12,6 @@ import 'package:untitled/screens/cards%20screen/edit_card.dart';
 import '../../config/app_colors.dart';
 import '../../config/FireStore_string.dart';
 import '../../untils/app_fonts.dart';
-import '../../untils/credit_card.dart';
 import '../account screen/account_screen.dart';
 import '../cart screen/cart_screen.dart';
 import '../explore screen/explore_screen.dart';
@@ -97,7 +97,7 @@ class _CardsScreenState extends State<CardsScreen> {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                             builder: (context) => const AccountScreen()));
                   },
                   icon: const Icon(
@@ -134,7 +134,7 @@ class _CardsScreenState extends State<CardsScreen> {
                           onTap: () async {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                 builder: (context) => EditCard(
 
 
@@ -191,7 +191,7 @@ class _CardsScreenState extends State<CardsScreen> {
               splashColor: Colors.transparent,
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddCard()));
+                    CupertinoPageRoute(builder: (context) => AddCard()));
               },
               child: Container(
                 height: 50,
@@ -330,7 +330,6 @@ class _CardsScreenState extends State<CardsScreen> {
     );
   }
 
-  void getData() {}
 
 // getData() async {
 //   List<CardModel> model = await DbHelper().getData();

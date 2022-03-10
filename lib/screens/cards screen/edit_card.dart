@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_print
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
@@ -77,7 +78,7 @@ class _EditCardState extends State<EditCard> {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                             builder: (context) => const CardsScreen()));
                   },
                   icon: const Icon(

@@ -41,7 +41,6 @@ class UserUpDateRepository {
     if (id != null) {
       await _profileCollection.doc(_auth.currentUser?.uid).update(data);
 
-
       pref!.setString(LocalStorageKey.firstName, data[LocalStorageKey.firstName]);
       pref!.setString(LocalStorageKey.lastName, data[LocalStorageKey.lastName]);
       pref!.setString(LocalStorageKey.gender, data[LocalStorageKey.gender]);

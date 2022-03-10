@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/config/app_colors.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:untitled/screens/login%20screen/forget_screen.dart';
 import 'package:untitled/untils/toast/flutter_toast_method.dart';
-
 import '../../config/FireStore_string.dart';
 import '../../config/Localstorage_string.dart';
 import '../../main.dart';

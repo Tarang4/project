@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/checkout_screen/checkout_delivery.dart';
 import 'package:untitled/screens/checkout_screen/checkout_payment.dart';
@@ -311,7 +312,7 @@ class _CheckAddressState extends State<CheckAddress> {
                         onTap: () {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                   builder: (context) => const CheckoutDelivery()));
                         },
                         child: Container(
@@ -335,7 +336,7 @@ class _CheckAddressState extends State<CheckAddress> {
                         onTap: () {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                   builder: (context) => const CheckoutPayment()));
                         },
                         child: Container(

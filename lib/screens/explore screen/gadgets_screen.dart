@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
 import 'package:untitled/modal/categories_modal.dart';
@@ -70,7 +71,7 @@ class _GadgetsScreenState extends State<GadgetsScreen> {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                             builder: (context) => const ExploreScreen()));
                   },
                   icon: const Icon(
@@ -102,7 +103,7 @@ class _GadgetsScreenState extends State<GadgetsScreen> {
                           onPressed: () {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(
+                                CupertinoPageRoute(
                                     builder: (context) => SearchS2()));
                           },
                         ),

@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/config/shared_preference_data.dart';
-import 'package:untitled/screens/explore%20screen/explore_screen.dart';
 import 'package:untitled/screens/login%20screen/edit_profile_screnn.dart';
-
 import '../../config/app_colors.dart';
 import '../../repository/auth/auth_reposetory.dart';
 import '../../untils/app_fonts.dart';
