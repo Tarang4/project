@@ -5,6 +5,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/modal/user_model.dart';
 import 'package:untitled/config/app_colors.dart';
+import 'package:untitled/screens/login%20screen/forget_screen.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import '../../repository/auth/auth_reposetory.dart';
 
@@ -193,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: () {
-                              // forgotClick();
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgetScreen(email: emailController.text)));
                             },
                             child: Text(
                               "Forgot Password?",

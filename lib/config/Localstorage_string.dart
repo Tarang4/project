@@ -6,6 +6,7 @@ class LocalStorageKey {
   static const profilePhoto = "profilePhoto";
   static const isLogin = "isLogin";
   static const password = "password";
+  static const passwordToken = "passwordToken";
   static const phone = "phone";
   static const gender = "gender";
   static const birthdate = "Birthdate";

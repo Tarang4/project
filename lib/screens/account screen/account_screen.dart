@@ -31,6 +31,7 @@ class _AccountScreenState extends State<AccountScreen> {
   String emails = pref!.getString(LocalStorageKey.email)!;
   String firstName = pref!.getString(LocalStorageKey.firstName)!;
   String lastName = pref!.getString(LocalStorageKey.lastName)!;
+  String password = pref!.getString(LocalStorageKey.password)!;
   bool? isLogins = pref!.getBool(LocalStorageKey.isLogin);
 
   // deleteSharedPreferences() async {
@@ -90,7 +91,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   Column(
                     children: [
                       Text(
-                        isLogins.toString(),
+                       "${ isLogins.toString()} ${password.toString()}",
                         style: defaultTextStyle(
                             fontSize: 12.0, fontWeight: FontWeight.w500),
                       ),

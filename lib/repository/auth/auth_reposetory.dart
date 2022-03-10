@@ -24,10 +24,13 @@ class AuthRepository {
     showLoadingDialog(context: context);
     await Firebase.initializeApp();
     final FirebaseAuth _auth = FirebaseAuth.instance;
-
     DocumentSnapshot userDetailModel;
-
     User? user;
+
+//password update
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    final CollectionReference _upDatePasswordCollection =
+    firebaseFirestore.collection(FirebaseString.userCollection);
 
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
@@ -35,6 +38,10 @@ class AuthRepository {
       user = userCredential.user;
 
       if (user != null) {
+        pref!.setString(LocalStorageKey.password, password);
+        await _upDatePasswordCollection.doc(_auth.currentUser?.uid).update({
+          "password": password,
+        });
         userDetailModel =
             await GetUserById.getUserData(context: context, userId: user.uid);
 
@@ -47,6 +54,8 @@ class AuthRepository {
           pref!.setString(LocalStorageKey.gender, userDetailModel[LocalStorageKey.gender]);
           pref!.setString(LocalStorageKey.birthdate, userDetailModel[LocalStorageKey.birthdate]);
           pref!.setString(LocalStorageKey.email, userDetailModel[LocalStorageKey.email]);
+          pref!.setString(LocalStorageKey.password, userDetailModel[LocalStorageKey.password]);
+          pref!.setString(LocalStorageKey.passwordToken, userDetailModel[LocalStorageKey.passwordToken]);
           pref!.setString(LocalStorageKey.phone, userDetailModel[LocalStorageKey.phone]);
 
           if(userDetailModel[LocalStorageKey.profilePhoto] != "" || userDetailModel[LocalStorageKey.profilePhoto] != null){
@@ -95,6 +104,11 @@ class AuthRepository {
     final CollectionReference _mainCollection =
         _fireStore.collection(FirebaseString.userCollection);
     UserCredential userCredential;
+
+    DocumentReference? documentId;
+    DocumentReference passwordToken =
+    _mainCollection.doc(documentId?.id);
+
     try {
       debugPrint("Start creating user to auth");
       userCredential = await _auth.createUserWithEmailAndPassword(
@@ -116,6 +130,7 @@ class AuthRepository {
           "firstName": "",
           "lastName": "",
           "password": password,
+          "passwordToken": passwordToken.id,
           "profilePhoto": "",
           "Birthdate": "",
           "phone": phone,
@@ -139,6 +154,7 @@ class AuthRepository {
           pref!.setString(LocalStorageKey.email, data[LocalStorageKey.email]);
           pref!.setString(LocalStorageKey.phone, data[LocalStorageKey.phone]);
           pref!.setString(LocalStorageKey.password, data[LocalStorageKey.password]);
+          pref!.setString(LocalStorageKey.passwordToken, data[LocalStorageKey.passwordToken]);
           if(data[LocalStorageKey.profilePhoto] != "" || data[LocalStorageKey.profilePhoto] != null){
             pref!.setString(LocalStorageKey.profilePhoto, data[LocalStorageKey.profilePhoto]);
           }
@@ -184,7 +200,7 @@ class AuthRepository {
   }
 
   static Future logout({@required BuildContext? context}) async {
-    pref!.clear();
+   await pref!.clear();
 
     Navigator.pushAndRemoveUntil(
         context!,

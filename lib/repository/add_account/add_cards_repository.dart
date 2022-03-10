@@ -33,6 +33,7 @@ class CardRepository {
       "cardName": cardName,
       "cardNo": cardNo,
       "exp_date": exp_date,
+      "element_id": "",
       "cvv": cvv,
     };
 
@@ -66,11 +67,14 @@ class CardRepository {
         .doc(id)
         .collection(FirebaseString.cardCollection);
 
+
     Map<String, dynamic> cardData = <String, dynamic>{
       "cardName": cardName,
       "cardNo": cardNo,
       "exp_date": exp_date,
       "cvv": cvv,
+      "element_id": "",
+
     };
 
     if (id != null) {
@@ -108,6 +112,7 @@ _cardCollection
     .collection(FirebaseString.cardCollection);
 
     Future<QuerySnapshot> card =_cardCollection.get();
+
     card.then((value) {
       value.docs.forEach((element) {
        _cardCollection
@@ -117,5 +122,7 @@ _cardCollection
                 context: context, massage: "Delete card successfully"));
       });
     });
+
+
   }
 }

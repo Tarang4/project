@@ -247,6 +247,7 @@ class _SplashScreenState extends State<SplashScreen>
 
 }
 
+
 class PageTransition extends PageRouteBuilder {
   final Widget page;
 

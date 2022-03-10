@@ -1,13 +1,22 @@
 // ignore_for_file: sized_box_for_whitespace, prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:untitled/modal/user_model.dart';
 import 'package:untitled/config/app_colors.dart';
+import 'package:untitled/screens/login%20screen/login_screen.dart';
 import 'package:untitled/untils/app_fonts.dart';
+import 'package:untitled/untils/toast/flutter_toast_method.dart';
 import 'package:untitled/untils/user_database_util.dart';
 
+import '../../config/FireStore_string.dart';
+import '../../config/Localstorage_string.dart';
+import '../../main.dart';
 
 class ForgetScreen extends StatefulWidget {
   final String email;
@@ -23,7 +32,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
   final loginScreenKey = GlobalKey<FormState>();
   List<UserModel> modelList = [];
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _password1Controller = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();
   FocusNode emailFocus = FocusNode();
 
@@ -76,58 +85,31 @@ class _ForgetScreenState extends State<ForgetScreen> {
                         const SizedBox(
                           height: 40,
                         ),
-                        Text("Phone",
-                            style: defaultTextStyle(
-                                fontColors: colorGrey,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400)),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 33,
-                          child: TextFormField(
-                            focusNode: emailFocus,
-                            autofocus: true,
-                            maxLength: 10,
-                            controller: _phoneController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.phone,
-                            cursorColor: Colors.black,
-                            style: const TextStyle(
-                                color: colorBlack,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal),
-                            decoration: const InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                            ),
+                        Text(
+                          "Email",
+                          style: defaultTextStyle(
+                            fontColors: colorGrey,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                         const SizedBox(
-                          height: 20,
-                        ),
-                        Text("Enter New Password",
-                            style: defaultTextStyle(
-                                fontColors: colorGrey,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400)),
-                        const SizedBox(
-                          height: 10,
+                          height: 17,
                         ),
                         Container(
                           width: double.infinity,
                           height: 33,
                           child: TextFormField(
-                            obscureText: true,
-                            controller: _password1Controller,
-                            textInputAction: TextInputAction.done,
-                            keyboardType: TextInputType.text,
+                            // focusNode: emailFocus,
+                            autofocus: true,
+                            validator: (value) {
+                              if (!EmailValidator.validate(value ?? "")) {
+                                return 'Enter valid email';
+                              }
+                            },
+                            controller: emailController,
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.black,
                             style: const TextStyle(
                                 color: colorBlack,
@@ -146,44 +128,14 @@ class _ForgetScreenState extends State<ForgetScreen> {
                         const SizedBox(
                           height: 39,
                         ),
-                        Text("Confirm Password",
-                            style: defaultTextStyle(
-                                fontColors: colorGrey,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400)),
-                        const SizedBox(height: 10),
-                        Container(
-                          width: double.infinity,
-                          height: 33,
-                          child: TextFormField(
-                            obscureText: true,
-                            controller: _password2Controller,
-                            textInputAction: TextInputAction.done,
-                            keyboardType: TextInputType.text,
-                            cursorColor: Colors.black,
-                            style: const TextStyle(
-                                color: colorBlack,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal),
-                            decoration: const InputDecoration(
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
-                              ),
-                            ),
-                          ),
-                        ),
                         const SizedBox(
                           height: 46,
                         ),
                         InkWell(
                           onTap: () async {
-                            // if (loginScreenKey.currentState!.validate()) {
-                            //   logIn();
-                            // }
-                            logIn();
+                            if (loginScreenKey.currentState!.validate()) {
+                              forgetPassword();
+                            }
                           },
                           child: Container(
                             height: 50,
@@ -194,7 +146,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                             ),
                             alignment: Alignment.center,
                             child: Text(
-                              "Change Password",
+                              "Send Link Password",
                               style: defaultTextStyle(
                                   fontColors: colorWhite,
                                   fontSize: 14.0,
@@ -214,43 +166,27 @@ class _ForgetScreenState extends State<ForgetScreen> {
     );
   }
 
-  logIn() async {
-    Database db = await DatabaseUtils.db.database;
-
-    final result = await db.rawQuery(
-        "SELECT * FROM USER WHERE email=? AND phone=?",
-        [email.toString(), _phoneController.text]);
-    if (result.isNotEmpty) {
-      if(_password1Controller.text==_password2Controller.text){
-
-      await DatabaseUtils.db.updatePassword(
-          email: email.toString(),
-          phone: _phoneController.text.toString(),
-          password: _password2Controller.text.toString());
-      Fluttertoast.showToast(
-          msg: "password Updated",
-          backgroundColor: Colors.white54,
-          textColor: Colors.white,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);}else{
-        Fluttertoast.showToast(
-            msg: "Enter/ Same Password",
-            backgroundColor: Colors.white54,
-            textColor: Colors.white,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
-
-      }
-    } else {
-      Fluttertoast.showToast(
-          msg: "Enter Valid Phone Number",
-          backgroundColor: Colors.white54,
-          textColor: Colors.white,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1);
+  forgetPassword() async {
+    final FirebaseAuth auth = await FirebaseAuth.instance;
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user?.email == emailController.text ) {
+      await auth
+          .sendPasswordResetEmail(email: emailController.text)
+          .then((value) async {
+       await pref!.clear();
+        ToastMethod.simpleToast(massage: "Send Link Your Email");
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+      }).catchError((onError) {
+        if (onError.toString().contains("ERROR_USER_NOT_FOUND")) {
+          ToastMethod.simpleToast(massage: "user not Found ");
+        } else if (onError
+            .toString()
+            .contains("An internal error has occurred")) {
+          ToastMethod.simpleToast(massage: "internal error ");
+        }
+      });
+    }else {
+      ToastMethod.simpleToast(massage: "Enter right email ");
     }
   }
 }

@@ -10,7 +10,7 @@ import 'package:untitled/untils/toast/flutter_toast_method.dart';
 import '../../config/Localstorage_string.dart';
 import '../../main.dart';
 import '../../repository/add_account/update_usersdata_respository.dart';
-import 'forget_password.dart';
+import 'change_password.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -31,9 +31,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final updateScreenKey = GlobalKey<FormState>();
 
 
-  String email = pref!.getString(LocalStorageKey.email)!;
+  String prefEmail = pref!.getString(LocalStorageKey.email)!;
   String phone = pref!.getString(LocalStorageKey.phone)!;
   String firstName = pref!.getString(LocalStorageKey.firstName)!;
+  String currentPassword = pref!.getString(LocalStorageKey.password)!;
   String lastName = pref!.getString(LocalStorageKey.lastName)!;
   String gender = pref!.getString(LocalStorageKey.gender)!;
   String birthdate = pref!.getString(LocalStorageKey.birthdate)!;
@@ -317,9 +318,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ForgotPassword(
-                                          email: email, phone: phone,
-                                        )));
+                                    builder: (context) => ChangePassword(email: prefEmail,)));
                           },
                           child: Text(
                             "Forgot Password",
