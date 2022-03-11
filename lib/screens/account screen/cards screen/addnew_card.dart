@@ -9,40 +9,25 @@ import 'package:flutter_credit_card/custom_card_type_icon.dart';
 import 'package:flutter_credit_card/glassmorphism_config.dart';
 import 'package:untitled/modal/credit_card_model.dart';
 import 'package:untitled/screens/account%20screen/account_screen.dart';
-import '../../config/app_colors.dart';
-import '../../repository/add_account/add_cards_repository.dart';
-import '../../untils/app_fonts.dart';
-import '../../untils/credit_card.dart';
-import '../cart screen/cart_screen.dart';
-import '../explore screen/explore_screen.dart';
+import '../../../config/app_colors.dart';
+import '../../../repository/add_account/add_cards_repository.dart';
+import '../../../untils/app_fonts.dart';
+import '../../cart screen/cart_screen.dart';
+import '../../explore screen/explore_screen.dart';
 import 'card_screen.dart';
 
-class EditCard extends StatefulWidget {
-  final String cardNumber;
-  final String id;
-  final String cardName;
-  final String expDate;
-  final String cvv;
-
-  const EditCard(
-      {Key? key,
-      required this.cardNumber,
-      required this.expDate,
-      required this.cvv,
-      required this.cardName,
-      required this.id})
-      : super(key: key);
+class AddCard extends StatefulWidget {
+  const AddCard({Key? key}) : super(key: key);
 
   @override
-  _EditCardState createState() => _EditCardState();
+  _AddCardState createState() => _AddCardState();
 }
 
-class _EditCardState extends State<EditCard> {
+class _AddCardState extends State<AddCard> {
   String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';
   String cvvCode = '';
-  String? cardId;
   bool isCvvFocused = false;
   bool useGlassMorphism = false;
   bool useBackgroundImage = false;
@@ -54,17 +39,6 @@ class _EditCardState extends State<EditCard> {
     const CartScreen(),
     const AccountScreen(),
   ];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    cardNumber = widget.cardNumber;
-    cardHolderName = widget.cardName;
-    cvvCode = widget.cvv;
-    expiryDate = widget.expDate;
-    cardId=widget.id;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -190,10 +164,9 @@ class _EditCardState extends State<EditCard> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        CardRepository.cardDetailDelete(context: context);
                         Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(
+                            CupertinoPageRoute(
                                 builder: (context) => CardsScreen()));
                       });
                     },
@@ -206,7 +179,7 @@ class _EditCardState extends State<EditCard> {
                           border: Border.all(width: 1, color: colorGreen),
                           borderRadius: BorderRadius.circular(5)),
                       child: Text(
-                        "CANCEL",
+                        "CANCLE",
                         style: defaultTextStyle(
                             fontColors: colorBlack,
                             fontSize: 14.0,
@@ -217,7 +190,7 @@ class _EditCardState extends State<EditCard> {
                   InkWell(
                     onTap: () async {
                       if (formKey.currentState!.validate()) {
-                        updateCard();
+                        insertCard();
                         print("SAVED");
                       } else {
                         print('invalid!');
@@ -232,7 +205,7 @@ class _EditCardState extends State<EditCard> {
                           color: colorGreen,
                           borderRadius: BorderRadius.circular(5)),
                       child: Text(
-                        "Update",
+                        "SAVE",
                         style: defaultTextStyle(
                             fontColors: colorWhite,
                             fontSize: 14.0,
@@ -373,18 +346,15 @@ class _EditCardState extends State<EditCard> {
     });
   }
 
-  updateCard() async {
-    CardRepository.cardDetailUpdate(
+  insertCard() async {
+    CardRepository.cardDetailAdd(
         context: context,
         cardName: cardHolderName.toString(),
         cardNo: cardNumber.toString(),
         cvv: cvvCode.toString(),
-        exp_date: expiryDate.toString(), cardId: cardId.toString(),
+        exp_date: expiryDate.toString());
 
-    );
-
-    Navigator.pop(context);
-    // Navigator.pushReplacement(
-    //     context, MaterialPageRoute(builder: (context) => const CardsScreen()));
+    Navigator.pushReplacement(
+        context, CupertinoPageRoute(builder: (context) => const CardsScreen()));
   }
 }

@@ -1,15 +1,23 @@
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:scroll_date_picker/scroll_date_picker.dart';
 import 'package:untitled/config/app_colors.dart';
 import 'package:untitled/screens/explore%20screen/explore_screen.dart';
+import '../../config/Localstorage_string.dart';
+import '../../main.dart';
 import '../../repository/add_account/update_usersdata_respository.dart';
+import '../../repository/firebase_store_photo/photo_upload_repository.dart';
 import '../../untils/app_fonts.dart';
+import '../../untils/toast/flutter_toast_method.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String? password;
+
   const EditProfileScreen({Key? key, this.password}) : super(key: key);
+
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
@@ -17,7 +25,8 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _fNameController = TextEditingController();
   final TextEditingController _lNameController = TextEditingController();
-  final TextEditingController _birthDayController = TextEditingController();
+  final TextEditingController _birthDateController = TextEditingController();
+
   FocusNode emailFocus = FocusNode();
   int? isGender;
   bool isPassword = true;
@@ -25,6 +34,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String? photo;
   String? password;
   final updateScreenKey = GlobalKey<FormState>();
+  String? urlImage;
+  final String UserProfilePNG =
+      "https://firebasestorage.googleapis.com/v0/b/snatchkart-99b13.appspot.com/o/UserProfile%2Ftarang8780%40gmail.com%2FProfileImage%20of%202022-03-11%2016%3A13%3A31.189721.jpg?alt=media&token=adac0549-9bf3-4cc4-90ac-ef42da3c3d7a";
+  final ImagePicker picker = ImagePicker();
+  File? _photo;
+  String prefEmail = pref!.getString(LocalStorageKey.email)!;
+  DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -57,53 +73,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Edit Your Details",
-                              style: TextStyle(
-                                  fontSize: 30.0, fontWeight: FontWeight.w700),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                // if (updateScreenKey.currentState!.validate()) {
-                                //   UpdateUserData.upDateProfile(
-                                //     firstName: _fNameController.text,
-                                //     lastName: _lNameController.text,
-                                //     gender: isGender.toString(),
-                                //     phone: _phoneController.text,
-                                //     addStreetNo: _addressNoController.text,
-                                //     addPinCode: _pinCodeController.text,
-                                //     addCity: _cityController.text,
-                                //     context: context,
-                                //     addStreet: _addressController.text, profilePhoto: '',
-                                //
-                                //   ).whenComplete(() {
-                                //
-                                //     ToastMethod.simpleToast(massage: "update successfully");
-                                //
-                                //     Navigator.pop(context);
-                                //
-                                //   });
-                                // }
-                              },
-                              child: Text(
-                                "Save",
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w400,
-                                    color: colorGreen),
-                              ),
-                            ),
-                          ],
+                        Text(
+                          "Edit Your Details",
+                          style: TextStyle(
+                              fontSize: 30.0, fontWeight: FontWeight.w700),
                         ),
+
                         const SizedBox(
                           height: 10,
                         ),
                         InkWell(
                           onTap: () => openImageDialog(),
-                          child: photo != null && photo!.isNotEmpty
+                          child: _photo != null
                               ? Container(
                                   height: 100,
                                   width: 100,
@@ -112,10 +93,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     borderRadius: BorderRadius.circular(70),
                                   ),
                                   child: Image.file(
-                                    File(photo ?? ""),
+                                    _photo!,
                                     fit: BoxFit.cover,
-                                  ),
-                                )
+                                  ))
                               : Container(
                                   height: 100,
                                   width: 100,
@@ -123,11 +103,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(70),
                                       color: Colors.grey.withOpacity(0.5)),
-                                  child: const Icon(
-                                    Icons.person,
-                                    size: 45,
-                                  ),
-                                ),
+                                  child: Image.network(
+                                    UserProfilePNG,
+                                    fit: BoxFit.cover,
+                                  )),
                         ),
                         const SizedBox(
                           height: 20,
@@ -155,6 +134,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
                             cursorColor: Colors.black,
+                            textCapitalization: TextCapitalization.sentences,
                             style: const TextStyle(
                                 color: colorBlack,
                                 fontSize: 18,
@@ -195,6 +175,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
                             cursorColor: Colors.black,
+                            textCapitalization: TextCapitalization.sentences,
                             style: const TextStyle(
                                 color: colorBlack,
                                 fontSize: 18,
@@ -272,15 +253,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           width: double.infinity,
                           height: 33,
                           child: TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please Enter Phone Number';
-                              }
-                              if (_birthDayController.text.length < 10) {
-                                return 'Wrong Phone Number';
-                              }
-                            },
-                            controller: _birthDayController,
+                            controller: _birthDateController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.number,
                             cursorColor: Colors.black,
@@ -298,24 +271,34 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                           ),
                         ),
-
+                        Container(
+                          height: 200,
+                          color: Colors.transparent,
+                          margin: EdgeInsets.only(top: 15),
+                          child: ScrollDatePicker(
+                            style: DatePickerStyle(
+                                selectedTextStyle: TextStyle(
+                                    color: colorGreen,
+                                    fontWeight: FontWeight.w500)),
+                            selectedDate: _selectedDate,
+                            locale: DatePickerLocale.enUS,
+                            onDateTimeChanged: (DateTime value) {
+                              setState(() {
+                                _selectedDate = value;
+                                _birthDateController.text =
+                                    "${_selectedDate.day.toString()} -${_selectedDate.month.toString()} -${_selectedDate.year.toString()}";
+                              });
+                            },
+                          ),
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
+
                         InkWell(
                           onTap: () {
                             if (updateScreenKey.currentState!.validate()) {
-                              UserUpDateRepository.upDateProfile(
-                                firstName: _fNameController.text,
-                                lastName: _lNameController.text,
-                                gender: isGender.toString(),
-                               birthDate:_birthDayController.text,
-                                profilePhoto: '',
-
-                                context: context,
-                              ).then((value) {
-                                Navigator.push(context, CupertinoPageRoute(builder: (context)=>ExploreScreen()));
-                              });
+                              uploadFile();
                             }
                           },
                           child: Container(
@@ -383,22 +366,38 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   Navigator.pop(context);
                   getIamge(ImageSource.camera);
                 },
-                child: const Text('camera'),
+                child: const Text(
+                  "Camera",
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w400,
+                      color: colorGreen),
+                ),
               ),
               CupertinoActionSheetAction(
                 onPressed: () {
                   Navigator.pop(context);
                   getIamge(ImageSource.gallery);
                 },
-                child: const Text('gallery'),
+                child: const Text(
+                  "Gallery",
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w400,
+                      color: colorGreen),
+                ),
               ),
               CupertinoActionSheetAction(
                 onPressed: () async {
                   Navigator.pop(context);
-                  photo = (await _imagePicker.pickImage(
-                      source: ImageSource.gallery)) as String?;
                 },
-                child: const Text('close'),
+                child: const Text(
+                  "Delete",
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w400,
+                      color: colorGreen),
+                ),
               ),
             ],
           );
@@ -406,9 +405,54 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   getIamge(ImageSource imageSource) async {
-    final getIamge = await _imagePicker.pickImage(source: imageSource);
-    setState(() {
-      photo = getIamge?.path;
+    final pickedFile = await picker.pickImage(source: imageSource);
+    setState(() async {
+      if (pickedFile != null) {
+        _photo = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+        ToastMethod.simpleToast(massage: "No image selected.");
+      }
     });
+  }
+
+  Future uploadFile() async {
+    if (_photo != null) {
+      final destination = 'UserProfile/$prefEmail';
+      UploadTask? uploadTask = FireBasePhoto.uploadFile(destination, _photo!);
+
+      if (uploadTask != null) {
+        final TaskSnapshot downloadUrl = (await uploadTask);
+        urlImage = await downloadUrl.ref.getDownloadURL();
+
+        print("download url is :$urlImage");
+        UserUpDateRepository.upDateProfile(
+          firstName: _fNameController.text,
+          lastName: _lNameController.text,
+          gender: isGender.toString(),
+          birthDate: _birthDateController.text,
+          profilePhoto: urlImage,
+          context: context,
+        ).then((value) {
+          Navigator.push(context,
+              CupertinoPageRoute(builder: (context) => ExploreScreen()));
+        });
+      } else {
+        print(" no download url ");
+      }
+    } else {
+      UserUpDateRepository.upDateProfile(
+        firstName: _fNameController.text,
+        lastName: _lNameController.text,
+        gender: isGender.toString(),
+        birthDate: _birthDateController.text,
+        profilePhoto: UserProfilePNG,
+        context: context,
+      ).then((value) {
+        Navigator.push(
+            context, CupertinoPageRoute(builder: (context) => ExploreScreen()));
+      });
+      print(" no photo found file ");
+    }
   }
 }

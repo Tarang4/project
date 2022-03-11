@@ -1,10 +1,14 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:untitled/modal/address_modal.dart';
 import 'package:untitled/screens/account%20screen/address%20screen/update_address_screen.dart';
 import '../../../config/FireStore_string.dart';
 import '../../../config/app_colors.dart';
+import '../../../modal/credit_card_model.dart';
+import '../../../repository/add_account/add_address_repository.dart';
 import '../../../untils/app_fonts.dart';
 import 'add_new_address.dart';
 
@@ -77,7 +81,7 @@ class _AddressDetailState extends State<AddressDetail> {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
     uid = user?.uid;
-    getUserAddress();
+    // getUserAddress();
   }
 
   @override
@@ -98,10 +102,7 @@ class _AddressDetailState extends State<AddressDetail> {
                   ),
                 ),
                 SizedBox(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width / 5,
+                  width: MediaQuery.of(context).size.width / 5,
                 ),
                 Text(
                   "Address Detail",
@@ -110,101 +111,129 @@ class _AddressDetailState extends State<AddressDetail> {
                 ),
               ],
             ),
-
             Expanded(
-              child: isProgress
-                  ? Center(child: CircularProgressIndicator())
-                  : addressList.isNotEmpty
-                  ? ListView.builder(
-                itemCount: addressList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  AddressModal addressModal = addressList[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      elevation: 3,
-                      child: Container(
-                        margin: EdgeInsets.all(15),
-                        child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              addressModal.fullName.toString(),
-                              style: defaultTextStyle(),
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 290,
-                                  margin: EdgeInsets.only(top: 10),
-                                  child: Text(
-                                    "${addressModal.addStreetNo
-                                        .toString()},${addressModal.addStreet
-                                        .toString()},${addressModal.addCity
-                                        .toString()},${addressModal.addState
-                                        .toString()},${addressModal.addCountry
-                                        .toString()},${addressModal.addPinCode
-                                        .toString()},",
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection(FirebaseString.userCollection)
+                    .doc(uid)
+                    .collection(FirebaseString.addressCollection).snapshots(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      itemCount: snapshot.data.docs.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        AddressModal addressModal =
+                            AddressModal.fromDocs(snapshot.data.docs[index]);
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            elevation: 3,
+                            child: Container(
+                              margin: EdgeInsets.all(15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    addressModal.fullName.toString(),
+                                    style: defaultTextStyle(),
                                   ),
-                                ),
-                                Spacer(),
-                                Checkbox(
-                                    activeColor: colorGreen,
-                                    side: const BorderSide(
-                                        color: colorGrey),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            50)),
-                                    value: address,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        address = !address;
-                                      });
-                                    }),
-                              ],
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        UpdateAddress(
-                                          street1: addressModal
-                                              .addStreetNo
-                                              .toString(),
-                                          street2: addressModal.addStreet
-                                              .toString(),
-                                          state: addressModal.addState
-                                              .toString(),
-                                          city: addressModal.addCity
-                                              .toString(),
-                                          country: addressModal.addCountry
-                                              .toString(),
-                                          fullName: addressModal.fullName
-                                              .toString(),
-                                          pin: addressModal.addPinCode
-                                              .toString(),
-                                          refid: addressModal.addId.toString(),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 290,
+                                        margin: EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          "${addressModal.addStreetNo.toString()},${addressModal.addStreet.toString()},${addressModal.addCity.toString()},${addressModal.addState.toString()},${addressModal.addCountry.toString()},${addressModal.addPinCode.toString()},",
                                         ),
+                                      ),
+                                      Spacer(),
+                                      Checkbox(
+                                          activeColor: colorGreen,
+                                          side: const BorderSide(
+                                              color: colorGrey),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
+                                          value: address,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              address = !address;
+                                            });
+                                          }),
+                                    ],
                                   ),
-                                );
-                              },
-                              child: Text(
-                                "Change",
-                                style: TextStyle(color: colorGreen),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UpdateAddress(
+                                                street1: addressModal
+                                                    .addStreetNo
+                                                    .toString(),
+                                                street2: addressModal.addStreet
+                                                    .toString(),
+                                                state: addressModal.addState
+                                                    .toString(),
+                                                city: addressModal.addCity
+                                                    .toString(),
+                                                country: addressModal.addCountry
+                                                    .toString(),
+                                                fullName: addressModal.fullName
+                                                    .toString(),
+                                                pin: addressModal.addPinCode
+                                                    .toString(),
+                                                addId: addressModal.addId
+                                                    .toString(),
+                                                phone: addressModal.phoneNo
+                                                    .toString(),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Text(
+                                          "Change",
+                                          style: TextStyle(color: colorGreen),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          AddressRepository.AddressDetailDelete(
+                                              context: context,
+                                              addId: addressModal.addId
+                                                  .toString());
+                                        },
+                                        child: Text(
+                                          "Delete",
+                                          style: TextStyle(color: colorGreen),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
+                          ),
+                        );
+                      },
+                    );
+                  }else if(!snapshot.hasData){
+                    print(" error :${snapshot.error}");
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return Center(
+                    child: Text("No Data Found"),
                   );
                 },
-              )
-                  : Container(),
+              ),
             ),
             InkWell(
               splashColor: Colors.transparent,

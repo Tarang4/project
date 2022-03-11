@@ -5,17 +5,19 @@ import 'package:untitled/config/local_storage.dart';
 import 'package:untitled/screens/account%20screen/address_screen.dart';
 import 'package:untitled/screens/account%20screen/profine_screen.dart';
 import 'package:untitled/screens/account%20screen/wishlist_screen.dart';
-import 'package:untitled/screens/cards%20screen/card_screen.dart';
 import 'package:untitled/untils/app_fonts.dart';
 import 'package:untitled/widget/account/account_widget.dart';
 import '../../config/Localstorage_string.dart';
 import '../../config/app_colors.dart';
+import '../../krish/prectics/home.dart';
 import '../../main.dart';
 import '../../repository/auth/auth_reposetory.dart';
 import '../cart screen/cart_screen.dart';
 import '../explore screen/explore_screen.dart';
 import '../login screen/edit_profile_screnn.dart';
+import '../login screen/opt_screen.dart';
 import 'address screen/address_detail.dart';
+import 'cards screen/card_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -32,6 +34,8 @@ class _AccountScreenState extends State<AccountScreen> {
   String lastName = pref!.getString(LocalStorageKey.lastName)!;
   String password = pref!.getString(LocalStorageKey.password)!;
   bool? isLogins = pref!.getBool(LocalStorageKey.isLogin);
+  String profilePhoto = pref!.getString(LocalStorageKey.profilePhoto)!;
+
 
   // deleteSharedPreferences() async {
   //   prefs = await SharedPreferences.getInstance();
@@ -40,14 +44,7 @@ class _AccountScreenState extends State<AccountScreen> {
   //   setState(() {});
   // }
   //
-  retrieve() async {
-    prefs = await SharedPreferences.getInstance();
-    bool? isLogins = prefs.getBool(LocalStorageKey.isLogin);
-    // passwordSd = prefs.getString('password')!;
-    setState(() {
-      isLogin = isLogins;
-    });
-  }
+
 
   int pageIndex = 0;
   final pages = [
@@ -77,29 +74,34 @@ class _AccountScreenState extends State<AccountScreen> {
               Row(
                 children: [
                   Container(
-                    height: 110,
+                    height: 110,clipBehavior: Clip.antiAlias,
                     width: 110,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
+
                       color: colorGrey,
-                    ),
+                    ),child: Image.network(profilePhoto,fit: BoxFit.cover,),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 20,
                   ),
-                  Column(
+                  Column(crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                       "${ isLogins.toString()} ${password.toString()}",
-                        style: defaultTextStyle(
-                            fontSize: 12.0, fontWeight: FontWeight.w500),
-                      ),
+
                       Text(
                         "${firstName.toString()} ${lastName.toString()}",
                         style: defaultTextStyle(
                             fontSize: 28.0, fontWeight: FontWeight.w500),
+                      ),SizedBox(height: 4,),
+                      Text(
+                        "Email: ${ emails.toString()}",
+                        style: defaultTextStyle(
+                            fontSize: 13.0, fontWeight: FontWeight.w500),
+                      ),Text(
+                        "${ isLogins.toString()} ${password.toString()}",
+                        style: defaultTextStyle(
+                            fontSize: 12.0, fontWeight: FontWeight.w400),
                       ),
-
                     ],
                   ),
                 ],
@@ -152,7 +154,14 @@ class _AccountScreenState extends State<AccountScreen> {
                   context: context,
                   title: "Order History",
                   icon: "assets/images/icons/Icon_History.png",
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => VerificationScreen()));
+
+
+                  }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
               ),
@@ -184,7 +193,10 @@ class _AccountScreenState extends State<AccountScreen> {
                   context: context,
                   title: "Notifications",
                   icon: "assets/images/icons/Icon_Alert.png",
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomePage()));
+                  }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
               ),

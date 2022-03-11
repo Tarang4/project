@@ -26,6 +26,7 @@ class AuthRepository {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     DocumentSnapshot userDetailModel;
     User? user;
+    DateTime LogInDate = DateTime.now();
 
 //password update
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -41,6 +42,7 @@ class AuthRepository {
         pref!.setString(LocalStorageKey.password, password);
         await _upDatePasswordCollection.doc(_auth.currentUser?.uid).update({
           "password": password,
+          "isLoginTime": "LogIn - ${LogInDate}"
         });
         userDetailModel =
             await GetUserById.getUserData(context: context, userId: user.uid);
@@ -135,7 +137,7 @@ class AuthRepository {
           "Birthdate": "",
           "phone": phone,
           "gender": "",
-          "isLogin": "",
+          "isLoginTime": "LogIn - ${todayDate}",
           "wishList": "",
           "createAt": todayDate.toString(),
           "updateAt": todayDate.toString()
@@ -188,6 +190,7 @@ class AuthRepository {
         isSuccess = false;
       } else if (e.code == "email-already-in-use") {
         hideLoadingDialog(context: context);
+        ToastMethod.simpleToast(massage: "allredy 6e");
         ToastMessage.errorToast(
             context: context, description: "User Already Exists");
       } else {
@@ -201,12 +204,47 @@ class AuthRepository {
 
   static Future logout({@required BuildContext? context}) async {
    await pref!.clear();
-
+   logOutUpDate(context: context);
     Navigator.pushAndRemoveUntil(
         context!,
         CupertinoPageRoute(builder: (context) => const LoginTypes()),
         (route) => false);
     ToastMessage.successToast(
         context: Get.context, description: "Logout SuccessFully!");
+  }
+
+  static logOutUpDate({
+    @required BuildContext? context,
+  }) {
+    DateTime signOutDate = DateTime.now();
+
+    final CollectionReference _updateCollection =
+    FirebaseFirestore.instance.collection(FirebaseString.userCollection);
+
+
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
+
+    _updateCollection
+        .doc(_auth.currentUser?.uid)
+        .update({"isLoginTime": "LogOut - ${signOutDate} "}).then((_) {
+      print(" log out successfully store is login time");
+    });
+  }
+
+
+  static logInUpDate({
+    @required BuildContext? context,
+  }) {
+    DateTime signUpDate = DateTime.now();
+    String logout = "LogIn - ${signUpDate}";
+    final CollectionReference _updateCollection =
+    FirebaseFirestore.instance.collection(LocalStorageKey.isLogin);
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    _updateCollection
+        .doc(_auth.currentUser?.uid)
+        .update({"isLoginTime": "LogIn - ${signUpDate}"}).then((_) {
+      print(" log out successfully store");
+    });
   }
 }

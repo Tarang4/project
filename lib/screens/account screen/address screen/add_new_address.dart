@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:untitled/screens/account%20screen/address%20screen/address_detail.dart';
 
 import '../../../config/app_colors.dart';
@@ -14,6 +15,8 @@ class AddNewAddress extends StatefulWidget {
 
 class _AddNewAddressState extends State<AddNewAddress> {
   GlobalKey<FormState> _formkey = GlobalKey();
+  String phoneController = '';
+
   TextEditingController street1 = TextEditingController();
   TextEditingController street2 = TextEditingController();
   TextEditingController city = TextEditingController();
@@ -67,70 +70,151 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             fontWeight: FontWeight.w400,
                             fontColors: colorGrey),
                       ),
-                      TextFormField(
-                        controller: fullName,
-                        cursorColor: colorGreen,
-                        cursorHeight: 22,
-                        cursorWidth: 1.2,
-                        textInputAction: TextInputAction.next,
-                        style: defaultTextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400),
-                        decoration: const InputDecoration(
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: colorGrey),
+                      Container(
+                        width: double.infinity,
+                        height: 33,
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please Enter Your Full Name';
+                            }
+                          },
+                          controller: fullName,
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.text,
+                          cursorColor: colorGreen,
+                          cursorHeight: 22,
+                          cursorWidth: 1.2,
+                          style: const TextStyle(
+                              color: colorBlack,
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal),
+                          decoration: const InputDecoration(
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorLightGrey),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorGreen),
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 25,
+                      const SizedBox(
+                        height: 15,
                       ),
                       Text(
-                        "Street 1",
+                        "Enter Phone Number",
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            color: colorGrey,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      IntlPhoneField(
+                        cursorColor: colorGreen,
+                        style: TextStyle(fontSize: 16),
+                        disableLengthCheck: false,
+                        textAlignVertical: TextAlignVertical.center,
+                        dropdownTextStyle: TextStyle(fontSize: 16),
+                        dropdownIcon:
+                            Icon(Icons.arrow_drop_down, color: colorGreen),
+                        decoration: const InputDecoration(
+                          hintText: 'Phone Number',
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: colorGreen,
+                              width: 1,
+                            ),
+                          ),
+                        ),
+                        initialCountryCode: 'IN',
+                        onChanged: (phone) {
+                          print(phone.completeNumber);
+                          phoneController = phone.completeNumber.toString();
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        "House No",
                         style: defaultTextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w400,
                             fontColors: colorGrey),
                       ),
-                      TextFormField(
-                        controller: street1,
-                        cursorColor: colorGreen,
-                        cursorHeight: 22,
-                        cursorWidth: 1.2,
-                        textInputAction: TextInputAction.next,
-                        style: defaultTextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400),
-                        decoration: const InputDecoration(
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: colorGrey),
+                      Container(
+                        width: double.infinity,
+                        height: 33,
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please Enter Your Full Name';
+                            }
+                          },
+                          controller: street1,
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.number,
+                          cursorColor: colorGreen,
+                          cursorHeight: 22,
+                          cursorWidth: 1.2,
+                          style: const TextStyle(
+                              color: colorBlack,
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal),
+                          decoration: const InputDecoration(
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorLightGrey),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorGreen),
+                            ),
                           ),
                         ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 25,
+                        height: 15,
                       ),
                       Text(
-                        "Street 2",
+                        "Street Name",
                         style: defaultTextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w400,
                             fontColors: colorGrey),
                       ),
-                      TextFormField(
-                        controller: street2,
-                        cursorColor: colorGreen,
-                        cursorHeight: 22,
-                        cursorWidth: 1.2,
-                        textInputAction: TextInputAction.next,
-                        style: defaultTextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400),
-                        decoration: const InputDecoration(
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: colorGrey),
+                      Container(
+                        width: double.infinity,
+                        height: 33,
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please Enter Your Full Name';
+                            }
+                          },
+                          controller: street2,
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.text,
+                          cursorColor: colorGreen,
+                          cursorHeight: 22,
+                          cursorWidth: 1.2,
+                          style: const TextStyle(
+                              color: colorBlack,
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal),
+                          decoration: const InputDecoration(
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorLightGrey),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorGreen),
+                            ),
                           ),
                         ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 25,
+                        height: 15,
                       ),
                       Text(
                         "City",
@@ -139,22 +223,38 @@ class _AddNewAddressState extends State<AddNewAddress> {
                             fontWeight: FontWeight.w400,
                             fontColors: colorGrey),
                       ),
-                      TextFormField(
-                        controller: city,
-                        cursorColor: colorGreen,
-                        cursorHeight: 22,
-                        cursorWidth: 1.2,
-                        textInputAction: TextInputAction.next,
-                        style: defaultTextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400),
-                        decoration: const InputDecoration(
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: colorGrey),
+                      Container(
+                        width: double.infinity,
+                        height: 33,
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please Enter Your Full Name';
+                            }
+                          },
+                          controller: city,
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.text,
+                          cursorColor: colorGreen,
+                          cursorHeight: 22,
+                          cursorWidth: 1.2,
+                          style: const TextStyle(
+                              color: colorBlack,
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal),
+                          decoration: const InputDecoration(
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorLightGrey),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorGreen),
+                            ),
                           ),
                         ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 25,
+                        height: 15,
                       ),
                       Row(
                         children: [
@@ -169,18 +269,33 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                       fontWeight: FontWeight.w400,
                                       fontColors: colorGrey),
                                 ),
-                                TextFormField(
-                                  controller: state,
-                                  cursorColor: colorGreen,
-                                  cursorHeight: 22,
-                                  cursorWidth: 1.2,
-                                  textInputAction: TextInputAction.next,
-                                  style: defaultTextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.w400),
-                                  decoration: const InputDecoration(
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: colorGrey),
+                                Container(
+                                  width: double.infinity,
+                                  height: 33,
+                                  child: TextFormField(
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please Enter Your Full Name';
+                                      }
+                                    },
+                                    controller: state,
+                                    textCapitalization: TextCapitalization.sentences,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.text,
+                                    cursorColor: colorGreen,
+                                    cursorHeight: 22,
+                                    cursorWidth: 1.2,
+                                    style: const TextStyle(
+                                        color: colorBlack,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal),
+                                    decoration: const InputDecoration(
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: colorLightGrey),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: colorGreen),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -199,18 +314,33 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                       fontWeight: FontWeight.w400,
                                       fontColors: colorGrey),
                                 ),
-                                TextFormField(
-                                  controller: country,
-                                  cursorColor: colorGreen,
-                                  cursorHeight: 22,
-                                  cursorWidth: 1.2,
-                                  textInputAction: TextInputAction.done,
-                                  style: defaultTextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.w400),
-                                  decoration: const InputDecoration(
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: colorGrey),
+                                Container(
+                                  width: double.infinity,
+                                  height: 33,
+                                  child: TextFormField(
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please Enter Country';
+                                      }
+                                    },
+                                    controller: country,
+                                    textCapitalization: TextCapitalization.sentences,
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.text,
+                                    cursorColor: colorGreen,
+                                    cursorHeight: 22,
+                                    cursorWidth: 1.2,
+                                    style: const TextStyle(
+                                        color: colorBlack,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal),
+                                    decoration: const InputDecoration(
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: colorLightGrey),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: colorGreen),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -220,26 +350,42 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         ],
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 25,
+                        height: 15,
                       ),
                       Text(
-                        "pin",
+                        "PinCode",
                         style: defaultTextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w400,
                             fontColors: colorGrey),
                       ),
-                      TextFormField(
-                        controller: pin,
-                        cursorColor: colorGreen,
-                        cursorHeight: 22,
-                        cursorWidth: 1.2,
-                        textInputAction: TextInputAction.next,
-                        style: defaultTextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w400),
-                        decoration: const InputDecoration(
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: colorGrey),
+                      Container(
+                        width: double.infinity,
+                        height: 53,
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please Enter Your Full Name';
+                            }
+                          },
+                          controller: pin,maxLength: 6,
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.number,
+                          cursorColor: colorGreen,
+                          cursorHeight: 22,
+                          cursorWidth: 1.2,
+                          style: const TextStyle(
+                              color: colorBlack,
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal),
+                          decoration: const InputDecoration(
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorLightGrey),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colorGreen),
+                            ),
                           ),
                         ),
                       ),
@@ -326,7 +472,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
         state: state.text,
         addPinCode: pin.text,
         city: city.text,
-        fullName: fullName.text);
+        fullName: fullName.text,
+        phone: phoneController);
 
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) => const AddressDetail()));

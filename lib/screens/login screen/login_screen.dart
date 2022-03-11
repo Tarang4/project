@@ -24,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   List<UserModel> modelList = [];
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
   // FocusNode emailFocus = FocusNode();
 
   bool validateStructure(String value) {
@@ -38,10 +39,12 @@ class _LoginScreenState extends State<LoginScreen> {
         RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
     return regex.hasMatch(value);
   }
-  bool isLogin=false;
+
+  bool isLogin = false;
 
   save() async {
-    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
     sharedPreferences.setBool("isLogin", true);
   }
 
@@ -195,7 +198,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: () {
-                            Navigator.push(context, CupertinoPageRoute(builder: (context)=>ForgetScreen(email: emailController.text)));
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) => ForgetScreen(
+                                          email: emailController.text)));
                             },
                             child: Text(
                               "Forgot Password?",
@@ -214,9 +221,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               AuthRepository.signIn(
                                   context: context,
                                   email: emailController.value.text,
-                                  password:
-                                  passwordController.value.text);
-
+                                  password: passwordController.value.text);
                             }
                           },
                           child: Container(
@@ -247,6 +252,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-
 }

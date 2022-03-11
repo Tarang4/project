@@ -7,6 +7,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:untitled/screens/login%20screen/all_type_screnn.dart';
 import 'package:untitled/screens/login%20screen/verification_screen.dart';
 import 'package:untitled/untils/app_fonts.dart';
+import 'package:untitled/untils/toast/flutter_toast_method.dart';
 import '../../config/app_colors.dart';
 import '../../controller/auth/signup_controller.dart';
 
@@ -24,10 +25,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isPassword = true;
   String? number;
 
-  TextEditingController nameController = TextEditingController();
+  TextEditingController password2Controller = TextEditingController();
   TextEditingController emailController = TextEditingController();
   String phoneController = '';
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController password1Controller = TextEditingController();
 
   bool isShow = true;
 
@@ -166,16 +167,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           width: double.infinity,
                           height: 33,
                           child: TextFormField(
-                            obscureText: isPassword,
+                            obscureText: true,
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Please Enter Password';
                               }
-                              if (passwordController.text.length < 8) {
+                              if (password2Controller.text.length < 8) {
                                 return 'Please Enter 8 Digits Password';
                               }
                             },
-                            controller: passwordController,
+                            controller: password2Controller,
                             textInputAction: TextInputAction.done,
                             keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.black,
@@ -184,20 +185,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.normal),
                             decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                icon: isPassword
-                                    ? Icon(
-                                        Icons.visibility,
-                                        color: Colors.black,
-                                      )
-                                    : Icon(Icons.visibility_off,
-                                        color: Colors.black),
-                                onPressed: () {
-                                  setState(() {
-                                    isPassword = !isPassword;
-                                  });
-                                },
-                              ),
+
                               border: UnderlineInputBorder(
                                 borderSide: BorderSide(color: colorGreen),
                               ),
@@ -229,11 +217,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               if (value!.isEmpty) {
                                 return 'Please Enter Password';
                               }
-                              if (passwordController.text.length < 8) {
+                              if (password1Controller.text.length < 8) {
                                 return 'Please Enter 8 Digits Password';
                               }
                             },
-                            controller: passwordController,
+                            controller: password1Controller,
                             textInputAction: TextInputAction.done,
                             keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.black,
@@ -277,7 +265,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               FocusScope.of(context).unfocus();
                               print(
                                   "check value -- ${_controller.checkBoxValue.value}");
-                              // if (_controller.checkBoxValue.value == true) {
+                              if (password1Controller.text==password2Controller.text) {
                               Navigator.push(
                                   context,
                                   CupertinoPageRoute(
@@ -285,15 +273,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           OtpVerificationScreen(
                                             email: emailController.text,
                                             phoneNumber: phoneController,
-                                            password: passwordController.text,
+                                            password: password1Controller.text,
                                             isSignUp: true,
                                           )));
-                              // } else {
-                              //   ToastMessage.errorToast(
-                              //       context: context,
-                              //       description:
-                              //       "Please apply terms and conditions");
-                              // }
+                              } else {
+                                ToastMethod.simpleToast(massage: "Enater Same Password");
+                              }
                             }
                           },
                           child: Container(

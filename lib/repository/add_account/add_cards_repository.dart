@@ -23,8 +23,7 @@ class CardRepository {
         .collection(FirebaseString.cardCollection);
 
     DocumentReference? documentId;
-    DocumentReference documentReferencer =
-    _cardCollection.doc(documentId?.id);
+    DocumentReference documentReferencer = _cardCollection.doc(documentId?.id);
     print(documentReferencer.id);
 
     Map<String, dynamic> cardData = <String, dynamic>{
@@ -67,28 +66,20 @@ class CardRepository {
         .doc(id)
         .collection(FirebaseString.cardCollection);
 
-
     Map<String, dynamic> cardData = <String, dynamic>{
       "cardName": cardName,
       "cardNo": cardNo,
       "exp_date": exp_date,
       "cvv": cvv,
       "element_id": "",
-
     };
 
     if (id != null) {
-_cardCollection
-          .where("cardId", isEqualTo: cardId)
-          .get()
-          .then((res) {
+      _cardCollection.where("cardId", isEqualTo: cardId).get().then((res) {
         res.docs.forEach((result) {
-          _cardCollection
-              .doc(result.id)
-              .update(cardData);
+          _cardCollection.doc(result.id).update(cardData);
         });
       });
-
 
       ToastMethod.simpleToast(context: context, massage: "add detail");
 
@@ -100,27 +91,23 @@ _cardCollection
     }
   }
 
-  static cardDetailDelete({@required BuildContext? context}) {
+  static cardDetailDelete({
+    @required BuildContext? context,
+    @required String? cardId,
+  }) {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     var id = _auth.currentUser?.uid;
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-    final CollectionReference _cardCollection =
-        firebaseFirestore.collection(FirebaseString.userCollection)
-    .doc(id)
-    .collection(FirebaseString.cardCollection);
+    final CollectionReference _cardCollection = firebaseFirestore
+        .collection(FirebaseString.userCollection)
+        .doc(id)
+        .collection(FirebaseString.cardCollection);
 
-    Future<QuerySnapshot> card =_cardCollection.get();
 
-    card.then((value) {
-      value.docs.forEach((element) {
-       _cardCollection
-            .doc(element.id)
-            .delete()
-            .then((value) => ToastMethod.simpleToast(
-                context: context, massage: "Delete card successfully"));
-      });
+    _cardCollection.where('cardId', whereIn: [cardId]).get().then((snapshot) {
+      snapshot.docs[0].reference.delete();
     });
 
 

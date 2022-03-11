@@ -1,30 +1,22 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled/config/shared_preference_data.dart';
-import 'package:untitled/screens/login%20screen/edit_profile_screnn.dart';
+import 'package:untitled/untils/toast/flutter_toast_method.dart';
 import '../../config/app_colors.dart';
-import '../../repository/auth/auth_reposetory.dart';
 import '../../untils/app_fonts.dart';
-import '../../untils/loading_dialog/dialog.dart';
-import '../../untils/toast/flutter_toast_method.dart';
-import '../../untils/toast/toast_message.dart';
-import 'opt_screen.dart';
+import '../explore screen/explore_screen.dart';
 
-class OtpVerificationScreen extends StatefulWidget {
+class VerificationScreen extends StatefulWidget {
   final String? phoneNumber;
   final String? name;
   final String? email;
   final String? password;
   final bool? isSignUp;
-
-  const OtpVerificationScreen({Key? key, this.phoneNumber, this.name, this.email, this.password, this.isSignUp}) : super(key: key);
+  const VerificationScreen({Key? key, this.phoneNumber, this.name, this.email, this.password, this.isSignUp}) : super(key: key);
 
   @override
-  State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
+  _VerificationScreenState createState() => _VerificationScreenState();
 }
 
-class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
+class _VerificationScreenState extends State<VerificationScreen> {
   final focus = FocusNode();
   final TextEditingController text1 = TextEditingController();
   final TextEditingController text2 = TextEditingController();
@@ -39,19 +31,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final FocusNode focusNode5 = FocusNode();
   final FocusNode focusNode6 = FocusNode();
   String? otp;
-
-
-  String? verificationId;
-  final TextEditingController otpController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-
-  @override
-  void initState() {
-    // print("phone number is ${widget.mobileNumber}");
-    phoneSignIn(phoneNumber: widget.phoneNumber);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -185,21 +164,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                         otp = text1.text +
+                        otp = text1.text +
                             text2.text +
                             text3.text +
                             text4.text +
                             text5.text +
                             text6.text;
-                        print(otp);
-                        ToastMethod.simpleToast(massage: "OTP:$otp:");
-                        PhoneAuthCredential phoneAuthCredential =
-                        PhoneAuthProvider.credential(
-                            verificationId: verificationId!,
-                            smsCode:
-                            otp.toString().trim());
-                        signInWithPhoneAuthCredential(phoneAuthCredential);
-
+                        print(otp);ToastMethod.simpleToast(massage: "OTP:$otp:");
 
                       },
                       child: Container(
@@ -218,7 +189,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -227,69 +197,57 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         ),
       ),
     );
-
-
-
   }
+}
 
-  void signInWithPhoneAuthCredential(
-      PhoneAuthCredential phoneAuthCredential) async {
-    showLoadingDialog(context: context);
-    try {
-      await FirebaseAuth.instance
-          .signInWithCredential(phoneAuthCredential)
-          .then((authResult) {
-        if (authResult.user != null) {
-          hideLoadingDialog(context: context);
+class TextFieldOtpVerification extends StatelessWidget {
+  final TextEditingController code;
+  final String? last;
+  final ValueChanged<String>? onChanged;
+  final FocusNode? focusNode;
 
-          if(widget.isSignUp == true){
-            print("is Signup --------------------------------------------------------");
-            AuthRepository.signup(
-                context: context,
-                name: widget.name,
-                email: widget.email,
-                phone: widget.phoneNumber,
-                password: widget.password);
-          } else{
-            print("is login----------------------------------------------------");
-            // pref!.setBool(PrefString.isLogin, true);
-            SharedPreferenceUsers.saveData( isLogin: true);
-            Navigator.pushAndRemoveUntil(
-                context,
-                CupertinoPageRoute(
-                    builder: (context) => const EditProfileScreen()),(route) => false);
-          }
-        }
-        // print(_firebaseUser.toString());
-      });
-    } on FirebaseAuthException catch (e) {
-      hideLoadingDialog(context: context);
-      if (e.code == "invalid-verification-code") {
-        ToastMessage.errorToast(context: context, description: "Invalid OTP");
-      } else {
-        ToastMessage.errorToast(context: context, description: "Invalid OTP");
-      }
-    }
-  }
+  const TextFieldOtpVerification({
+    Key? key,
+    required this.code,
+    this.last,
+    this.onChanged,
+    this.focusNode,
+  }) : super(key: key);
 
-  Future<void> phoneSignIn({@required String? phoneNumber}) async {
-    // showLoadingDialog(context: context);
-    await _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber.toString(),
-        verificationCompleted: (phoneAuthCredential) {
-          // hideLoadingDialog(context: context);
-        },
-        verificationFailed: (verificationFailed) {
-          // hideLoadingDialog(context: context);
-          ToastMessage.errorToast(
-              context: context, description: verificationFailed.message);
-        },
-        codeSent: (verificationId, resendingToken) async {
-          setState(() {
-            // hideLoadingDialog(context: context);
-            this.verificationId = verificationId;
-          });
-        },
-        codeAutoRetrievalTimeout: (verificationId) async {});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      width: 40,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4)),
+      child: TextFormField(
+        textAlign: TextAlign.center,
+        keyboardType: TextInputType.number,
+        cursorHeight: 25,
+        controller: code,
+        textInputAction: TextInputAction.next,
+        autofocus: true,
+        onChanged: onChanged,
+        focusNode: focusNode,
+        cursorColor: Colors.black.withOpacity(0.5),
+        style: const TextStyle(
+          color: colorBlack,
+          fontSize: 19,
+          fontWeight: FontWeight.normal,
+        ),
+        maxLength: 1,
+        scrollPadding: const EdgeInsets.only(bottom: 5, top: 5),
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.only(top: 7),
+          counterText: '',
+          hintStyle: TextStyle(color: Colors.black, fontSize: 20.0),
+          border:
+              OutlineInputBorder(borderSide: BorderSide(color: colorLightGrey)),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: colorGreen),
+          ),
+        ),
+      ),
+    );
   }
 }

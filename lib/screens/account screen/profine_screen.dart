@@ -1,16 +1,22 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scroll_date_picker/scroll_date_picker.dart';
 import 'package:untitled/config/app_colors.dart';
+import 'package:untitled/repository/firebase_store_photo/photo_upload_repository.dart';
 import 'package:untitled/untils/toast/flutter_toast_method.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:path/path.dart' as Path;
 
 import '../../config/Localstorage_string.dart';
 import '../../main.dart';
 import '../../repository/add_account/update_usersdata_respository.dart';
+import 'account_screen.dart';
 import 'change_password.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -27,19 +33,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
   FocusNode emailFocus = FocusNode();
   int? isGender;
   bool isPassword = true;
-  final ImagePicker _imagePicker = ImagePicker();
+  final ImagePicker picker = ImagePicker();
+  File? _photo;
+
   String? photo;
   final updateScreenKey = GlobalKey<FormState>();
   DateTime _selectedDate = DateTime.now();
 
   String prefEmail = pref!.getString(LocalStorageKey.email)!;
   String phone = pref!.getString(LocalStorageKey.phone)!;
+  String profilePhoto = pref!.getString(LocalStorageKey.profilePhoto)!;
   String firstName = pref!.getString(LocalStorageKey.firstName)!;
   String currentPassword = pref!.getString(LocalStorageKey.password)!;
   String lastName = pref!.getString(LocalStorageKey.lastName)!;
   String gender = pref!.getString(LocalStorageKey.gender)!;
   String birthdate = pref!.getString(LocalStorageKey.birthdate)!;
   bool? isLogins = pref!.getBool(LocalStorageKey.isLogin);
+
+  String? urlImage;
 
   @override
   void initState() {
@@ -49,6 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _lNameController.text = lastName;
     isGender = int.parse(gender);
     _birthDateController.text = birthdate;
+    // urlImage=profilePhoto;
   }
 
   @override
@@ -86,14 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             TextButton(
                               onPressed: () async {
                                 if (updateScreenKey.currentState!.validate()) {
-                                  UserUpDateRepository.upDateProfile(
-                                    firstName: _fNameController.text,
-                                    lastName: _lNameController.text,
-                                    gender: isGender.toString(),
-                                    birthDate: _birthDateController.text,
-                                    profilePhoto: '',
-                                    context: context,
-                                  );
+                                  uploadFile();
                                 }
                               },
                               child: Text(
@@ -111,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         InkWell(
                           onTap: () => openImageDialog(),
-                          child: photo != null && photo!.isNotEmpty
+                          child: _photo != null
                               ? Container(
                                   height: 100,
                                   width: 100,
@@ -120,10 +125,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     borderRadius: BorderRadius.circular(70),
                                   ),
                                   child: Image.file(
-                                    File(photo ?? ""),
+                                    _photo!,
                                     fit: BoxFit.cover,
-                                  ),
-                                )
+                                  ))
                               : Container(
                                   height: 100,
                                   width: 100,
@@ -131,9 +135,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(70),
                                       color: Colors.grey.withOpacity(0.5)),
-                                  child: const Icon(
-                                    Icons.person,
-                                    size: 45,
+                                  child: Image.network(
+                                    profilePhoto,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                         ),
@@ -333,7 +337,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         )));
                           },
                           child: Text(
-                            "Forgot Password",
+                            "Change Password",
                             style: TextStyle(
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.w400,
@@ -367,32 +371,97 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Navigator.pop(context);
                   getIamge(ImageSource.camera);
                 },
-                child: const Text('camera'),
+                child: const  Text(
+                  "Camera",
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w400,
+                      color: colorGreen),
+                ),
               ),
               CupertinoActionSheetAction(
                 onPressed: () {
                   Navigator.pop(context);
                   getIamge(ImageSource.gallery);
                 },
-                child: const Text('gallery'),
+                child: const  Text(
+                  "Gallery",
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w400,
+                      color: colorGreen),
+                ),
               ),
               CupertinoActionSheetAction(
                 onPressed: () async {
                   Navigator.pop(context);
-                  photo = (await _imagePicker.pickImage(
-                      source: ImageSource.gallery)) as String?;
+                  photo = (await picker.pickImage(source: ImageSource.gallery))
+                      as String?;
                 },
-                child: const Text('close'),
+                child: const  Text(
+                  "Delete",
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w400,
+                      color: colorGreen),
+                ),
               ),
             ],
           );
         });
   }
 
+
   getIamge(ImageSource imageSource) async {
-    final getIamge = await _imagePicker.pickImage(source: imageSource);
-    setState(() {
-      photo = getIamge?.path;
+    final pickedFile = await picker.pickImage(source: imageSource);
+    setState(() async {
+      if (pickedFile != null) {
+        _photo = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+        ToastMethod.simpleToast(massage: "No image selected.");
+      }
     });
+  }
+
+  Future uploadFile() async {
+    if (_photo != null) {
+      final destination = 'UserProfile/$prefEmail';
+      UploadTask? uploadTask = FireBasePhoto.uploadFile(destination, _photo!);
+
+      if (uploadTask != null) {
+        final TaskSnapshot downloadUrl = (await uploadTask);
+        urlImage = await downloadUrl.ref.getDownloadURL();
+
+        print("download url is :$urlImage");
+        UserUpDateRepository.upDateProfile(
+          firstName: _fNameController.text,
+          lastName: _lNameController.text,
+          gender: isGender.toString(),
+          birthDate: _birthDateController.text,
+          profilePhoto: urlImage,
+          context: context,
+        ).then((value) {
+          Navigator.push(
+              context, CupertinoPageRoute(builder: (context) => AccountScreen()));
+        });
+
+      } else {
+        print(" no download url ");
+      }
+    } else {
+      UserUpDateRepository.upDateProfile(
+        firstName: _fNameController.text,
+        lastName: _lNameController.text,
+        gender: isGender.toString(),
+        birthDate: _birthDateController.text,
+        profilePhoto: profilePhoto,
+        context: context,
+      ).then((value) {
+        Navigator.push(
+            context, CupertinoPageRoute(builder: (context) => AccountScreen()));
+      });
+      print(" no photo found file ");
+    }
   }
 }

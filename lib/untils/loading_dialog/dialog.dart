@@ -15,7 +15,7 @@ void showLoadingDialog({
               color: colorTransparent,
               child: Container(
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(color: colorGreen.withOpacity(0.8), borderRadius: BorderRadius.circular(10)),
+                decoration: BoxDecoration(color: colorGreen.withOpacity(0.2), borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: const [
@@ -24,7 +24,7 @@ void showLoadingDialog({
                         height: 25,
                         child: CircularProgressIndicator(
                           strokeWidth: 3,
-                          valueColor: AlwaysStoppedAnimation<Color>(colorWhite),
+                          valueColor: AlwaysStoppedAnimation<Color>(colorGreen),
                         )),
                     SizedBox(
                       width: 20,

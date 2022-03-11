@@ -6,15 +6,13 @@ import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_credit_card/custom_card_type_icon.dart';
 import 'package:flutter_credit_card/glassmorphism_config.dart';
+import 'package:untitled/config/FireStore_string.dart';
 import 'package:untitled/modal/credit_card_model.dart';
-import 'package:untitled/screens/cards%20screen/addnew_card.dart';
-import 'package:untitled/screens/cards%20screen/edit_card.dart';
-import '../../config/app_colors.dart';
-import '../../config/FireStore_string.dart';
-import '../../untils/app_fonts.dart';
-import '../account screen/account_screen.dart';
-import '../cart screen/cart_screen.dart';
-import '../explore screen/explore_screen.dart';
+import '../../../config/app_colors.dart';
+import '../../../untils/app_fonts.dart';
+import '../account_screen.dart';
+import 'addnew_card.dart';
+import 'edit_card.dart';
 
 class CardsScreen extends StatefulWidget {
   const CardsScreen({
@@ -38,11 +36,7 @@ class _CardsScreenState extends State<CardsScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   List<DebitCardModal> cardList = [];
   int pageIndex = 0;
-  final pages = [
-    const ExploreScreen(),
-    const CartScreen(),
-    const AccountScreen(),
-  ];
+
 
   getUserCards() {
     FirebaseFirestore.instance

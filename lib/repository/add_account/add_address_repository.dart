@@ -18,6 +18,7 @@ class AddressRepository {
       @required String? country,
       @required String? state,
       @required String? city,
+      @required String? phone,
       @required String? addPinCode}) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     var id = _auth.currentUser?.uid;
@@ -51,6 +52,7 @@ class AddressRepository {
       "addStreet": addStreet2,
       "addCity": city,
       "addState": state,
+      "phoneNo": phone,
       "addCountry": country,
       "addPinCode": addPinCode,
     };
@@ -70,13 +72,14 @@ class AddressRepository {
 
   static addressDetailUpdate(
       {@required BuildContext? context,
-      @required String? refId,
+      @required String? addId,
       @required String? fullName,
       @required String? addStreet1,
       @required String? addStreet2,
       @required String? country,
       @required String? state,
       @required String? city,
+      @required String? phone,
       @required String? addPinCode}) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     var id = _auth.currentUser?.uid;
@@ -96,10 +99,12 @@ class AddressRepository {
       "addState": state,
       "addCountry": country,
       "addPinCode": addPinCode,
+      "phoneNo": phone,
+
     };
 
     if (id != null) {
-      _addressCollection.where("addId", isEqualTo: refId).get().then((res) {
+      _addressCollection.where("addId", isEqualTo: addId).get().then((res) {
         res.docs.forEach((result) {
           _addressCollection.doc(result.id).update(addressData);
         });
@@ -115,24 +120,22 @@ class AddressRepository {
     }
   }
 
-  // static AddressDetailDelete({@required BuildContext? context}) {
-  //   final FirebaseAuth _auth = FirebaseAuth.instance;
-  //   var id = _auth.currentUser?.uid;
-  //
-  //   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  //
-  //   final CollectionReference _cardCollection = firebaseFirestore
-  //       .collection(FirebaseString.userCollection)
-  //       .doc(id)
-  //       .collection(FirebaseString.addressCollection);
-  //
-  //   Future<QuerySnapshot> card = _cardCollection.get();
-  //   card.then((value) {
-  //     value.docs.forEach((element) {
-  //       _cardCollection.doc(element.id).delete().then((value) =>
-  //           ToastMethod.simpleToast(
-  //               context: context, massage: "Delete card successfully"));
-  //     });
-  //   });
-  // }
+  static AddressDetailDelete({
+    @required BuildContext? context,
+    @required String? addId,
+  }) {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    var id = _auth.currentUser?.uid;
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    final CollectionReference _cardCollection = firebaseFirestore
+        .collection(FirebaseString.userCollection)
+        .doc(id)
+        .collection(FirebaseString.addressCollection);
+
+    _cardCollection.where('addId', whereIn: [addId]).get().then((snapshot) {
+      snapshot.docs[0].reference.delete();
+    });
+  }
 }
