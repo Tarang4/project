@@ -188,10 +188,10 @@ class _WishListScreenState extends State<WishListScreen> {
                     pInfo: productList[index].productInfo,
                     pPrice: productList[index].productPrice,
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CategoriesProduct()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => CategoriesProduct()));
                     },
                   ),
                 ),

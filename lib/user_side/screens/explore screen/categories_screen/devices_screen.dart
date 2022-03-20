@@ -6,18 +6,21 @@ import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
 import '../../../../admin/modal/admin_product_modal.dart';
 import '../../../config/FireStore_string.dart';
 import '../../../config/app_colors.dart';
+import '../../../modal/product_modal.dart';
 import '../../../untils/app_fonts.dart';
 import '../../../untils/categories_product.dart';
 import '../../../untils/product_container.dart';
 
-class WomenScreen extends StatefulWidget {
-  const WomenScreen({Key? key}) : super(key: key);
+class DeviceScreen extends StatefulWidget {
+  const DeviceScreen({Key? key}) : super(key: key);
 
   @override
-  _WomenScreenState createState() => _WomenScreenState();
+  _DeviceScreenState createState() => _DeviceScreenState();
 }
 
-class _WomenScreenState extends State<WomenScreen> {
+class _DeviceScreenState extends State<DeviceScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +44,7 @@ class _WomenScreenState extends State<WomenScreen> {
                     child: Container(
                       alignment: Alignment.center,
                       child: Text(
-                        "Women Products",
+                        "Device Products",
                         style: defaultTextStyle(
                             fontSize: 20.0, fontWeight: FontWeight.w400),
                       ),
@@ -52,7 +55,7 @@ class _WomenScreenState extends State<WomenScreen> {
 
               StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "2")
+                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "3")
                       .snapshots(),
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

@@ -1,7 +1,12 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
+import 'package:untitled/user_side/screens/explore%20screen/categories_screen/devices_screen.dart';
 import 'package:untitled/user_side/screens/explore%20screen/seeall_screen.dart';
+import '../../../admin/modal/admin_product_modal.dart';
+import '../../config/FireStore_string.dart';
 import '../../config/app_colors.dart';
 import '../../modal/categories_modal.dart';
 import '../../modal/product_modal.dart';
@@ -11,7 +16,8 @@ import '../../untils/product_container.dart';
 import '../account screen/account_screen.dart';
 import '../cart screen/cart_screen.dart';
 import '../search screen/search_s2.dart';
-import 'categories_product.dart';
+import '../../untils/categories_product.dart';
+import 'categories_screen/gadgets_screen.dart';
 import 'categories_screen/men_screen.dart';
 import 'categories_screen/perfumes_screen.dart';
 import 'categories_screen/women_screen.dart';
@@ -32,6 +38,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
     CategoriesModal(catImage: "assets/images/icons/C5.png", catName: "Gadgets"),
     CategoriesModal(
         catImage: "assets/images/icons/C3.png", catName: "perfumes"),
+  ];
+  final List<String> imageList = [
+    "https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80",
+    'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
+    'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
+    'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
   ];
   List<FeturedBrand> fetureBrand = [
     FeturedBrand(
@@ -201,43 +213,40 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               catImage: categoriesModal.catImage,
                               catName: categoriesModal.catName,
                               onTap: () {
-                               if(index==0){
-                                 Navigator.push(
-                                     context,
-                                     CupertinoPageRoute(
-                                         builder: (context) => MenScreen()));
-                               }
-                               else if(index==1){
-                                 Navigator.push(
-                                     context,
-                                     CupertinoPageRoute(
-                                         builder: (context) => WomenScreen()));
-                               }
-                               else if(index==2){
-                                 Navigator.push(
-                                     context,
-                                     CupertinoPageRoute(
-                                         builder: (context) => WomenScreen()));
-                               }
-                               else if(index==4){
-                                 Navigator.push(
-                                     context,
-                                     CupertinoPageRoute(
-                                         builder: (context) => WomenScreen()));
-                               }
-
-                               else if(index==3){
-                                 Navigator.push(
-                                     context,
-                                     CupertinoPageRoute(
-                                         builder: (context) => WomenScreen()));
-                               }
-                               else if(index==5){
-                                 Navigator.push(
-                                     context,
-                                     CupertinoPageRoute(
-                                         builder: (context) => PerfumesScreen()));
-                               }
+                                if (index == 0) {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) => MenScreen()));
+                                } else if (index == 1) {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) => WomenScreen()));
+                                } else if (index == 2) {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) =>
+                                              GadgetsScreen()));
+                                } else if (index == 4) {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) =>
+                                              DeviceScreen()));
+                                } else if (index == 3) {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) => MenScreen()));
+                                } else if (index == 5) {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) =>
+                                              PerfumesScreen()));
+                                }
                               },
                             );
                           }),
@@ -277,35 +286,125 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   ],
                 ),
               ),
-              IntrinsicGridView.vertical(
-                padding: const EdgeInsets.only(top: 21, left: 5, right: 5),
-                columnCount: 2,
-                verticalSpace: 14,
-                horizontalSpace: 16,
-                children: List.generate(
-                  productList.length,
-                  (index) => ProductContainer(
-                    pImage: productList[index].img2,
-                    pName: productList[index].productName,
-                    pInfo: productList[index].productInfo,
-                    pPrice: productList[index].productPrice,
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => CategoriesProduct()));
-                    },
-                  ),
-                ),
-              ),
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection(FirebaseString.productCollection)
+                      .snapshots(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.hasData) {
+                      return IntrinsicGridView.vertical(
+                        padding:
+                            const EdgeInsets.only(top: 1, left: 5, right: 5),
+                        columnCount: 2,
+                        verticalSpace: 14,
+                        horizontalSpace: 16,
+                        children: List.generate(
+                          snapshot.data.docs.length,
+                          (index) {
+                            ProductModalAdmin productModal =
+                                ProductModalAdmin.fromJson(
+                                    snapshot.data.docs[index].data());
+                            return ProductContainer(
+                              pImage: productModal.images!.img1.toString(),
+                              pName: productModal.productName.toString(),
+                              pInfo: productModal.productInfo.toString(),
+                              pPrice: productModal.productPrice.toString(),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => CategoriesProduct(
+                                              pImage1: productModal.images!.img1
+                                                  .toString(),
+                                              pImage2: productModal.images!.img2
+                                                  .toString(),
+                                              pImage3: productModal.images!.img3
+                                                  .toString(),
+                                              pImage4: productModal.images!.img4
+                                                  .toString(),
+                                              pName: productModal.productName
+                                                  .toString(),
+                                              pInfo: productModal.productInfo
+                                                  .toString(),
+                                              pPrice: productModal.productPrice
+                                                  .toString(),
+                                              color1: productModal
+                                                  .colorCode!.color1
+                                                  .toString(),
+                                              color2: productModal
+                                                  .colorCode!.color2
+                                                  .toString(),
+                                              color3: productModal
+                                                  .colorCode!.color3
+                                                  .toString(),
+                                              color4: productModal
+                                                  .colorCode!.color4
+                                                  .toString(),
+                                              size1: productModal.size!.s
+                                                  .toString(),
+                                              size2: productModal.size!.m
+                                                  .toString(),
+                                              size3: productModal.size!.xL
+                                                  .toString(),
+                                              size4: productModal.size!.xXL
+                                                  .toString(),
+                                              review: "",
+                                              reviewStar: "",
+                                              pID: productModal.productId
+                                                  .toString(),
+                                            )));
+                              },
+                            );
+                          },
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      print("error not found product ${snapshot.hasError}");
+                    }
+
+                    return Center(
+                        child: CircularProgressIndicator(
+                      color: colorGreen,
+                    ));
+                  }),
               Container(
-                margin: const EdgeInsets.only(
-                    left: 16, right: 16, top: 32, bottom: 24),
-                height: 160,
-                width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  "assets/images/Promo Image.png",
-                  fit: BoxFit.cover,
+                margin: EdgeInsets.only(top: 15,bottom: 15,),
+                child: CarouselSlider.builder(
+                  itemCount: imageList.length,
+                  options: CarouselOptions(
+                    enlargeCenterPage: true,
+                    height: 200,
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 3),
+                    reverse: false,
+                    aspectRatio: 5.0,
+                  ),
+                  itemBuilder: (context, i, id) {
+                    //for onTap to redirect to another screen
+                    return GestureDetector(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                              color: Colors.white,
+                            )),
+                        //ClipRRect for image border radius
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.network(
+                            imageList[i],
+                            width: 500,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        var url = imageList[i];
+                        print(url.toString());
+                      },
+                    );
+                  },
                 ),
               ),
               const Padding(
@@ -426,15 +525,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       return SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Padding(
-                          padding:                                  const EdgeInsets.only(right: 5, left: 18),
-
+                          padding: const EdgeInsets.only(right: 5, left: 18),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
                                 height: 300,
                                 width: 164,
-
                                 decoration: const BoxDecoration(
                                   color: Colors.white,
                                 ),
@@ -447,24 +544,29 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                 height: 10,
                               ),
                               Text(
-                                recList.name??"",
-                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                                recList.name ?? "",
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
                               ),
                               const SizedBox(
                                 height: 3,
                               ),
                               Text(
-                                recList.info??"",
+                                recList.info ?? "",
                                 style: const TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.normal, color: colorGrey),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    color: colorGrey),
                               ),
                               const SizedBox(
                                 height: 3,
                               ),
                               Text(
-                                recList.price??"",
+                                recList.price ?? "",
                                 style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.normal, color: colorGreen),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                    color: colorGreen),
                               ),
                             ],
                           ),
@@ -476,9 +578,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: buildMyNavBar(context),
+      // bottomNavigationBar: buildMyNavBar(context),
     );
   }
+
   Container buildMyNavBar(BuildContext context) {
     return Container(
       height: 74,
@@ -491,7 +594,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
               onTap: () {
                 setState(() {
                   pageIndex = 0;
-                  Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context)=>ExploreScreen()));
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => pages[0]));
                 });
               },
               child: Container(
@@ -499,25 +605,25 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 alignment: Alignment.center,
                 child: pageIndex == 0
                     ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      "Explore",
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Container(
-                      height: 3,
-                      width: 7,
-                      decoration: BoxDecoration(
-                          color: colorBlack,
-                          borderRadius: BorderRadius.circular(10)),
-                    )
-                  ],
-                )
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            "Explore",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Container(
+                            height: 3,
+                            width: 7,
+                            decoration: BoxDecoration(
+                                color: colorBlack,
+                                borderRadius: BorderRadius.circular(10)),
+                          )
+                        ],
+                      )
                     : const Icon(Icons.home_filled),
               )),
           InkWell(
@@ -526,7 +632,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
               onTap: () {
                 setState(() {
                   pageIndex = 1;
-                  Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context)=>CartScreen()));
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => pages[1]));
                 });
               },
               child: Container(
@@ -534,25 +641,25 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 alignment: Alignment.center,
                 child: pageIndex == 1
                     ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      "Cart",
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Container(
-                      height: 3,
-                      width: 5,
-                      decoration: BoxDecoration(
-                          color: colorBlack,
-                          borderRadius: BorderRadius.circular(10)),
-                    )
-                  ],
-                )
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            "Cart",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Container(
+                            height: 3,
+                            width: 5,
+                            decoration: BoxDecoration(
+                                color: colorBlack,
+                                borderRadius: BorderRadius.circular(10)),
+                          )
+                        ],
+                      )
                     : const Icon(Icons.card_travel),
               )),
           InkWell(
@@ -561,7 +668,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
             onTap: () {
               setState(() {
                 pageIndex = 2;
-                Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context)=>AccountScreen()));
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (context) => pages[2]));
               });
             },
             child: Container(
@@ -569,25 +677,25 @@ class _ExploreScreenState extends State<ExploreScreen> {
               alignment: Alignment.center,
               child: pageIndex == 2
                   ? Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    "Account",
-                    style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Container(
-                    height: 3,
-                    width: 8,
-                    decoration: BoxDecoration(
-                        color: colorBlack,
-                        borderRadius: BorderRadius.circular(10)),
-                  )
-                ],
-              )
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          "Account",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        Container(
+                          height: 3,
+                          width: 8,
+                          decoration: BoxDecoration(
+                              color: colorBlack,
+                              borderRadius: BorderRadius.circular(10)),
+                        )
+                      ],
+                    )
                   : const Icon(Icons.person),
             ),
           ),

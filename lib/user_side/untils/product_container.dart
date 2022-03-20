@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../config/app_colors.dart';
@@ -53,9 +54,18 @@ class _ProductContainerState extends State<ProductContainer> {
             width: double.infinity,
             // padding: const EdgeInsets.only(left: 3,right: 3,),
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
-            child: Image.asset(
-              image,
+            child: CachedNetworkImage(
               fit: BoxFit.cover,
+              imageUrl: image,
+              placeholder: (context, url) =>
+                  const Center(
+                      child:
+                      CircularProgressIndicator(
+                          color:
+                          colorGrey)),
+              errorWidget:
+                  (context, url, error) =>
+              const Icon(Icons.error),
             ),
           ),
           const SizedBox(

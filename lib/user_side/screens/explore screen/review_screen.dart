@@ -195,19 +195,23 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [SizedBox(width: 100,),
-                  Container(
-                    height: 50,
-                    width: 146,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: colorGreen,
-                        borderRadius: BorderRadius.circular(3)),
-                    child: Text(
-                      "Send",
-                      style: defaultTextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15.00,
-                          fontColors: colorWhite),
+                  InkWell(onTap: (){
+
+                  },
+                    child: Container(
+                      height: 50,
+                      width: 146,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: colorGreen,
+                          borderRadius: BorderRadius.circular(3)),
+                      child: Text(
+                        "Send",
+                        style: defaultTextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 15.00,
+                            fontColors: colorWhite),
+                      ),
                     ),
                   )
                 ],

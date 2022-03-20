@@ -223,6 +223,7 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
         ),
       ),
+      // bottomNavigationBar: buildMyNavBar(context),
     );
   }
 
@@ -239,7 +240,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 setState(() {
                   pageIndex = 0;
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => ExploreScreen()));
+                      MaterialPageRoute(builder: (context) => pages[0]));
                 });
               },
               child: Container(
@@ -275,7 +276,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 setState(() {
                   pageIndex = 1;
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => CartScreen()));
+                      MaterialPageRoute(builder: (context) => pages[1]));
                 });
               },
               child: Container(
@@ -311,7 +312,7 @@ class _AccountScreenState extends State<AccountScreen> {
               setState(() {
                 pageIndex = 2;
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => AccountScreen()));
+                    MaterialPageRoute(builder: (context) => pages[2]));
               });
             },
             child: Container(

@@ -167,7 +167,7 @@ class _AddressDetailState extends State<AddressDetail> {
                                     children: [
                                       TextButton(
                                         onPressed: () {
-                                          Navigator.push(
+                                          Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
@@ -236,7 +236,7 @@ class _AddressDetailState extends State<AddressDetail> {
             InkWell(
               splashColor: Colors.transparent,
               onTap: () {
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => AddNewAddress()));
               },
               child: Container(

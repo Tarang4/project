@@ -229,7 +229,7 @@ class _CartScreenState extends State<CartScreen> {
             )
           ],
         ),
-        bottomNavigationBar: buildMyNavBar(context),
+        // bottomNavigationBar: buildMyNavBar(context),
       ),
     );
 
@@ -248,7 +248,7 @@ class _CartScreenState extends State<CartScreen> {
                 setState(() {
                   pageIndex = 0;
                   Navigator.pushReplacement(context,
-                      CupertinoPageRoute(builder: (context) => ExploreScreen()));
+                      CupertinoPageRoute(builder: (context) =>pages[0]));
                 });
               },
               child: Container(
@@ -284,7 +284,7 @@ class _CartScreenState extends State<CartScreen> {
                 setState(() {
                   pageIndex = 1;
                   Navigator.pushReplacement(context,
-                      CupertinoPageRoute(builder: (context) => CartScreen()));
+                      CupertinoPageRoute(builder: (context) => pages[1]));
                 });
               },
               child: Container(
@@ -320,7 +320,7 @@ class _CartScreenState extends State<CartScreen> {
               setState(() {
                 pageIndex = 2;
                 Navigator.pushReplacement(context,
-                    CupertinoPageRoute(builder: (context) => AccountScreen()));
+                    CupertinoPageRoute(builder: (context) => pages[2]));
               });
             },
             child: Container(

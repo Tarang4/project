@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/admin/modal/admin_product_modal.dart';
+import 'package:untitled/admin/repository/add_product_repository.dart';
 
 import '../../user_side/config/FireStore_string.dart';
 import '../../user_side/config/app_colors.dart';
@@ -21,9 +22,8 @@ class _ProductEditState extends State<ProductEdit> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,12 +62,12 @@ class _ProductEditState extends State<ProductEdit> {
                         ProductModalAdmin productModal =
                             ProductModalAdmin.fromJson(
                                 snapshot.data.docs[index].data());
-                        int c1=int.parse(productModal.colorCode!.color1.toString());
+                        int c1 = int.parse(
+                            productModal.colorCode!.color1.toString());
 
                         // Color hexToColor(String c1) {
                         //   return new Color(int.parse(c1.substring(1, 7), radix: 16) + 0xFF000000);
                         // }
-
 
                         return Card(
                           elevation: 3,
@@ -244,8 +244,10 @@ class _ProductEditState extends State<ProductEdit> {
                                                 Container(
                                                   height: 20,
                                                   width: 40,
-                                                  color: Color(int.parse(productModal.colorCode!.color1.toString())),
-
+                                                  color: Color(int.parse(
+                                                      productModal
+                                                          .colorCode!.color1
+                                                          .toString())),
                                                 ),
                                                 SizedBox(
                                                   width: 4,
@@ -253,8 +255,10 @@ class _ProductEditState extends State<ProductEdit> {
                                                 Container(
                                                   height: 20,
                                                   width: 40,
-                                                  color: Color(int.parse(productModal.colorCode!.color2.toString())),
-
+                                                  color: Color(int.parse(
+                                                      productModal
+                                                          .colorCode!.color2
+                                                          .toString())),
                                                 ),
                                               ],
                                             ),
@@ -266,8 +270,10 @@ class _ProductEditState extends State<ProductEdit> {
                                                 Container(
                                                   height: 20,
                                                   width: 40,
-                                                  color: Color(int.parse(productModal.colorCode!.color3.toString())),
-
+                                                  color: Color(int.parse(
+                                                      productModal
+                                                          .colorCode!.color3
+                                                          .toString())),
                                                 ),
                                                 SizedBox(
                                                   width: 6,
@@ -275,8 +281,10 @@ class _ProductEditState extends State<ProductEdit> {
                                                 Container(
                                                   height: 20,
                                                   width: 40,
-                                                  color: Color(int.parse(productModal.colorCode!.color4.toString())),
-
+                                                  color: Color(int.parse(
+                                                      productModal
+                                                          .colorCode!.color4
+                                                          .toString())),
                                                 ),
                                               ],
                                             ),
@@ -300,6 +308,10 @@ class _ProductEditState extends State<ProductEdit> {
                                   height: 15,
                                 ),
                                 InkWell(
+                                  onTap: () {
+                                    ProductRepository.deleteProducts(
+                                        id: productModal.productId.toString());
+                                  },
                                   child: Container(
                                     height: 40,
                                     width: 150,

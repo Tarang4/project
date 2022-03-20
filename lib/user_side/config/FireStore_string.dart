@@ -5,4 +5,5 @@ class FirebaseString{
   static const String outInCollection = "isLog_in-out";
   static const String wishListCollection = "wishList";
   static const String productCollection = "product";
+  static const String productReviewCollection = "productReview";
 }

@@ -1,18 +1,81 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:untitled/user_side/screens/explore%20screen/review_screen.dart';
+
 import '../config/app_colors.dart';
 import '../modal/review_modal.dart';
-import '../screens/explore screen/review_screen.dart';
 import 'app_fonts.dart';
 
 class CategoriesProduct extends StatefulWidget {
-  const CategoriesProduct({Key? key}) : super(key: key);
+  final String pID;
+  final String pImage1;
+  final String pImage2;
+  final String pImage3;
+  final String pImage4;
+  final String pName;
+  final String pInfo;
+  final String pPrice;
+  final String color1;
+  final String color2;
+  final String color3;
+  final String color4;
+  final String size1;
+  final String size2;
+  final String size3;
+  final String size4;
+  final String review;
+  final String reviewStar;
+
+  const CategoriesProduct(
+      {Key? key,
+      required this.pImage1,
+      required this.pImage2,
+      required this.pImage3,
+      required this.pImage4,
+      required this.pName,
+      required this.pInfo,
+      required this.pPrice,
+      required this.color1,
+      required this.color2,
+      required this.color3,
+      required this.color4,
+      required this.size1,
+      required this.size2,
+      required this.size3,
+      required this.size4,
+      required this.review,
+      required this.reviewStar,
+      required this.pID})
+      : super(key: key);
 
   @override
   _CategoriesProductState createState() => _CategoriesProductState();
 }
 
 class _CategoriesProductState extends State<CategoriesProduct> {
+   String? pID;
+   String? pImage1;
+   String? pImage2;
+   String? pImage3;
+   String? pImage4;
+   String? pName;
+   String? pInfo;
+   String? pPrice;
+   Color? color1;
+   Color? color2;
+   Color? color3;
+   Color? color4;
+    String? size1;
+    String? size2;
+    String? size3;
+    String? size4;
+   String? review;
+   String? reviewStar;
+
+
+
+
   int selectSize = 0;
   int selectColor = 0;
   List<ReviewModal> reviewList = [
@@ -27,6 +90,31 @@ class _CategoriesProductState extends State<CategoriesProduct> {
   ];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    pImage1=widget.pImage1;
+   pImage2=widget.pImage2;
+    pImage3=widget.pImage3;
+    pImage4=widget.pImage4;
+    pName=widget.pName;
+    pInfo=widget.pInfo;
+   pPrice=widget.pPrice;
+
+     color1 = Color(int.parse(widget.color1));
+     color2 = Color(int.parse(widget.color2));
+     color3 = Color(int.parse(widget.color3));
+     color4 = Color(int.parse(widget.color4));
+
+     size1 = widget.size2=="true"?"S":"";
+     size2 = widget.size1=="true"?"M":"";
+     size3 = widget.size3=="true"?"XL":"";
+     size4 = widget.size4=="true"?"XXL":"";
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -37,12 +125,40 @@ class _CategoriesProductState extends State<CategoriesProduct> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    "assets/images/icons/G1.png",
+                  ImageSlideshow(
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height / 100 * 55,
-                    fit: BoxFit.cover,
+
+                    children: [
+                      Image.network(
+                        pImage1!,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                      Image.network(
+                        pImage2!,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                      Image.network(
+                        pImage3!,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                      Image.network(
+                        pImage4!,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ],
+                    onPageChanged: (value) {
+                      print('Page changed: $value');
+                    },
+                    autoPlayInterval: 900,
+                    isLoop: true,
                   ),
+
+
                   SizedBox(
                     height: 17,
                   ),
@@ -52,7 +168,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                       right: 16,
                     ),
                     child: Text(
-                      "Nike Dri-fit Long Sleev",
+                      pName!,
                       style: defaultTextStyle(
                           fontWeight: FontWeight.bold, fontSize: 26.00),
                     ),
@@ -99,20 +215,20 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                         margin: EdgeInsets.only(right: 10),
                                         child: Text(
                                           index == 0
-                                              ? "large"
+                                              ? size1!
                                               : index == 1
-                                                  ? "small"
+                                                  ? size2!
                                                   : index == 2
-                                                      ? "XL"
+                                                      ? size3!
                                                       : index == 3
-                                                          ? "XXl"
-                                                          : "large",
+                                                          ? size4!
+                                                          : size1!,
                                           style: defaultTextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 13.00,
                                               fontColors: selectSize == index
-                                                  ? colorBlack
-                                                  : colorGrey),
+                                                  ? colorGreen
+                                                  : colorBlack),
                                         ),
                                       ),
                                     )),
@@ -138,32 +254,33 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                         });
                                       },
                                       child: Container(
-                                          height: 32,
-                                          padding: EdgeInsets.all(1.5),
-                                          width: 32,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            border: Border.all(
-                                              color: selectColor == index
-                                                  ? colorGreen
-                                                  : Colors.transparent,
-                                              width: 1.3,
-                                            ),
+                                        height: 32,
+                                        padding: EdgeInsets.all(1.5),
+                                        width: 32,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          border: Border.all(
+                                            color: selectColor == index
+                                                ? colorGreen
+                                                : Colors.transparent,
+                                            width: 1.3,
                                           ),
-                                          margin: EdgeInsets.only(right: 10),
-                                          child: CircleAvatar(
-                                              radius: 20,
-                                              backgroundColor: index == 0
-                                                  ? Colors.blue
-                                                  : index == 1
-                                                      ? Colors.purple
-                                                      : index == 2
-                                                          ? Colors.red
-                                                          : index == 3
-                                                              ? Colors.orange
-                                                              : Colors.blue)),
+                                        ),
+                                        margin: EdgeInsets.only(right: 10),
+                                        child: CircleAvatar(
+                                            radius: 20,
+                                            backgroundColor: index == 0
+                                                ? color1
+                                                : index == 1
+                                                    ? color2
+                                                    : index == 2
+                                                        ? color3
+                                                        : index == 3
+                                                            ? color4
+                                                            : color1),
+                                      ),
                                     )),
                           )
                         ],
@@ -188,10 +305,10 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16.0,
                     ),
-                    child: const Padding(
+                    child:  Padding(
                       padding: EdgeInsets.only(bottom: 10.0),
                       child: Text(
-                          "Color SELECT TOP clause. MySQL supports the clause to select a limited number of records, while Oracle uses FETCH FIRST n ROWS ONLY and ROWNUM.",
+                          pInfo! ,
                           style: TextStyle(
                               height: 1.3,
                               fontWeight: FontWeight.normal,
@@ -235,7 +352,12 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                       tag: "review",
                       child: Material(
                         child: TextButton(
-                          onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context)=>ReviewScreen())); },
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => ReviewScreen()));
+                          },
                           child: Text(
                             "Write your",
                             style: defaultTextStyle(
@@ -328,9 +450,11 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                         Text(
                                           reviewModal.review ?? "",
                                           style: defaultTextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 15.50,height: 1.2,wordSpacing: 1.00
-                                          ),maxLines: 3,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 15.50,
+                                              height: 1.2,
+                                              wordSpacing: 1.00),
+                                          maxLines: 3,
                                         )
                                       ],
                                     ),
@@ -362,9 +486,9 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           fontWeight: FontWeight.normal,
                           fontSize: 12.00,
                           fontColors: colorGrey),
-                    ),
+                    ),const SizedBox(height: 5,),
                     Text(
-                      "\$1500",
+                      "\$ ${pPrice!}",
                       style: defaultTextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18.00,

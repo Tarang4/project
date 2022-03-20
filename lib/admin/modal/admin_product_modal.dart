@@ -1,5 +1,6 @@
 class ProductModalAdmin {
   String? productId;
+  String? productTime;
   String? uId;
   String? categories;
   String? productName;
@@ -12,6 +13,7 @@ class ProductModalAdmin {
 
   ProductModalAdmin(
       {this.productId,
+        this.productTime,
         this.uId,
         this.categories,
         this.productName,
@@ -24,6 +26,7 @@ class ProductModalAdmin {
 
   ProductModalAdmin.fromJson(Map<String, dynamic> json) {
     productId = json['productId'];
+    productTime = json['productTime'];
     uId = json['UId'];
     categories = json['categories'];
     productName = json['productName'];
@@ -41,6 +44,7 @@ class ProductModalAdmin {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['productId'] = this.productId;
+    data['productTime'] = this.productTime;
     data['UId'] = this.uId;
     data['categories'] = this.categories;
     data['productName'] = this.productName;

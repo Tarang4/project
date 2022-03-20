@@ -26,12 +26,14 @@ class ProductRepository {
     String? sizeXXL,
   }) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    DateTime todayDate = DateTime.now();
 
     final CollectionReference _productCollection =
         firebaseFirestore.collection(FirebaseString.productCollection);
 
     Map<String, dynamic> productData = <String, dynamic>{
       "productId": _productCollection.doc().id,
+      "productTime": "Date-Time $todayDate",
       "UId": uId,
       "categories": categories,
       "productName": productName,
@@ -63,27 +65,63 @@ class ProductRepository {
     ToastMethod.simpleToast(massage: "Save ok");
   }
 
-  static productsSet({
-    String? img1,
-    String? img3,
-    String? img4,
-    String? img2,
-  }) async {
+  // static productReviewAdd(
+  //     {@required BuildContext? context,
+  //       @required String? pid,
+  //       @required String? cardNo,
+  //       @required String? cvv,
+  //       @required String? exp_date}) async {
+  //
+  //   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  //
+  //   final CollectionReference _cardCollection = firebaseFirestore
+  //       .collection(FirebaseString.productCollection).where("productId",isEqualTo:pid )
+  //       .doc(id)
+  //       .collection(FirebaseString.productReviewCollection);
+  //
+  //   DocumentReference? documentId;
+  //   DocumentReference documentReferencer = _cardCollection.doc(documentId?.id);
+  //   print(documentReferencer.id);
+  //
+  //   Map<String, dynamic> ReviewData = <String, dynamic>{
+  //     "userId": id,
+  //     "cardId": documentReferencer.id,
+  //     "cardName": cardName,
+  //     "cardNo": cardNo,
+  //     "exp_date": exp_date,
+  //     "element_id": "",
+  //     "cvv": cvv,
+  //   };
+  //
+  //   if (id != null) {
+  //     await _cardCollection.add(cardData);
+  //
+  //     ToastMethod.simpleToast(context: context, massage: "add detail");
+  //
+  //     debugPrint('yes add card');
+  //   } else {
+  //     ToastMethod.simpleToast(context: context, massage: "no add detail");
+  //
+  //     debugPrint('No add card');
+  //   }
+  // }
+
+  static deleteProducts({
+    @required String? id,
+  }) {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
     final CollectionReference _productCollection =
         firebaseFirestore.collection(FirebaseString.productCollection);
-
-    Map<String, dynamic> productData = <String, dynamic>{
-      "img1": img1,
-      "img2": img2,
-      "img3": img3,
-      "img4": img4,
-    };
-
-    await _productCollection.doc().set(productData);
-
-    ToastMethod.simpleToast(massage: "Save ok");
+    if (id != null) {
+      _productCollection.where("productId", isEqualTo: id).get().then((value) {
+        for (DocumentSnapshot ds in value.docs) {
+          ds.reference.delete();
+        }
+        ToastMethod.simpleToast(massage: "Product Delete Successfully");
+        print("delete done");
+      });
+    }
   }
 }
 

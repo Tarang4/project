@@ -10,6 +10,9 @@ import '../../../config/FireStore_string.dart';
 import '../../../config/app_colors.dart';
 import '../../../modal/credit_card_model.dart';
 import '../../../untils/app_fonts.dart';
+import '../../../untils/custom_bottomNavigationBar.dart';
+import '../../cart screen/cart_screen.dart';
+import '../../explore screen/explore_screen.dart';
 import '../account_screen.dart';
 import 'addnew_card.dart';
 import 'edit_card.dart';
@@ -36,6 +39,11 @@ class _CardsScreenState extends State<CardsScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   List<DebitCardModal> cardList = [];
   int pageIndex = 0;
+  final pages = [
+    const ExploreScreen(),
+    const CartScreen(),
+    const AccountScreen(),
+  ];
 
 
   getUserCards() {
@@ -186,13 +194,13 @@ class _CardsScreenState extends State<CardsScreen> {
             InkWell(
               splashColor: Colors.transparent,
               onTap: () {
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     CupertinoPageRoute(builder: (context) => AddCard()));
               },
               child: Container(
                 height: 50,
                 width: 146,
-                margin: const EdgeInsets.only(left: 200, top: 10),
+                margin: const EdgeInsets.only(left: 200, top: 10,bottom: 15),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     color: colorGreen, borderRadius: BorderRadius.circular(5)),
@@ -208,129 +216,7 @@ class _CardsScreenState extends State<CardsScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: buildMyNavBar(context),
     );
   }
 
-  Container buildMyNavBar(BuildContext context) {
-    return Container(
-      height: 74,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          InkWell(
-              splashColor: Colors.white,
-              enableFeedback: false,
-              onTap: () {
-                setState(() {
-                  pageIndex = 0;
-                });
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width / 3,
-                alignment: Alignment.center,
-                child: pageIndex == 0
-                    ? Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            "Explore",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Container(
-                            height: 3,
-                            width: 7,
-                            decoration: BoxDecoration(
-                                color: colorBlack,
-                                borderRadius: BorderRadius.circular(10)),
-                          )
-                        ],
-                      )
-                    : const Icon(Icons.home_filled),
-              )),
-          InkWell(
-              enableFeedback: false,
-              splashColor: Colors.white,
-              onTap: () {
-                setState(() {
-                  pageIndex = 1;
-                });
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width / 3,
-                alignment: Alignment.center,
-                child: pageIndex == 1
-                    ? Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            "Cart",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Container(
-                            height: 3,
-                            width: 5,
-                            decoration: BoxDecoration(
-                                color: colorBlack,
-                                borderRadius: BorderRadius.circular(10)),
-                          )
-                        ],
-                      )
-                    : const Icon(Icons.card_travel),
-              )),
-          InkWell(
-            enableFeedback: false,
-            splashColor: Colors.white,
-            onTap: () {
-              setState(() {
-                pageIndex = 2;
-              });
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width / 3,
-              alignment: Alignment.center,
-              child: pageIndex == 2
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          "Account",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Container(
-                          height: 3,
-                          width: 8,
-                          decoration: BoxDecoration(
-                              color: colorBlack,
-                              borderRadius: BorderRadius.circular(10)),
-                        )
-                      ],
-                    )
-                  : const Icon(Icons.person),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-
-// getData() async {
-//   List<CardModel> model = await DbHelper().getData();
-//   setState(() {
-//     cardList = model;
-//   });
-// }
 }

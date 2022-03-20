@@ -4,6 +4,7 @@ import 'package:untitled/admin/screens/product_edit.dart';
 
 import '../../user_side/config/app_colors.dart';
 import '../../user_side/untils/app_fonts.dart';
+import 'customerDetails.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({Key? key}) : super(key: key);
@@ -58,18 +59,22 @@ class _AdminHomeState extends State<AdminHome> {
             SizedBox(
               height: 18,
             ),
-            Container(
-              height: 80,
-              width: double.infinity,
-              color: colorGrey.withOpacity(0.3),
+            InkWell(onTap: (){
+              Navigator.push(context, CupertinoPageRoute(builder: (context)=>CustomerDetails()));
+            },
+              child: Container(
+                height: 80,
+                width: double.infinity,
+                color: colorGrey.withOpacity(0.3),
 
-              alignment: Alignment.center,
-              child: Text(
-                "User Information",
-                style: defaultTextStyle(
-                    fontSize: 20.0,
-                    fontColors: colorBlack,
-                    fontWeight: FontWeight.normal),
+                alignment: Alignment.center,
+                child: Text(
+                  "User Information",
+                  style: defaultTextStyle(
+                      fontSize: 20.0,
+                      fontColors: colorBlack,
+                      fontWeight: FontWeight.normal),
+                ),
               ),
             ),
           ],
