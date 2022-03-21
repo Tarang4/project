@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:untitled/user_side/screens/explore%20screen/review_screen.dart';
 
+import '../config/FireStore_string.dart';
 import '../config/app_colors.dart';
 import '../modal/review_modal.dart';
 import 'app_fonts.dart';
@@ -54,64 +56,53 @@ class CategoriesProduct extends StatefulWidget {
 }
 
 class _CategoriesProductState extends State<CategoriesProduct> {
-   String? pID;
-   String? pImage1;
-   String? pImage2;
-   String? pImage3;
-   String? pImage4;
-   String? pName;
-   String? pInfo;
-   String? pPrice;
-   Color? color1;
-   Color? color2;
-   Color? color3;
-   Color? color4;
-    String? size1;
-    String? size2;
-    String? size3;
-    String? size4;
-   String? review;
-   String? reviewStar;
-
-
-
+  String? pID;
+  String? pImage1;
+  String? pImage2;
+  String? pImage3;
+  String? pImage4;
+  String? pName;
+  String? pInfo;
+  String? pPrice;
+  Color? color1;
+  Color? color2;
+  Color? color3;
+  Color? color4;
+  String? size1;
+  String? size2;
+  String? size3;
+  String? size4;
+  String? review;
+  String? reviewStar;
 
   int selectSize = 0;
   int selectColor = 0;
-  List<ReviewModal> reviewList = [
-    ReviewModal(
-        userName: "tarang boss",
-        review: "this product is good and a am confortable product",
-        img: "assets/images/icons/G1.png"),
-    ReviewModal(
-        userName: "tarang boss",
-        review: "this product is good and a am confortable product",
-        img: "assets/images/icons/G1.png"),
-  ];
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    pID = widget.pID;
 
-    pImage1=widget.pImage1;
-   pImage2=widget.pImage2;
-    pImage3=widget.pImage3;
-    pImage4=widget.pImage4;
-    pName=widget.pName;
-    pInfo=widget.pInfo;
-   pPrice=widget.pPrice;
+    pImage1 = widget.pImage1;
+    pImage2 = widget.pImage2;
+    pImage3 = widget.pImage3;
+    pImage4 = widget.pImage4;
 
-     color1 = Color(int.parse(widget.color1));
-     color2 = Color(int.parse(widget.color2));
-     color3 = Color(int.parse(widget.color3));
-     color4 = Color(int.parse(widget.color4));
+    pName = widget.pName;
+    pInfo = widget.pInfo;
+    pPrice = widget.pPrice;
 
-     size1 = widget.size2=="true"?"S":"";
-     size2 = widget.size1=="true"?"M":"";
-     size3 = widget.size3=="true"?"XL":"";
-     size4 = widget.size4=="true"?"XXL":"";
+    color1 = Color(int.parse(widget.color1));
+    color2 = Color(int.parse(widget.color2));
+    color3 = Color(int.parse(widget.color3));
+    color4 = Color(int.parse(widget.color4));
 
+    size1 = widget.size2 == "true" ? "S" : "";
+    size2 = widget.size1 == "true" ? "M" : "";
+    size3 = widget.size3 == "true" ? "XL" : "";
+    size4 = widget.size4 == "true" ? "XXL" : "";
   }
 
   @override
@@ -127,8 +118,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                 children: [
                   ImageSlideshow(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height / 100 * 55,
-
+                    height: 450,
                     children: [
                       Image.network(
                         pImage1!,
@@ -154,11 +144,10 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                     onPageChanged: (value) {
                       print('Page changed: $value');
                     },
-                    autoPlayInterval: 9000,
+                    autoPlayInterval: 8000,
                     isLoop: true,
-
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 17,
                   ),
                   Padding(
@@ -172,7 +161,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           fontWeight: FontWeight.bold, fontSize: 26.00),
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 17,
                   ),
                   Padding(
@@ -187,7 +176,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             style: defaultTextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16.00),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 10,
                           ),
                           Row(
@@ -211,7 +200,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                             width: 0.6,
                                           ),
                                         ),
-                                        margin: const EdgeInsets.only(right: 10),
+                                        margin: EdgeInsets.only(right: 10),
                                         child: Text(
                                           index == 0
                                               ? size1!
@@ -232,7 +221,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       ),
                                     )),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 10,
                           ),
                           Text(
@@ -240,7 +229,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             style: defaultTextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16.00),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 10,
                           ),
                           Row(
@@ -254,7 +243,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       },
                                       child: Container(
                                         height: 32,
-                                        padding: const EdgeInsets.all(1.5),
+                                        padding: EdgeInsets.all(1.5),
                                         width: 32,
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
@@ -267,7 +256,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                             width: 1.3,
                                           ),
                                         ),
-                                        margin: const EdgeInsets.only(right: 10),
+                                        margin: EdgeInsets.only(right: 10),
                                         child: CircleAvatar(
                                             radius: 20,
                                             backgroundColor: index == 0
@@ -284,7 +273,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           )
                         ],
                       )),
-                  const SizedBox(
+                  SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -304,11 +293,10 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16.0,
                     ),
-                    child:  Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Text(
-                          pInfo! ,
-                          style: const TextStyle(
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 10.0),
+                      child: Text(pInfo!,
+                          style: TextStyle(
                               height: 1.3,
                               fontWeight: FontWeight.normal,
                               fontSize: 14.00,
@@ -327,7 +315,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           fontColors: colorGreen),
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -340,7 +328,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           fontWeight: FontWeight.bold, fontSize: 18.00),
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 7,
                   ),
                   Padding(
@@ -355,7 +343,10 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             Navigator.push(
                                 context,
                                 CupertinoPageRoute(
-                                    builder: (context) => const ReviewScreen()));
+                                    builder: (context) => ReviewScreen(
+                                          productId: pID.toString(),
+                                          productName: pName.toString(),
+                                        )));
                           },
                           child: Text(
                             "Write your",
@@ -368,101 +359,120 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 600,
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                        ),
-                        child: ListView.builder(
-                          itemCount: reviewList.length.toInt(),
+                  Container(
+
+                    height: 200,
+                    child: StreamBuilder(stream: FirebaseFirestore.instance
+                        .collection(FirebaseString.productCollection)
+                        .doc(pID)
+                        .collection(FirebaseString.productReviewCollection)
+                        .snapshots(),
+                      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                      if(snapshot.hasData){
+                        return ListView.builder(
+                          itemCount: snapshot.data.docs.length,
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: false,
                           itemBuilder: (BuildContext context, int index) {
-                            ReviewModal reviewModal = reviewList[index];
-                            return Container(
-                              height: 90,
-                              padding: const EdgeInsets.only(top: 10),
-                              margin: const EdgeInsets.only(bottom: 25),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(30)),
-                                      child: Image.asset(
-                                        reviewModal.img ?? "",
-                                        height: 50,
-                                        fit: BoxFit.cover,
-                                        width: 50,
-                                      )),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              width: 150,
-                                              child: Text(
-                                                reviewModal.userName ?? "",
-                                                style: defaultTextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16.50,
+
+                            ReviewModal reviewModal =
+                            ReviewModal.fromJson(
+                                snapshot.data.docs[index].data());
+
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15.0,
+                              ),
+                              child: Container(
+                                height: 90,
+                                padding: EdgeInsets.only(top: 10),
+                                margin: EdgeInsets.only(bottom: 15),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(30)),
+                                        child: Image.network(
+                                          reviewModal.userprofile.toString(),
+                                          height: 50,
+                                          fit: BoxFit.cover,
+                                          width: 50,
+                                        )),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                width: 150,
+                                                child: Text(
+                                                  reviewModal.userName.toString(),
+                                                  style: defaultTextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16.50,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  100 *
-                                                  10,
-                                            ),
-                                            Container(
-                                              width: 100,
-                                              child: Row(
-                                                children: List.generate(
-                                                    5,
-                                                    (index) => Container(
-                                                          child: const Icon(
-                                                            Icons.star,
-                                                            size: 20,
-                                                            color: colorYellow,
-                                                          ),
-                                                        )),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                    100 *
+                                                    10,
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                          reviewModal.review ?? "",
-                                          style: defaultTextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 15.50,
-                                              height: 1.2,
-                                              wordSpacing: 1.00),
-                                          maxLines: 3,
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
+                                              Container(
+                                                width: 100,
+                                                child: Row(
+                                                  children: List.generate(
+                                                      int.parse(reviewModal.star.toString()),
+                                                          (index) => Container(
+                                                        child: Icon(
+                                                          Icons.star,
+                                                          size: 20,
+                                                          color: colorYellow,
+                                                        ),
+                                                      )),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 3,
+                                          ),
+                                          Text(
+                                            reviewModal.reviewText.toString(),
+                                            style: defaultTextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 15.50,
+                                                height: 1.2,
+                                                wordSpacing: 1.00),
+                                            maxLines: 3,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             );
                           },
-                        )),
+                        );
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(color: colorGreen,),
+
+                      );
+                    },),
                   ),
                 ],
               ),
@@ -471,7 +481,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
           Container(
             height: 84,
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 17),
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 17),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -485,7 +495,10 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           fontWeight: FontWeight.normal,
                           fontSize: 12.00,
                           fontColors: colorGrey),
-                    ),const SizedBox(height: 5,),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     Text(
                       "₹ ${pPrice!}",
                       style: defaultTextStyle(

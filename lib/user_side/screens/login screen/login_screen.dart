@@ -22,7 +22,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool isPassword = true;
   final loginScreenKey = GlobalKey<FormState>();
-  List<UserModel> modelList = [];
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 

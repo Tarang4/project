@@ -28,7 +28,6 @@ class ForgetScreen extends StatefulWidget {
 class _ForgetScreenState extends State<ForgetScreen> {
   late String email;
   final loginScreenKey = GlobalKey<FormState>();
-  List<UserModel> modelList = [];
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();

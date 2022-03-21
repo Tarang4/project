@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/admin/repository/add_product_repository.dart';
 
 import '../../config/app_colors.dart';
 import '../../untils/app_fonts.dart';
 
 class ReviewScreen extends StatefulWidget {
-  const ReviewScreen({Key? key}) : super(key: key);
+  final String productId;
+  final String productName;
+
+  const ReviewScreen({Key? key, required this.productId, required this.productName}) : super(key: key);
 
   @override
   _ReviewScreenState createState() => _ReviewScreenState();
@@ -12,13 +16,22 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewScreen> {
   final TextEditingController _reviewTextController = TextEditingController();
-  int reviewStar = 0;
-  int? goStar;
+  String? star;
   bool isZero = true;
   bool isOne = false;
   bool isTwo = false;
   bool isThree = false;
   bool isFour = false;
+  String? productId;
+  String? productName;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    productId = widget.productId;
+    productName=widget.productName;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +46,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   tag: "review",
                   child: Material(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 45.0, left: 0, right: 16),
+                      padding:
+                          const EdgeInsets.only(top: 45.0, left: 0, right: 16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -61,10 +75,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     ),
                   ),
                 ),
+
                 Padding(
-                  padding: const EdgeInsets.only(top: 45.0, left: 16, right: 16),
+                  padding:
+                      const EdgeInsets.only(top: 45.0, left: 16, right: 16),
                   child: Text(
-                    "Nike Dri-FIT Long",
+                    productName!,
                     style: defaultTextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25.50,
@@ -72,7 +88,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20.0, left: 16, right: 16),
+                  padding:
+                      const EdgeInsets.only(top: 20.0, left: 16, right: 16),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -84,12 +101,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   one: false,
                                   three: false,
                                   two: false,
-                                  four: false);
+                                  four: false);star="1";
                             });
                           },
                           child: isZero == true
                               ? iconStarYellow()
-                              :iconStarOutLine(),
+                              : iconStarOutLine(),
                         ),
                         InkWell(
                           onTap: () {
@@ -99,12 +116,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   one: true,
                                   three: false,
                                   two: false,
-                                  four: false);
+                                  four: false);star="2";
                             });
                           },
                           child: isOne == true
                               ? iconStarYellow()
-                              :iconStarOutLine(),
+                              : iconStarOutLine(),
                         ),
                         InkWell(
                           onTap: () {
@@ -114,12 +131,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   one: true,
                                   three: false,
                                   two: true,
-                                  four: false);
+                                  four: false);star="3";
                             });
                           },
                           child: isTwo == true
                               ? iconStarYellow()
-                              :iconStarOutLine(),
+                              : iconStarOutLine(),
                         ),
                         InkWell(
                           onTap: () {
@@ -129,12 +146,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   one: true,
                                   three: true,
                                   two: true,
-                                  four: false);
+                                  four: false);star="4";
                             });
                           },
                           child: isThree == true
                               ? iconStarYellow()
-                              :iconStarOutLine(),
+                              : iconStarOutLine(),
                         ),
                         InkWell(
                           onTap: () {
@@ -144,7 +161,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   one: true,
                                   three: true,
                                   two: true,
-                                  four: true);
+                                  four: true);star="5";
                             });
                           },
                           child: isFour == true
@@ -162,7 +179,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       ]),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 40.0, left: 20, right: 20),
+                  padding:
+                      const EdgeInsets.only(top: 40.0, left: 20, right: 20),
                   child: TextFormField(
                     controller: _reviewTextController,
                     textInputAction: TextInputAction.next,
@@ -172,8 +190,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         color: colorBlack,
                         fontSize: 18,
                         fontWeight: FontWeight.normal),
-                    decoration: const InputDecoration(focusColor: colorGreen,
-                      isDense: true,hintText:"Tell us your experience" ,hintStyle: TextStyle(color: colorGrey),
+                    decoration: const InputDecoration(
+                      focusColor: colorGreen,
+                      isDense: true,
+                      hintText: "Tell us your experience",
+                      hintStyle: TextStyle(color: colorGrey),
                       border: UnderlineInputBorder(
                         borderSide: BorderSide(color: colorGreen),
                       ),
@@ -194,10 +215,19 @@ class _ReviewScreenState extends State<ReviewScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: [SizedBox(width: 100,),
-                  InkWell(onTap: (){
-
-                  },
+                children: [
+                  SizedBox(
+                    width: 100,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      ProductRepository.productReviewAdd(
+                        context: context,
+                        pid: productId,
+                        reviewText: _reviewTextController.text,
+                        star: star,
+                      );
+                    },
                     child: Container(
                       height: 50,
                       width: 146,
@@ -218,19 +248,20 @@ class _ReviewScreenState extends State<ReviewScreen> {
               ),
             ),
           )
-
         ],
       ),
     );
   }
-  iconStarYellow(){
+
+  iconStarYellow() {
     return const Icon(
       Icons.star,
       size: 60,
       color: colorYellow,
     );
   }
-  iconStarOutLine(){
+
+  iconStarOutLine() {
     return const Icon(
       Icons.star_border_outlined,
       size: 60,

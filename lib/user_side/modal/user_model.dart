@@ -1,55 +1,69 @@
-class UserModel {
-  int? id;
+class UserModal {
+  String? userId;
+  String? email;
   String? firstName;
   String? lastName;
-  String? email;
   String? password;
-  String? address;
-  String? profile;
+  String? passwordToken;
+  String? profilePhoto;
+  String? birthdate;
   String? phone;
-  String? pincode;
-  String? city;
+  String? gender;
+  String? isLoginTime;
+  String? wishList;
+  String? createAt;
+  String? updateAt;
 
-  UserModel({this.id, this.firstName,this.lastName, this.email, this.password,this.address,this.phone,this.pincode,this.city,this.profile});
+  UserModal(
+      {this.userId,
+        this.email,
+        this.firstName,
+        this.lastName,
+        this.password,
+        this.passwordToken,
+        this.profilePhoto,
+        this.birthdate,
+        this.phone,
+        this.gender,
+        this.isLoginTime,
+        this.wishList,
+        this.createAt,
+        this.updateAt});
 
-  UserModel.fromjson(Map<String, dynamic> map) {
-    id = map["id"];
-    firstName = map["firstname"];
-    lastName = map["lastName"];
-    email = map["email"];
-    password = map["password"];
-    address = map["address"];
-    profile = map["profile"];
-    phone = map["phone"];
-    pincode = map["pincode"];
-    city = map["city"];
+  UserModal.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    email = json['email'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    password = json['password'];
+    passwordToken = json['passwordToken'];
+    profilePhoto = json['profilePhoto'];
+    birthdate = json['Birthdate'];
+    phone = json['phone'];
+    gender = json['gender'];
+    isLoginTime = json['isLoginTime'];
+    wishList = json['wishList'];
+    createAt = json['createAt'];
+    updateAt = json['updateAt'];
   }
 
-  Map<String,dynamic> toJson()=>{
-    "id":id,
-    "firstName":firstName,
-    "lastName":lastName,
-    "email":email,
-    "password":password,
-    "address":address,
-    "profile":profile,
-    "phone":phone,
-    "pincode":pincode,
-    "city":city,
-  };
-
-  Map<String, dynamic> toMap() {
-    Map<String, dynamic> data = Map<String, dynamic>();
-    data["id"] = id;
-    data["firstName"] = firstName;
-    data["lastName"] = lastName;
-    data["email"] = email;
-    data["password"] = password;
-    data["address"] = address;
-    data["profile"] = profile;
-    data["phone"] = phone;
-    data["pincode"] = pincode;
-    data["city"] = city;
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['userId'] = userId;
+    data['email'] = email;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['password'] = password;
+    data['passwordToken'] = passwordToken;
+    data['profilePhoto'] = profilePhoto;
+    data['Birthdate'] = birthdate;
+    data['phone'] = phone;
+    data['gender'] = gender;
+    data['isLoginTime'] = isLoginTime;
+    data['wishList'] = wishList;
+    data['createAt'] = createAt;
+    data['updateAt'] = updateAt;
     return data;
   }
 }
+

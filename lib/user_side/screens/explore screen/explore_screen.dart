@@ -570,7 +570,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                 height: 3,
                               ),
                               Text(
-                               "₹${recList.price}" ?? "",
+                               "₹${recList.price}",
                                 style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal,

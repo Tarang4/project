@@ -186,7 +186,7 @@ class _CardsScreenState extends State<CardsScreen> {
                     );
                   }
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(color: colorGreen,),
                   );
                 },
               ),
