@@ -154,7 +154,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                     onPageChanged: (value) {
                       print('Page changed: $value');
                     },
-                    autoPlayInterval: 8000,
+                    autoPlayInterval: 9000,
                     isLoop: true,
 
                   ),
