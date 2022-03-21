@@ -154,12 +154,11 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                     onPageChanged: (value) {
                       print('Page changed: $value');
                     },
-                    autoPlayInterval: 900,
+                    autoPlayInterval: 8000,
                     isLoop: true,
+
                   ),
-
-
-                  SizedBox(
+                  const SizedBox(
                     height: 17,
                   ),
                   Padding(
@@ -173,7 +172,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           fontWeight: FontWeight.bold, fontSize: 26.00),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 17,
                   ),
                   Padding(
@@ -188,7 +187,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             style: defaultTextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16.00),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
@@ -212,7 +211,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                             width: 0.6,
                                           ),
                                         ),
-                                        margin: EdgeInsets.only(right: 10),
+                                        margin: const EdgeInsets.only(right: 10),
                                         child: Text(
                                           index == 0
                                               ? size1!
@@ -233,7 +232,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       ),
                                     )),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
@@ -241,7 +240,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             style: defaultTextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16.00),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
@@ -255,7 +254,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       },
                                       child: Container(
                                         height: 32,
-                                        padding: EdgeInsets.all(1.5),
+                                        padding: const EdgeInsets.all(1.5),
                                         width: 32,
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
@@ -268,7 +267,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                             width: 1.3,
                                           ),
                                         ),
-                                        margin: EdgeInsets.only(right: 10),
+                                        margin: const EdgeInsets.only(right: 10),
                                         child: CircleAvatar(
                                             radius: 20,
                                             backgroundColor: index == 0
@@ -285,7 +284,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           )
                         ],
                       )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -306,10 +305,10 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                       horizontal: 16.0,
                     ),
                     child:  Padding(
-                      padding: EdgeInsets.only(bottom: 10.0),
+                      padding: const EdgeInsets.only(bottom: 10.0),
                       child: Text(
                           pInfo! ,
-                          style: TextStyle(
+                          style: const TextStyle(
                               height: 1.3,
                               fontWeight: FontWeight.normal,
                               fontSize: 14.00,
@@ -328,7 +327,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           fontColors: colorGreen),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -341,7 +340,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           fontWeight: FontWeight.bold, fontSize: 18.00),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 7,
                   ),
                   Padding(
@@ -356,7 +355,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             Navigator.push(
                                 context,
                                 CupertinoPageRoute(
-                                    builder: (context) => ReviewScreen()));
+                                    builder: (context) => const ReviewScreen()));
                           },
                           child: Text(
                             "Write your",
@@ -377,14 +376,14 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                         ),
                         child: ListView.builder(
                           itemCount: reviewList.length.toInt(),
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: false,
                           itemBuilder: (BuildContext context, int index) {
                             ReviewModal reviewModal = reviewList[index];
                             return Container(
                               height: 90,
-                              padding: EdgeInsets.only(top: 10),
-                              margin: EdgeInsets.only(bottom: 25),
+                              padding: const EdgeInsets.only(top: 10),
+                              margin: const EdgeInsets.only(bottom: 25),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -399,7 +398,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                         fit: BoxFit.cover,
                                         width: 50,
                                       )),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 20,
                                   ),
                                   Expanded(
@@ -434,7 +433,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                 children: List.generate(
                                                     5,
                                                     (index) => Container(
-                                                          child: Icon(
+                                                          child: const Icon(
                                                             Icons.star,
                                                             size: 20,
                                                             color: colorYellow,
@@ -444,7 +443,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                             )
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 15,
                                         ),
                                         Text(
@@ -472,7 +471,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
           Container(
             height: 84,
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 17),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 17),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -488,7 +487,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           fontColors: colorGrey),
                     ),const SizedBox(height: 5,),
                     Text(
-                      "\$ ${pPrice!}",
+                      "₹ ${pPrice!}",
                       style: defaultTextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18.00,

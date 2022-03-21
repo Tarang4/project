@@ -40,24 +40,31 @@ class _ExploreScreenState extends State<ExploreScreen> {
         catImage: "assets/images/icons/C3.png", catName: "perfumes"),
   ];
   final List<String> imageList = [
-    "https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80",
-    'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-    'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-    'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
+    "https://images.unsplash.com/photo-1585565804112-f201f68c48b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+    "https://images.unsplash.com/photo-1629077007578-a36bb1056b3e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+    "https://images.unsplash.com/photo-1542219550-37153d387c27?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+"https://images.unsplash.com/photo-1568910748155-01ca989dbdd6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+    "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80",
+    "https://images.unsplash.com/photo-1621985499238-698dfd45b017?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
+
   ];
   List<FeturedBrand> fetureBrand = [
     FeturedBrand(
-        name: "B&o",
-        logo: "assets/images/Group 337.png",
+        name: "NIKE",
+        logo: "assets/images/logo/nike.jpg",
         products: "5696 Products"),
     FeturedBrand(
-        name: "Beats",
-        logo: "assets/images/Group 338.png",
-        products: "1124 Products"),
+        name: "GUCCI",
+        logo: "assets/images/logo/gucci.jpg",
+        products: "1187 Products",),
     FeturedBrand(
-        name: "B&o",
-        logo: "assets/images/Group 337.png",
-        products: "5696 Products"),
+        name: "ADIDAS",
+        logo: "assets/images/logo/adidas.png",
+        products: "1784 Products"),
+    FeturedBrand(
+        name: "ZARA",
+        logo: "assets/images/logo/zara.jpg",
+        products: "1354 Products"),
   ];
   List<ProductModal> productList = [
     ProductModal(
@@ -86,22 +93,22 @@ class _ExploreScreenState extends State<ExploreScreen> {
         image: "assets/images/reco2.png",
         name: "Wireless Remote",
         info: "Tesla Inc",
-        price: "\$790"),
+        price: "790"),
     RecoList(
         image: "assets/images/reco2.png",
         name: "Airdrops",
         info: "Apple Inc",
-        price: "\$120"),
+        price: "120"),
     RecoList(
         image: "assets/images/reco1.png",
         name: "Wireless Remote",
         info: "Tesla Inc",
-        price: "\$790"),
+        price: "790"),
     RecoList(
         image: "assets/images/reco2.png",
         name: "Airdrops",
         info: "Apple Inc",
-        price: "\$120"),
+        price: "120"),
   ];
   int pageIndex = 0;
   final pages = [
@@ -217,35 +224,35 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   Navigator.push(
                                       context,
                                       CupertinoPageRoute(
-                                          builder: (context) => MenScreen()));
+                                          builder: (context) => const MenScreen()));
                                 } else if (index == 1) {
                                   Navigator.push(
                                       context,
                                       CupertinoPageRoute(
-                                          builder: (context) => WomenScreen()));
+                                          builder: (context) => const WomenScreen()));
                                 } else if (index == 2) {
                                   Navigator.push(
                                       context,
                                       CupertinoPageRoute(
                                           builder: (context) =>
-                                              GadgetsScreen()));
+                                              const GadgetsScreen()));
                                 } else if (index == 4) {
                                   Navigator.push(
                                       context,
                                       CupertinoPageRoute(
                                           builder: (context) =>
-                                              DeviceScreen()));
+                                              const DeviceScreen()));
                                 } else if (index == 3) {
                                   Navigator.push(
                                       context,
                                       CupertinoPageRoute(
-                                          builder: (context) => MenScreen()));
+                                          builder: (context) => const MenScreen()));
                                 } else if (index == 5) {
                                   Navigator.push(
                                       context,
                                       CupertinoPageRoute(
                                           builder: (context) =>
-                                              PerfumesScreen()));
+                                              const PerfumesScreen()));
                                 }
                               },
                             );
@@ -268,7 +275,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         Navigator.push(
                             context,
                             CupertinoPageRoute(
-                                builder: (context) => SeeAllScreen()));
+                                builder: (context) => const SeeAllScreen()));
                       },
                       child: Hero(
                         tag: 'seeAll',
@@ -363,20 +370,20 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       print("error not found product ${snapshot.hasError}");
                     }
 
-                    return Center(
+                    return const Center(
                         child: CircularProgressIndicator(
                       color: colorGreen,
                     ));
                   }),
               Container(
-                margin: EdgeInsets.only(top: 15,bottom: 15,),
+                margin: const EdgeInsets.only(top: 15,bottom: 15,),
                 child: CarouselSlider.builder(
                   itemCount: imageList.length,
                   options: CarouselOptions(
                     enlargeCenterPage: true,
                     height: 200,
                     autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 3),
+                    autoPlayInterval: const Duration(seconds: 3),
                     reverse: false,
                     aspectRatio: 5.0,
                   ),
@@ -391,7 +398,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             )),
                         //ClipRRect for image border radius
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(8),
                           child: Image.network(
                             imageList[i],
                             width: 500,
@@ -439,10 +446,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             child: Row(
                               children: [
                                 Container(
-                                  height: 40,
-                                  width: 40,
+                                  height: 45,
+                                  width: 45,
+                                  clipBehavior: Clip.antiAlias,
                                   margin: const EdgeInsets.only(
-                                      left: 22, top: 20, bottom: 20, right: 20),
+                                      left: 15, top: 15, bottom: 15, right: 15),
                                   decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
                                   ),
@@ -562,7 +570,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                 height: 3,
                               ),
                               Text(
-                                recList.price ?? "",
+                               "₹${recList.price}" ?? "",
                                 style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal,

@@ -87,7 +87,7 @@ class _ProductContainerState extends State<ProductContainer> {
             height: 3,
           ),
           Text(
-            price,
+            "₹$price",
             style: const TextStyle(
                 fontSize: 16, fontWeight: FontWeight.normal, color: colorGreen),
           ),
