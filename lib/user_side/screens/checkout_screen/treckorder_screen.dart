@@ -15,11 +15,11 @@ class TrackOrderScreen extends StatefulWidget {
 
 class _TrackOrderScreenState extends State<TrackOrderScreen> {
   int pageIndex = 0;
-  final pages = [
-    const ExploreScreen(),
-    const CartScreen(),
-    const AccountScreen(),
-  ];
+  // final pages = [
+  //   const ExploreScreen(),
+  //   const CartScreen(),
+  //   const AccountScreen(),
+  // ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -237,7 +237,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
               onTap: () {
                 setState(() {
                   pageIndex = 1;
-                  Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context)=>CartScreen()));
+                  // Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context)=>CartScreen()));
                 });
               },
               child: Container(

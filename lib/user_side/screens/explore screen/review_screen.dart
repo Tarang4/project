@@ -225,7 +225,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         context: context,
                         pid: productId,
                         reviewText: _reviewTextController.text,
-                        star: star,
+                        star: star ?? "1",
                       );
                     },
                     child: Container(

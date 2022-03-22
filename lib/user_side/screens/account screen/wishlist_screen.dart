@@ -42,11 +42,7 @@ class _WishListScreenState extends State<WishListScreen> {
         productPrice: "\$700"),
   ];
   int pageIndex = 0;
-  final pages = [
-    const ExploreScreen(),
-    const CartScreen(),
-    const AccountScreen(),
-  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -251,7 +247,7 @@ class _WishListScreenState extends State<WishListScreen> {
               onTap: () {
                 setState(() {
                   pageIndex = 1;
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>CartScreen()));
+                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>CartScreen()));
                 });
               },
               child: Container(

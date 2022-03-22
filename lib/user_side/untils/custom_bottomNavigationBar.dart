@@ -18,7 +18,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int pageIndex = 0;
   final pages = [
     const ExploreScreen(),
-    const CartScreen(),
+     CartScreen(productImage: '', productPrice: '', productName: '',productId:''),
     const AccountScreen(),
   ];
   @override

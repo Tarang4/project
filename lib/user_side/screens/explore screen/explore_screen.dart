@@ -113,7 +113,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   int pageIndex = 0;
   final pages = [
     const ExploreScreen(),
-    const CartScreen(),
+    const CartScreen(productName: '', productImage: '', productPrice: '',productId:''),
     const AccountScreen(),
   ];
 

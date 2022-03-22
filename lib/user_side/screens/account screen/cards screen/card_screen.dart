@@ -38,12 +38,7 @@ class _CardsScreenState extends State<CardsScreen> {
   OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   List<DebitCardModal> cardList = [];
-  int pageIndex = 0;
-  final pages = [
-    const ExploreScreen(),
-    const CartScreen(),
-    const AccountScreen(),
-  ];
+
 
 
   getUserCards() {

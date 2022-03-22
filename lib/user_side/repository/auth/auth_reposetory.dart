@@ -7,6 +7,7 @@ import '../../../main.dart';
 import '../../config/FireStore_string.dart';
 import '../../config/Localstorage_string.dart';
 import '../../screens/explore screen/explore_screen.dart';
+import '../../screens/explore screen/main_home_screen.dart';
 import '../../screens/login screen/all_type_screnn.dart';
 import '../../screens/login screen/edit_profile_screnn.dart';
 import '../../untils/toast/flutter_toast_method.dart';
@@ -64,7 +65,7 @@ class AuthRepository {
             pref!.setString(LocalStorageKey.profilePhoto, userDetailModel[LocalStorageKey.profilePhoto]);
           }
           Navigator.push(context!,
-              CupertinoPageRoute(builder: (context) => ExploreScreen()));
+              CupertinoPageRoute(builder: (context) => MainHomeScreen()));
         }
       } else {
         ToastMethod.simpleToast(massage: "no get else in");

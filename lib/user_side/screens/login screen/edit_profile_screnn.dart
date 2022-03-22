@@ -12,6 +12,7 @@ import '../../repository/firebase_store_photo/photo_upload_repository.dart';
 import '../../untils/app_fonts.dart';
 import '../../untils/toast/flutter_toast_method.dart';
 import '../explore screen/explore_screen.dart';
+import '../explore screen/main_home_screen.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String? password;
@@ -436,7 +437,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           context: context,
         ).then((value) {
           Navigator.push(context,
-              CupertinoPageRoute(builder: (context) => ExploreScreen()));
+              CupertinoPageRoute(builder: (context) => MainHomeScreen()));
         });
       } else {
         print(" no download url ");

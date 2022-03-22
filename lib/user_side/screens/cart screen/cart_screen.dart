@@ -1,5 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../../admin/modal/admin_product_modal.dart';
+import '../../config/FireStore_string.dart';
 import '../../config/app_colors.dart';
 import '../../modal/product_modal.dart';
 import '../../untils/app_fonts.dart';
@@ -8,7 +12,18 @@ import '../checkout_screen/checkout_delivery.dart';
 import '../explore screen/explore_screen.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({Key? key}) : super(key: key);
+  final String productImage;
+  final String productName;
+  final String productPrice;
+  final String productId;
+
+  const CartScreen(
+      {Key? key,
+      required this.productImage,
+      required this.productName,
+      required this.productPrice,
+      required this.productId})
+      : super(key: key);
 
   @override
   _CartScreenState createState() => _CartScreenState();
@@ -16,39 +31,23 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   late int itmes = 1;
-  int pageIndex = 0;
-  final pages = [
-    const ExploreScreen(),
-    const CartScreen(),
-    const AccountScreen(),
-  ];
-  List<CartModel> cartList = [
-    CartModel(
-      cartImage: "assets/images/cart1.png",
-      cartName: "Tag Heuer WristWatch",
-      cartPrice: "\$1100",
-    ),
-    CartModel(
-        cartImage: "assets/images/cart2.png",
-        cartName: "Tag Heuer WristWatch",
-        cartPrice: "\$1100"),
-    CartModel(
-        cartImage: "assets/images/cart3.png",
-        cartName: "Tag Heuer WristWatch",
-        cartPrice: "\$1100"),
-    CartModel(
-        cartImage: "assets/images/cart4.png",
-        cartName: "Tag Heuer WristWatch",
-        cartPrice: "\$1100"),
-    CartModel(
-        cartImage: "assets/images/cart5.png",
-        cartName: "Tag Heuer WristWatch",
-        cartPrice: "\$1100"),
-    CartModel(
-        cartImage: "assets/images/cart1.png",
-        cartName: "Tag Heuer WristWatch",
-        cartPrice: "\$1100"),
-  ];
+  String? productImage;
+  String? productName;
+  String? productPrice;
+  String? productId;
+
+  List? cartList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    productPrice = widget.productPrice;
+    productName = widget.productName;
+    productImage = widget.productImage;
+    productId = widget.productId;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,119 +58,186 @@ class _CartScreenState extends State<CartScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height / 70,
             ),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: cartList.length,
-                  itemBuilder: (BuildContext context, index) {
-                    CartModel cartModel = cartList[index];
-                    return Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 70,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 120,
-                              width: 120,
-                              margin: const EdgeInsets.only(
-                                  bottom: 8, top: 8, left: 16, right: 30),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Image.asset(cartModel.cartImage),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 25),
-                                  child: Text(
-                                    cartModel.cartName,
-                                    style: defaultTextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 3),
-                                  child: Text(
-                                    cartModel.cartPrice,
-                                    style: defaultTextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w500,
-                                        fontColors: colorGreen),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height / 84,
-                                ),
-                                Row(
+            StreamBuilder<QuerySnapshot>(
+                //TODO: to fix the issue
+                stream: FirebaseFirestore.instance
+                    .collection(FirebaseString.productCollection)
+                    .where("productId", isEqualTo: productId)
+                    .snapshots(),
+
+                // EcommerceApp.firestore
+                //     .collection("items")
+                // .where("shortInfo",
+                // isEqualTo: EcommerceApp.sharedPreferences
+                //     .getStringList(EcommerceApp.userCartList)[i])
+                // .snapshots(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  return !snapshot.hasData
+                      ? SliverToBoxAdapter(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : Expanded(
+                          child: ListView.builder(
+                              itemCount: snapshot.data.docs.length,
+                              itemBuilder: (BuildContext context, index) {
+                                ProductModalAdmin productModal =
+                                    ProductModalAdmin.fromJson(
+                                        snapshot.data.docs[index].data());
+                                return Column(
                                   children: [
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          itmes++;
-                                        });
-                                      },
-                                      child: Container(
-                                        height: 30,
-                                        width: 32,
-                                        padding: EdgeInsets.all(10),
-                                        decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(4),
-                                              bottomLeft: Radius.circular(4),
-                                            ),
-                                            color: colorLightGrey),
-                                        child: Image.asset(
-                                            "assets/images/plus.png"),
-                                      ),
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              70,
                                     ),
-                                    InkWell(
-                                      child: Container(
-                                          height: 30,
-                                          width: 32,
-                                          alignment: Alignment.center,
-                                          padding: EdgeInsets.all(5),
-                                          decoration: const BoxDecoration(
-                                              color: colorLightGrey),
-                                          child: Text(itmes.toString())),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          if (itmes > 0) {
-                                            itmes--;
-                                          }
-                                        });
-                                      },
-                                      child: Container(
-                                        height: 30,
-                                        width: 32,
-                                        padding: EdgeInsets.all(10),
-                                        decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(4),
-                                              bottomRight: Radius.circular(4),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: 120,
+                                          width: 120,
+                                          margin: const EdgeInsets.only(
+                                              bottom: 8,
+                                              top: 8,
+                                              left: 16,
+                                              right: 30),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          child: CachedNetworkImage(
+                                            fit: BoxFit.cover,
+                                            imageUrl: cartList![2] ?? "",
+                                            placeholder: (context, url) =>
+                                                const Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                            color: colorGrey)),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 25),
+                                              child: Text(
+                                                cartList![1] ?? "kk",
+                                                style: defaultTextStyle(
+                                                    fontSize: 16.0,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
                                             ),
-                                            color: colorLightGrey),
-                                        child: Image.asset(
-                                            "assets/images/minus.png"),
-                                      ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 3),
+                                              child: Text(
+                                                cartList![0] ?? "ll",
+                                                style: defaultTextStyle(
+                                                    fontSize: 16.0,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontColors: colorGreen),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  84,
+                                            ),
+                                            Row(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      itmes++;
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    height: 30,
+                                                    width: 32,
+                                                    padding: EdgeInsets.all(10),
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .only(
+                                                              topLeft: Radius
+                                                                  .circular(4),
+                                                              bottomLeft: Radius
+                                                                  .circular(4),
+                                                            ),
+                                                            color:
+                                                                colorLightGrey),
+                                                    child: Image.asset(
+                                                        "assets/images/plus.png"),
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  child: Container(
+                                                      height: 30,
+                                                      width: 32,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      padding:
+                                                          EdgeInsets.all(5),
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              color:
+                                                                  colorLightGrey),
+                                                      child: Text(
+                                                          itmes.toString())),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      if (itmes > 0) {
+                                                        itmes--;
+                                                      }
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    height: 30,
+                                                    width: 32,
+                                                    padding: EdgeInsets.all(10),
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .only(
+                                                              topRight: Radius
+                                                                  .circular(4),
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          4),
+                                                            ),
+                                                            color:
+                                                                colorLightGrey),
+                                                    child: Image.asset(
+                                                        "assets/images/minus.png"),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                      ],
                                     ),
                                   ],
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ],
-                    );
-                  }),
-            ),
+                                );
+                              }),
+                        );
+                }),
             SizedBox(
               height: MediaQuery.of(context).size.height / 15,
               width: double.infinity,
@@ -205,8 +271,11 @@ class _CartScreenState extends State<CartScreen> {
                     width: MediaQuery.of(context).size.width / 65,
                   ),
                   InkWell(
-                    onTap: (){
-                      Navigator.push(context, CupertinoPageRoute(builder: (context)=>CheckoutDelivery()));
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => CheckoutDelivery()));
                     },
                     child: Container(
                       height: 50,
@@ -229,128 +298,6 @@ class _CartScreenState extends State<CartScreen> {
             )
           ],
         ),
-        // bottomNavigationBar: buildMyNavBar(context),
-      ),
-    );
-
-  }
-
-  Container buildMyNavBar(BuildContext context) {
-    return Container(
-      height: 74,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          InkWell(
-              splashColor: Colors.white,
-              enableFeedback: false,
-              onTap: () {
-                setState(() {
-                  pageIndex = 0;
-                  Navigator.pushReplacement(context,
-                      CupertinoPageRoute(builder: (context) =>pages[0]));
-                });
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width / 3,
-                alignment: Alignment.center,
-                child: pageIndex == 0
-                    ? Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            "Explore",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Container(
-                            height: 3,
-                            width: 7,
-                            decoration: BoxDecoration(
-                                color: colorBlack,
-                                borderRadius: BorderRadius.circular(10)),
-                          )
-                        ],
-                      )
-                    : const Icon(Icons.home_filled),
-              )),
-          InkWell(
-              enableFeedback: false,
-              splashColor: Colors.white,
-              onTap: () {
-                setState(() {
-                  pageIndex = 1;
-                  Navigator.pushReplacement(context,
-                      CupertinoPageRoute(builder: (context) => pages[1]));
-                });
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width / 3,
-                alignment: Alignment.center,
-                child: pageIndex == 1
-                    ? Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            "Cart",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Container(
-                            height: 3,
-                            width: 5,
-                            decoration: BoxDecoration(
-                                color: colorBlack,
-                                borderRadius: BorderRadius.circular(10)),
-                          )
-                        ],
-                      )
-                    : const Icon(Icons.card_travel),
-              )),
-          InkWell(
-            enableFeedback: false,
-            splashColor: Colors.white,
-            onTap: () {
-              setState(() {
-                pageIndex = 2;
-                Navigator.pushReplacement(context,
-                    CupertinoPageRoute(builder: (context) => pages[2]));
-              });
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width / 3,
-              alignment: Alignment.center,
-              child: pageIndex == 2
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          "Account",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Container(
-                          height: 3,
-                          width: 8,
-                          decoration: BoxDecoration(
-                              color: colorBlack,
-                              borderRadius: BorderRadius.circular(10)),
-                        )
-                      ],
-                    )
-                  : const Icon(Icons.person),
-            ),
-          ),
-        ],
       ),
     );
   }
