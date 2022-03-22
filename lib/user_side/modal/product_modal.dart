@@ -22,9 +22,3 @@ class BOModal {
 
   BOModal({required this.BOImage,required this.BOName,required this.BOInfo,required this.BOPrice});
 }
-class CartModel{
-  late final String cartImage;
-  late final String cartName;
-  late final String cartPrice;
-  CartModel({required this.cartImage,required this.cartName,required this.cartPrice,});
-}

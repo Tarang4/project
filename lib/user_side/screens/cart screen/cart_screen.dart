@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled/user_side/modal/cart_modal.dart';
+import 'package:untitled/user_side/repository/add_account/add_cartlist_repository.dart';
 import '../../../admin/modal/admin_product_modal.dart';
 import '../../config/FireStore_string.dart';
 import '../../config/app_colors.dart';
@@ -36,7 +39,7 @@ class _CartScreenState extends State<CartScreen> {
   String? productPrice;
   String? productId;
 
-  List? cartList = [];
+  String? uid;
 
   @override
   void initState() {
@@ -47,6 +50,9 @@ class _CartScreenState extends State<CartScreen> {
     productName = widget.productName;
     productImage = widget.productImage;
     productId = widget.productId;
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    uid = user?.uid;
   }
 
   @override
@@ -61,31 +67,22 @@ class _CartScreenState extends State<CartScreen> {
             StreamBuilder<QuerySnapshot>(
                 //TODO: to fix the issue
                 stream: FirebaseFirestore.instance
-                    .collection(FirebaseString.productCollection)
-                    .where("productId", isEqualTo: productId)
+                    .collection(FirebaseString.userCollection)
+                    .doc(uid)
+                    .collection(FirebaseString.cartListCollection)
                     .snapshots(),
-
-                // EcommerceApp.firestore
-                //     .collection("items")
-                // .where("shortInfo",
-                // isEqualTo: EcommerceApp.sharedPreferences
-                //     .getStringList(EcommerceApp.userCartList)[i])
-                // .snapshots(),
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   return !snapshot.hasData
-                      ? SliverToBoxAdapter(
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
+                      ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
                       : Expanded(
                           child: ListView.builder(
                               itemCount: snapshot.data.docs.length,
                               itemBuilder: (BuildContext context, index) {
-                                ProductModalAdmin productModal =
-                                    ProductModalAdmin.fromJson(
-                                        snapshot.data.docs[index].data());
+                                CartModal cartModal = CartModal.fromJson(
+                                    snapshot.data.docs[index].data());
                                 return Column(
                                   children: [
                                     SizedBox(
@@ -111,7 +108,8 @@ class _CartScreenState extends State<CartScreen> {
                                           ),
                                           child: CachedNetworkImage(
                                             fit: BoxFit.cover,
-                                            imageUrl: cartList![2] ?? "",
+                                            imageUrl: cartModal.productImage
+                                                .toString(),
                                             placeholder: (context, url) =>
                                                 const Center(
                                                     child:
@@ -130,7 +128,8 @@ class _CartScreenState extends State<CartScreen> {
                                               padding: const EdgeInsets.only(
                                                   top: 25),
                                               child: Text(
-                                                cartList![1] ?? "kk",
+                                                cartModal.productName
+                                                    .toString(),
                                                 style: defaultTextStyle(
                                                     fontSize: 16.0,
                                                     fontWeight:
@@ -141,7 +140,8 @@ class _CartScreenState extends State<CartScreen> {
                                               padding:
                                                   const EdgeInsets.only(top: 3),
                                               child: Text(
-                                                cartList![0] ?? "ll",
+                                                cartModal.productPrice
+                                                    .toString(),
                                                 style: defaultTextStyle(
                                                     fontSize: 16.0,
                                                     fontWeight: FontWeight.w500,
@@ -230,7 +230,10 @@ class _CartScreenState extends State<CartScreen> {
                                               ],
                                             )
                                           ],
-                                        )
+                                        ),
+                                        TextButton(onPressed: (){
+                                          CartRepository.cartDetailDelete(context: context, productId: cartModal.productId.toString());
+                                        }, child: Text("Delete"))
                                       ],
                                     ),
                                   ],

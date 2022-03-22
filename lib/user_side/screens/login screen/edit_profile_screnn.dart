@@ -36,7 +36,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String? password;
   final updateScreenKey = GlobalKey<FormState>();
   String? urlImage;
-  String? userProfilePNG;
   final ImagePicker picker = ImagePicker();
   File? _photo;
   String? assetsImage="assets/images/user_profile.png" ;
@@ -48,9 +47,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     // TODO: implement initState
     super.initState();
     password = widget.password;
-    userProfilePNG =
-        "https://firebasestorage.googleapis.com/v0/b/snatchkart-99b13.appspot.com/o/do%20not%20open%2Fkindpng_526237.png?alt=media&token=131ba55d-df96-4dbc-87a0-b5ab36865711";
-  }
+   }
 
   @override
   Widget build(BuildContext context) {

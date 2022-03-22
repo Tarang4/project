@@ -18,6 +18,7 @@ class LocalStorageKey {
   static const createAt = "createAt";
   static const upDateAt = "updateAt";
   static const wishList = "wishList";
+  static const userCartList = "UserCartList";
 }
 
 

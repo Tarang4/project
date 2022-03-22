@@ -249,7 +249,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 name: widget.name,
                 email: widget.email,
                 phone: widget.phoneNumber,
-                password: widget.password);
+                password: widget.password).whenComplete(() => Navigator.push(context, CupertinoPageRoute(builder: (context)=>const EditProfileScreen())));
           } else{
             print("is login----------------------------------------------------");
             // pref!.setBool(PrefString.isLogin, true);
