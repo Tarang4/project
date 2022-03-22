@@ -102,7 +102,52 @@ class ProductRepository {
       ToastMethod.simpleToast(context: context, massage: "add review");
       debugPrint('add review');
     } catch (e) {
-      debugPrint('error:$e');
+      debugPrint('error of review:$e');
+    }
+  }
+
+  static reviewUpdate({
+
+    @required String? pId,
+    @required String? uId,
+    @required String? reviewId,
+    @required String? userFullName,
+    @required String? profilePhoto,
+    @required String? reviewText,
+    @required String? star,
+  }) async {
+    String profilePhotoo = pref!.getString(LocalStorageKey.profilePhoto)!;
+    String lastName = pref!.getString(LocalStorageKey.lastName)!;
+    String firstName = pref!.getString(LocalStorageKey.firstName)!;
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    final CollectionReference _cardCollection = firebaseFirestore
+        .collection(FirebaseString.productCollection)
+        .doc(pId)
+        .collection(FirebaseString.productReviewCollection);
+
+    Map<String, dynamic> reviewData = <String, dynamic>{
+      "productId": pId,
+      "reviewId": reviewId,
+      "reviewText": reviewText,
+      "star": star,
+      "userprofile": profilePhoto,
+      "userName": "$userFullName",
+      "userId": uId,
+    };
+
+    if (userFullName != "$firstName $lastName"&&profilePhoto!=profilePhotoo) {
+      _cardCollection.where("reviewId", isEqualTo: reviewId).get().then((res) {
+        res.docs.forEach((result) {
+          _cardCollection.doc(reviewId).update(reviewData);
+        });
+      });
+
+      debugPrint('yes update Review name and photo');
+    } else {
+
+      debugPrint('No update review');
     }
   }
 
@@ -125,7 +170,7 @@ class ProductRepository {
   }
 }
 
-class GetProductById {
+class GetReviewById {
   static Future getUserData(
       {@required BuildContext? context, @required String? userId}) async {
     // showLoadingDialog(context: context);

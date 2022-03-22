@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:untitled/user_side/screens/explore%20screen/review_screen.dart';
 
+import '../../admin/repository/add_product_repository.dart';
 import '../config/FireStore_string.dart';
 import '../config/app_colors.dart';
 import '../modal/review_modal.dart';
@@ -78,6 +79,16 @@ class _CategoriesProductState extends State<CategoriesProduct> {
   int selectSize = 0;
   int selectColor = 0;
 
+  String? size;
+  bool isOne = false;
+  bool isTwo = false;
+  bool isThree = false;
+  bool isFour = false;
+
+  bool isColorOne = false;
+  bool isColorTwo = false;
+  bool isColorThree = false;
+  bool isColorFour = false;
 
   @override
   void initState() {
@@ -94,10 +105,18 @@ class _CategoriesProductState extends State<CategoriesProduct> {
     pInfo = widget.pInfo;
     pPrice = widget.pPrice;
 
-    color1 = Color(int.parse(widget.color1));
-    color2 = Color(int.parse(widget.color2));
-    color3 = Color(int.parse(widget.color3));
-    color4 = Color(int.parse(widget.color4));
+    color1 = Color(int.parse(widget.color1)) == Color(0xffff5252)
+        ? Colors.transparent
+        : Color(int.parse(widget.color1));
+    color2 = Color(int.parse(widget.color2)) == Color(0xff4caf50)
+        ? Colors.transparent
+        : Color(int.parse(widget.color2));
+    color3 = Color(int.parse(widget.color3)) == Color(0xffffeb3b)
+        ? Colors.transparent
+        : Color(int.parse(widget.color3));
+    color4 = Color(int.parse(widget.color4)) == Color(0xff2196f3)
+        ? Colors.transparent
+        : Color(int.parse(widget.color4));
 
     size1 = widget.size2 == "true" ? "S" : "";
     size2 = widget.size1 == "true" ? "M" : "";
@@ -180,46 +199,156 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             height: 10,
                           ),
                           Row(
-                            children: List<Widget>.generate(
-                                4,
-                                (index) => InkWell(
+                            children: [
+                              size1 == "S"
+                                  ? GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          selectSize = index;
+                                          _sizeClick(
+                                            one: true,
+                                            two: false,
+                                            four: false,
+                                            three: false,
+                                          );
+                                          size = "S";
                                         });
                                       },
                                       child: Container(
                                         height: 30,
                                         width: 60,
+                                        margin: EdgeInsets.only(right: 10),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           border: Border.all(
-                                            color: selectSize == index
+                                            color: isOne == true
                                                 ? colorGreen
                                                 : colorLightGrey,
                                             width: 0.6,
                                           ),
                                         ),
-                                        margin: EdgeInsets.only(right: 10),
                                         child: Text(
-                                          index == 0
-                                              ? size1!
-                                              : index == 1
-                                                  ? size2!
-                                                  : index == 2
-                                                      ? size3!
-                                                      : index == 3
-                                                          ? size4!
-                                                          : size1!,
+                                          size1!,
                                           style: defaultTextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 13.00,
-                                              fontColors: selectSize == index
-                                                  ? colorGreen
-                                                  : colorBlack),
+                                              fontColors: isOne == true
+                                                  ? colorBlack
+                                                  : colorGrey),
                                         ),
-                                      ),
-                                    )),
+                                      ))
+                                  : Container(),
+                              size2 == "M"
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _sizeClick(
+                                            one: false,
+                                            two: true,
+                                            four: false,
+                                            three: false,
+                                          );
+                                          size = "M";
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 30,
+                                        width: 60,
+                                        margin: EdgeInsets.only(right: 10),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: isTwo == true
+                                                ? colorGreen
+                                                : colorLightGrey,
+                                            width: 0.6,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          size2!,
+                                          style: defaultTextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 13.00,
+                                              fontColors: isTwo == true
+                                                  ? colorBlack
+                                                  : colorGrey),
+                                        ),
+                                      ))
+                                  : Container(),
+                              size3 == "XL"
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _sizeClick(
+                                            one: false,
+                                            two: false,
+                                            four: false,
+                                            three: true,
+                                          );
+                                          size = "XL";
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 30,
+                                        width: 60,
+                                        margin: EdgeInsets.only(right: 10),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: isThree == true
+                                                ? colorGreen
+                                                : colorLightGrey,
+                                            width: 0.6,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          size3!,
+                                          style: defaultTextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 13.00,
+                                              fontColors: isThree == true
+                                                  ? colorBlack
+                                                  : colorGrey),
+                                        ),
+                                      ))
+                                  : Container(),
+                              size4 == "XXL"
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _sizeClick(
+                                            one: false,
+                                            two: false,
+                                            four: true,
+                                            three: false,
+                                          );
+                                          size = "XXL";
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 30,
+                                        width: 60,
+                                        margin: EdgeInsets.only(right: 10),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: isFour == true
+                                                ? colorGreen
+                                                : colorLightGrey,
+                                            width: 0.6,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          size4!,
+                                          style: defaultTextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 13.00,
+                                              fontColors: isFour == true
+                                                  ? colorBlack
+                                                  : colorGrey),
+                                        ),
+                                      ))
+                                  : Container(),
+                            ],
                           ),
                           SizedBox(
                             height: 10,
@@ -233,12 +362,19 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             height: 10,
                           ),
                           Row(
-                            children: List<Widget>.generate(
-                                4,
-                                (index) => InkWell(
+                            children: [
+                              color1 == Colors.transparent
+                                  ? Container()
+                                  : GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          selectColor = index;
+                                          _colorClick(
+                                            one: true,
+                                            two: false,
+                                            four: false,
+                                            three: false,
+                                          );
+                                          size = "$color1";
                                         });
                                       },
                                       child: Container(
@@ -250,26 +386,129 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                           borderRadius:
                                               BorderRadius.circular(30),
                                           border: Border.all(
-                                            color: selectColor == index
+                                            color: isColorOne == true
                                                 ? colorGreen
-                                                : Colors.transparent,
-                                            width: 1.3,
+                                                : color1!,
+                                            width:
+                                                isColorOne == true ? 2.3 : 1.3,
                                           ),
                                         ),
                                         margin: EdgeInsets.only(right: 10),
                                         child: CircleAvatar(
                                             radius: 20,
-                                            backgroundColor: index == 0
-                                                ? color1
-                                                : index == 1
-                                                    ? color2
-                                                    : index == 2
-                                                        ? color3
-                                                        : index == 3
-                                                            ? color4
-                                                            : color1),
+                                            backgroundColor: color1),
                                       ),
-                                    )),
+                                    ),
+                              color2 == Colors.transparent
+                                  ? Container()
+                                  : GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _colorClick(
+                                            one: false,
+                                            two: true,
+                                            four: false,
+                                            three: false,
+                                          );
+                                          size = "$color2";
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 32,
+                                        padding: EdgeInsets.all(1.5),
+                                        width: 32,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          border: Border.all(
+                                            color: isColorTwo == true
+                                                ? colorGreen
+                                                : color2!,
+                                            width:
+                                                isColorTwo == true ? 2.3 : 1.3,
+                                          ),
+                                        ),
+                                        margin: EdgeInsets.only(right: 10),
+                                        child: CircleAvatar(
+                                            radius: 20,
+                                            backgroundColor: color2),
+                                      ),
+                                    ),
+                              color3 == Colors.transparent
+                                  ? Container()
+                                  : GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _colorClick(
+                                            one: false,
+                                            two: false,
+                                            four: false,
+                                            three: true,
+                                          );
+                                          size = "$color3";
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 32,
+                                        padding: EdgeInsets.all(1.5),
+                                        width: 32,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          border: Border.all(
+                                            color: isColorThree == true
+                                                ? colorGreen
+                                                : color3!,
+                                            width: isColorThree == true
+                                                ? 2.3
+                                                : 1.3,
+                                          ),
+                                        ),
+                                        margin: EdgeInsets.only(right: 10),
+                                        child: CircleAvatar(
+                                            radius: 20,
+                                            backgroundColor: color3),
+                                      ),
+                                    ),
+                              color4 == Colors.transparent
+                                  ? Container()
+                                  : GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _colorClick(
+                                            one: false,
+                                            two: false,
+                                            four: true,
+                                            three: false,
+                                          );
+                                          size = "$color4";
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 32,
+                                        padding: EdgeInsets.all(1.5),
+                                        width: 32,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          border: Border.all(
+                                            color: isColorFour == true
+                                                ? colorGreen
+                                                : color4!,
+                                            width:
+                                                isColorFour == true ? 2.3 : 1.3,
+                                          ),
+                                        ),
+                                        margin: EdgeInsets.only(right: 10),
+                                        child: CircleAvatar(
+                                            radius: 20,
+                                            backgroundColor: color4),
+                                      ),
+                                    )
+                            ],
                           )
                         ],
                       )),
@@ -360,119 +599,137 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                     ),
                   ),
                   Container(
-
                     height: 200,
-                    child: StreamBuilder(stream: FirebaseFirestore.instance
-                        .collection(FirebaseString.productCollection)
-                        .doc(pID)
-                        .collection(FirebaseString.productReviewCollection)
-                        .snapshots(),
-                      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                      if(snapshot.hasData){
-                        return ListView.builder(
-                          itemCount: snapshot.data.docs.length,
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: false,
-                          itemBuilder: (BuildContext context, int index) {
+                    child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection(FirebaseString.productCollection)
+                          .doc(pID)
+                          .collection(FirebaseString.productReviewCollection)
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            itemCount: snapshot.data.docs.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: false,
+                            itemBuilder: (BuildContext context, int index) {
+                              ReviewModal reviewModal = ReviewModal.fromJson(
+                                  snapshot.data.docs[index].data());
+                              setState(() {
+                                ProductRepository.reviewUpdate(
+                                    pId: reviewModal.productId.toString(),
+                                    uId: reviewModal.userId.toString(),
+                                    reviewId: reviewModal.reviewId.toString(),
+                                    userFullName: reviewModal.productId.toString(),
+                                    profilePhoto: reviewModal.productId.toString(),
+                                    reviewText: reviewModal.reviewText.toString(),
+                                    star: reviewModal.star.toString());
+                              });
 
-                            ReviewModal reviewModal =
-                            ReviewModal.fromJson(
-                                snapshot.data.docs[index].data());
-
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0,
-                              ),
-                              child: Container(
-                                height: 90,
-                                padding: EdgeInsets.only(top: 10),
-                                margin: EdgeInsets.only(bottom: 15),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(30)),
-                                        child: Image.network(
-                                          reviewModal.userprofile.toString(),
-                                          height: 50,
-                                          fit: BoxFit.cover,
-                                          width: 50,
-                                        )),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 15.0,
+                                ),
+                                child: Container(
+                                  height: 90,
+                                  padding: EdgeInsets.only(top: 10),
+                                  margin: EdgeInsets.only(bottom: 15),
+                                  child: Row(
+                                    crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Container(
-                                                width: 150,
-                                                child: Text(
-                                                  reviewModal.userName.toString(),
-                                                  style: defaultTextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16.50,
+                                    children: [
+                                      Container(
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(30)),
+                                          child: Image.network(
+                                            reviewModal.userprofile.toString(),
+                                            height: 50,
+                                            fit: BoxFit.cover,
+                                            width: 50,
+                                          )),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Container(
+                                                  width: 150,
+                                                  child: Text(
+                                                    reviewModal.userName
+                                                        .toString(),
+                                                    style: defaultTextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16.50,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                    100 *
-                                                    10,
-                                              ),
-                                              Container(
-                                                width: 100,
-                                                child: Row(
-                                                  children: List.generate(
-                                                      int.parse(reviewModal.star.toString()),
-                                                          (index) => Container(
-                                                        child: Icon(
-                                                          Icons.star,
-                                                          size: 20,
-                                                          color: colorYellow,
-                                                        ),
-                                                      )),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      100 *
+                                                      10,
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 3,
-                                          ),
-                                          Text(
-                                            reviewModal.reviewText.toString(),
-                                            style: defaultTextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 15.50,
-                                                height: 1.2,
-                                                wordSpacing: 1.00),
-                                            maxLines: 3,
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                                Container(
+                                                  width: 100,
+                                                  child: Row(
+                                                    children: List.generate(
+                                                        int.parse(reviewModal
+                                                            .star
+                                                            .toString()),
+                                                        (index) => Container(
+                                                              child: Icon(
+                                                                Icons.star,
+                                                                size: 20,
+                                                                color:
+                                                                    colorYellow,
+                                                              ),
+                                                            )),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 3,
+                                            ),
+                                            Text(
+                                              reviewModal.reviewText.toString(),
+                                              style: defaultTextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 15.50,
+                                                  height: 1.2,
+                                                  wordSpacing: 1.00),
+                                              maxLines: 3,
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          );
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: colorGreen,
+                          ),
                         );
-                      }
-                      return Center(
-                        child: CircularProgressIndicator(color: colorGreen,),
-
-                      );
-                    },),
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -529,5 +786,33 @@ class _CategoriesProductState extends State<CategoriesProduct> {
         ],
       ),
     );
+  }
+
+  _sizeClick({
+    bool one = false,
+    bool two = false,
+    bool three = false,
+    bool four = false,
+  }) {
+    setState(() {
+      isOne = one;
+      isTwo = two;
+      isThree = three;
+      isFour = four;
+    });
+  }
+
+  _colorClick({
+    bool one = false,
+    bool two = false,
+    bool three = false,
+    bool four = false,
+  }) {
+    setState(() {
+      isColorOne = one;
+      isColorTwo = two;
+      isColorThree = three;
+      isColorFour = four;
+    });
   }
 }
