@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -88,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               "Edit Your Details",
                               style: TextStyle(
                                   fontSize: 20.0, fontWeight: FontWeight.w700),
@@ -99,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   uploadFile();
                                 }
                               },
-                              child: Text(
+                              child: const Text(
                                 "Save",
                                 style: TextStyle(
                                     fontSize: 18.0,
@@ -113,6 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 10,
                         ),
                         InkWell(
+                          splashColor: Colors.transparent,
                           onTap: () => openImageDialog(),
                           child: _photo != null
                               ? Container(
@@ -137,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     fit: BoxFit.cover,
                                     imageUrl: profilePhoto,
                                     placeholder: (context, url) =>
-                                        CircularProgressIndicator(color: colorGreen),
+                                        const CircularProgressIndicator(color: colorGreen),
                                     errorWidget: (context,url,error) => new Icon(Icons.error),
                                   ):Image.asset(
                                     profilePhoto,
@@ -148,7 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Text(
+                        const Text(
                           "First Name",
                           style: TextStyle(
                               fontSize: 14.0,
@@ -189,7 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Text(
+                        const Text(
                           "Last Name",
                           style: TextStyle(
                               fontSize: 14.0,
@@ -230,7 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 15,
                         ),
-                        Text("Gender",
+                        const Text("Gender",
                             style: TextStyle(
                                 color: colorGrey,
                                 fontSize: 14.0,
@@ -242,7 +242,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: List.generate(
                               2,
                               (index) => InkWell(
-                                    onTap: () {
+                                splashColor: Colors.transparent,
+                                onTap: () {
                                       setState(() {
                                         isGender = index;
                                       });
@@ -258,7 +259,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             ? colorGreen
                                             : colorGrey,
                                       )),
-                                      margin: EdgeInsets.only(
+                                      margin: const EdgeInsets.only(
                                           top: 10, right: 10, bottom: 10),
                                       child: Text(
                                           index == 0
@@ -278,7 +279,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text("BirthDate",
+                        const Text("BirthDate",
                             style: TextStyle(
                                 color: colorGrey,
                                 fontSize: 14.0,
@@ -311,9 +312,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Container(
                           height: 200,
                           color: Colors.transparent,
-                          margin: EdgeInsets.only(top: 15),
+                          margin: const EdgeInsets.only(top: 15),
                           child: ScrollDatePicker(
-                            style: DatePickerStyle(
+                            style: const DatePickerStyle(
                                 selectedTextStyle: TextStyle(
                                     color: colorGreen,
                                     fontWeight: FontWeight.w500)),
@@ -340,7 +341,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           email: prefEmail,
                                         )));
                           },
-                          child: Text(
+                          child: const Text(
                             "Change Password",
                             style: TextStyle(
                                 fontSize: 14.0,
@@ -365,7 +366,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         context: context,
         builder: (BuildContext context) {
           return CupertinoActionSheet(
-            title: Text(
+            title: const Text(
               "select",
               style: TextStyle(fontSize: 25),
             ),
@@ -450,7 +451,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           context: context,
         ).then((value) {
           Navigator.push(
-              context, CupertinoPageRoute(builder: (context) => AccountScreen()));
+              context, CupertinoPageRoute(builder: (context) => const AccountScreen()));
         });
 
       } else {
@@ -466,7 +467,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         context: context,
       ).then((value) {
         Navigator.push(
-            context, CupertinoPageRoute(builder: (context) => AccountScreen()));
+            context, CupertinoPageRoute(builder: (context) => const AccountScreen()));
       });
       print(" no photo found file ");
     }

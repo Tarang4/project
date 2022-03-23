@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/admin/modal/admin_product_modal.dart';
 import 'package:untitled/admin/repository/add_product_repository.dart';
-
 import '../../user_side/config/FireStore_string.dart';
 import '../../user_side/config/app_colors.dart';
 import '../../user_side/untils/app_fonts.dart';
@@ -49,13 +48,13 @@ class _ProductEditState extends State<ProductEdit> {
                 child: Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(bottom: 10),
+                      margin: const EdgeInsets.only(bottom: 10),
                       height: 200,
                       width: double.infinity,
                       color: Colors.blue,
                     ),
                     ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: snapshot.data.docs.length,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
@@ -94,7 +93,7 @@ class _ProductEditState extends State<ProductEdit> {
                                                     .images!.img1
                                                     .toString(),
                                                 placeholder: (context, url) =>
-                                                    Center(
+                                                    const Center(
                                                         child:
                                                             CircularProgressIndicator(
                                                                 color:
@@ -104,7 +103,7 @@ class _ProductEditState extends State<ProductEdit> {
                                                         new Icon(Icons.error),
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 6,
                                             ),
                                             Container(
@@ -116,7 +115,7 @@ class _ProductEditState extends State<ProductEdit> {
                                                     .images!.img2
                                                     .toString(),
                                                 placeholder: (context, url) =>
-                                                    Center(
+                                                    const Center(
                                                         child:
                                                             CircularProgressIndicator(
                                                                 color:
@@ -128,7 +127,7 @@ class _ProductEditState extends State<ProductEdit> {
                                             )
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 6,
                                         ),
                                         Row(
@@ -142,7 +141,7 @@ class _ProductEditState extends State<ProductEdit> {
                                                     .images!.img3
                                                     .toString(),
                                                 placeholder: (context, url) =>
-                                                    Center(
+                                                    const Center(
                                                         child:
                                                             CircularProgressIndicator(
                                                                 color:
@@ -152,7 +151,7 @@ class _ProductEditState extends State<ProductEdit> {
                                                         new Icon(Icons.error),
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 6,
                                             ),
                                             Container(
@@ -164,7 +163,7 @@ class _ProductEditState extends State<ProductEdit> {
                                                     .images!.img4
                                                     .toString(),
                                                 placeholder: (context, url) =>
-                                                    Center(
+                                                    const Center(
                                                         child:
                                                             CircularProgressIndicator(
                                                                 color:
@@ -178,133 +177,140 @@ class _ProductEditState extends State<ProductEdit> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 12,
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          productModal.categories.toString(),
-                                          style: defaultTextStyle(
-                                              fontSize: 18.0,
-                                              fontColors: colorBlack,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                        SizedBox(
-                                          height: 9,
-                                        ),
-                                        Text(
-                                          productModal.productName.toString(),
-                                          style: defaultTextStyle(
-                                              fontSize: 18.0,
-                                              fontColors: colorBlack,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                        SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                          productModal.productInfo.toString(),
-                                          style: defaultTextStyle(
-                                              fontSize: 18.0,
-                                              fontColors: colorBlack,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                        SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                          "\$ ${productModal.productPrice.toString()}",
-                                          style: defaultTextStyle(
-                                              fontSize: 18.0,
-                                              fontColors: colorBlack,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                        SizedBox(
-                                          height: 7,
-                                        ),
-                                        Text(
-                                          "S:${productModal.size!.s.toString()}             M:${productModal.size!.m.toString()} \nXL:${productModal.size!.xL.toString()}             XXL:${productModal.size!.xXL.toString()}",
-                                          style: defaultTextStyle(
-                                              fontSize: 12.0,
-                                              fontColors: colorBlack,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                        SizedBox(
-                                          height: 3,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  height: 20,
-                                                  width: 40,
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Categories : ${productModal.categories.toString()}",
+                                            style: defaultTextStyle(
+                                                fontSize: 14.0,
+                                                fontColors: colorBlack,
+                                                fontWeight: FontWeight.w300),
+                                          ),
+                                          const SizedBox(
+                                            height: 9,
+                                          ),
+                                          Text(
+                                            productModal.productName.toString(),
+                                            style: defaultTextStyle(
+                                                fontSize: 16.0,
+                                                fontColors: colorBlack,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            productModal.productInfo.toString(),
+                                            style: defaultTextStyle(
+                                                fontSize: 12.0,
+                                                fontColors: colorBlack,
+                                                fontWeight: FontWeight.w100),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            "₹${productModal.productPrice.toString()}",
+                                            style: defaultTextStyle(
+                                                fontSize: 15.0,
+                                                fontColors: colorBlack,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          const SizedBox(
+                                            height: 7,
+                                          ),
+                                          Text(
+                                            "S:${productModal.size!.s.toString()}             M:${productModal.size!.m.toString()} \nXL:${productModal.size!.xL.toString()}          XXL:${productModal.size!.xXL.toString()}",
+                                            style: defaultTextStyle(
+                                                fontSize: 12.0,
+                                                fontColors: colorBlack,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                height: 20,
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(width: 1,color: colorBlack),
+
+                                                  shape: BoxShape.circle,
                                                   color: Color(int.parse(
                                                       productModal
                                                           .colorCode!.color1
                                                           .toString())),
                                                 ),
-                                                SizedBox(
-                                                  width: 4,
-                                                ),
-                                                Container(
-                                                  height: 20,
-                                                  width: 40,
+                                              ),
+                                              Container(
+                                                height: 20,
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(width: 1,color: colorBlack),
+
+                                                  shape: BoxShape.circle,
                                                   color: Color(int.parse(
                                                       productModal
                                                           .colorCode!.color2
                                                           .toString())),
                                                 ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 6,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  height: 20,
-                                                  width: 40,
+                                              ),
+                                              Container(
+                                                height: 20,
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(width: 1,color: colorBlack),
+
+                                                  shape: BoxShape.circle,
                                                   color: Color(int.parse(
                                                       productModal
                                                           .colorCode!.color3
                                                           .toString())),
                                                 ),
-                                                SizedBox(
-                                                  width: 6,
-                                                ),
-                                                Container(
-                                                  height: 20,
-                                                  width: 40,
+                                              ),
+                                              Container(
+                                                height: 20,
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(width: 1,color: colorBlack),
+                                                  shape: BoxShape.circle,
                                                   color: Color(int.parse(
                                                       productModal
                                                           .colorCode!.color4
                                                           .toString())),
                                                 ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 9,
-                                        ),
-                                        Text(
-                                          "Id : ${productModal.productId.toString()}",
-                                          style: defaultTextStyle(
-                                              fontSize: 12.0,
-                                              fontColors: colorBlack,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                      ],
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 6,
+                                          ),
+                                          const SizedBox(
+                                            height: 9,
+                                          ),
+                                          Text(
+                                            "Id : ${productModal.productId.toString()}",
+                                            style: defaultTextStyle(
+                                                fontSize: 12.0,
+                                                fontColors: colorBlack,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
                                 InkWell(
@@ -343,7 +349,7 @@ class _ProductEditState extends State<ProductEdit> {
             print("error not found product ${snapshot.hasError}");
           }
 
-          return Center(
+          return const Center(
               child: CircularProgressIndicator(
             color: colorGreen,
           ));
@@ -353,8 +359,8 @@ class _ProductEditState extends State<ProductEdit> {
         backgroundColor: colorGreen,
         child: const Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).push(
-              CupertinoPageRoute(builder: (context) => AddProductAdminSide()));
+          Navigator.of(context).push(CupertinoPageRoute(
+              builder: (context) => const AddProductAdminSide()));
         },
       ),
     );

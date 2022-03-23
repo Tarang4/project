@@ -7,7 +7,9 @@ Widget accountOption({
   @required String? icon,
   @required Function()? onPressed,
 }) {
-  return InkWell(onTap: onPressed,splashColor: Colors.transparent,
+  return InkWell(
+    onTap: onPressed,
+    splashColor: Colors.transparent,
     child: Row(
       children: [
         Image.asset(

@@ -96,6 +96,9 @@ class _CategoriesProductState extends State<CategoriesProduct> {
   bool isColorThree = false;
   bool isColorFour = false;
 
+ Object perfume= FirebaseFirestore.instance
+      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "1")??false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -111,16 +114,16 @@ class _CategoriesProductState extends State<CategoriesProduct> {
     pInfo = widget.pInfo;
     pPrice = widget.pPrice;
 
-    color1 = Color(int.parse(widget.color1)) == Color(0xffff5252)
+    color1 = Color(int.parse(widget.color1)) == const Color(0xffff5252)
         ? Colors.transparent
         : Color(int.parse(widget.color1));
-    color2 = Color(int.parse(widget.color2)) == Color(0xff4caf50)
+    color2 = Color(int.parse(widget.color2)) == const Color(0xff4caf50)
         ? Colors.transparent
         : Color(int.parse(widget.color2));
-    color3 = Color(int.parse(widget.color3)) == Color(0xffffeb3b)
+    color3 = Color(int.parse(widget.color3)) == const Color(0xffffeb3b)
         ? Colors.transparent
         : Color(int.parse(widget.color3));
-    color4 = Color(int.parse(widget.color4)) == Color(0xff2196f3)
+    color4 = Color(int.parse(widget.color4)) == const Color(0xff2196f3)
         ? Colors.transparent
         : Color(int.parse(widget.color4));
 
@@ -172,7 +175,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                     autoPlayInterval: 8000,
                     isLoop: true,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 17,
                   ),
                   Padding(
@@ -186,7 +189,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           fontWeight: FontWeight.bold, fontSize: 26.00),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 17,
                   ),
                   Padding(
@@ -201,7 +204,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             style: defaultTextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16.00),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
@@ -222,7 +225,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       child: Container(
                                         height: 30,
                                         width: 60,
-                                        margin: EdgeInsets.only(right: 10),
+                                        margin: const EdgeInsets.only(right: 10),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           border: Border.all(
@@ -259,7 +262,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       child: Container(
                                         height: 30,
                                         width: 60,
-                                        margin: EdgeInsets.only(right: 10),
+                                        margin: const EdgeInsets.only(right: 10),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           border: Border.all(
@@ -296,7 +299,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       child: Container(
                                         height: 30,
                                         width: 60,
-                                        margin: EdgeInsets.only(right: 10),
+                                        margin: const EdgeInsets.only(right: 10),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           border: Border.all(
@@ -333,7 +336,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       child: Container(
                                         height: 30,
                                         width: 60,
-                                        margin: EdgeInsets.only(right: 10),
+                                        margin: const EdgeInsets.only(right: 10),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           border: Border.all(
@@ -356,7 +359,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                   : Container(),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
@@ -364,7 +367,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             style: defaultTextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16.00),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
@@ -385,7 +388,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       },
                                       child: Container(
                                         height: 32,
-                                        padding: EdgeInsets.all(1.5),
+                                        padding: const EdgeInsets.all(1.5),
                                         width: 32,
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
@@ -399,7 +402,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                 isColorOne == true ? 2.3 : 1.3,
                                           ),
                                         ),
-                                        margin: EdgeInsets.only(right: 10),
+                                        margin: const EdgeInsets.only(right: 10),
                                         child: CircleAvatar(
                                             radius: 20,
                                             backgroundColor: color1),
@@ -421,7 +424,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       },
                                       child: Container(
                                         height: 32,
-                                        padding: EdgeInsets.all(1.5),
+                                        padding: const EdgeInsets.all(1.5),
                                         width: 32,
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
@@ -435,7 +438,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                 isColorTwo == true ? 2.3 : 1.3,
                                           ),
                                         ),
-                                        margin: EdgeInsets.only(right: 10),
+                                        margin: const EdgeInsets.only(right: 10),
                                         child: CircleAvatar(
                                             radius: 20,
                                             backgroundColor: color2),
@@ -457,7 +460,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       },
                                       child: Container(
                                         height: 32,
-                                        padding: EdgeInsets.all(1.5),
+                                        padding: const EdgeInsets.all(1.5),
                                         width: 32,
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
@@ -472,7 +475,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                 : 1.3,
                                           ),
                                         ),
-                                        margin: EdgeInsets.only(right: 10),
+                                        margin: const EdgeInsets.only(right: 10),
                                         child: CircleAvatar(
                                             radius: 20,
                                             backgroundColor: color3),
@@ -494,7 +497,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       },
                                       child: Container(
                                         height: 32,
-                                        padding: EdgeInsets.all(1.5),
+                                        padding: const EdgeInsets.all(1.5),
                                         width: 32,
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
@@ -508,7 +511,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                 isColorFour == true ? 2.3 : 1.3,
                                           ),
                                         ),
-                                        margin: EdgeInsets.only(right: 10),
+                                        margin: const EdgeInsets.only(right: 10),
                                         child: CircleAvatar(
                                             radius: 20,
                                             backgroundColor: color4),
@@ -518,7 +521,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           )
                         ],
                       )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -539,9 +542,9 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                       horizontal: 16.0,
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 10.0),
+                      padding: const EdgeInsets.only(bottom: 10.0),
                       child: Text(pInfo!,
-                          style: TextStyle(
+                          style: const TextStyle(
                               height: 1.3,
                               fontWeight: FontWeight.normal,
                               fontSize: 14.00,
@@ -560,7 +563,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           fontColors: colorGreen),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -573,7 +576,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           fontWeight: FontWeight.bold, fontSize: 18.00),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 7,
                   ),
                   Padding(
@@ -629,8 +632,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                 ),
                                 child: Container(
                                   height: 90,
-                                  padding: EdgeInsets.only(top: 10),
-                                  margin: EdgeInsets.only(bottom: 15),
+                                  padding: const EdgeInsets.only(top: 10),
+                                  margin: const EdgeInsets.only(bottom: 15),
                                   child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -647,7 +650,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                             fit: BoxFit.cover,
                                             width: 50,
                                           )),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 20,
                                       ),
                                       Expanded(
@@ -698,7 +701,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                 )
                                               ],
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 3,
                                             ),
                                             Text(
@@ -720,8 +723,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             },
                           );
                         }
-                        return Center(
-                          child: CircularProgressIndicator(
+                        return const Center(
+                          child: const CircularProgressIndicator(
                             color: colorGreen,
                           ),
                         );
@@ -735,7 +738,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
           Container(
             height: 84,
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 17),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 17),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -765,7 +768,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                 InkWell(
                   onTap: () {
                     try {
-                      if(size!=null&&color!=null){
+                      if(size!=null&&color!=null||
+                          perfume!=true){
                       CartRepository.cartDetailAdd(
                         context: context,
                         productId: pID.toString(),

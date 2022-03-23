@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,7 +7,9 @@ import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
 import 'package:untitled/user_side/screens/explore%20screen/categories_screen/devices_screen.dart';
 import 'package:untitled/user_side/screens/explore%20screen/seeall_screen.dart';
 import '../../../admin/modal/admin_product_modal.dart';
+import '../../../main.dart';
 import '../../config/FireStore_string.dart';
+import '../../config/Localstorage_string.dart';
 import '../../config/app_colors.dart';
 import '../../modal/categories_modal.dart';
 import '../../modal/product_modal.dart';
@@ -30,6 +33,8 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+  String? profilePhoto = pref!.getString(LocalStorageKey.profilePhoto)!;
+  String? assetProfilePhoto = "assets/images/user_profile.png";
   List<CategoriesModal> categoriesList = [
     CategoriesModal(catImage: "assets/images/icons/C1.png", catName: "Man"),
     CategoriesModal(catImage: "assets/images/icons/C2.png", catName: "Women"),
@@ -43,10 +48,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
     "https://images.unsplash.com/photo-1585565804112-f201f68c48b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
     "https://images.unsplash.com/photo-1629077007578-a36bb1056b3e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
     "https://images.unsplash.com/photo-1542219550-37153d387c27?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-"https://images.unsplash.com/photo-1568910748155-01ca989dbdd6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+    "https://images.unsplash.com/photo-1568910748155-01ca989dbdd6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
     "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80",
     "https://images.unsplash.com/photo-1621985499238-698dfd45b017?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-
   ];
   List<FeturedBrand> fetureBrand = [
     FeturedBrand(
@@ -54,9 +58,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
         logo: "assets/images/logo/nike.jpg",
         products: "5696 Products"),
     FeturedBrand(
-        name: "GUCCI",
-        logo: "assets/images/logo/gucci.jpg",
-        products: "1187 Products",),
+      name: "GUCCI",
+      logo: "assets/images/logo/gucci.jpg",
+      products: "1187 Products",
+    ),
     FeturedBrand(
         name: "ADIDAS",
         logo: "assets/images/logo/adidas.png",
@@ -171,19 +176,42 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           const SizedBox(
                             width: 13,
                           ),
-                          Container(
-                            height: 40,
-                            padding: const EdgeInsets.all(10),
-                            clipBehavior: Clip.antiAlias,
-                            width: 40,
-                            child: Image.asset(
-                              "assets/images/icons/Group 3403.png",
-                              height: 20,
-                              width: 20,
-                            ),
-                            decoration: BoxDecoration(
-                                color: colorGreen,
-                                borderRadius: BorderRadius.circular(30)),
+                          Stack(
+                            children: [
+                              Container(
+                                height: 44,
+                                width: 44,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        width: 1, color: colorGreen)),
+                              ),
+                              Positioned(
+                                right: 2,
+                                bottom: 2,
+                                top: 2,
+                                left: 2,
+                                child: Container(
+                                  height: 40,
+                                  clipBehavior: Clip.antiAlias,
+                                  width: 40,
+                                  child: profilePhoto!.contains("http")
+                                      ? CachedNetworkImage(
+                                          fit: BoxFit.cover,
+                                          imageUrl: profilePhoto!,
+                                          placeholder: (context, url) =>
+                                              const CircularProgressIndicator(
+                                                  color: colorGreen),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                        )
+                                      : Image.asset(assetProfilePhoto!),
+                                  decoration: BoxDecoration(
+                                      color: colorWhite,
+                                      borderRadius: BorderRadius.circular(30)),
+                                ),
+                              ),
+                            ],
                           )
                         ],
                       ),
@@ -224,12 +252,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   Navigator.push(
                                       context,
                                       CupertinoPageRoute(
-                                          builder: (context) => const MenScreen()));
+                                          builder: (context) =>
+                                              const MenScreen()));
                                 } else if (index == 1) {
                                   Navigator.push(
                                       context,
                                       CupertinoPageRoute(
-                                          builder: (context) => const WomenScreen()));
+                                          builder: (context) =>
+                                              const WomenScreen()));
                                 } else if (index == 2) {
                                   Navigator.push(
                                       context,
@@ -246,7 +276,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   Navigator.push(
                                       context,
                                       CupertinoPageRoute(
-                                          builder: (context) => const MenScreen()));
+                                          builder: (context) =>
+                                              const MenScreen()));
                                 } else if (index == 5) {
                                   Navigator.push(
                                       context,
@@ -376,7 +407,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     ));
                   }),
               Container(
-                margin: const EdgeInsets.only(top: 15,bottom: 15,),
+                margin: const EdgeInsets.only(
+                  top: 15,
+                  bottom: 15,
+                ),
                 child: CarouselSlider.builder(
                   itemCount: imageList.length,
                   options: CarouselOptions(
@@ -570,7 +604,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                 height: 3,
                               ),
                               Text(
-                               "₹${recList.price}",
+                                "₹${recList.price}",
                                 style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal,
@@ -602,10 +636,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
               onTap: () {
                 setState(() {
                   pageIndex = 0;
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => pages[0]));
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => pages[0]));
                 });
               },
               child: Container(
