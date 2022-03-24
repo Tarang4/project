@@ -80,7 +80,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
   String? size4;
   String? review;
   String? reviewStar;
-
+  bool? isSelected;
   int selectSize = 0;
   int selectColor = 0;
 
@@ -183,10 +183,36 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                       left: 16.0,
                       right: 16,
                     ),
-                    child: Text(
-                      pName!,
-                      style: defaultTextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 26.00),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          pName!,
+                          style: defaultTextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 26.00),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (isSelected == true) {
+                                isSelected = false;
+                              } else {
+                                isSelected = true;
+                              }
+                            });
+                          },
+                          child: isSelected == true
+                              ? Image.asset(
+                            "assets/images/icons/heart (1).png",
+                            height: 26,
+                          )
+                              : Image.asset(
+                            "assets/images/icons/heart.png",
+                            height: 26,
+                          ),
+                        ),
+
+                      ],
                     ),
                   ),
                   const SizedBox(

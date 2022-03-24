@@ -18,11 +18,12 @@ class _AdminHomeState extends State<AdminHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: colorGreen,
+        automaticallyImplyLeading: false,
+        backgroundColor: colorWhite,
         title: Text(
           "Admin Side",
           style: defaultTextStyle(
-              fontSize: 25.0,
+              fontSize: 20.0,
               fontColors: colorBlack,
               fontWeight: FontWeight.normal),
         ),
@@ -31,53 +32,66 @@ class _AdminHomeState extends State<AdminHome> {
               onPressed: () {},
               child: const Text(
                 'LogOut',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black),
               ))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Column(
-          children: [
-            InkWell(onTap: (){
-              Navigator.push(context, CupertinoPageRoute(builder: (context)=>ProductEdit()));
-            },
-              child: Container(
-                height: 80,
-                width: double.infinity,
-                color: colorGrey.withOpacity(0.3),
-                alignment: Alignment.center,
-                child: Text(
-                  "Product Edit",
-                  style: defaultTextStyle(
-                      fontSize: 20.0,
-                      fontColors: colorBlack,
-                      fontWeight: FontWeight.normal),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => ProductEdit()));
+                },
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: colorGrey.withOpacity(0.3),
+                  ),
+                  child: Text(
+                    "Product Edit",
+                    style: defaultTextStyle(
+                        fontSize: 20.0,
+                        fontColors: colorBlack,
+                        fontWeight: FontWeight.normal),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 18,
-            ),
-            InkWell(onTap: (){
-              Navigator.push(context, CupertinoPageRoute(builder: (context)=>CustomerDetails()));
-            },
-              child: Container(
-                height: 80,
-                width: double.infinity,
-                color: colorGrey.withOpacity(0.3),
-
-                alignment: Alignment.center,
-                child: Text(
-                  "User Information",
-                  style: defaultTextStyle(
-                      fontSize: 20.0,
-                      fontColors: colorBlack,
-                      fontWeight: FontWeight.normal),
+              SizedBox(
+                height: 14,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => CustomerDetails()));
+                },
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: colorGrey.withOpacity(0.3),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "User Information",
+                    style: defaultTextStyle(
+                        fontSize: 20.0,
+                        fontColors: colorBlack,
+                        fontWeight: FontWeight.normal),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

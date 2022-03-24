@@ -27,13 +27,24 @@ class _ProductEditState extends State<ProductEdit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: colorGreen,
+        automaticallyImplyLeading: false,
+        backgroundColor: colorWhite,
         title: Text(
           "Product Edit",
           style: defaultTextStyle(
-              fontSize: 25.0,
+              fontSize: 20.0,
               fontColors: colorBlack,
               fontWeight: FontWeight.normal),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+            size: 20,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: StreamBuilder(
@@ -243,8 +254,9 @@ class _ProductEditState extends State<ProductEdit> {
                                                 height: 20,
                                                 width: 30,
                                                 decoration: BoxDecoration(
-                                                  border: Border.all(width: 1,color: colorBlack),
-
+                                                  border: Border.all(
+                                                      width: 1,
+                                                      color: colorBlack),
                                                   shape: BoxShape.circle,
                                                   color: Color(int.parse(
                                                       productModal
@@ -256,8 +268,9 @@ class _ProductEditState extends State<ProductEdit> {
                                                 height: 20,
                                                 width: 30,
                                                 decoration: BoxDecoration(
-                                                  border: Border.all(width: 1,color: colorBlack),
-
+                                                  border: Border.all(
+                                                      width: 1,
+                                                      color: colorBlack),
                                                   shape: BoxShape.circle,
                                                   color: Color(int.parse(
                                                       productModal
@@ -269,8 +282,9 @@ class _ProductEditState extends State<ProductEdit> {
                                                 height: 20,
                                                 width: 30,
                                                 decoration: BoxDecoration(
-                                                  border: Border.all(width: 1,color: colorBlack),
-
+                                                  border: Border.all(
+                                                      width: 1,
+                                                      color: colorBlack),
                                                   shape: BoxShape.circle,
                                                   color: Color(int.parse(
                                                       productModal
@@ -282,7 +296,9 @@ class _ProductEditState extends State<ProductEdit> {
                                                 height: 20,
                                                 width: 30,
                                                 decoration: BoxDecoration(
-                                                  border: Border.all(width: 1,color: colorBlack),
+                                                  border: Border.all(
+                                                      width: 1,
+                                                      color: colorBlack),
                                                   shape: BoxShape.circle,
                                                   color: Color(int.parse(
                                                       productModal

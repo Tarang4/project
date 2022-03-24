@@ -451,7 +451,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
               const Padding(
                 padding: EdgeInsets.only(top: 24, left: 10, bottom: 9),
                 child: Text(
-                  "Featured Brands",
+                  "Incomming Brands",
                   style: TextStyle(
                     fontSize: 18,
                     fontFamily: "SF",

@@ -41,7 +41,7 @@ class _CartScreenState extends State<CartScreen> {
   String? productId;
 
   String? uid;
-  int? total=0;
+  int total=0;
   @override
   void initState() {
     // TODO: implement initState
@@ -63,6 +63,20 @@ class _CartScreenState extends State<CartScreen> {
       child: Scaffold(
         body: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(
+                    "Cart",
+                    style: defaultTextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ],
+            ),
+
             SizedBox(
               height: MediaQuery.of(context).size.height / 70,
             ),
@@ -75,6 +89,17 @@ class _CartScreenState extends State<CartScreen> {
                     .snapshots(),
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  // if(snapshot.hasData){
+                  //   CartModal cartModel = CartModal();
+                  //   WidgetsBinding.instance?.addPostFrameCallback((_){
+                  //     snapshot.data.docs.forEach((element){
+                  //       setState(() {
+                  //         cartModel =CartModal.fromJson(element.data());
+                  //         total = int.parse(cartModel.productPrice.toString())+total;
+                  //       });
+                  //     });
+                  //   });
+                  // }
                   return !snapshot.hasData
                       ? const Center(
                           child: CircularProgressIndicator(),
@@ -86,7 +111,6 @@ class _CartScreenState extends State<CartScreen> {
 
                                 CartModal cartModal = CartModal.fromJson(
                                     snapshot.data.docs[index].data());
-                                total = int.parse(cartModal.productPrice.toString()) + total!;
                                 print("krrish${total.toString()}");
                                 return Dismissible(
                                   key: Key(cartModal.addId![index]),
@@ -292,6 +316,7 @@ class _CartScreenState extends State<CartScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  Text(total.toString()),
                   InkWell(
                     onTap: () {
                       Navigator.push(

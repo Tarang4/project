@@ -56,7 +56,7 @@ class _AccountScreenState extends State<AccountScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.only(left: 16, right: 16),
+          margin: const EdgeInsets.only(left: 16, right: 16),
           child: Column(
             children: [
               SizedBox(
@@ -77,8 +77,8 @@ class _AccountScreenState extends State<AccountScreen> {
                               fit: BoxFit.cover,
                               imageUrl: profilePhoto!,
                               placeholder: (context, url) =>
-                                  CircularProgressIndicator(color: colorGreen),
-                        errorWidget: (context,url,error) => new Icon(Icons.error),
+                                  const CircularProgressIndicator(color: colorGreen),
+                        errorWidget: (context,url,error) => const Icon(Icons.error),
                             )
 
                           : Image.asset(assetProfilePhoto!)
@@ -95,19 +95,19 @@ class _AccountScreenState extends State<AccountScreen> {
                         style: defaultTextStyle(
                             fontSize: 28.0, fontWeight: FontWeight.w500),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 4,
                       ),
                       Text(
-                        "Email: ${emails.toString()}",
+                        emails.toString(),
                         style: defaultTextStyle(
-                            fontSize: 13.0, fontWeight: FontWeight.w500),
+                            fontSize: 15.0, fontWeight: FontWeight.w500),
                       ),
-                      Text(
-                        "${isLogins.toString()} ${password.toString()}",
-                        style: defaultTextStyle(
-                            fontSize: 12.0, fontWeight: FontWeight.w400),
-                      ),
+                      // Text(
+                      //   "${isLogins.toString()} ${password.toString()}",
+                      //   style: defaultTextStyle(
+                      //       fontSize: 12.0, fontWeight: FontWeight.w400),
+                      // ),
                     ],
                   ),
                 ],
@@ -123,7 +123,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProfileScreen(),
+                        builder: (context) => const ProfileScreen(),
                       ),
                     );
                   }),
@@ -138,7 +138,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AddressDetail()));
+                            builder: (context) => const AddressDetail()));
                   }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
@@ -151,7 +151,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => WishListScreen()));
+                            builder: (context) => const WishListScreen()));
                   }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
@@ -177,7 +177,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     Navigator.push(
                         context,
                         CupertinoPageRoute(
-                            builder: (context) => AdminHome()));
+                            builder: (context) => const AdminHome()));
                   }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
@@ -188,7 +188,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   icon: "assets/images/icons/Icon_Payment.png",
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CardsScreen()));
+                        MaterialPageRoute(builder: (context) => const CardsScreen()));
                   }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
@@ -199,7 +199,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   icon: "assets/images/icons/Icon_Alert.png",
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomePage()));
+                        MaterialPageRoute(builder: (context) => const HomePage()));
                   }),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 50,
