@@ -1,7 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/user_side/screens/login%20screen/admin_login.dart';
 import 'package:untitled/user_side/screens/login%20screen/sign_up_screen.dart';
 
 import '../../config/app_colors.dart';
@@ -159,6 +159,14 @@ class _LoginTypesState extends State<LoginTypes> {
             ],
           ),
         ),
+        Spacer(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminLogin()));
+              }, child: const Text("Admin Login",style: TextStyle(color: colorGreen),)),
+        )
       ],
     )));
   }

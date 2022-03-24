@@ -49,7 +49,7 @@ class AuthRepository {
             await GetUserById.getUserData(context: context, userId: user.uid);
 
         if (userDetailModel.toString().isNotEmpty) {
-          ToastMethod.simpleToast(massage: "successfully");
+          ToastMethod.simpleToast(massage: "Welcome to SnatchKart");
           pref?.setBool(LocalStorageKey.isLogin, true);
           pref!.setString(LocalStorageKey.userId, userDetailModel[LocalStorageKey.userId]);
           pref!.setString(LocalStorageKey.firstName, userDetailModel[LocalStorageKey.firstName]);

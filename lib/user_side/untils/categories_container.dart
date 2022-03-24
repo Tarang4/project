@@ -39,7 +39,15 @@ class _CategoriesContainerState extends State<CategoriesContainer> {
               height: 60,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  color: colorWhite, borderRadius: BorderRadius.circular(50)),
+                  color: colorWhite, borderRadius: BorderRadius.circular(50),
+                boxShadow: const [BoxShadow(
+                  color: colorLightGrey,
+                  blurRadius: 5,
+                  spreadRadius: 1,
+                  offset: Offset(3,3)
+                )
+                ],
+              ),
               width: 60,
               child: Image.asset(image),
             ),

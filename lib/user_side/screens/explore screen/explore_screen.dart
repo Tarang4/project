@@ -71,28 +71,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         logo: "assets/images/logo/zara.jpg",
         products: "1354 Products"),
   ];
-  List<ProductModal> productList = [
-    ProductModal(
-        img2: "assets/images/G2.png",
-        productName: "BeoPlay Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-    ProductModal(
-        img2: "assets/images/icons/G1.png",
-        productName: "ll Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-    ProductModal(
-        img2: "assets/images/G2.png",
-        productName: "BeoPlay Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-    ProductModal(
-        img2: "assets/images/icons/G1.png",
-        productName: "ll Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-  ];
+  List<ProductModal> productList = [];
   List<RecoList> recoList = [
     RecoList(
         image: "assets/images/reco2.png",

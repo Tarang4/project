@@ -52,20 +52,24 @@ class _ProductContainerState extends State<ProductContainer> {
           Container(
             height: MediaQuery.of(context).size.height / 3,
             width: double.infinity,
+            clipBehavior: Clip.antiAlias,
             // padding: const EdgeInsets.only(left: 3,right: 3,),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              boxShadow: const [
+                BoxShadow(
+                    color: colorLightGrey,
+                    blurRadius: 5,
+                    spreadRadius: 1,
+                    offset: Offset(3, 3))
+              ],
+            ),
             child: CachedNetworkImage(
               fit: BoxFit.cover,
               imageUrl: image,
-              placeholder: (context, url) =>
-                  const Center(
-                      child:
-                      CircularProgressIndicator(
-                          color:
-                          colorGrey)),
-              errorWidget:
-                  (context, url, error) =>
-              const Icon(Icons.error),
+              placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(color: colorGrey)),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
           const SizedBox(

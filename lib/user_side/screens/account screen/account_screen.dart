@@ -222,8 +222,6 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-
-
   logOutAlert() {
     AwesomeDialog(
             context: context,
