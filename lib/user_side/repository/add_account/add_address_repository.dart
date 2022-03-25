@@ -59,7 +59,7 @@ class AddressRepository {
     if (id != null) {
       await _addressCollection.add(addressData);
 
-      ToastMethod.simpleToast(context: context, massage: "add detail");
+      ToastMethod.simpleToastLightColor(context: context, massage: "New Address Added  ✔");
 
       debugPrint('yes add card');
     } else {
@@ -109,7 +109,7 @@ class AddressRepository {
         });
       });
 
-      ToastMethod.simpleToast(context: context, massage: "add detail");
+      ToastMethod.simpleToastLightColor(context: context, massage: "✔  Address Updated");
 
       debugPrint('yes update card');
     } else {

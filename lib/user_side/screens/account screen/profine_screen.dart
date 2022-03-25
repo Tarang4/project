@@ -98,6 +98,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   uploadFile();
                                 }
                               },
+                              style: ButtonStyle(
+                                overlayColor: MaterialStateProperty.all(colorGreen.withOpacity(0.2)),
+                              ),
                               child: const Text(
                                 "Save",
                                 style: TextStyle(
@@ -341,6 +344,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           email: prefEmail,
                                         )));
                           },
+                          style: ButtonStyle(
+                            overlayColor: MaterialStateProperty.all(colorGreen.withOpacity(0.2)),
+                          ),
                           child: const Text(
                             "Change Password",
                             style: TextStyle(

@@ -45,7 +45,6 @@ class _EditCardState extends State<EditCard> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   int pageIndex = 0;
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -54,39 +53,38 @@ class _EditCardState extends State<EditCard> {
     cardHolderName = widget.cardName;
     cvvCode = widget.cvv;
     expiryDate = widget.expDate;
-    cardId=widget.id;
+    cardId = widget.id;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: colorWhite.withOpacity(0.2),
+        centerTitle: true,
+        title: Text(
+          "Edit Card",
+          style: defaultTextStyle(
+              fontSize: 20.0,
+              fontColors: colorBlack,
+              fontWeight: FontWeight.normal),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+            size: 17,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) => const CardsScreen()));
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                    size: 18,
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                ),
-                Text(
-                  "Edit Card",
-                  style: defaultTextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
             CreditCardWidget(
               glassmorphismConfig:
                   useGlassMorphism ? Glassmorphism.defaultConfig() : null,
@@ -113,11 +111,29 @@ class _EditCardState extends State<EditCard> {
                 ),
               ],
             ),
+            InkWell(
+              onTap: () {
+                CardRepository.cardDetailDelete(
+                    context: context, cardId: cardId);
+                Navigator.pop(context);
+              },
+              child: Container(
+                height: 28,
+                width: 100,
+                margin: const EdgeInsets.only(left: 250),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(width: 1, color: colorGreen)),
+                child:  Text("REMOVE CARD",style: defaultTextStyle(fontSize: 12.0,fontWeight: FontWeight.w300),),
+              ),
+            ),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
                     CreditCardForm(
+                      cursorColor: colorGreen,
                       formKey: formKey,
                       obscureCvv: true,
                       obscureNumber: true,
@@ -128,7 +144,7 @@ class _EditCardState extends State<EditCard> {
                       isExpiryDateVisible: true,
                       cardHolderName: cardHolderName,
                       expiryDate: expiryDate,
-                      themeColor: Colors.blue,
+                      themeColor: colorGreen,
                       textColor: Colors.black,
                       cardNumberDecoration: InputDecoration(
                         labelText: 'Card Number',
@@ -137,13 +153,23 @@ class _EditCardState extends State<EditCard> {
                         labelStyle: const TextStyle(
                           color: colorGrey,
                         ),
-                        focusedBorder: border,
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: colorGreen,
+                            width: 1,
+                          ),
+                        ),
                         enabledBorder: border,
                       ),
                       expiryDateDecoration: InputDecoration(
                         hintStyle: const TextStyle(color: Colors.black),
                         labelStyle: const TextStyle(color: colorGrey),
-                        focusedBorder: border,
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: colorGreen,
+                            width: 1,
+                          ),
+                        ),
                         enabledBorder: border,
                         labelText: 'Expired Date',
                         hintText: 'XX/XX',
@@ -151,7 +177,12 @@ class _EditCardState extends State<EditCard> {
                       cvvCodeDecoration: InputDecoration(
                         hintStyle: const TextStyle(color: Colors.black),
                         labelStyle: const TextStyle(color: colorGrey),
-                        focusedBorder: border,
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: colorGreen,
+                            width: 1,
+                          ),
+                        ),
                         enabledBorder: border,
                         labelText: 'CVV',
                         hintText: 'XXX',
@@ -159,7 +190,12 @@ class _EditCardState extends State<EditCard> {
                       cardHolderDecoration: InputDecoration(
                         hintStyle: const TextStyle(color: Colors.black),
                         labelStyle: const TextStyle(color: colorGrey),
-                        focusedBorder: border,
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: colorGreen,
+                            width: 1,
+                          ),
+                        ),
                         enabledBorder: border,
                         labelText: 'Name on Card',
                       ),
@@ -181,11 +217,7 @@ class _EditCardState extends State<EditCard> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        CardRepository.cardDetailDelete(context: context, cardId: cardId);
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CardsScreen()));
+                        Navigator.pop(context);
                       });
                     },
                     child: Container(
@@ -223,7 +255,7 @@ class _EditCardState extends State<EditCard> {
                           color: colorGreen,
                           borderRadius: BorderRadius.circular(5)),
                       child: Text(
-                        "Update",
+                        "UPDATE",
                         style: defaultTextStyle(
                             fontColors: colorWhite,
                             fontSize: 14.0,
@@ -366,12 +398,12 @@ class _EditCardState extends State<EditCard> {
 
   updateCard() async {
     CardRepository.cardDetailUpdate(
-        context: context,
-        cardName: cardHolderName.toString(),
-        cardNo: cardNumber.toString(),
-        cvv: cvvCode.toString(),
-        exp_date: expiryDate.toString(), cardId: cardId.toString(),
-
+      context: context,
+      cardName: cardHolderName.toString(),
+      cardNo: cardNumber.toString(),
+      cvv: cvvCode.toString(),
+      exp_date: expiryDate.toString(),
+      cardId: cardId.toString(),
     );
 
     Navigator.pop(context);

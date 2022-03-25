@@ -37,33 +37,32 @@ class _AddCardState extends State<AddCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: colorWhite.withOpacity(0.2),
+        centerTitle: true,
+        title: Text(
+          "Add Card",
+          style: defaultTextStyle(
+              fontSize: 20.0,
+              fontColors: colorBlack,
+              fontWeight: FontWeight.normal),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+            size: 17,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) => const CardsScreen()));
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                    size: 18,
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                ),
-                Text(
-                  "Edit Card",
-                  style: defaultTextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
             CreditCardWidget(
               glassmorphismConfig:
                   useGlassMorphism ? Glassmorphism.defaultConfig() : null,
@@ -95,6 +94,7 @@ class _AddCardState extends State<AddCard> {
                 child: Column(
                   children: <Widget>[
                     CreditCardForm(
+                      cursorColor: colorGreen,
                       formKey: formKey,
                       obscureCvv: true,
                       obscureNumber: true,
@@ -114,30 +114,46 @@ class _AddCardState extends State<AddCard> {
                         labelStyle: const TextStyle(
                           color: colorGrey,
                         ),
-                        focusedBorder: border,
-                        enabledBorder: border,
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: colorGreen,
+                            width: 1,
+                          ),
+                        ),                        enabledBorder: border,
                       ),
                       expiryDateDecoration: InputDecoration(
                         hintStyle: const TextStyle(color: Colors.black),
                         labelStyle: const TextStyle(color: colorGrey),
-                        focusedBorder: border,
-                        enabledBorder: border,
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: colorGreen,
+                            width: 1,
+                          ),
+                        ),                        enabledBorder: border,
                         labelText: 'Expired Date',
                         hintText: 'XX/XX',
                       ),
                       cvvCodeDecoration: InputDecoration(
                         hintStyle: const TextStyle(color: Colors.black),
                         labelStyle: const TextStyle(color: colorGrey),
-                        focusedBorder: border,
-                        enabledBorder: border,
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: colorGreen,
+                            width: 1,
+                          ),
+                        ),                        enabledBorder: border,
                         labelText: 'CVV',
                         hintText: 'XXX',
                       ),
                       cardHolderDecoration: InputDecoration(
                         hintStyle: const TextStyle(color: Colors.black),
                         labelStyle: const TextStyle(color: colorGrey),
-                        focusedBorder: border,
-                        enabledBorder: border,
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: colorGreen,
+                            width: 1,
+                          ),
+                        ),                        enabledBorder: border,
                         labelText: 'Name on Card',
                       ),
                       onCreditCardModelChange: onCreditCardModelChange,
@@ -161,7 +177,7 @@ class _AddCardState extends State<AddCard> {
                         Navigator.pushReplacement(
                             context,
                             CupertinoPageRoute(
-                                builder: (context) => CardsScreen()));
+                                builder: (context) => const CardsScreen()));
                       });
                     },
                     child: Container(

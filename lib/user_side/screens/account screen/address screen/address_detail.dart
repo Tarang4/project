@@ -85,30 +85,33 @@ class _AddressDetailState extends State<AddressDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: colorWhite.withOpacity(0.2),
+        centerTitle: true,
+        title: Text(
+          "Address Detail",
+          style: defaultTextStyle(
+              fontSize: 20.0,
+              fontColors: colorBlack,
+              fontWeight: FontWeight.normal),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+            size: 17,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                    size: 18,
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 5,
-                ),
-                Text(
-                  "Address Detail",
-                  style: defaultTextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -128,7 +131,7 @@ class _AddressDetailState extends State<AddressDetail> {
                           child: Card(
                             elevation: 3,
                             child: Container(
-                              margin: EdgeInsets.all(15),
+                              margin: const EdgeInsets.all(15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -140,12 +143,12 @@ class _AddressDetailState extends State<AddressDetail> {
                                     children: [
                                       Container(
                                         width: 290,
-                                        margin: EdgeInsets.only(top: 10),
+                                        margin: const EdgeInsets.only(top: 10),
                                         child: Text(
                                           "${addressModal.addStreetNo.toString()},${addressModal.addStreet.toString()},${addressModal.addCity.toString()},${addressModal.addState.toString()},${addressModal.addCountry.toString()},${addressModal.addPinCode.toString()},",
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Checkbox(
                                           activeColor: colorGreen,
                                           side: const BorderSide(
@@ -167,7 +170,7 @@ class _AddressDetailState extends State<AddressDetail> {
                                     children: [
                                       TextButton(
                                         onPressed: () {
-                                          Navigator.pushReplacement(
+                                          Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
@@ -195,7 +198,10 @@ class _AddressDetailState extends State<AddressDetail> {
                                             ),
                                           );
                                         },
-                                        child: Text(
+                                        style: ButtonStyle(
+                                          overlayColor: MaterialStateProperty.all(colorGreen.withOpacity(0.2)),
+                                        ),
+                                        child: const Text(
                                           "Change",
                                           style: TextStyle(color: colorGreen),
                                         ),
@@ -207,7 +213,10 @@ class _AddressDetailState extends State<AddressDetail> {
                                               addId: addressModal.addId
                                                   .toString());
                                         },
-                                        child: Text(
+                                        style: ButtonStyle(
+                                          overlayColor: MaterialStateProperty.all(colorGreen.withOpacity(0.2)),
+                                        ),
+                                        child: const Text(
                                           "Delete",
                                           style: TextStyle(color: colorGreen),
                                         ),
@@ -223,11 +232,11 @@ class _AddressDetailState extends State<AddressDetail> {
                     );
                   }else if(!snapshot.hasData){
                     print(" error :${snapshot.error}");
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
-                  return Center(
+                  return const Center(
                     child: Text("No Data Found"),
                   );
                 },
@@ -237,7 +246,7 @@ class _AddressDetailState extends State<AddressDetail> {
               splashColor: Colors.transparent,
               onTap: () {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => AddNewAddress()));
+                    MaterialPageRoute(builder: (context) => const AddNewAddress()));
               },
               child: Container(
                 height: 50,

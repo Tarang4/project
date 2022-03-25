@@ -85,33 +85,32 @@ class _CardsScreenState extends State<CardsScreen> {
     final User? user = auth.currentUser;
     final uid = user?.uid;
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: colorWhite.withOpacity(0.2),
+        centerTitle: true,
+        title: Text(
+          "Cards",
+          style: defaultTextStyle(
+              fontSize: 20.0,
+              fontColors: colorBlack,
+              fontWeight: FontWeight.normal),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+            size: 17,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) => const AccountScreen()));
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                    size: 18,
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 3.1,
-                ),
-                Text(
-                  "Cards",
-                  style: defaultTextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -135,8 +134,6 @@ class _CardsScreenState extends State<CardsScreen> {
                               context,
                               CupertinoPageRoute(
                                 builder: (context) => EditCard(
-
-
                                   id: debitCardModal.cardId.toString(),
                                   cardName: debitCardModal.cardName.toString(),
                                   cvv: debitCardModal.cvv.toString(),
@@ -189,7 +186,7 @@ class _CardsScreenState extends State<CardsScreen> {
             InkWell(
               splashColor: Colors.transparent,
               onTap: () {
-                Navigator.pushReplacement(context,
+                Navigator.push(context,
                     CupertinoPageRoute(builder: (context) => AddCard()));
               },
               child: Container(

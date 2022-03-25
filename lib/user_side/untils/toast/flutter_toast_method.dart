@@ -6,10 +6,30 @@ class ToastMethod{
       { BuildContext? context, @required String? massage}){
     Fluttertoast.showToast(
         msg:massage.toString(),
-        backgroundColor: Colors.black12.withOpacity(0.5),
-        textColor: Colors.white,
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,);
+  }
+  static  simpleToastLightColor(
+      { BuildContext? context, @required String? massage}){
+    Fluttertoast.showToast(
+      msg:massage.toString(),
+      backgroundColor: Colors.black.withOpacity(0.5),
+      textColor: Colors.white,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,);
+  }
+  static  simpleToastTop(
+      { BuildContext? context, @required String? massage}){
+    Fluttertoast.showToast(
+        msg:massage.toString(),
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
         timeInSecForIosWeb: 1);
   }
 }

@@ -151,7 +151,7 @@ class AuthRepository {
               "add successfully -------------------------------------------------------");
           hideLoadingDialog(context: context);
 
-          ToastMethod.simpleToast(massage: "successfully");
+          ToastMethod.simpleToast(massage: "Welcome To SnatchKart");
           pref?.setBool(LocalStorageKey.isLogin, true);
           pref!.setString(LocalStorageKey.userId, data[LocalStorageKey.userId]);
           pref!.setString(LocalStorageKey.email, data[LocalStorageKey.email]);

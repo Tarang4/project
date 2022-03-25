@@ -99,7 +99,7 @@ class ProductRepository {
     try {
       await _reviewCollection.doc(reviewId).set(reviewData);
       Navigator.pop(context!);
-      ToastMethod.simpleToast(context: context, massage: "add review");
+      ToastMethod.simpleToast(context: context, massage: "Review Added");
       debugPrint('add review');
     } catch (e) {
       debugPrint('error of review:$e');

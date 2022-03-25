@@ -13,7 +13,7 @@ class AddNewAddress extends StatefulWidget {
 }
 
 class _AddNewAddressState extends State<AddNewAddress> {
-  GlobalKey<FormState> _formkey = GlobalKey();
+  final GlobalKey<FormState> _formkey = GlobalKey();
   String phoneController = '';
 
   TextEditingController street1 = TextEditingController();
@@ -27,33 +27,35 @@ class _AddNewAddressState extends State<AddNewAddress> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: colorWhite.withOpacity(0.2),
+        centerTitle: true,
+        title: Text(
+          "Add New Address",
+          style: defaultTextStyle(
+              fontSize: 20.0,
+              fontColors: colorBlack,
+              fontWeight: FontWeight.normal),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+            size: 17,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_rounded,
-                      size: 18,
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 5,
-                  ),
-                  Text(
-                    "Add New Address",
-                    style: defaultTextStyle(
-                        fontSize: 20.0, fontWeight: FontWeight.w400),
-                  ),
-                ],
-              ),
               Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
+                margin: const EdgeInsets.only(left: 15, right: 15),
                 child: Form(
                   key: _formkey,
                   child: Column(
@@ -71,7 +73,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       ),
                       Container(
                         width: double.infinity,
-                        height: 33,
+                        height: 45,
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -100,9 +102,9 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         ),
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 20,
                       ),
-                      Text(
+                      const Text(
                         "Enter Phone Number",
                         style: TextStyle(
                             fontSize: 14.0,
@@ -111,12 +113,17 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       ),
                       IntlPhoneField(
                         cursorColor: colorGreen,
-                        style: TextStyle(fontSize: 16),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please Enter Your Phone No.';
+                          }
+                        },
+                        style: const TextStyle(fontSize: 16),
                         disableLengthCheck: false,
                         textAlignVertical: TextAlignVertical.center,
-                        dropdownTextStyle: TextStyle(fontSize: 16),
+                        dropdownTextStyle: const TextStyle(fontSize: 16),
                         dropdownIcon:
-                            Icon(Icons.arrow_drop_down, color: colorGreen),
+                            const Icon(Icons.arrow_drop_down, color: colorGreen),
                         decoration: const InputDecoration(
                           hintText: 'Phone Number',
                           focusedBorder: UnderlineInputBorder(
@@ -132,8 +139,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           phoneController = phone.completeNumber.toString();
                         },
                       ),
-                      SizedBox(
-                        height: 15,
+                      const SizedBox(
+                        height: 20,
                       ),
                       Text(
                         "House No",
@@ -144,17 +151,17 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       ),
                       Container(
                         width: double.infinity,
-                        height: 33,
+                        height: 45,
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please Enter Your Full Name';
+                              return 'Please Enter Phone Number';
                             }
                           },
                           controller: street1,
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.text,
                           cursorColor: colorGreen,
                           cursorHeight: 22,
                           cursorWidth: 1.2,
@@ -172,8 +179,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 15,
+                      const SizedBox(
+                        height: 20,
                       ),
                       Text(
                         "Street Name",
@@ -184,11 +191,11 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       ),
                       Container(
                         width: double.infinity,
-                        height: 33,
+                        height: 45,
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please Enter Your Full Name';
+                              return 'Please Enter Street Name';
                             }
                           },
                           controller: street2,
@@ -212,8 +219,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 15,
+                      const SizedBox(
+                        height: 20,
                       ),
                       Text(
                         "City",
@@ -224,11 +231,11 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       ),
                       Container(
                         width: double.infinity,
-                        height: 33,
+                        height: 45,
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please Enter Your Full Name';
+                              return 'Please Enter City';
                             }
                           },
                           controller: city,
@@ -252,8 +259,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 15,
+                      const SizedBox(
+                        height: 20,
                       ),
                       Row(
                         children: [
@@ -270,11 +277,11 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 ),
                                 Container(
                                   width: double.infinity,
-                                  height: 33,
+                                  height: 45,
                                   child: TextFormField(
                                     validator: (value) {
                                       if (value!.isEmpty) {
-                                        return 'Please Enter Your Full Name';
+                                        return 'Please Enter Your State';
                                       }
                                     },
                                     controller: state,
@@ -315,7 +322,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 ),
                                 Container(
                                   width: double.infinity,
-                                  height: 33,
+                                  height: 45,
                                   child: TextFormField(
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -348,8 +355,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 15,
+                      const SizedBox(
+                        height: 20,
                       ),
                       Text(
                         "PinCode",
@@ -360,11 +367,11 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       ),
                       Container(
                         width: double.infinity,
-                        height: 53,
+                        height: 60,
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please Enter Your Full Name';
+                              return 'Please Enter Your Pincode';
                             }
                           },
                           controller: pin,maxLength: 6,
@@ -388,12 +395,13 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 25,
-                      ),
+
                     ],
                   ),
                 ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 8.5,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -404,7 +412,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AddressDetail()));
+                                builder: (context) => const AddressDetail()));
                       });
                     },
                     child: Container(
@@ -451,9 +459,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
                     ),
                   )
                 ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 40,
               ),
             ],
           ),

@@ -83,10 +83,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           ],
                         ),
                         const SizedBox(
-                          height: 10,
-                        ),
-                        const SizedBox(
-                          height: 40,
+                          height: 50,
                         ),
                         Text("OLD Password",
                             style: defaultTextStyle(
@@ -120,11 +117,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                             decoration: InputDecoration(
                               suffixIcon: IconButton(
                                 icon: isPassword
-                                    ? Icon(
+                                    ? const Icon(
                                         Icons.visibility,
                                         color: Colors.black,
                                       )
-                                    : Icon(Icons.visibility_off,
+                                    : const Icon(Icons.visibility_off,
                                         color: Colors.black),
                                 onPressed: () {
                                   setState(() {
@@ -132,10 +129,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   });
                                 },
                               ),
-                              border: UnderlineInputBorder(
+                              border: const UnderlineInputBorder(
                                 borderSide: BorderSide(color: colorGreen),
                               ),
-                              focusedBorder: UnderlineInputBorder(
+                              focusedBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(color: colorGreen),
                               ),
                             ),
@@ -208,11 +205,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                             decoration: InputDecoration(
                               suffixIcon: IconButton(
                                 icon: isPassword
-                                    ? Icon(
+                                    ? const Icon(
                                         Icons.visibility,
                                         color: Colors.black,
                                       )
-                                    : Icon(Icons.visibility_off,
+                                    : const Icon(Icons.visibility_off,
                                         color: Colors.black),
                                 onPressed: () {
                                   setState(() {
@@ -220,11 +217,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   });
                                 },
                               ),
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
+                              border: const UnderlineInputBorder(
+                                borderSide: const BorderSide(color: colorGreen),
                               ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGreen),
+                              focusedBorder: const UnderlineInputBorder(
+                                borderSide: const BorderSide(color: colorGreen),
                               ),
                             ),
                           ),
@@ -267,7 +264,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 _changePassword(_oldController.text,
                                     _password2Controller.text);
                               } else {
-                                ToastMethod.simpleToast(
+                                ToastMethod.simpleToastLightColor(
                                     massage: "enter same password");
                               }
                             }
@@ -284,7 +281,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               "Change Password",
                               style: defaultTextStyle(
                                   fontColors: colorWhite,
-                                  fontSize: 14.0,
+                                  fontSize: 15.0,
                                   fontWeight: FontWeight.w400),
                             ),
                           ),
@@ -294,6 +291,26 @@ class _ChangePasswordState extends State<ChangePassword> {
                   ),
                 ),
               ),
+              SizedBox(height: MediaQuery.of(context).size.height/5,),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: RichText(
+                  text: TextSpan(children: [
+                    TextSpan(
+                        text: 'Powered by ',
+                        style: defaultTextStyle(
+                            fontWeight: FontWeight.w100,
+                            fontSize: 10.0,
+                            fontColors: colorGrey)),
+                    TextSpan(
+                        text: 'SnatchKart',
+                        style: defaultTextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12.0,
+                            fontColors: colorGreen)),
+                  ]),
+                ),
+              )
             ],
           ),
         ),
@@ -304,7 +321,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   void _changePassword(String oldPass, String newPassword) async {
     userDetailModel =
         await GetUserById.getUserData(context: context, userId: uid);
-    if (currentPassword==_oldController.text) {
+    if (currentPassword == _oldController.text) {
       pref?.remove(LocalStorageKey.password);
       User? user = await FirebaseAuth.instance.currentUser;
 
@@ -314,7 +331,6 @@ class _ChangePasswordState extends State<ChangePassword> {
         password: oldPass,
       );
       user?.updatePassword(newPassword).then((_) async {
-
         final FirebaseAuth _auth = FirebaseAuth.instance;
         final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
@@ -336,18 +352,18 @@ class _ChangePasswordState extends State<ChangePassword> {
             "passwordToken": newPasswordTokenId,
           });
           print("Your password changed Successfully ");
-          ToastMethod.simpleToast(massage: "Change Password");
+          ToastMethod.simpleToastLightColor(massage: "Change Password");
           Navigator.pop(context);
           pref!.setString(LocalStorageKey.password, newPassword);
           pref!.setString(LocalStorageKey.passwordToken, newPasswordTokenId);
         }
       }).catchError((err) {
-        ToastMethod.simpleToast(massage: " no Change Password $err");
+        ToastMethod.simpleToastLightColor(massage: " no Change Password $err");
 
         print("You can't change the Password" + err.toString());
       });
     } else {
-      ToastMethod.simpleToast(massage: "Old Password Wrong");
+      ToastMethod.simpleToastLightColor(massage: "Old Password Wrong");
     }
   }
 }

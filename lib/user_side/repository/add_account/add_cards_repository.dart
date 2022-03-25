@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../untils/toast/flutter_toast_method.dart';
 import '../../config/FireStore_string.dart';
@@ -39,7 +40,8 @@ class CardRepository {
     if (id != null) {
       await _cardCollection.add(cardData);
 
-      ToastMethod.simpleToast(context: context, massage: "add detail");
+      ToastMethod.simpleToastLightColor(
+          context: context, massage: "✔ Card Added");
 
       debugPrint('yes add card');
     } else {
@@ -81,11 +83,11 @@ class CardRepository {
         });
       });
 
-      ToastMethod.simpleToast(context: context, massage: "add detail");
+      ToastMethod.simpleToastLightColor(context: context, massage: "✔ Card Updated");
 
       debugPrint('yes update card');
     } else {
-      ToastMethod.simpleToast(context: context, massage: "no add detail");
+      ToastMethod.simpleToastLightColor(context: context, massage: "no add detail");
 
       debugPrint('No update card');
     }
@@ -105,11 +107,8 @@ class CardRepository {
         .doc(id)
         .collection(FirebaseString.cardCollection);
 
-
     _cardCollection.where('cardId', whereIn: [cardId]).get().then((snapshot) {
-      snapshot.docs[0].reference.delete();
-    });
-
-
+          snapshot.docs[0].reference.delete();
+        });
   }
 }

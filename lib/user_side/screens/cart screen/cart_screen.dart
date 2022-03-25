@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:untitled/user_side/modal/cart_modal.dart';
 import 'package:untitled/user_side/repository/add_account/add_cartlist_repository.dart';
+import 'package:untitled/user_side/untils/toast/flutter_toast_method.dart';
 import '../../../admin/modal/admin_product_modal.dart';
 import '../../config/FireStore_string.dart';
 import '../../config/app_colors.dart';
@@ -36,8 +37,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  
-  int itmes=1;
+  int itmes = 1;
   String? productImage;
   String? productName;
   String? productPrice;
@@ -75,15 +75,14 @@ class _CartScreenState extends State<CartScreen> {
         .get()
         .then((value) {
       // WidgetsBinding.instance?.addPostFrameCallback((_) {
-        for (var element in value.docs) {
-          CartModal cartModal = CartModal.fromJson(element.data());
-          setState(() {
-            cartList.add(cartModal);
-            total = int.parse(cartModal.productPrice.toString()) + total;
-            int quantity=cartModal.quantity??1;
-
-          });
-        }
+      for (var element in value.docs) {
+        CartModal cartModal = CartModal.fromJson(element.data());
+        setState(() {
+          cartList.add(cartModal);
+          total = int.parse(cartModal.productPrice.toString()) + total;
+          int quantity = cartModal.quantity ?? 1;
+        });
+      }
 
       // });
     });
@@ -130,7 +129,7 @@ class _CartScreenState extends State<CartScreen> {
                     CartModal cartModal = cartList[index];
                     totali =
                         int.parse(cartModal.productPrice.toString()) + totali;
-                    print("krrish${total.toString()}");
+                    print("${total.toString()}");
                     return Dismissible(
                       key: Key(cartModal.addId![index]),
                       background: slideLeftBackground(),
@@ -141,7 +140,9 @@ class _CartScreenState extends State<CartScreen> {
                               context: context,
                               productId: cartModal.productId.toString());
                           setState(() {
-                            total=total-int.parse(cartModal.productPrice.toString());
+                            total = total -
+                                int.parse(cartModal.productPrice.toString());
+                            cartList.removeAt(index);
                           });
                         }
                         return;
@@ -207,29 +208,19 @@ class _CartScreenState extends State<CartScreen> {
                                             setState(() {
                                               itmes++;
                                               // quantity==itmes;
-
                                             });
                                           },
                                           child: Container(
                                             height: 30,
                                             width: 32,
-                                            padding:
-                                                const EdgeInsets
-                                                    .all(10),
-                                            decoration:
-                                                const BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius
-                                                            .only(
-                                                      topLeft: Radius
-                                                          .circular(
-                                                              4),
-                                                      bottomLeft: Radius
-                                                          .circular(
-                                                              4),
-                                                    ),
-                                                    color:
-                                                        colorLightGrey),
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(4),
+                                                  bottomLeft:
+                                                      Radius.circular(4),
+                                                ),
+                                                color: colorLightGrey),
                                             child: Image.asset(
                                                 "assets/images/plus.png"),
                                           ),
@@ -238,17 +229,11 @@ class _CartScreenState extends State<CartScreen> {
                                           child: Container(
                                               height: 30,
                                               width: 32,
-                                              alignment:
-                                                  Alignment.center,
-                                              padding:
-                                                  const EdgeInsets
-                                                      .all(5),
-                                              decoration:
-                                                  const BoxDecoration(
-                                                      color:
-                                                          colorLightGrey),
-                                              child: Text(itmes
-                                                  .toString())),
+                                              alignment: Alignment.center,
+                                              padding: const EdgeInsets.all(5),
+                                              decoration: const BoxDecoration(
+                                                  color: colorLightGrey),
+                                              child: Text(itmes.toString())),
                                         ),
                                         InkWell(
                                           onTap: () {
@@ -263,23 +248,14 @@ class _CartScreenState extends State<CartScreen> {
                                           child: Container(
                                             height: 30,
                                             width: 32,
-                                            padding:
-                                                const EdgeInsets
-                                                    .all(10),
-                                            decoration:
-                                                const BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius
-                                                            .only(
-                                                      topRight: Radius
-                                                          .circular(
-                                                              4),
-                                                      bottomRight: Radius
-                                                          .circular(
-                                                              4),
-                                                    ),
-                                                    color:
-                                                        colorLightGrey),
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                  topRight: Radius.circular(4),
+                                                  bottomRight:
+                                                      Radius.circular(4),
+                                                ),
+                                                color: colorLightGrey),
                                             child: Image.asset(
                                                 "assets/images/minus.png"),
                                           ),
@@ -290,14 +266,9 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                               ),
                               InkWell(
+                                splashColor: Colors.transparent,
                                 onTap: () {
-                                  CartRepository.cartDetailDelete(
-                                      context: context,
-                                      productId:
-                                          cartModal.productId.toString());
-                                  setState(() {
-                                    total=total-int.parse(cartModal.productPrice.toString());
-                                  });
+                                  ToastMethod.simpleToast(massage: "◀ Swipe Left For Delete !!");
                                 },
                                 child: Container(
                                   margin:

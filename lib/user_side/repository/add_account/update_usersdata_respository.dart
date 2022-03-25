@@ -42,11 +42,11 @@ class UserUpDateRepository {
       if(data[LocalStorageKey.profilePhoto] != "" || data[LocalStorageKey.profilePhoto] != null){
         pref!.setString(LocalStorageKey.profilePhoto, data[LocalStorageKey.profilePhoto]);
       }
-      ToastMethod.simpleToast(context: context, massage: "Update Successfully");
+      ToastMethod.simpleToastLightColor(context: context, massage: "✔ Profile Updated");
 
       debugPrint('yes update');
     } else {
-      ToastMethod.simpleToast(context: context, massage: "No update.");
+      ToastMethod.simpleToastLightColor(context: context, massage: "No update.");
 
       debugPrint('No update');
     }

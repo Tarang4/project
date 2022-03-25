@@ -130,7 +130,7 @@ class Size {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['S'] = this.s;
     data['M'] = this.m;
     data['XL'] = this.xL;

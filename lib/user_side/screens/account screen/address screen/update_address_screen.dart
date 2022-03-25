@@ -66,33 +66,35 @@ class _UpdateAddressState extends State<UpdateAddress> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: colorWhite.withOpacity(0.2),
+        centerTitle: true,
+        title: Text(
+          "Update Addresss Detail",
+          style: defaultTextStyle(
+              fontSize: 20.0,
+              fontColors: colorBlack,
+              fontWeight: FontWeight.normal),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+            size: 17,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                    size: 18,
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 9,
-                ),
-                Text(
-                  "Update Addresss Detail",
-                  style: defaultTextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 15, right: 15),
                 child: Form(
                   key: _formkey,
                   child: Column(
@@ -110,7 +112,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                       ),
                       Container(
                         width: double.infinity,
-                        height: 33,
+                        height: 45,
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -139,9 +141,9 @@ class _UpdateAddressState extends State<UpdateAddress> {
                         ),
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 20,
                       ),
-                      Text(
+                      const Text(
                         "Enter Phone Number",
                         style: TextStyle(
                             fontSize: 14.0,
@@ -149,13 +151,18 @@ class _UpdateAddressState extends State<UpdateAddress> {
                             fontWeight: FontWeight.w400),
                       ),
                       IntlPhoneField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please Enter Your Phone No.';
+                          }
+                        },
                         cursorColor: colorGreen,
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                         disableLengthCheck: false,
                         textAlignVertical: TextAlignVertical.center,
-                        dropdownTextStyle: TextStyle(fontSize: 16),
+                        dropdownTextStyle: const TextStyle(fontSize: 16),
                         dropdownIcon:
-                        Icon(Icons.arrow_drop_down, color: colorGreen),
+                        const Icon(Icons.arrow_drop_down, color: colorGreen),
                         decoration: const InputDecoration(
                           hintText: 'Phone Number',
                           focusedBorder: UnderlineInputBorder(
@@ -171,8 +178,8 @@ class _UpdateAddressState extends State<UpdateAddress> {
                           phoneController = phone.completeNumber.toString();
                         },
                       ),
-                      SizedBox(
-                        height: 15,
+                      const SizedBox(
+                        height: 20,
                       ),
                       Text(
                         "House No",
@@ -183,11 +190,11 @@ class _UpdateAddressState extends State<UpdateAddress> {
                       ),
                       Container(
                         width: double.infinity,
-                        height: 33,
+                        height: 45,
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please Enter Your Full Name';
+                              return 'Please Enter Your House No';
                             }
                           },
                           controller: street1,
@@ -211,8 +218,8 @@ class _UpdateAddressState extends State<UpdateAddress> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 15,
+                      const SizedBox(
+                        height: 20,
                       ),
                       Text(
                         "Street Name",
@@ -223,11 +230,11 @@ class _UpdateAddressState extends State<UpdateAddress> {
                       ),
                       Container(
                         width: double.infinity,
-                        height: 33,
+                        height: 45,
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please Enter Your Full Name';
+                              return 'Please Enter Your Street';
                             }
                           },
                           controller: street2,
@@ -251,8 +258,8 @@ class _UpdateAddressState extends State<UpdateAddress> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 15,
+                      const SizedBox(
+                        height: 20,
                       ),
                       Text(
                         "City",
@@ -263,11 +270,11 @@ class _UpdateAddressState extends State<UpdateAddress> {
                       ),
                       Container(
                         width: double.infinity,
-                        height: 33,
+                        height: 45,
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please Enter Your Full Name';
+                              return 'Please Enter Your City';
                             }
                           },
                           controller: city,
@@ -291,8 +298,8 @@ class _UpdateAddressState extends State<UpdateAddress> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 15,
+                      const SizedBox(
+                        height: 20,
                       ),
                       Row(
                         children: [
@@ -309,11 +316,11 @@ class _UpdateAddressState extends State<UpdateAddress> {
                                 ),
                                 Container(
                                   width: double.infinity,
-                                  height: 33,
+                                  height: 45,
                                   child: TextFormField(
                                     validator: (value) {
                                       if (value!.isEmpty) {
-                                        return 'Please Enter Your Full Name';
+                                        return 'Please Enter Your State';
                                       }
                                     },
                                     controller: state,
@@ -354,11 +361,11 @@ class _UpdateAddressState extends State<UpdateAddress> {
                                 ),
                                 Container(
                                   width: double.infinity,
-                                  height: 33,
+                                  height: 45,
                                   child: TextFormField(
                                     validator: (value) {
                                       if (value!.isEmpty) {
-                                        return 'Please Enter Country';
+                                        return 'Please Enter Your Country';
                                       }
                                     },
                                     controller: country,
@@ -387,8 +394,8 @@ class _UpdateAddressState extends State<UpdateAddress> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 15,
+                      const SizedBox(
+                        height: 20,
                       ),
                       Text(
                         "PinCode",
@@ -399,11 +406,11 @@ class _UpdateAddressState extends State<UpdateAddress> {
                       ),
                       Container(
                         width: double.infinity,
-                        height: 53,
+                        height: 60,
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please Enter Your Full Name';
+                              return 'Please Enter Your Pincode';
                             }
                           },
                           controller: pin,maxLength: 6,
@@ -427,75 +434,70 @@ class _UpdateAddressState extends State<UpdateAddress> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 25,
-                      ),
                     ],
                   ),
                 ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddressDetail()));
-                    });
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 146,
-                    margin: const EdgeInsets.only(left: 32),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: colorGreen),
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Text(
-                      "CANCLE",
-                      style: defaultTextStyle(
-                          fontColors: colorBlack,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w400),
+              SizedBox(height: MediaQuery.of(context).size.height/8.5,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddressDetail()));
+                      });
+                    },
+                    child: Container(
+                      height: 50,
+                      width: 146,
+                      margin: const EdgeInsets.only(left: 32),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: colorGreen),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Text(
+                        "CANCLE",
+                        style: defaultTextStyle(
+                            fontColors: colorBlack,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400),
+                      ),
                     ),
                   ),
-                ),
-                InkWell(
-                  onTap: () async {
-                    if (_formkey.currentState!.validate()) {
-                      print("SAVED");
-                      updateAddress();
-                    } else {
-                      print('invalid!');
-                    }
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 146,
-                    margin: const EdgeInsets.only(right: 32),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: colorGreen,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Text(
-                      "UPDATE",
-                      style: defaultTextStyle(
-                          fontColors: colorWhite,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w400),
+                  InkWell(
+                    onTap: () async {
+                      if (_formkey.currentState!.validate()) {
+                        print("SAVED");
+                        updateAddress();
+                      } else {
+                        print('invalid!');
+                      }
+                    },
+                    child: Container(
+                      height: 50,
+                      width: 146,
+                      margin: const EdgeInsets.only(right: 32),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: colorGreen,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Text(
+                        "UPDATE",
+                        style: defaultTextStyle(
+                            fontColors: colorWhite,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400),
+                      ),
                     ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 40,
-            ),
-          ],
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -512,7 +514,6 @@ class _UpdateAddressState extends State<UpdateAddress> {
         city:city.text,
         addPinCode: pin.text,
         addId: addId, phone:phoneController);
-
     Navigator.pop(context);
     // Navigator.pushReplacement(
     //     context, MaterialPageRoute(builder: (context) => const CardsScreen()));

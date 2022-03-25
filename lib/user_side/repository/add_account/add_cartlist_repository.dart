@@ -57,9 +57,7 @@ class CartRepository {
     // else {
     if(id!=null){
       await _addressCollection.add(cartData);
-
-      ToastMethod.simpleToast(context: context, massage: "Add in CartList");
-
+      ToastMethod.simpleToastTop(context: context, massage: "Added In Cart");
       debugPrint('yes add cartList');
      }
   }
