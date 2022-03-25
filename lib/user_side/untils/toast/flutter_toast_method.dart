@@ -26,8 +26,8 @@ class ToastMethod{
       { BuildContext? context, @required String? massage}){
     Fluttertoast.showToast(
         msg:massage.toString(),
-        backgroundColor: Colors.white,
-        textColor: Colors.black,
+        backgroundColor: Colors.black.withOpacity(0.5),
+        textColor: Colors.white,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP,
         timeInSecForIosWeb: 1);

@@ -77,7 +77,7 @@ class _ProductContainerState extends State<ProductContainer> {
           ),
           Text(
             name,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
           const SizedBox(
             height: 3,
@@ -85,7 +85,7 @@ class _ProductContainerState extends State<ProductContainer> {
           Text(
             info,
             style: const TextStyle(
-                fontSize: 12, fontWeight: FontWeight.normal, color: colorGrey),
+                fontSize: 10, fontWeight: FontWeight.normal, color: colorGrey),
           ),
           const SizedBox(
             height: 3,
@@ -93,7 +93,7 @@ class _ProductContainerState extends State<ProductContainer> {
           Text(
             "₹ $price",
             style: const TextStyle(
-                fontSize: 16, fontWeight: FontWeight.normal, color: colorGreen),
+                fontSize: 14, fontWeight: FontWeight.normal, color: colorGreen),
           ),
         ],
       ),
