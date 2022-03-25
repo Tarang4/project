@@ -96,8 +96,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
   bool isColorThree = false;
   bool isColorFour = false;
 
- Object perfume= FirebaseFirestore.instance
-      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "1")??false;
+ // Object perfume= FirebaseFirestore.instance
+ //      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "1")??false;
 
   @override
   void initState() {
@@ -794,8 +794,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                 InkWell(
                   onTap: () {
                     try {
-                      if(size!=null&&color!=null||
-                          perfume!=true){
+                      if(size!=null&&color!=null){
+                        // CartController.instance.productId(pID.toString());
                       CartRepository.cartDetailAdd(
                         context: context,
                         productId: pID.toString(),

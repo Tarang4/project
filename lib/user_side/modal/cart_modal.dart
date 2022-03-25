@@ -6,6 +6,7 @@ class CartModal {
   String? productPrice;
   String? productColor;
   String? productSize;
+  int? quantity;
 
   CartModal(
       {this.productId,
@@ -14,6 +15,7 @@ class CartModal {
         this.productImage,
         this.productPrice,
         this.productColor,
+        this.quantity,
         this.productSize});
 
   CartModal.fromJson(Map<String, dynamic> json) {
@@ -24,17 +26,19 @@ class CartModal {
     productPrice = json['productPrice'];
     productColor = json['productColor'];
     productSize = json['productSize'];
+    quantity = json['quantity'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['productId'] = this.productId;
-    data['addId'] = this.addId;
-    data['productName'] = this.productName;
-    data['productImage'] = this.productImage;
-    data['productPrice'] = this.productPrice;
-    data['productColor'] = this.productColor;
-    data['productSize'] = this.productSize;
+    data['productId'] = productId;
+    data['addId'] = addId;
+    data['productName'] = productName;
+    data['productImage'] = productImage;
+    data['productPrice'] = productPrice;
+    data['productColor'] = productColor;
+    data['productSize'] = productSize;
+    data['quantity'] = quantity;
     return data;
   }
 }

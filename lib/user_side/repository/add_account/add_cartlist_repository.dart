@@ -1,14 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import '../../../main.dart';
 import '../../config/FireStore_string.dart';
 import '../../config/Localstorage_string.dart';
 import '../../config/local_storage.dart';
 import '../../modal/address_modal.dart';
 import '../../untils/toast/flutter_toast_method.dart';
+import 'getCartData.dart';
 
 class CartRepository {
+
+
   static cartDetailAdd(
       {@required BuildContext? context,
         @required String? productId,
@@ -20,6 +25,7 @@ class CartRepository {
       }) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     var id = _auth.currentUser?.uid;
+
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
@@ -41,20 +47,21 @@ class CartRepository {
       "productPrice": productPrice,
       "productColor": productColor,
       "productSize": productSize,
+      "quantity": 1,
 
     };
-
-    if (id != null) {
+    // if (userDetailModel["productId"]==productId) {
+    //   Get.snackbar(
+    //       "Check your cart", "${userDetailModel["productName"]} is already added");
+    // }
+    // else {
+    if(id!=null){
       await _addressCollection.add(cartData);
 
       ToastMethod.simpleToast(context: context, massage: "Add in CartList");
 
       debugPrint('yes add cartList');
-    } else {
-      ToastMethod.simpleToast(context: context, massage: "no add CarList");
-
-      debugPrint('No add cartList');
-    }
+     }
   }
 
 
