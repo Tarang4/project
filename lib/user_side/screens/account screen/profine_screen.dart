@@ -117,19 +117,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: _photo != null
                               ? Stack(
                             children: [
-                              Positioned(
-                                left: 1,top: 1,bottom: 1,right: 1,
-                                child: Container(
-                                  height: 120,
-                                  width: 120,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: colorGreen,width: 2)
-                                  ),
-                                ),
-                              ),
                               Container(
                                   height: 110,
                                   width: 110,
+                                  margin: EdgeInsets.all(3),
                                   clipBehavior: Clip.antiAlias,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(70),
@@ -137,26 +128,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: Image.file(
                                     _photo!,
                                     fit: BoxFit.cover,
-                                  ))
-                            ],
-                          )
-                              : Stack(
-                            children: [
+                                  )),
                               Positioned(
-                                left: 0.1,top: 0.1,bottom: 0.1,right: 0.1,
+                                left: 1,top: 1,bottom: 1,right: 1,
                                 child: Container(
                                   height: 120,
                                   width: 120,
                                   decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                      border: Border.all(color: colorGreen,width: 2)
+                                    border: Border.all(color: colorGreen,width: 1)
                                   ),
                                 ),
                               ),
+
+                            ],
+                          )
+                              : Stack(
+                            children: [
                               Container(
                                 height: 110,
                                 width: 110,
-                                margin: const EdgeInsets.all(2),
+                                margin: const EdgeInsets.all(3),
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(70),
@@ -176,6 +167,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   fit: BoxFit.cover,
                                 ),
                               ),
+                              Positioned(
+                                left: 0.1,top: 0.1,bottom: 0.1,right: 0.1,
+                                child: Container(
+                                  height: 120,
+                                  width: 120,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                      border: Border.all(color: colorGreen,width: 1)
+                                  ),
+                                ),
+                              ),
+
                             ],
                           )
                         ),
