@@ -102,13 +102,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
                       Align(
                         alignment: Alignment.center,
                         child: InkWell(
