@@ -48,6 +48,7 @@ class _WishListScreenState extends State<WishListScreen> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               Row(
@@ -71,18 +72,18 @@ class _WishListScreenState extends State<WishListScreen> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               ListView.builder(
                 itemCount: 3,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     height: 120,
                     margin:
-                        EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 10),
+                        const EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 10),
                     color: Colors.white,
                     child: Row(
                       children: [
@@ -94,7 +95,7 @@ class _WishListScreenState extends State<WishListScreen> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 30,
                         ),
                         Padding(
@@ -116,7 +117,7 @@ class _WishListScreenState extends State<WishListScreen> {
                                     fontWeight: FontWeight.w400),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 25),
+                                margin: const EdgeInsets.only(top: 25),
                                 height: 30,
                                 alignment: Alignment.center,
                                 width: 80,
@@ -153,7 +154,7 @@ class _WishListScreenState extends State<WishListScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SeeAllScreen()));
+                                builder: (context) => const SeeAllScreen()));
                       },
                       child: Hero(
                         tag: 'seeAll',
@@ -212,7 +213,7 @@ class _WishListScreenState extends State<WishListScreen> {
               onTap: () {
                 setState(() {
                   pageIndex = 0;
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ExploreScreen()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const ExploreScreen()));
                 });
               },
               child: Container(
@@ -282,7 +283,7 @@ class _WishListScreenState extends State<WishListScreen> {
             onTap: () {
               setState(() {
                 pageIndex = 2;
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AccountScreen()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const AccountScreen()));
               });
             },
             child: Container(

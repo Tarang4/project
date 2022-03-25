@@ -3,22 +3,19 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
+import 'package:get/get.dart';
+import 'package:untitled/user_side/repository/home/home_repository.dart';
 import 'package:untitled/user_side/screens/explore%20screen/categories_screen/devices_screen.dart';
 import 'package:untitled/user_side/screens/explore%20screen/seeall_screen.dart';
-import '../../../admin/modal/admin_product_modal.dart';
 import '../../../main.dart';
-import '../../config/FireStore_string.dart';
 import '../../config/Localstorage_string.dart';
 import '../../config/app_colors.dart';
 import '../../modal/categories_modal.dart';
 import '../../modal/product_modal.dart';
 import '../../untils/app_fonts.dart';
 import '../../untils/categories_container.dart';
-import '../../untils/product_container.dart';
 import '../account screen/account_screen.dart';
 import '../cart screen/cart_screen.dart';
-import '../search screen/search_s2.dart';
 import '../../untils/categories_product.dart';
 import 'categories_screen/gadgets_screen.dart';
 import 'categories_screen/men_screen.dart';
@@ -100,12 +97,32 @@ class _ExploreScreenState extends State<ExploreScreen> {
     const CartScreen(productName: '', productImage: '', productPrice: '',productId:''),
     const AccountScreen(),
   ];
+  List<QueryDocumentSnapshot<Object?>>? searchProduct;
+  QuerySnapshot? homeProductData;
+
+  final TextEditingController searchController = TextEditingController();
+  productData() async{
+    homeProductData = await HomeRepository.getProduct(context: context,);
+    searchProduct = homeProductData!.docs;
+    print("home Data ---------------------------- ${homeProductData!.docs}");
+    print("home Data ---------------------------- ${searchProduct}");
+    setState(() {
+
+    });
+  }
+
+  @override
+  void initState() {
+    productData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -121,33 +138,46 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) =>
-                                            const SearchS2()));
-                              },
-                              child: Container(
-                                height: 40,
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 20),
-                                decoration: BoxDecoration(
-                                    color: colorLightGrey,
-                                    borderRadius: BorderRadius.circular(40)),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      height: 18,
-                                      margin: const EdgeInsets.only(
-                                          top: 11, bottom: 11),
-                                      width: 18,
-                                      child: Image.asset(
-                                        "assets/images/icons/Group 341@3x.png",
-                                      ),
-                                    ),
-                                  ],
+                            child: Container(
+                              height: 43,
+                              padding: EdgeInsets.only(left: 15,bottom: 9),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: colorLightGrey,
+                              ),
+                              child: TextFormField(
+                                cursorWidth: 1.5,
+                                controller: searchController,
+                                textInputAction: TextInputAction.done,
+                                keyboardType: TextInputType.emailAddress,
+                                cursorColor: colorGreen,
+                                onChanged: (value) async{
+                                  if(searchController.text.isEmpty){
+                                    searchProduct = homeProductData!.docs;
+                                    print("serch length ----------- ${searchProduct!.length}");
+                                  } else{
+                                    searchProduct = homeProductData!.docs.where((element) => element["productName"].toString().toLowerCase().contains(value.toLowerCase())).toList();
+                                    print("serch length ----------- ${searchProduct!.length}");
+                                  }
+                                  setState(() {
+
+                                  });
+                                },
+                                style: const TextStyle(
+                                    color: colorBlack,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal),
+                                decoration: const InputDecoration(
+                                  fillColor: colorLightGrey,
+                                  border: UnderlineInputBorder(
+                                      borderSide: BorderSide.none),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  suffixIcon: Padding(
+                                    padding: EdgeInsets.only(top: 10),
+                                    child: Icon(Icons.search, color: Colors.black,),
+                                  )
                                 ),
                               ),
                             ),
@@ -217,6 +247,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     SizedBox(
                       height: 90,
                       child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
                           padding: const EdgeInsets.only(left: 16),
                           scrollDirection: Axis.horizontal,
                           itemCount: categoriesList.length,
@@ -287,6 +318,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             CupertinoPageRoute(
                                 builder: (context) => const SeeAllScreen()));
                       },
+                      style: ButtonStyle(
+                        overlayColor: MaterialStateProperty.all(
+                            colorGreen.withOpacity(0.2)),
+                      ),
                       child: Hero(
                         tag: 'seeAll',
                         child: Material(
@@ -303,7 +338,100 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   ],
                 ),
               ),
-              StreamBuilder(
+              searchProduct == null
+              ? Container()
+              : Container(
+                margin: EdgeInsets.all(10),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    padding:
+                    const EdgeInsets.only(top: 1, left: 5, right: 5),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                        mainAxisExtent: Get.size.height/2.3,
+                        crossAxisSpacing: 15,
+                        mainAxisSpacing: 5),
+                    itemCount: searchProduct!.length,
+                    itemBuilder: (BuildContext ctx, index) {
+                      return GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => CategoriesProduct(
+                                    pImage1: searchProduct![index]["images"]["img1"],
+                                    pImage2: searchProduct![index]["images"]["img2"],
+                                    pImage3: searchProduct![index]["images"]["img3"],
+                                    pImage4: searchProduct![index]["images"]["img4"],
+                                    pName: searchProduct![index]["productName"],
+                                    pInfo: searchProduct![index]["productInfo"],
+                                    pPrice: searchProduct![index]["productPrice"],
+                                    color1: searchProduct![index]["ColorCode"]["color1"],
+                                    color2: searchProduct![index]["ColorCode"]["color2"],
+                                    color3: searchProduct![index]["ColorCode"]["color3"],
+                                    color4: searchProduct![index]["ColorCode"]["color4"],
+                                    size1: searchProduct![index]["size"]["M"],
+                                    size2: searchProduct![index]["size"]["S"],
+                                    size3: searchProduct![index]["size"]["XL"],
+                                    size4: searchProduct![index]["size"]["XXL"],
+                                    review: "",
+                                    reviewStar: "",
+                                    pID: searchProduct![index]["productId"],
+                                  )));
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height / 3,
+                              width: double.infinity,
+                              clipBehavior: Clip.antiAlias,
+                              // padding: const EdgeInsets.only(left: 3,right: 3,),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: colorLightGrey,
+                                      blurRadius: 5,
+                                      spreadRadius: 1,
+                                      offset: Offset(3, 3))
+                                ],
+                              ),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl: searchProduct![index]["images"]["img1"],
+                                placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator(color: colorGrey)),
+                                errorWidget: (context, url, error) => const Icon(Icons.error),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              searchProduct![index]["productName"].toString(),
+                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              searchProduct![index]["productInfo"],
+                              style: const TextStyle(
+                                  fontSize: 10, fontWeight: FontWeight.normal, color: colorGrey),
+                            ),
+                            const SizedBox(
+                              height: 3,
+                            ),
+                            Text(
+                              "₹ ${searchProduct![index]["productPrice"]}",
+                              style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.normal, color: colorGreen),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+              ),
+              /*StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection(FirebaseString.productCollection)
                       .snapshots(),
@@ -317,11 +445,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         verticalSpace: 14,
                         horizontalSpace: 16,
                         children: List.generate(
-                          snapshot.data.docs.length,
+                          searchProduct!.docs.length,
                           (index) {
                             ProductModalAdmin productModal =
                                 ProductModalAdmin.fromJson(
-                                    snapshot.data.docs[index].data());
+                                    );
                             return ProductContainer(
                               pImage: productModal.images!.img1.toString(),
                               pName: productModal.productName.toString(),
@@ -384,7 +512,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         child: CircularProgressIndicator(
                       color: colorGreen,
                     ));
-                  }),
+                  }),*/
               Container(
                 margin: const EdgeInsets.only(
                   top: 15,
@@ -444,6 +572,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.only(left: 16, right: 16),
                 child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: fetureBrand.length,
                   itemBuilder: (context, index) {
@@ -509,9 +638,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.only(top: 20, left: 10, bottom: 31),
+                children:  [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10, left: 10, bottom: 20),
                     child: Text(
                       "Recommended",
                       style: TextStyle(
@@ -523,14 +652,29 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 20, right: 10, bottom: 31),
-                    child: Text(
-                      "See all",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: "SF",
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black87,
+                    padding: const EdgeInsets.only(top: 10, right: 10, bottom: 20),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => const SeeAllScreen()));
+                      },
+                      style: ButtonStyle(
+                        overlayColor: MaterialStateProperty.all(
+                            colorGreen.withOpacity(0.2)),
+                      ),
+                      child: Hero(
+                        tag: 'seeAll',
+                        child: Material(
+                          child: Text(
+                            "See All",
+                            style: defaultTextStyle(
+                                fontColors: colorBlack,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
                       ),
                     ),
                   )
@@ -539,6 +683,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
               Container(
                 height: 380,
                 child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemCount: recoList.length,
                     itemBuilder: (context, index) {

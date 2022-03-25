@@ -52,6 +52,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             children: [
               Container(

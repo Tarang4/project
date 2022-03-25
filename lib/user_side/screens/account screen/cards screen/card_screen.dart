@@ -122,6 +122,7 @@ class _CardsScreenState extends State<CardsScreen> {
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
+                      physics: const BouncingScrollPhysics(),
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (BuildContext context, int index) {
 

@@ -47,9 +47,9 @@ class _DeviceScreenState extends State<DeviceScreen> {
           },
         ),
       ),
-
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               StreamBuilder(
@@ -61,7 +61,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                     if (snapshot.hasData) {
                       return IntrinsicGridView.vertical(
                         padding:
-                        const EdgeInsets.only(top: 21, left: 5, right: 5),
+                        const EdgeInsets.only(left: 5, right: 5),
                         columnCount: 2,
                         verticalSpace: 14,
                         horizontalSpace: 16,

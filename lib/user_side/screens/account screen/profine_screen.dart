@@ -58,7 +58,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _lNameController.text = lastName;
     isGender = int.parse(gender);
     _birthDateController.text = birthdate;
-    // urlImage=profilePhoto;
   }
 
   @override
@@ -88,6 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Container(
           margin: const EdgeInsets.only(top: 0),
           padding: const EdgeInsets.only(left: 16, right: 16),
@@ -105,76 +105,83 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Align(
                         alignment: Alignment.center,
                         child: InkWell(
-                          splashColor: Colors.transparent,
-                          onTap: () => openImageDialog(),
-                          child: _photo != null
-                              ? Stack(
-                            children: [
-                              Container(
-                                  height: 110,
-                                  width: 110,
-                                  margin: EdgeInsets.all(3),
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(70),
-                                  ),
-                                  child: Image.file(
-                                    _photo!,
-                                    fit: BoxFit.cover,
+                            splashColor: Colors.transparent,
+                            onTap: () => openImageDialog(),
+                            child: _photo != null
+                                ? Stack(
+                                    children: [
+                                      Container(
+                                          height: 110,
+                                          width: 110,
+                                          margin: EdgeInsets.all(3),
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(70),
+                                          ),
+                                          child: Image.file(
+                                            _photo!,
+                                            fit: BoxFit.cover,
+                                          )),
+                                      Positioned(
+                                        left: 1,
+                                        top: 1,
+                                        bottom: 1,
+                                        right: 1,
+                                        child: Container(
+                                          height: 120,
+                                          width: 120,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: colorGreen, width: 1)),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : Stack(
+                                    children: [
+                                      Container(
+                                        height: 110,
+                                        width: 110,
+                                        margin: const EdgeInsets.all(3),
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(70),
+                                            color:
+                                                Colors.grey.withOpacity(0.5)),
+                                        child: profilePhoto.contains("http")
+                                            ? CachedNetworkImage(
+                                                fit: BoxFit.cover,
+                                                imageUrl: profilePhoto,
+                                                placeholder: (context, url) =>
+                                                    const CircularProgressIndicator(
+                                                        color: colorGreen),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(Icons.error),
+                                              )
+                                            : Image.asset(
+                                                profilePhoto,
+                                                fit: BoxFit.cover,
+                                              ),
+                                      ),
+                                      Positioned(
+                                        left: 0.1,
+                                        top: 0.1,
+                                        bottom: 0.1,
+                                        right: 0.1,
+                                        child: Container(
+                                          height: 120,
+                                          width: 120,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  color: colorGreen, width: 1)),
+                                        ),
+                                      ),
+                                    ],
                                   )),
-                              Positioned(
-                                left: 1,top: 1,bottom: 1,right: 1,
-                                child: Container(
-                                  height: 120,
-                                  width: 120,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: colorGreen,width: 1)
-                                  ),
-                                ),
-                              ),
-
-                            ],
-                          )
-                              : Stack(
-                            children: [
-                              Container(
-                                height: 110,
-                                width: 110,
-                                margin: const EdgeInsets.all(3),
-                                clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(70),
-                                    color: Colors.grey.withOpacity(0.5)),
-                                child: profilePhoto.contains("http")
-                                    ? CachedNetworkImage(
-                                  fit: BoxFit.cover,
-                                  imageUrl: profilePhoto,
-                                  placeholder: (context, url) =>
-                                  const CircularProgressIndicator(
-                                      color: colorGreen),
-                                  errorWidget: (context, url, error) =>
-                                  new Icon(Icons.error),
-                                )
-                                    : Image.asset(
-                                  profilePhoto,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned(
-                                left: 0.1,top: 0.1,bottom: 0.1,right: 0.1,
-                                child: Container(
-                                  height: 120,
-                                  width: 120,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                      border: Border.all(color: colorGreen,width: 1)
-                                  ),
-                                ),
-                              ),
-
-                            ],
-                          )
-                        ),
                       ),
                       const SizedBox(
                         height: 20,
@@ -388,7 +395,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 20,
                       ),
                       InkWell(
-                        onTap: () async{
+                        onTap: () async {
                           if (updateScreenKey.currentState!.validate()) {
                             uploadFile();
                           }

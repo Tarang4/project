@@ -124,6 +124,7 @@ class _CartScreenState extends State<CartScreen> {
             ),
             Expanded(
               child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   itemCount: cartList.length,
                   itemBuilder: (BuildContext context, index) {
                     CartModal cartModal = cartList[index];

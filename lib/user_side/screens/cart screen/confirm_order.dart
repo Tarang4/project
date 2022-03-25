@@ -50,6 +50,7 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             Padding(

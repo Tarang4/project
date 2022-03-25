@@ -141,6 +141,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
         children: [
           Expanded(
             child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

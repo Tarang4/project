@@ -49,7 +49,7 @@ class _LoginTypesState extends State<LoginTypes> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Welcome,",
+                        "Welcome To,",
                         style: defaultTextStyle(
                             fontSize: 20.0, fontWeight: FontWeight.w700),
                       ),

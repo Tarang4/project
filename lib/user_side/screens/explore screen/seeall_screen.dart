@@ -19,76 +19,39 @@ class SeeAllScreen extends StatefulWidget {
 }
 
 class _SeeAllScreenState extends State<SeeAllScreen> {
-  List<ProductModal> productList = [
-    ProductModal(
-        img2: "assets/images/G2.png",
-        productName: "BeoPlay Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-    ProductModal(
-        img2: "assets/images/icons/G1.png",
-        productName: "ll Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-    ProductModal(
-        img2: "assets/images/G2.png",
-        productName: "BeoPlay Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-    ProductModal(
-        img2: "assets/images/icons/G1.png",
-        productName: "ll Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"), ProductModal(
-        img2: "assets/images/icons/G1.png",
-        productName: "ll Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-    ProductModal(
-        img2: "assets/images/G2.png",
-        productName: "BeoPlay Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-    ProductModal(
-        img2: "assets/images/icons/G1.png",
-        productName: "ll Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: colorWhite.withOpacity(0.1),
+        centerTitle: true,
+        title: Text(
+          "See All Products",
+          style: defaultTextStyle(
+              fontSize: 20.0,
+              fontColors: colorBlack,
+              fontWeight: FontWeight.normal),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+            size: 17,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_rounded,
-                      size: 18,
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "See All Products",
-                        style: defaultTextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-
               StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection(FirebaseString.productCollection)

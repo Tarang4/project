@@ -59,60 +59,32 @@ class _GadgetsScreenState extends State<GadgetsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          backgroundColor: colorWhite.withOpacity(0.1),
+          centerTitle: true,
+          title: Text(
+            "Gadgets",
+            style: defaultTextStyle(
+                fontSize: 20.0,
+                fontColors: colorBlack,
+                fontWeight: FontWeight.normal),
+          ),
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+              size: 17,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+
         body: Column(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 65,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) => const ExploreScreen()));
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                    size: 18,
-                  ),
-                ),
-                Text(
-                  "Gadgets",
-                  style: defaultTextStyle(
-                      fontSize: 20.0, fontWeight: FontWeight.w400),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Hero(
-                    tag: "search",
-                    child: Material(
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 16),
-                        height: 40,
-                        width: 40,
-                        decoration: const BoxDecoration(
-                            color: colorGreen, shape: BoxShape.circle),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.search,
-                            color: colorWhite,
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => SearchS2()));
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
             SizedBox(
               height: MediaQuery.of(context).size.height / 76,
             ),

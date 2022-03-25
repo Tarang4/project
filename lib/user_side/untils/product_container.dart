@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/constants.dart';
 
 import '../config/app_colors.dart';
 
@@ -72,9 +73,7 @@ class _ProductContainerState extends State<ProductContainer> {
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 20,),
           Text(
             name,
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),

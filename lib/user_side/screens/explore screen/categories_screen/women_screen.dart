@@ -47,6 +47,7 @@ class _WomenScreenState extends State<WomenScreen> {
 
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               StreamBuilder(
@@ -58,7 +59,7 @@ class _WomenScreenState extends State<WomenScreen> {
                     if (snapshot.hasData) {
                       return IntrinsicGridView.vertical(
                         padding:
-                        const EdgeInsets.only(top: 21, left: 5, right: 5),
+                        const EdgeInsets.only(left: 5, right: 5),
                         columnCount: 2,
                         verticalSpace: 14,
                         horizontalSpace: 16,
@@ -125,8 +126,7 @@ class _WomenScreenState extends State<WomenScreen> {
                     } else if (snapshot.hasError) {
                       print("error not found product ${snapshot.hasError}");
                     }
-
-                    return Center(
+                    return const Center(
                         child: CircularProgressIndicator(
                           color: colorGreen,
                         ));

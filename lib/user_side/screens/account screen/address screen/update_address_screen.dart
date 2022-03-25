@@ -91,6 +91,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               Container(

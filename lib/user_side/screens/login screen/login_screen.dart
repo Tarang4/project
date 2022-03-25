@@ -16,7 +16,6 @@ class LoginScreen extends StatefulWidget {
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
-
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -48,29 +47,26 @@ class _LoginScreenState extends State<LoginScreen> {
               Form(
                 key: loginScreenKey,
                 child: Card(
-                  elevation: 7,
-                  shadowColor: Colors.black12,
+                  elevation: 5,
+                  shadowColor: Colors.black,
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 16, right: 16, top: 14, bottom: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Welcome,",
-                              style: defaultTextStyle(
-                                  fontSize: 30.0, fontWeight: FontWeight.w700),
-                            ),
-                          ],
+                        Text(
+                          "SnatchKart,",
+                          style: defaultTextStyle(
+                              fontColors: colorGreen,
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.w700),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 10,
                         ),
                         Text(
-                          "Sign in to Continue",
+                          "Login to Continue",
                           style: defaultTextStyle(
                               fontSize: 14.0,
                               fontColors: colorGrey,
@@ -232,12 +228,32 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontWeight: FontWeight.w400),
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
                 ),
               ),
+              SizedBox(height: MediaQuery.of(context).size.height/3.2,),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: RichText(
+                  text: TextSpan(children: [
+                    TextSpan(
+                        text: 'Powered by ',
+                        style: defaultTextStyle(
+                            fontWeight: FontWeight.w100,
+                            fontSize: 10.0,
+                            fontColors: colorGrey)),
+                    TextSpan(
+                        text: 'SnatchKart',
+                        style: defaultTextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12.0,
+                            fontColors: colorGreen)),
+                  ]),
+                ),
+              )
             ],
           ),
         ),
