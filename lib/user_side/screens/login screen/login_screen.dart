@@ -197,19 +197,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         InkWell(
                           onTap: () async {
                             if (loginScreenKey.currentState!.validate()) {
-                              if (emailController.text ==
-                                      "Tarang00@gmail.com" &&
-                                  passwordController.text == "tarang8780") {
-                                Navigator.pushReplacement(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => AdminHome()));
-                              } else {
+
                                 AuthRepository.signIn(
                                     context: context,
                                     email: emailController.value.text,
                                     password: passwordController.value.text);
-                              }
+
                             }
                           },
                           child: Container(

@@ -8,6 +8,7 @@ import 'package:untitled/user_side/repository/home/home_repository.dart';
 import 'package:untitled/user_side/screens/explore%20screen/categories_screen/devices_screen.dart';
 import 'package:untitled/user_side/screens/explore%20screen/seeall_screen.dart';
 import '../../../main.dart';
+import '../../config/FireStore_string.dart';
 import '../../config/Localstorage_string.dart';
 import '../../config/app_colors.dart';
 import '../../modal/categories_modal.dart';
@@ -94,7 +95,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   int pageIndex = 0;
   final pages = [
     const ExploreScreen(),
-    const CartScreen(productName: '', productImage: '', productPrice: '',productId:''),
+    const CartScreen(),
     const AccountScreen(),
   ];
   List<QueryDocumentSnapshot<Object?>>? searchProduct;
@@ -682,189 +683,82 @@ class _ExploreScreenState extends State<ExploreScreen> {
               ),
               Container(
                 height: 380,
-                child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: recoList.length,
-                    itemBuilder: (context, index) {
-                      RecoList recList = recoList[index];
-                      return SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 5, left: 18),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 300,
-                                width: 164,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection(FirebaseString.productCollection)
+                      .snapshots(),
+                  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    if(snapshot.hasData){
+                      return  ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: recoList.length,
+                          itemBuilder: (context, index) {
+                            RecoList recList = recoList[index];
+                            return SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 5, left: 18),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 300,
+                                      width: 164,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                      ),
+                                      child: Image.asset(
+                                        recList.image ?? "",
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      recList.name ?? "",
+                                      style: const TextStyle(
+                                          fontSize: 16, fontWeight: FontWeight.w500),
+                                    ),
+                                    const SizedBox(
+                                      height: 3,
+                                    ),
+                                    Text(
+                                      recList.info ?? "",
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          color: colorGrey),
+                                    ),
+                                    const SizedBox(
+                                      height: 3,
+                                    ),
+                                    Text(
+                                      "₹${recList.price}",
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal,
+                                          color: colorGreen),
+                                    ),
+                                  ],
                                 ),
-                                child: Image.asset(
-                                  recList.image ?? "",
-                                  fit: BoxFit.cover,
-                                ),
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                recList.name ?? "",
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w500),
-                              ),
-                              const SizedBox(
-                                height: 3,
-                              ),
-                              Text(
-                                recList.info ?? "",
-                                style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    color: colorGrey),
-                              ),
-                              const SizedBox(
-                                height: 3,
-                              ),
-                              Text(
-                                "₹${recList.price}",
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    color: colorGreen),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
+                            );
+                          });
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+
+                ),
               ),
             ],
           ),
         ),
       ),
-      // bottomNavigationBar: buildMyNavBar(context),
     );
   }
 
-  Container buildMyNavBar(BuildContext context) {
-    return Container(
-      height: 74,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          InkWell(
-              splashColor: Colors.white,
-              enableFeedback: false,
-              onTap: () {
-                setState(() {
-                  pageIndex = 0;
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => pages[0]));
-                });
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width / 3,
-                alignment: Alignment.center,
-                child: pageIndex == 0
-                    ? Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            "Explore",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Container(
-                            height: 3,
-                            width: 7,
-                            decoration: BoxDecoration(
-                                color: colorBlack,
-                                borderRadius: BorderRadius.circular(10)),
-                          )
-                        ],
-                      )
-                    : const Icon(Icons.home_filled),
-              )),
-          InkWell(
-              enableFeedback: false,
-              splashColor: Colors.white,
-              onTap: () {
-                setState(() {
-                  pageIndex = 1;
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => pages[1]));
-                });
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width / 3,
-                alignment: Alignment.center,
-                child: pageIndex == 1
-                    ? Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            "Cart",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Container(
-                            height: 3,
-                            width: 5,
-                            decoration: BoxDecoration(
-                                color: colorBlack,
-                                borderRadius: BorderRadius.circular(10)),
-                          )
-                        ],
-                      )
-                    : const Icon(Icons.card_travel),
-              )),
-          InkWell(
-            enableFeedback: false,
-            splashColor: Colors.white,
-            onTap: () {
-              setState(() {
-                pageIndex = 2;
-                Navigator.push(context,
-                    CupertinoPageRoute(builder: (context) => pages[2]));
-              });
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width / 3,
-              alignment: Alignment.center,
-              child: pageIndex == 2
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          "Account",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Container(
-                          height: 3,
-                          width: 8,
-                          decoration: BoxDecoration(
-                              color: colorBlack,
-                              borderRadius: BorderRadius.circular(10)),
-                        )
-                      ],
-                    )
-                  : const Icon(Icons.person),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

@@ -18,15 +18,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int pageIndex = 0;
   final pages = [
     const ExploreScreen(),
-     CartScreen(productImage: '', productPrice: '', productName: '',productId:''),
+    const CartScreen(),
     const AccountScreen(),
   ];
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
 
-  }
 
   @override
   Widget build(BuildContext context) {

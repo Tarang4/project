@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -149,25 +150,25 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                     width: double.infinity,
                     height: 450,
                     children: [
-                      Image.network(
-                        pImage1!,
-                        width: double.infinity,
+                      CachedNetworkImage(
                         fit: BoxFit.cover,
+                        imageUrl: pImage1.toString(),
+                        errorWidget: (context, url, error) => const Icon(Icons.error,size: 35,),
                       ),
-                      Image.network(
-                        pImage2!,
-                        width: double.infinity,
+                      CachedNetworkImage(
                         fit: BoxFit.cover,
+                        imageUrl: pImage2.toString(),
+                        errorWidget: (context, url, error) => const Icon(Icons.error,size: 35,),
                       ),
-                      Image.network(
-                        pImage3!,
-                        width: double.infinity,
+                      CachedNetworkImage(
                         fit: BoxFit.cover,
+                        imageUrl: pImage3.toString(),
+                        errorWidget: (context, url, error) => const Icon(Icons.error,size: 35,),
                       ),
-                      Image.network(
-                        pImage4!,
-                        width: double.infinity,
+                      CachedNetworkImage(
                         fit: BoxFit.cover,
+                        imageUrl: pImage4.toString(),
+                        errorWidget: (context, url, error) => const Icon(Icons.error,size: 35,),
                       ),
                     ],
                     onPageChanged: (value) {

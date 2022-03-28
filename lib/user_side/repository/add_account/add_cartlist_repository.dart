@@ -50,11 +50,7 @@ class CartRepository {
       "quantity": 1,
 
     };
-    // if (userDetailModel["productId"]==productId) {
-    //   Get.snackbar(
-    //       "Check your cart", "${userDetailModel["productName"]} is already added");
-    // }
-    // else {
+
     if(id!=null){
       await _addressCollection.add(cartData);
       ToastMethod.simpleToastTop(context: context, massage: "Added In Cart");

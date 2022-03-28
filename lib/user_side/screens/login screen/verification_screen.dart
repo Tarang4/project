@@ -18,7 +18,14 @@ class OtpVerificationScreen extends StatefulWidget {
   final String? password;
   final bool? isSignUp;
 
-  const OtpVerificationScreen({Key? key, this.phoneNumber, this.name, this.email, this.password, this.isSignUp}) : super(key: key);
+  const OtpVerificationScreen(
+      {Key? key,
+      this.phoneNumber,
+      this.name,
+      this.email,
+      this.password,
+      this.isSignUp})
+      : super(key: key);
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -40,11 +47,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final FocusNode focusNode6 = FocusNode();
   String? otp;
 
-
   String? verificationId;
   final TextEditingController otpController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
 
   @override
   void initState() {
@@ -185,7 +190,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                         otp = text1.text +
+                        otp = text1.text +
                             text2.text +
                             text3.text +
                             text4.text +
@@ -194,13 +199,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         print(otp);
                         ToastMethod.simpleToast(massage: "OTP:$otp:");
                         PhoneAuthCredential phoneAuthCredential =
-                        PhoneAuthProvider.credential(
-                            verificationId: verificationId!,
-                            smsCode:
-                            otp.toString().trim());
+                            PhoneAuthProvider.credential(
+                                verificationId: verificationId!,
+                                smsCode: otp.toString().trim());
                         signInWithPhoneAuthCredential(phoneAuthCredential);
-
-
                       },
                       child: Container(
                         height: 50,
@@ -218,7 +220,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -227,9 +228,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         ),
       ),
     );
-
-
-
   }
 
   void signInWithPhoneAuthCredential(
@@ -238,26 +236,28 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     try {
       await FirebaseAuth.instance
           .signInWithCredential(phoneAuthCredential)
-          .then(( authResult) {
+          .then((authResult) {
         if (authResult.user != null) {
           hideLoadingDialog(context: context);
 
-          if(widget.isSignUp == true){
-            print("is Signup --------------------------------------------------------");
+          if (widget.isSignUp == true) {
+            print(
+                "is Signup --------------------------------------------------------");
             AuthRepository.signup(
-                context: context,
-                name: widget.name,
-                email: widget.email,
-                phone: widget.phoneNumber,
-                password: widget.password).whenComplete(() => Navigator.push(context, CupertinoPageRoute(builder: (context)=>const EditProfileScreen())));
-          } else{
-            print("is login----------------------------------------------------");
-            // pref!.setBool(PrefString.isLogin, true);
-            SharedPreferenceUsers.saveData( isLogin: true);
+                    context: context,
+                    name: widget.name,
+                    email: widget.email,
+                    phone: widget.phoneNumber,
+                    password: widget.password);
+          } else {
+            print(
+                "is login----------------------------------------------------");
+            SharedPreferenceUsers.saveData(isLogin: true);
             Navigator.pushAndRemoveUntil(
                 context,
                 CupertinoPageRoute(
-                    builder: (context) => const EditProfileScreen()),(route) => false);
+                    builder: (context) => const EditProfileScreen()),
+                (route) => false);
           }
         }
         // print(_firebaseUser.toString());

@@ -10,6 +10,7 @@ import 'package:flutter_animator/animation/animator_play_states.dart';
 import 'package:flutter_animator/widgets/attention_seekers/bounce.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/admin/screens/admin_home_screen.dart';
 
 import '../../../main.dart';
 import '../../config/Localstorage_string.dart';
@@ -84,9 +85,15 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future loginStatus() async {
     bool? loginStatus = pref!.getBool(LocalStorageKey.isLogin);
+    bool? loginAdminStatus = pref!.getBool("isAdminLigIn");
     if (loginStatus != null && loginStatus == true) {
+
       Navigator.pushReplacement(context, PageTransition( MainHomeScreen()));
-    } else {
+    }
+    else if(loginAdminStatus != null && loginAdminStatus == true){
+    Navigator.pushReplacement(context, PageTransition( AdminHome()));
+
+    }else {
       Navigator.pushReplacement(context, PageTransition( LoginTypes()));
     }
   }

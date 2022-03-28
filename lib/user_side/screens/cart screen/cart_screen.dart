@@ -3,34 +3,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:untitled/user_side/modal/cart_modal.dart';
 import 'package:untitled/user_side/repository/add_account/add_cartlist_repository.dart';
-import 'package:untitled/user_side/untils/toast/flutter_toast_method.dart';
-import '../../../admin/modal/admin_product_modal.dart';
 import '../../config/FireStore_string.dart';
 import '../../config/app_colors.dart';
-import '../../modal/product_modal.dart';
 import '../../untils/app_fonts.dart';
-import '../account screen/account_screen.dart';
-import '../checkout_screen/checkout_delivery.dart';
-import '../explore screen/explore_screen.dart';
 import 'confirm_order.dart';
 
 class CartScreen extends StatefulWidget {
-  final String productImage;
-  final String productName;
-  final String productPrice;
-  final String productId;
-
-  const CartScreen(
-      {Key? key,
-      required this.productImage,
-      required this.productName,
-      required this.productPrice,
-      required this.productId})
-      : super(key: key);
+  const CartScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _CartScreenState createState() => _CartScreenState();
@@ -38,26 +21,16 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   int itmes = 1;
-  String? productImage;
-  String? productName;
-  String? productPrice;
-  String? productId;
   List<CartModal> cartList = [];
-
   String? uid;
   int total = 0;
-  int totali = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     total = 0;
-    totali = 0;
-    productPrice = widget.productPrice;
-    productName = widget.productName;
-    productImage = widget.productImage;
-    productId = widget.productId;
+
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
     uid = user?.uid;
@@ -74,43 +47,14 @@ class _CartScreenState extends State<CartScreen> {
         .collection(FirebaseString.cartListCollection)
         .get()
         .then((value) {
-      // WidgetsBinding.instance?.addPostFrameCallback((_) {
       for (var element in value.docs) {
         CartModal cartModal = CartModal.fromJson(element.data());
         setState(() {
           cartList.add(cartModal);
           total = int.parse(cartModal.productPrice.toString()) + total;
-          int quantity = cartModal.quantity ?? 1;
         });
       }
-
-      // });
     });
-    // FirebaseFirestore.instance
-    //     .collection(FirebaseString.userCollection)
-    //     .get()
-    //     .then((querySnapshot) {
-    //   querySnapshot.docs.forEach((result) {
-    //     FirebaseFirestore.instance
-    //         .collection(FirebaseString.userCollection)
-    //         .doc(result.id)
-    //         .collection(FirebaseString.addressCollection)
-    //         .get()
-    //         .then((querySnapshot) {
-    //       querySnapshot.docs.forEach((result) {
-    //         AddressModal addressModal = AddressModal.fromJson(result.data());
-    //         // DebitCardModal debitsCardModal = DebitCardModal.fromJson(result.data());
-    //
-    //         print("--------------------- Books ---------------------\n"
-    //             "id: ${addressModal.userId}\n"
-    //             "name: ${addressModal.fullName}\n"
-    //             "street: ${addressModal.addStreetNo}\n"
-    //             "address: ${addressModal.addStreet}\n"
-    //             "city: ${addressModal.addCity}");
-    //       });
-    //     });
-    //   });
-    // });
   }
 
   @override
@@ -124,13 +68,10 @@ class _CartScreenState extends State<CartScreen> {
             ),
             Expanded(
               child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
                   itemCount: cartList.length,
                   itemBuilder: (BuildContext context, index) {
                     CartModal cartModal = cartList[index];
-                    totali =
-                        int.parse(cartModal.productPrice.toString()) + totali;
-                    print("${total.toString()}");
+
                     return Dismissible(
                       key: Key(cartModal.addId![index]),
                       background: slideLeftBackground(),
@@ -267,9 +208,16 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                               ),
                               InkWell(
-                                splashColor: Colors.transparent,
                                 onTap: () {
-                                  ToastMethod.simpleToast(massage: "◀ Swipe Left For Delete !!");
+                                  CartRepository.cartDetailDelete(
+                                      context: context,
+                                      productId:
+                                          cartModal.productId.toString());
+                                  setState(() {
+                                    total = total -
+                                        int.parse(
+                                            cartModal.productPrice.toString());
+                                  });
                                 },
                                 child: Container(
                                   margin:
@@ -297,7 +245,7 @@ class _CartScreenState extends State<CartScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text(

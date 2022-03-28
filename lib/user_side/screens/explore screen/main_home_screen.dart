@@ -16,7 +16,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   int pageIndex = 0;
   final pages = [
     const ExploreScreen(),
-     const CartScreen(productPrice: '', productName: '', productImage: '',productId:''),
+    const CartScreen(),
     const AccountScreen(),
   ];
 
