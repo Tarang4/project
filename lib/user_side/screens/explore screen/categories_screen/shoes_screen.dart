@@ -2,25 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
-
 import '../../../../admin/modal/admin_product_modal.dart';
 import '../../../config/FireStore_string.dart';
 import '../../../config/app_colors.dart';
-import '../../../modal/product_modal.dart';
 import '../../../untils/app_fonts.dart';
 import '../../../untils/categories_product.dart';
 import '../../../untils/product_container.dart';
 
-class PerfumesScreen extends StatefulWidget {
-  const PerfumesScreen({Key? key}) : super(key: key);
+class ShoesScreen extends StatefulWidget {
+  const ShoesScreen({Key? key}) : super(key: key);
 
   @override
-  _PerfumesScreenState createState() => _PerfumesScreenState();
+  State<ShoesScreen> createState() => _ShoesScreenState();
 }
 
-class _PerfumesScreenState extends State<PerfumesScreen> {
-
-
+class _ShoesScreenState extends State<ShoesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +26,7 @@ class _PerfumesScreenState extends State<PerfumesScreen> {
         backgroundColor: colorWhite.withOpacity(0.2),
         centerTitle: true,
         title: Text(
-          "Perfumes",
+          "Shoes",
           style: defaultTextStyle(
               fontSize: 20.0,
               fontColors: colorBlack,
@@ -47,7 +43,6 @@ class _PerfumesScreenState extends State<PerfumesScreen> {
           },
         ),
       ),
-
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -55,7 +50,7 @@ class _PerfumesScreenState extends State<PerfumesScreen> {
             children: [
               StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "5")
+                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "3")
                       .snapshots(),
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -130,7 +125,7 @@ class _PerfumesScreenState extends State<PerfumesScreen> {
                       print("error not found product ${snapshot.hasError}");
                     }
 
-                    return Center(
+                    return const Center(
                         child: CircularProgressIndicator(
                           color: colorGreen,
                         ));
@@ -139,6 +134,7 @@ class _PerfumesScreenState extends State<PerfumesScreen> {
           ),
         ),
       ),
+
     );
   }
 }

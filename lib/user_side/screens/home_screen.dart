@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           )
                         ],
                       )
-                    : const Icon(Icons.home_filled),
+                    :  Image.asset("assets/images/icons/explorebtm.png"),
               )),
           InkWell(
               enableFeedback: false,

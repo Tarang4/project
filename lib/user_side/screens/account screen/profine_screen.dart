@@ -115,9 +115,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           width: 110,
                                           margin: EdgeInsets.all(3),
                                           clipBehavior: Clip.antiAlias,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(70),
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
                                           ),
                                           child: Image.file(
                                             _photo!,
@@ -132,6 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           height: 120,
                                           width: 120,
                                           decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
                                               border: Border.all(
                                                   color: colorGreen, width: 1)),
                                         ),

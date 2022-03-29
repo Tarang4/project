@@ -52,9 +52,8 @@ class _ProductContainerState extends State<ProductContainer> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height / 3,
-            width: double.infinity,
+            width: MediaQuery.of(context).size.width/2,
             clipBehavior: Clip.antiAlias,
-            // padding: const EdgeInsets.only(left: 3,right: 3,),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               boxShadow: const [

@@ -22,9 +22,11 @@ import '../../untils/product_container.dart';
 import '../account screen/account_screen.dart';
 import '../cart screen/cart_screen.dart';
 import '../../untils/categories_product.dart';
-import 'categories_screen/gadgets_screen.dart';
+import 'categories_screen/kids_screen.dart';
 import 'categories_screen/men_screen.dart';
 import 'categories_screen/perfumes_screen.dart';
+import 'categories_screen/shoes_screen.dart';
+import 'categories_screen/watch_screen.dart';
 import 'categories_screen/women_screen.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -38,13 +40,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
   String? profilePhoto = pref!.getString(LocalStorageKey.profilePhoto)!;
   String? assetProfilePhoto = "assets/images/user_profile.png";
   List<CategoriesModal> categoriesList = [
-    CategoriesModal(catImage: "assets/images/icons/C1.png", catName: "Man"),
-    CategoriesModal(catImage: "assets/images/icons/C2.png", catName: "Women"),
-    CategoriesModal(catImage: "assets/images/icons/C3.png", catName: "Device"),
-    CategoriesModal(catImage: "assets/images/icons/C4.png", catName: "Games"),
-    CategoriesModal(catImage: "assets/images/icons/C5.png", catName: "Gadgets"),
+    CategoriesModal(catImage: "assets/images/icons/man.png", catName: "Man"),
     CategoriesModal(
-        catImage: "assets/images/icons/C3.png", catName: "perfumes"),
+        catImage: "assets/images/icons/women.png", catName: "Women"),
+    CategoriesModal(catImage: "assets/images/icons/kids.png", catName: "Kids"),
+    CategoriesModal(
+        catImage: "assets/images/icons/shoes.png", catName: "Shoes"),
+    CategoriesModal(
+        catImage: "assets/images/icons/devices.png", catName: "Devices"),
+    CategoriesModal(
+        catImage: "assets/images/icons/perfume.png", catName: "Perfume"),
+    CategoriesModal(
+        catImage: "assets/images/icons/watch.png", catName: "Watches"),
   ];
   final List<String> imageList = [
     "https://images.unsplash.com/photo-1585565804112-f201f68c48b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
@@ -264,25 +271,31 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                       context,
                                       CupertinoPageRoute(
                                           builder: (context) =>
-                                              const GadgetsScreen()));
+                                              const KidsScreen()));
+                                } else if (index == 3) {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) =>
+                                              const ShoesScreen()));
                                 } else if (index == 4) {
                                   Navigator.push(
                                       context,
                                       CupertinoPageRoute(
                                           builder: (context) =>
                                               const DeviceScreen()));
-                                } else if (index == 3) {
-                                  Navigator.push(
-                                      context,
-                                      CupertinoPageRoute(
-                                          builder: (context) =>
-                                              const MenScreen()));
                                 } else if (index == 5) {
                                   Navigator.push(
                                       context,
                                       CupertinoPageRoute(
                                           builder: (context) =>
                                               const PerfumesScreen()));
+                                } else if (index == 6) {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) =>
+                                              const WatchScreen()));
                                 }
                               },
                             );
@@ -339,15 +352,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         child: GridView.builder(
                             itemCount: snapshot.data.docs.length,
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             padding: const EdgeInsets.only(
                                 top: 1, left: 5, right: 5),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
-                                    mainAxisExtent: Get.size.height / 2.3,
+                                    mainAxisExtent: Get.size.height / 2.47,
                                     crossAxisSpacing: 15,
-                                    mainAxisSpacing: 5),
+                                    mainAxisSpacing: 10),
                             itemBuilder: (BuildContext ctx, index) {
                               ProductModalAdmin productModal =
                                   ProductModalAdmin.fromJson(
@@ -431,21 +444,27 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      productModal.productName.toString(),
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500),
+                                    Expanded(
+                                      child: Text(
+                                        productModal.productName.toString(),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                      ),
                                     ),
-                                    Text(
-                                      productModal.productInfo.toString(),
-                                      style: const TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.normal,
-                                          color: colorGrey),
+                                    Expanded(
+                                      child: Text(
+                                        productModal.productInfo.toString(),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.normal,
+                                            color: colorGrey),
+                                      ),
                                     ),
                                     const SizedBox(
-                                      height: 3,
+                                      height: 0,
                                     ),
                                     Text(
                                       "₹ ${productModal.productPrice.toString()}",
@@ -730,21 +749,20 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         .collection(FirebaseString.productCollection)
                         .where("categories", isEqualTo: "2")
                         .snapshots(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    builder: (BuildContext context,
+                        AsyncSnapshot<dynamic> snapshot) {
                       if (snapshot.hasData) {
                         return IntrinsicGridView.horizontal(
-                          padding:
-                          const EdgeInsets.only(left: 5, right: 5),
-                          rowCount:1,
-                          verticalSpace: 25,
-                          horizontalSpace: 16,
+                          childWidth: 170,
+                          horizontalSpace: 15,
+                          padding: const EdgeInsets.only(left: 5, right: 5),
+                          rowCount: 1,
                           children: List.generate(
                             snapshot.data.docs.length,
-                                (index) {
+                            (index) {
                               ProductModalAdmin productModal =
-                              ProductModalAdmin.fromJson(
-                                  snapshot.data.docs[index].data());
+                                  ProductModalAdmin.fromJson(
+                                      snapshot.data.docs[index].data());
                               return ProductContainer(
                                 pImage: productModal.images!.img1.toString(),
                                 pName: productModal.productName.toString(),
@@ -754,46 +772,52 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   Navigator.push(
                                       context,
                                       CupertinoPageRoute(
-                                          builder: (context) => CategoriesProduct(
-                                            pImage1: productModal.images!.img1
-                                                .toString(),
-                                            pImage2: productModal.images!.img2
-                                                .toString(),
-                                            pImage3: productModal.images!.img3
-                                                .toString(),
-                                            pImage4: productModal.images!.img4
-                                                .toString(),
-                                            pName: productModal.productName
-                                                .toString(),
-                                            pInfo: productModal.productInfo
-                                                .toString(),
-                                            pPrice: productModal.productPrice
-                                                .toString(),
-                                            color1: productModal
-                                                .colorCode!.color1
-                                                .toString(),
-                                            color2: productModal
-                                                .colorCode!.color2
-                                                .toString(),
-                                            color3: productModal
-                                                .colorCode!.color3
-                                                .toString(),
-                                            color4: productModal
-                                                .colorCode!.color4
-                                                .toString(),
-                                            size1: productModal.size!.s
-                                                .toString(),
-                                            size2: productModal.size!.m
-                                                .toString(),
-                                            size3: productModal.size!.xL
-                                                .toString(),
-                                            size4: productModal.size!.xXL
-                                                .toString(),
-                                            review: "",
-                                            reviewStar: "",
-                                            pID: productModal.productId
-                                                .toString(),
-                                          )));
+                                          builder: (context) =>
+                                              CategoriesProduct(
+                                                pImage1: productModal
+                                                    .images!.img1
+                                                    .toString(),
+                                                pImage2: productModal
+                                                    .images!.img2
+                                                    .toString(),
+                                                pImage3: productModal
+                                                    .images!.img3
+                                                    .toString(),
+                                                pImage4: productModal
+                                                    .images!.img4
+                                                    .toString(),
+                                                pName: productModal.productName
+                                                    .toString(),
+                                                pInfo: productModal.productInfo
+                                                    .toString(),
+                                                pPrice: productModal
+                                                    .productPrice
+                                                    .toString(),
+                                                color1: productModal
+                                                    .colorCode!.color1
+                                                    .toString(),
+                                                color2: productModal
+                                                    .colorCode!.color2
+                                                    .toString(),
+                                                color3: productModal
+                                                    .colorCode!.color3
+                                                    .toString(),
+                                                color4: productModal
+                                                    .colorCode!.color4
+                                                    .toString(),
+                                                size1: productModal.size!.s
+                                                    .toString(),
+                                                size2: productModal.size!.m
+                                                    .toString(),
+                                                size3: productModal.size!.xL
+                                                    .toString(),
+                                                size4: productModal.size!.xXL
+                                                    .toString(),
+                                                review: "",
+                                                reviewStar: "",
+                                                pID: productModal.productId
+                                                    .toString(),
+                                              )));
                                 },
                               );
                             },
@@ -803,10 +827,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         print("error not found product ${snapshot.hasError}");
                       }
 
-                      return Center(
+                      return const Center(
                           child: CircularProgressIndicator(
-                            color: colorGreen,
-                          ));
+                        color: colorGreen,
+                      ));
                     }),
               ),
             ],

@@ -6,21 +6,18 @@ import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
 import '../../../../admin/modal/admin_product_modal.dart';
 import '../../../config/FireStore_string.dart';
 import '../../../config/app_colors.dart';
-import '../../../modal/product_modal.dart';
 import '../../../untils/app_fonts.dart';
 import '../../../untils/categories_product.dart';
 import '../../../untils/product_container.dart';
 
-class GadgetsScreen extends StatefulWidget {
-  const GadgetsScreen({Key? key}) : super(key: key);
+class WatchScreen extends StatefulWidget {
+  const WatchScreen({Key? key}) : super(key: key);
 
   @override
-  _GadgetsScreenState createState() => _GadgetsScreenState();
+  State<WatchScreen> createState() => _WatchScreenState();
 }
 
-class _GadgetsScreenState extends State<GadgetsScreen> {
-
-
+class _WatchScreenState extends State<WatchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +27,7 @@ class _GadgetsScreenState extends State<GadgetsScreen> {
         backgroundColor: colorWhite.withOpacity(0.2),
         centerTitle: true,
         title: Text(
-          "Gadgets Products",
+          "Watches",
           style: defaultTextStyle(
               fontSize: 20.0,
               fontColors: colorBlack,
@@ -47,7 +44,6 @@ class _GadgetsScreenState extends State<GadgetsScreen> {
           },
         ),
       ),
-
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -55,7 +51,7 @@ class _GadgetsScreenState extends State<GadgetsScreen> {
             children: [
               StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "4")
+                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "3")
                       .snapshots(),
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -130,7 +126,7 @@ class _GadgetsScreenState extends State<GadgetsScreen> {
                       print("error not found product ${snapshot.hasError}");
                     }
 
-                    return Center(
+                    return const Center(
                         child: CircularProgressIndicator(
                           color: colorGreen,
                         ));
@@ -139,6 +135,7 @@ class _GadgetsScreenState extends State<GadgetsScreen> {
           ),
         ),
       ),
+
     );
   }
 }

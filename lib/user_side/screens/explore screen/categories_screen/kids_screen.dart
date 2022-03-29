@@ -11,14 +11,14 @@ import '../../../untils/app_fonts.dart';
 import '../../../untils/categories_product.dart';
 import '../../../untils/product_container.dart';
 
-class PerfumesScreen extends StatefulWidget {
-  const PerfumesScreen({Key? key}) : super(key: key);
+class KidsScreen extends StatefulWidget {
+  const KidsScreen({Key? key}) : super(key: key);
 
   @override
-  _PerfumesScreenState createState() => _PerfumesScreenState();
+  _KidsScreenState createState() => _KidsScreenState();
 }
 
-class _PerfumesScreenState extends State<PerfumesScreen> {
+class _KidsScreenState extends State<KidsScreen> {
 
 
   @override
@@ -30,7 +30,7 @@ class _PerfumesScreenState extends State<PerfumesScreen> {
         backgroundColor: colorWhite.withOpacity(0.2),
         centerTitle: true,
         title: Text(
-          "Perfumes",
+          "Kids Products",
           style: defaultTextStyle(
               fontSize: 20.0,
               fontColors: colorBlack,
@@ -55,7 +55,7 @@ class _PerfumesScreenState extends State<PerfumesScreen> {
             children: [
               StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "5")
+                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "4")
                       .snapshots(),
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

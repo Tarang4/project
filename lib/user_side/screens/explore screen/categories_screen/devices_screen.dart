@@ -30,7 +30,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         backgroundColor: colorWhite.withOpacity(0.2),
         centerTitle: true,
         title: Text(
-          "Device Products",
+          "Devices",
           style: defaultTextStyle(
               fontSize: 20.0,
               fontColors: colorBlack,
