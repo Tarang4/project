@@ -153,7 +153,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                       ),
                       IntlPhoneField(
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value==null) {
                             return 'Please Enter Your Phone No.';
                           }
                         },

@@ -1,14 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
+import 'package:untitled/user_side/untils/toast/flutter_toast_method.dart';
+import '../../../admin/modal/admin_product_modal.dart';
+import '../../config/FireStore_string.dart';
 import '../../config/app_colors.dart';
-import '../../modal/product_modal.dart';
+import '../../modal/wishList_modal.dart';
+import '../../repository/add_account/whishlist_repository.dart';
 import '../../untils/app_fonts.dart';
 import '../../untils/categories_product.dart';
 import '../../untils/product_container.dart';
-import '../cart screen/cart_screen.dart';
-import '../explore screen/explore_screen.dart';
 import '../explore screen/seeall_screen.dart';
-import 'account_screen.dart';
 
 class WishListScreen extends StatefulWidget {
   const WishListScreen({Key? key}) : super(key: key);
@@ -18,30 +23,21 @@ class WishListScreen extends StatefulWidget {
 }
 
 class _WishListScreenState extends State<WishListScreen> {
+  String? uid;
+  List<ProductModalAdmin> productList = [];
+  List<WishListModal> wishList = [];
 
-  List<ProductModal> productList = [
-    ProductModal(
-        img2: "assets/images/G2.png",
-        productName: "BeoPlay Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-    ProductModal(
-        img2: "assets/images/icons/G1.png",
-        productName: "ll Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-    ProductModal(
-        img2: "assets/images/G2.png",
-        productName: "BeoPlay Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-    ProductModal(
-        img2: "assets/images/icons/G1.png",
-        productName: "ll Speaker",
-        productInfo: "BeoPlay Speaker",
-        productPrice: "\$700"),
-  ];
-  int pageIndex = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    uid = user?.uid;
+    getProducts();
+    getWishList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,23 +72,28 @@ class _WishListScreenState extends State<WishListScreen> {
                 height: 10,
               ),
               ListView.builder(
-                itemCount: 3,
+                itemCount: wishList.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
+                  WishListModal wishListModal = wishList[index];
                   return Container(
                     height: 120,
-                    margin:
-                        const EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 10),
+                    margin: const EdgeInsets.only(
+                        top: 20, left: 16, right: 16, bottom: 10),
                     color: Colors.white,
                     child: Row(
                       children: [
                         Container(
                           height: double.infinity,
                           width: 120,
-                          child: Image.asset(
-                            "assets/images/G2.png",
+                          child: CachedNetworkImage(
                             fit: BoxFit.cover,
+                            imageUrl: wishListModal.productImage.toString(),
+                            errorWidget: (context, url, error) => const Icon(
+                              Icons.error,
+                              size: 26,
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -105,32 +106,131 @@ class _WishListScreenState extends State<WishListScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "OD-87801226 -N",
+                                wishListModal.productName.toString(),
                                 style: defaultTextStyle(
-                                    fontSize: 20.0, fontWeight: FontWeight.w500),
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w500),
                               ),
                               Text(
-                                "\$400",
+                                "₹ ${wishListModal.productPrice.toString()}",
                                 style: defaultTextStyle(
                                     fontSize: 15.0,
                                     fontColors: colorGreen,
                                     fontWeight: FontWeight.w400),
                               ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 25),
-                                height: 30,
-                                alignment: Alignment.center,
-                                width: 80,
-                                child: Text(
-                                  "in stock",
-                                  style: defaultTextStyle(
-                                      fontSize: 15.0,
-                                      fontColors: Colors.white,
-                                      fontWeight: FontWeight.w400),
+                              InkWell(
+                                onTap: () {
+                                  String pid =
+                                      wishListModal.productID.toString();
+                                  int productIndex = productList
+                                      .indexWhere((f) => f.productId == pid);
+
+                                  if (productIndex != null) {
+                                    Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                            builder: (context) =>
+                                                CategoriesProduct(
+                                                  pImage1:
+                                                      productList[productIndex]
+                                                          .images!
+                                                          .img1
+                                                          .toString(),
+                                                  pImage2:
+                                                      productList[productIndex]
+                                                          .images!
+                                                          .img2
+                                                          .toString(),
+                                                  pImage3:
+                                                      productList[productIndex]
+                                                          .images!
+                                                          .img3
+                                                          .toString(),
+                                                  pImage4:
+                                                      productList[productIndex]
+                                                          .images!
+                                                          .img4
+                                                          .toString(),
+                                                  pName:
+                                                      productList[productIndex]
+                                                          .productName
+                                                          .toString(),
+                                                  pInfo:
+                                                      productList[productIndex]
+                                                          .productInfo
+                                                          .toString(),
+                                                  pPrice:
+                                                      productList[productIndex]
+                                                          .productPrice
+                                                          .toString(),
+                                                  color1:
+                                                      productList[productIndex]
+                                                          .colorCode!
+                                                          .color1
+                                                          .toString(),
+                                                  color2:
+                                                      productList[productIndex]
+                                                          .colorCode!
+                                                          .color2
+                                                          .toString(),
+                                                  color3:
+                                                      productList[productIndex]
+                                                          .colorCode!
+                                                          .color4
+                                                          .toString(),
+                                                  color4:
+                                                      productList[productIndex]
+                                                          .colorCode!
+                                                          .color1
+                                                          .toString(),
+                                                  size1:
+                                                      productList[productIndex]
+                                                          .size!
+                                                          .s
+                                                          .toString(),
+                                                  size2:
+                                                      productList[productIndex]
+                                                          .size!
+                                                          .m
+                                                          .toString(),
+                                                  size3:
+                                                      productList[productIndex]
+                                                          .size!
+                                                          .xL
+                                                          .toString(),
+                                                  size4:
+                                                      productList[productIndex]
+                                                          .size!
+                                                          .xXL
+                                                          .toString(),
+                                                  review: "",
+                                                  reviewStar: "",
+                                                  pID: productList[productIndex]
+                                                      .productId
+                                                      .toString(),
+                                                )));
+                                  }
+                                  String productIDD = productList[productIndex]
+                                      .productId
+                                      .toString(); //same with this ['color'] not x.color
+                                  print(productIDD);
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 25),
+                                  height: 30,
+                                  alignment: Alignment.center,
+                                  width: 80,
+                                  child: Text(
+                                    "in stock",
+                                    style: defaultTextStyle(
+                                        fontSize: 15.0,
+                                        fontColors: Colors.white,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  decoration: BoxDecoration(
+                                      color: colorGreen,
+                                      borderRadius: BorderRadius.circular(4)),
                                 ),
-                                decoration: BoxDecoration(
-                                    color: colorGreen,
-                                    borderRadius: BorderRadius.circular(4)),
                               )
                             ],
                           ),
@@ -179,142 +279,93 @@ class _WishListScreenState extends State<WishListScreen> {
                 horizontalSpace: 16,
                 children: List.generate(
                   productList.length,
-                      (index) => ProductContainer(
-                    pImage: productList[index].img2,
-                    pName: productList[index].productName,
-                    pInfo: productList[index].productInfo,
-                    pPrice: productList[index].productPrice,
-                    onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => CategoriesProduct()));
-                    },
-                  ),
+                  (index) {
+                    ProductModalAdmin productModal = productList[index];
+
+                    return ProductContainer(
+                      pImage: productModal.images!.img1.toString(),
+                      pName: productModal.productName.toString(),
+                      pInfo: productModal.productInfo.toString(),
+                      pPrice: productModal.productPrice.toString(),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => CategoriesProduct(
+                                      pImage1:
+                                          productModal.images!.img1.toString(),
+                                      pImage2:
+                                          productModal.images!.img2.toString(),
+                                      pImage3:
+                                          productModal.images!.img3.toString(),
+                                      pImage4:
+                                          productModal.images!.img4.toString(),
+                                      pName:
+                                          productModal.productName.toString(),
+                                      pInfo:
+                                          productModal.productInfo.toString(),
+                                      pPrice:
+                                          productModal.productPrice.toString(),
+                                      color1: productModal.colorCode!.color1
+                                          .toString(),
+                                      color2: productModal.colorCode!.color2
+                                          .toString(),
+                                      color3: productModal.colorCode!.color3
+                                          .toString(),
+                                      color4: productModal.colorCode!.color4
+                                          .toString(),
+                                      size1: productModal.size!.s.toString(),
+                                      size2: productModal.size!.m.toString(),
+                                      size3: productModal.size!.xL.toString(),
+                                      size4: productModal.size!.xXL.toString(),
+                                      review: "",
+                                      reviewStar: "",
+                                      pID: productModal.productId.toString(),
+                                    )));
+                      },
+                    );
+                  },
                 ),
               ),
-
             ],
           ),
         ),
       ),
-      bottomNavigationBar: buildMyNavBar(context),
     );
   }
-  Container buildMyNavBar(BuildContext context) {
-    return Container(
-      height: 74,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          InkWell(
-              splashColor: Colors.white,
-              enableFeedback: false,
-              onTap: () {
-                setState(() {
-                  pageIndex = 0;
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const ExploreScreen()));
-                });
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width / 3,
-                alignment: Alignment.center,
-                child: pageIndex == 0
-                    ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      "Explore",
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Container(
-                      height: 3,
-                      width: 7,
-                      decoration: BoxDecoration(
-                          color: colorBlack,
-                          borderRadius: BorderRadius.circular(10)),
-                    )
-                  ],
-                )
-                    : const Icon(Icons.home_filled),
-              )),
-          InkWell(
-              enableFeedback: false,
-              splashColor: Colors.white,
-              onTap: () {
-                setState(() {
-                  pageIndex = 1;
-                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>CartScreen()));
-                });
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width / 3,
-                alignment: Alignment.center,
-                child: pageIndex == 1
-                    ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      "Cart",
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Container(
-                      height: 3,
-                      width: 5,
-                      decoration: BoxDecoration(
-                          color: colorBlack,
-                          borderRadius: BorderRadius.circular(10)),
-                    )
-                  ],
-                )
-                    : const Icon(Icons.card_travel),
-              )),
-          InkWell(
-            enableFeedback: false,
-            splashColor: Colors.white,
-            onTap: () {
-              setState(() {
-                pageIndex = 2;
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const AccountScreen()));
-              });
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width / 3,
-              alignment: Alignment.center,
-              child: pageIndex == 2
-                  ? Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    "Account",
-                    style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Container(
-                    height: 3,
-                    width: 8,
-                    decoration: BoxDecoration(
-                        color: colorBlack,
-                        borderRadius: BorderRadius.circular(10)),
-                  )
-                ],
-              )
-                  : const Icon(Icons.person),
-            ),
-          ),
-        ],
-      ),
-    );
+
+  getProducts() {
+    ProductModalAdmin productModalAdmin = ProductModalAdmin();
+
+    FirebaseFirestore.instance
+        .collection(FirebaseString.productCollection)
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        productModalAdmin = ProductModalAdmin.fromJson(result.data());
+        productList.add(productModalAdmin);
+      });
+    });
+  }
+
+  getWishList() {
+    WishListModal wishListModal = WishListModal();
+
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+
+    FirebaseFirestore.instance
+        .collection(FirebaseString.userCollection)
+        .doc(user!.uid)
+        .collection(FirebaseString.wishListCollection)
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        setState(() {
+          wishListModal = WishListModal.fromJson(element.data());
+          wishList.add(wishListModal);
+        });
+      });
+    });
   }
 }

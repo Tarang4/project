@@ -1,30 +1,17 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:async';
 import 'dart:core';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animator/animation/animation_preferences.dart';
-import 'package:flutter_animator/animation/animator_play_states.dart';
-import 'package:flutter_animator/widgets/attention_seekers/bounce.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled/admin/screens/admin_home_screen.dart';
-
+import '../../../admin/screens/admin_home_screen.dart';
 import '../../../main.dart';
 import '../../config/Localstorage_string.dart';
 import '../../config/app_colors.dart';
-import '../explore screen/explore_screen.dart';
 import '../explore screen/main_home_screen.dart';
 import 'all_type_screnn.dart';
 
-bool? finalLogin;
-
-
-
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -44,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 3));
+        AnimationController(vsync: this, duration: const Duration(seconds: 3));
 
     animation1 = Tween<double>(begin: 40, end: 20).animate(CurvedAnimation(
         parent: _controller, curve: Curves.fastLinearToSlowEaseIn))
@@ -56,23 +43,22 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       setState(() {
         _fontSize = 1.06;
       });
     });
 
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       setState(() {
         _containerSize = 2;
         _containerOpacity = 1;
       });
     });
 
-    Timer(Duration(seconds: 4), () {
+    Timer(const Duration(seconds: 4), () {
       setState(() {
         loginStatus();
-
       });
     });
   }
@@ -87,14 +73,12 @@ class _SplashScreenState extends State<SplashScreen>
     bool? loginStatus = pref!.getBool(LocalStorageKey.isLogin);
     bool? loginAdminStatus = pref!.getBool("isAdminLigIn");
     if (loginStatus != null && loginStatus == true) {
-
-      Navigator.pushReplacement(context, PageTransition( MainHomeScreen()));
-    }
-    else if(loginAdminStatus != null && loginAdminStatus == true){
-    Navigator.pushReplacement(context, PageTransition( AdminHome()));
-
-    }else {
-      Navigator.pushReplacement(context, PageTransition( LoginTypes()));
+      Navigator.pushReplacement(
+          context, PageTransition(const MainHomeScreen()));
+    } else if (loginAdminStatus != null && loginAdminStatus == true) {
+      Navigator.pushReplacement(context, PageTransition(const AdminHome()));
+    } else {
+      Navigator.pushReplacement(context, PageTransition(const LoginTypes()));
     }
   }
 
@@ -110,12 +94,11 @@ class _SplashScreenState extends State<SplashScreen>
           Column(
             children: [
               AnimatedContainer(
-                  duration: Duration(milliseconds: 2000),
+                  duration: const Duration(milliseconds: 2000),
                   curve: Curves.fastLinearToSlowEaseIn,
-                  height: _height / _fontSize
-              ),
+                  height: _height / _fontSize),
               AnimatedOpacity(
-                duration: Duration(milliseconds: 1000),
+                duration: const Duration(milliseconds: 1000),
                 opacity: _textOpacity,
                 child: Text(
                   'SnatchKart',
@@ -130,11 +113,11 @@ class _SplashScreenState extends State<SplashScreen>
           ),
           Center(
             child: AnimatedOpacity(
-              duration: Duration(milliseconds: 2000),
+              duration: const Duration(milliseconds: 2000),
               curve: Curves.fastLinearToSlowEaseIn,
               opacity: _containerOpacity,
               child: AnimatedContainer(
-                  duration: Duration(milliseconds: 2000),
+                  duration: const Duration(milliseconds: 2000),
                   curve: Curves.fastLinearToSlowEaseIn,
                   height: _width / _containerSize,
                   width: _width / _containerSize,
@@ -144,39 +127,35 @@ class _SplashScreenState extends State<SplashScreen>
                     borderRadius: BorderRadius.circular(30),
                   ),
                   // child: Image.asset('assets/images/file_name.png')
-                  child: Image.asset("assets/images/logo/logo3.png")
-              ),
+                  child: Image.asset("assets/images/logo/logo3.png")),
             ),
           ),
         ],
       ),
     );
   }
-
-
 }
-
 
 class PageTransition extends PageRouteBuilder {
   final Widget page;
 
   PageTransition(this.page)
       : super(
-    pageBuilder: (context, animation, anotherAnimation) => page,
-    transitionDuration: Duration(milliseconds: 2000),
-    transitionsBuilder: (context, animation, anotherAnimation, child) {
-      animation = CurvedAnimation(
-        curve: Curves.fastLinearToSlowEaseIn,
-        parent: animation,
-      );
-      return Align(
-        alignment: Alignment.bottomCenter,
-        child: SizeTransition(
-          sizeFactor: animation,
-          child: page,
-          axisAlignment: 0,
-        ),
-      );
-    },
-  );
+          pageBuilder: (context, animation, anotherAnimation) => page,
+          transitionDuration: const Duration(milliseconds: 2000),
+          transitionsBuilder: (context, animation, anotherAnimation, child) {
+            animation = CurvedAnimation(
+              curve: Curves.fastLinearToSlowEaseIn,
+              parent: animation,
+            );
+            return Align(
+              alignment: Alignment.bottomCenter,
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: page,
+                axisAlignment: 0,
+              ),
+            );
+          },
+        );
 }

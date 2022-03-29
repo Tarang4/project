@@ -6,5 +6,6 @@ class FirebaseString{
   static const String wishListCollection = "wishList";
   static const String productCollection = "product";
   static const String productReviewCollection = "productReview";
+  static const String productWishListCollection = "product_WishList";
   static const String cartListCollection = "UserCartList";
 }

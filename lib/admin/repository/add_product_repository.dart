@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:untitled/user_side/modal/product_modal.dart';
 import 'package:untitled/user_side/untils/toast/flutter_toast_method.dart';
 
 import '../../main.dart';
 import '../../user_side/config/FireStore_string.dart';
 import '../../user_side/config/Localstorage_string.dart';
+import '../modal/admin_product_modal.dart';
 
 class ProductRepository {
   static productsAdd({
@@ -105,6 +107,7 @@ class ProductRepository {
       debugPrint('error of review:$e');
     }
   }
+
   //
   // static reviewUpdate({
   //
@@ -167,6 +170,21 @@ class ProductRepository {
         print("delete done");
       });
     }
+  }
+
+  List<ProductModalAdmin> getProducts() {
+    ProductModalAdmin productModalAdmin = ProductModalAdmin();
+    List<ProductModalAdmin> productList = [];
+    FirebaseFirestore.instance
+        .collection(FirebaseString.productCollection)
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        productModalAdmin = ProductModalAdmin.fromJson(result.data());
+        productList.add(productModalAdmin);
+      });
+    });
+    return productList;
   }
 }
 

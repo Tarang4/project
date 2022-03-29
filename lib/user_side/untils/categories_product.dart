@@ -3,16 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-import 'package:untitled/user_side/screens/cart%20screen/cart_screen.dart';
+import 'package:untitled/user_side/repository/add_account/whishlist_repository.dart';
 import 'package:untitled/user_side/screens/explore%20screen/review_screen.dart';
 import 'package:untitled/user_side/untils/toast/flutter_toast_method.dart';
 
-import '../../admin/repository/add_product_repository.dart';
-import '../../main.dart';
 import '../config/FireStore_string.dart';
-import '../config/Localstorage_string.dart';
 import '../config/app_colors.dart';
 import '../modal/review_modal.dart';
+import '../modal/wishList_modal.dart';
 import '../repository/add_account/add_cartlist_repository.dart';
 import 'app_fonts.dart';
 
@@ -81,11 +79,12 @@ class _CategoriesProductState extends State<CategoriesProduct> {
   String? size4;
   String? review;
   String? reviewStar;
-  bool? isSelected;
+  bool isSelected = false;
   int selectSize = 0;
   int selectColor = 0;
 
   String? size;
+  String? isLike;
   Color? color;
   bool isOne = false;
   bool isTwo = false;
@@ -97,13 +96,14 @@ class _CategoriesProductState extends State<CategoriesProduct> {
   bool isColorThree = false;
   bool isColorFour = false;
 
- // Object perfume= FirebaseFirestore.instance
- //      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "1")??false;
+  // Object perfume= FirebaseFirestore.instance
+  //      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "1")??false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     pID = widget.pID;
 
     pImage1 = widget.pImage1;
@@ -132,7 +132,11 @@ class _CategoriesProductState extends State<CategoriesProduct> {
     size2 = widget.size1 == "true" ? "M" : "";
     size3 = widget.size3 == "true" ? "XL" : "";
     size4 = widget.size4 == "true" ? "XXL" : "";
+    isSelected = false;
+    wishListGet();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -153,22 +157,34 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                       CachedNetworkImage(
                         fit: BoxFit.cover,
                         imageUrl: pImage1.toString(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error,size: 35,),
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error,
+                          size: 35,
+                        ),
                       ),
                       CachedNetworkImage(
                         fit: BoxFit.cover,
                         imageUrl: pImage2.toString(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error,size: 35,),
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error,
+                          size: 35,
+                        ),
                       ),
                       CachedNetworkImage(
                         fit: BoxFit.cover,
                         imageUrl: pImage3.toString(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error,size: 35,),
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error,
+                          size: 35,
+                        ),
                       ),
                       CachedNetworkImage(
                         fit: BoxFit.cover,
                         imageUrl: pImage4.toString(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error,size: 35,),
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error,
+                          size: 35,
+                        ),
                       ),
                     ],
                     onPageChanged: (value) {
@@ -198,22 +214,33 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             setState(() {
                               if (isSelected == true) {
                                 isSelected = false;
+                                if (isSelected == false) {
+                                  WishListRepository.wishListDelete(
+                                      context: context,
+                                      productID: pID.toString());
+                                }
                               } else {
                                 isSelected = true;
+
+                                WishListRepository.wishListDetailAdd(
+                                    context: context,
+                                    productName: pName.toString(),
+                                    productImage1: pImage1.toString(),
+                                    productPrice: pPrice.toString(),
+                                    productID: pID.toString());
                               }
                             });
                           },
                           child: isSelected == true
                               ? Image.asset(
-                            "assets/images/icons/heart (1).png",
-                            height: 26,
-                          )
+                                  "assets/images/icons/heart (1).png",
+                                  height: 26,
+                                )
                               : Image.asset(
-                            "assets/images/icons/heart.png",
-                            height: 26,
-                          ),
+                                  "assets/images/icons/heart.png",
+                                  height: 26,
+                                ),
                         ),
-
                       ],
                     ),
                   ),
@@ -253,7 +280,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       child: Container(
                                         height: 30,
                                         width: 60,
-                                        margin: const EdgeInsets.only(right: 10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           border: Border.all(
@@ -290,7 +318,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       child: Container(
                                         height: 30,
                                         width: 60,
-                                        margin: const EdgeInsets.only(right: 10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           border: Border.all(
@@ -327,7 +356,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       child: Container(
                                         height: 30,
                                         width: 60,
-                                        margin: const EdgeInsets.only(right: 10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           border: Border.all(
@@ -364,7 +394,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                       child: Container(
                                         height: 30,
                                         width: 60,
-                                        margin: const EdgeInsets.only(right: 10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           border: Border.all(
@@ -430,7 +461,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                 isColorOne == true ? 2.3 : 1.3,
                                           ),
                                         ),
-                                        margin: const EdgeInsets.only(right: 10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
                                         child: CircleAvatar(
                                             radius: 20,
                                             backgroundColor: color1),
@@ -466,7 +498,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                 isColorTwo == true ? 2.3 : 1.3,
                                           ),
                                         ),
-                                        margin: const EdgeInsets.only(right: 10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
                                         child: CircleAvatar(
                                             radius: 20,
                                             backgroundColor: color2),
@@ -503,7 +536,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                 : 1.3,
                                           ),
                                         ),
-                                        margin: const EdgeInsets.only(right: 10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
                                         child: CircleAvatar(
                                             radius: 20,
                                             backgroundColor: color3),
@@ -539,7 +573,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                 isColorFour == true ? 2.3 : 1.3,
                                           ),
                                         ),
-                                        margin: const EdgeInsets.only(right: 10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
                                         child: CircleAvatar(
                                             radius: 20,
                                             backgroundColor: color4),
@@ -796,18 +831,19 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                 InkWell(
                   onTap: () {
                     try {
-                      if(size!=null&&color!=null){
+                      if (size != null && color != null) {
                         // CartController.instance.productId(pID.toString());
-                      CartRepository.cartDetailAdd(
-                        context: context,
-                        productId: pID.toString(),
-                        productName: pName.toString(),
-                        productPrice: pPrice.toString(),
-                        productImage: pImage1.toString(),
-                        productColor: "0x${color?.value.toRadixString(16).toString()}",
-                        productSize: size.toString(),
-                      );}
-                      else{
+                        CartRepository.cartDetailAdd(
+                          context: context,
+                          productId: pID.toString(),
+                          productName: pName.toString(),
+                          productPrice: pPrice.toString(),
+                          productImage: pImage1.toString(),
+                          productColor:
+                              "0x${color?.value.toRadixString(16).toString()}",
+                          productSize: size.toString(),
+                        );
+                      } else {
                         ToastMethod.simpleToast(massage: "size & color Enter");
                       }
                     } catch (e) {
@@ -836,6 +872,37 @@ class _CategoriesProductState extends State<CategoriesProduct> {
         ],
       ),
     );
+  }
+
+  wishListGet() {
+    FirebaseFirestore.instance
+        .collection(FirebaseString.userCollection)
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        FirebaseFirestore.instance
+            .collection(FirebaseString.userCollection)
+            .doc(result.id)
+            .collection(FirebaseString.wishListCollection)
+            .get()
+            .then((querySnapshot) {
+          for (var result in querySnapshot.docs) {
+            WishListModal wishListModal = WishListModal.fromJson(result.data());
+
+            if (wishListModal.productID == widget.pID) {
+              setState(() {
+                isSelected = true;
+              });
+              break;
+            } else {
+              setState(() {
+                isSelected = false;
+              });
+            }
+          }
+        });
+      });
+    });
   }
 
   _sizeClick({

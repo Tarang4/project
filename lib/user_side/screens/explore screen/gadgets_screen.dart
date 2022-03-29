@@ -7,7 +7,7 @@ import '../../modal/categories_modal.dart';
 import '../../modal/product_modal.dart';
 import '../../untils/app_fonts.dart';
 import '../../untils/product_container.dart';
-import '../search screen/search_s2.dart';
+import '../search screen/search_screen.dart';
 import 'explore_screen.dart';
 
 class GadgetsScreen extends StatefulWidget {

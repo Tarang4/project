@@ -4,9 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
 import 'package:untitled/user_side/repository/home/home_repository.dart';
 import 'package:untitled/user_side/screens/explore%20screen/categories_screen/devices_screen.dart';
 import 'package:untitled/user_side/screens/explore%20screen/seeall_screen.dart';
+import 'package:untitled/user_side/screens/search%20screen/search_screen.dart';
+import '../../../admin/modal/admin_product_modal.dart';
 import '../../../main.dart';
 import '../../config/FireStore_string.dart';
 import '../../config/Localstorage_string.dart';
@@ -15,6 +18,7 @@ import '../../modal/categories_modal.dart';
 import '../../modal/product_modal.dart';
 import '../../untils/app_fonts.dart';
 import '../../untils/categories_container.dart';
+import '../../untils/product_container.dart';
 import '../account screen/account_screen.dart';
 import '../cart screen/cart_screen.dart';
 import '../../untils/categories_product.dart';
@@ -102,14 +106,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
   QuerySnapshot? homeProductData;
 
   final TextEditingController searchController = TextEditingController();
-  productData() async{
-    homeProductData = await HomeRepository.getProduct(context: context,);
+
+  productData() async {
+    homeProductData = await HomeRepository.getProduct(
+      context: context,
+    );
     searchProduct = homeProductData!.docs;
     print("home Data ---------------------------- ${homeProductData!.docs}");
     print("home Data ---------------------------- ${searchProduct}");
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -129,103 +134,86 @@ class _ExploreScreenState extends State<ExploreScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 16, top: 20, right: 16),
-                child: Hero(
-                  tag: "search",
-                  child: Material(
-                    color: Colors.transparent,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 43,
-                              padding: EdgeInsets.only(left: 15,bottom: 9),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: colorLightGrey,
-                              ),
-                              child: TextFormField(
-                                cursorWidth: 1.5,
-                                controller: searchController,
-                                textInputAction: TextInputAction.done,
-                                keyboardType: TextInputType.emailAddress,
-                                cursorColor: colorGreen,
-                                onChanged: (value) async{
-                                  if(searchController.text.isEmpty){
-                                    searchProduct = homeProductData!.docs;
-                                    print("serch length ----------- ${searchProduct!.length}");
-                                  } else{
-                                    searchProduct = homeProductData!.docs.where((element) => element["productName"].toString().toLowerCase().contains(value.toLowerCase())).toList();
-                                    print("serch length ----------- ${searchProduct!.length}");
-                                  }
-                                  setState(() {
-
-                                  });
-                                },
-                                style: const TextStyle(
-                                    color: colorBlack,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal),
-                                decoration: const InputDecoration(
-                                  fillColor: colorLightGrey,
-                                  border: UnderlineInputBorder(
-                                      borderSide: BorderSide.none),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide.none,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => SearchScreen()));
+                          },
+                          child: Hero(
+                            tag: "search",
+                            child: Material(
+                              color: Colors.transparent,
+                              child: Container(
+                                height: 43,
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 15),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: colorLightGrey,
+                                ),
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  height: 18,
+                                  margin: EdgeInsets.only(top: 11, bottom: 11),
+                                  width: 18,
+                                  child: Image.asset(
+                                    "assets/images/icons/Group 341@3x.png",
                                   ),
-                                  suffixIcon: Padding(
-                                    padding: EdgeInsets.only(top: 10),
-                                    child: Icon(Icons.search, color: Colors.black,),
-                                  )
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 13,
-                          ),
-                          Stack(
-                            children: [
-                              Container(
-                                height: 44,
-                                width: 44,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        width: 1, color: colorGreen)),
-                              ),
-                              Positioned(
-                                right: 2,
-                                bottom: 2,
-                                top: 2,
-                                left: 2,
-                                child: Container(
-                                  height: 40,
-                                  clipBehavior: Clip.antiAlias,
-                                  width: 40,
-                                  child: profilePhoto!.contains("http")
-                                      ? CachedNetworkImage(
-                                          fit: BoxFit.cover,
-                                          imageUrl: profilePhoto!,
-                                          placeholder: (context, url) =>
-                                              const CircularProgressIndicator(
-                                                  color: colorGreen),
-                                          errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
-                                        )
-                                      : Image.asset(assetProfilePhoto!),
-                                  decoration: BoxDecoration(
-                                      color: colorWhite,
-                                      borderRadius: BorderRadius.circular(30)),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
+                        ),
                       ),
-                    ),
+                      const SizedBox(
+                        width: 13,
+                      ),
+                      Stack(
+                        children: [
+                          Container(
+                            height: 44,
+                            width: 44,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border:
+                                    Border.all(width: 1, color: colorGreen)),
+                          ),
+                          Positioned(
+                            right: 2,
+                            bottom: 2,
+                            top: 2,
+                            left: 2,
+                            child: Container(
+                              height: 40,
+                              clipBehavior: Clip.antiAlias,
+                              width: 40,
+                              child: profilePhoto!.contains("http")
+                                  ? CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      imageUrl: profilePhoto!,
+                                      placeholder: (context, url) =>
+                                          const CircularProgressIndicator(
+                                              color: colorGreen),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                    )
+                                  : Image.asset(assetProfilePhoto!),
+                              decoration: BoxDecoration(
+                                  color: colorWhite,
+                                  borderRadius: BorderRadius.circular(30)),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -248,7 +236,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     SizedBox(
                       height: 90,
                       child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
+                          physics: BouncingScrollPhysics(),
                           padding: const EdgeInsets.only(left: 16),
                           scrollDirection: Axis.horizontal,
                           itemCount: categoriesList.length,
@@ -339,99 +327,147 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   ],
                 ),
               ),
-              searchProduct == null
-              ? Container()
-              : Container(
-                margin: EdgeInsets.all(10),
-                child: GridView.builder(
-                  shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    padding:
-                    const EdgeInsets.only(top: 1, left: 5, right: 5),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                        mainAxisExtent: Get.size.height/2.3,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 5),
-                    itemCount: searchProduct!.length,
-                    itemBuilder: (BuildContext ctx, index) {
-                      return GestureDetector(
-                        onTap: (){
-                          Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) => CategoriesProduct(
-                                    pImage1: searchProduct![index]["images"]["img1"],
-                                    pImage2: searchProduct![index]["images"]["img2"],
-                                    pImage3: searchProduct![index]["images"]["img3"],
-                                    pImage4: searchProduct![index]["images"]["img4"],
-                                    pName: searchProduct![index]["productName"],
-                                    pInfo: searchProduct![index]["productInfo"],
-                                    pPrice: searchProduct![index]["productPrice"],
-                                    color1: searchProduct![index]["ColorCode"]["color1"],
-                                    color2: searchProduct![index]["ColorCode"]["color2"],
-                                    color3: searchProduct![index]["ColorCode"]["color3"],
-                                    color4: searchProduct![index]["ColorCode"]["color4"],
-                                    size1: searchProduct![index]["size"]["M"],
-                                    size2: searchProduct![index]["size"]["S"],
-                                    size3: searchProduct![index]["size"]["XL"],
-                                    size4: searchProduct![index]["size"]["XXL"],
-                                    review: "",
-                                    reviewStar: "",
-                                    pID: searchProduct![index]["productId"],
-                                  )));
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: MediaQuery.of(context).size.height / 3,
-                              width: double.infinity,
-                              clipBehavior: Clip.antiAlias,
-                              // padding: const EdgeInsets.only(left: 3,right: 3,),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: colorLightGrey,
-                                      blurRadius: 5,
-                                      spreadRadius: 1,
-                                      offset: Offset(3, 3))
-                                ],
-                              ),
-                              child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                imageUrl: searchProduct![index]["images"]["img1"],
-                                placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator(color: colorGrey)),
-                                errorWidget: (context, url, error) => const Icon(Icons.error),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              searchProduct![index]["productName"].toString(),
-                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              searchProduct![index]["productInfo"],
-                              style: const TextStyle(
-                                  fontSize: 10, fontWeight: FontWeight.normal, color: colorGrey),
-                            ),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              "₹ ${searchProduct![index]["productPrice"]}",
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.normal, color: colorGreen),
-                            ),
-                          ],
-                        ),
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection(FirebaseString.productCollection)
+                      .snapshots(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.hasData) {
+                      return Container(
+                        margin: const EdgeInsets.all(10),
+                        child: GridView.builder(
+                            itemCount: snapshot.data.docs.length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            padding: const EdgeInsets.only(
+                                top: 1, left: 5, right: 5),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisExtent: Get.size.height / 2.3,
+                                    crossAxisSpacing: 15,
+                                    mainAxisSpacing: 5),
+                            itemBuilder: (BuildContext ctx, index) {
+                              ProductModalAdmin productModal =
+                                  ProductModalAdmin.fromJson(
+                                      snapshot.data.docs[index].data());
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) =>
+                                              CategoriesProduct(
+                                                pImage1: searchProduct![index]
+                                                    ["images"]["img1"],
+                                                pImage2: searchProduct![index]
+                                                    ["images"]["img2"],
+                                                pImage3: searchProduct![index]
+                                                    ["images"]["img3"],
+                                                pImage4: searchProduct![index]
+                                                    ["images"]["img4"],
+                                                pName: searchProduct![index]
+                                                    ["productName"],
+                                                pInfo: searchProduct![index]
+                                                    ["productInfo"],
+                                                pPrice: searchProduct![index]
+                                                    ["productPrice"],
+                                                color1: searchProduct![index]
+                                                    ["ColorCode"]["color1"],
+                                                color2: searchProduct![index]
+                                                    ["ColorCode"]["color2"],
+                                                color3: searchProduct![index]
+                                                    ["ColorCode"]["color3"],
+                                                color4: searchProduct![index]
+                                                    ["ColorCode"]["color4"],
+                                                size1: searchProduct![index]
+                                                    ["size"]["M"],
+                                                size2: searchProduct![index]
+                                                    ["size"]["S"],
+                                                size3: searchProduct![index]
+                                                    ["size"]["XL"],
+                                                size4: searchProduct![index]
+                                                    ["size"]["XXL"],
+                                                review: "",
+                                                reviewStar: "",
+                                                pID: searchProduct![index]
+                                                    ["productId"],
+                                              )));
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              3,
+                                      width: double.infinity,
+                                      clipBehavior: Clip.antiAlias,
+                                      // padding: const EdgeInsets.only(left: 3,right: 3,),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              color: colorLightGrey,
+                                              blurRadius: 5,
+                                              spreadRadius: 1,
+                                              offset: Offset(3, 3))
+                                        ],
+                                      ),
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.cover,
+                                        imageUrl: productModal.images!.img1
+                                            .toString(),
+                                        placeholder: (context, url) =>
+                                            const Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        color: colorGrey)),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      productModal.productName.toString(),
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      productModal.productInfo.toString(),
+                                      style: const TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal,
+                                          color: colorGrey),
+                                    ),
+                                    const SizedBox(
+                                      height: 3,
+                                    ),
+                                    Text(
+                                      "₹ ${productModal.productPrice.toString()}",
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                          color: colorGreen),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
                       );
-                    }),
-              ),
+                    } else if (snapshot.hasError) {
+                      print("error not found product ${snapshot.hasError}");
+                    }
+
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      color: colorGreen,
+                    ));
+                  }),
               /*StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection(FirebaseString.productCollection)
@@ -541,10 +577,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         //ClipRRect for image border radius
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            imageList[i],
-                            width: 500,
+                          child: CachedNetworkImage(
                             fit: BoxFit.cover,
+                            width: 500,
+                            imageUrl: imageList[i],
+                            placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(
+                                    color: colorGrey)),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
                         ),
                       ),
@@ -639,7 +680,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children:  [
+                children: [
                   const Padding(
                     padding: EdgeInsets.only(top: 10, left: 10, bottom: 20),
                     child: Text(
@@ -653,7 +694,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10, right: 10, bottom: 20),
+                    padding:
+                        const EdgeInsets.only(top: 10, right: 10, bottom: 20),
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(
@@ -681,78 +723,91 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   )
                 ],
               ),
-              Container(
+              SizedBox(
                 height: 380,
                 child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection(FirebaseString.productCollection)
-                      .snapshots(),
-                  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    if(snapshot.hasData){
-                      return  ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: recoList.length,
-                          itemBuilder: (context, index) {
-                            RecoList recList = recoList[index];
-                            return SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 5, left: 18),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      height: 300,
-                                      width: 164,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.white,
-                                      ),
-                                      child: Image.asset(
-                                        recList.image ?? "",
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      recList.name ?? "",
-                                      style: const TextStyle(
-                                          fontSize: 16, fontWeight: FontWeight.w500),
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text(
-                                      recList.info ?? "",
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.normal,
-                                          color: colorGrey),
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text(
-                                      "₹${recList.price}",
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.normal,
-                                          color: colorGreen),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          });
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  },
+                    stream: FirebaseFirestore.instance
+                        .collection(FirebaseString.productCollection)
+                        .where("categories", isEqualTo: "2")
+                        .snapshots(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                      if (snapshot.hasData) {
+                        return IntrinsicGridView.horizontal(
+                          padding:
+                          const EdgeInsets.only(left: 5, right: 5),
+                          rowCount:1,
+                          verticalSpace: 25,
+                          horizontalSpace: 16,
+                          children: List.generate(
+                            snapshot.data.docs.length,
+                                (index) {
+                              ProductModalAdmin productModal =
+                              ProductModalAdmin.fromJson(
+                                  snapshot.data.docs[index].data());
+                              return ProductContainer(
+                                pImage: productModal.images!.img1.toString(),
+                                pName: productModal.productName.toString(),
+                                pInfo: productModal.productInfo.toString(),
+                                pPrice: productModal.productPrice.toString(),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) => CategoriesProduct(
+                                            pImage1: productModal.images!.img1
+                                                .toString(),
+                                            pImage2: productModal.images!.img2
+                                                .toString(),
+                                            pImage3: productModal.images!.img3
+                                                .toString(),
+                                            pImage4: productModal.images!.img4
+                                                .toString(),
+                                            pName: productModal.productName
+                                                .toString(),
+                                            pInfo: productModal.productInfo
+                                                .toString(),
+                                            pPrice: productModal.productPrice
+                                                .toString(),
+                                            color1: productModal
+                                                .colorCode!.color1
+                                                .toString(),
+                                            color2: productModal
+                                                .colorCode!.color2
+                                                .toString(),
+                                            color3: productModal
+                                                .colorCode!.color3
+                                                .toString(),
+                                            color4: productModal
+                                                .colorCode!.color4
+                                                .toString(),
+                                            size1: productModal.size!.s
+                                                .toString(),
+                                            size2: productModal.size!.m
+                                                .toString(),
+                                            size3: productModal.size!.xL
+                                                .toString(),
+                                            size4: productModal.size!.xXL
+                                                .toString(),
+                                            review: "",
+                                            reviewStar: "",
+                                            pID: productModal.productId
+                                                .toString(),
+                                          )));
+                                },
+                              );
+                            },
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        print("error not found product ${snapshot.hasError}");
+                      }
 
-                ),
+                      return Center(
+                          child: CircularProgressIndicator(
+                            color: colorGreen,
+                          ));
+                    }),
               ),
             ],
           ),
@@ -760,5 +815,4 @@ class _ExploreScreenState extends State<ExploreScreen> {
       ),
     );
   }
-
 }

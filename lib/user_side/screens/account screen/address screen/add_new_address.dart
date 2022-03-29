@@ -115,7 +115,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       IntlPhoneField(
                         cursorColor: colorGreen,
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value==null) {
                             return 'Please Enter Your Phone No.';
                           }
                         },
