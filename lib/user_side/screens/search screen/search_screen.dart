@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../admin/modal/admin_product_modal.dart';
 import '../../config/FireStore_string.dart';
@@ -29,23 +30,20 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   onchange(String search) {
-    if(_search.text.isEmpty){
+    if (_search.text.isEmpty) {
       setState(() {
-        productFoundList.length=0;
-
+        productFoundList.length = 0;
       });
-    }else {
+    } else {
       setState(() {
         productFoundList = productList
-            .where((element) =>
-            element.productName
+            .where((element) => element.productName
                 .toString()
                 .toLowerCase()
                 .contains(search.toLowerCase()))
             .toList();
       });
     }
-
   }
 
   @override
@@ -124,7 +122,18 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
             productFoundList.isEmpty
-                ? const Text("no found")
+                ? Align(
+              alignment: Alignment.bottomCenter,
+                  child: Column(
+                    children: [
+                      Container(
+                      height: MediaQuery.of(context).size.height/1.3,
+                      width: 50,
+                      child: Lottie.asset("assets/lottie/lotty.json"),
+                        ),
+                    ],
+                  ),
+                )
                 : IntrinsicGridView.vertical(
                     padding: const EdgeInsets.only(left: 5, right: 5),
                     columnCount: 2,
@@ -133,7 +142,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     children: List.generate(
                       productFoundList.length,
                       (index) {
-                        ProductModalAdmin productModal = productFoundList[index];
+                        ProductModalAdmin productModal =
+                            productFoundList[index];
 
                         return ProductContainer(
                           pImage: productModal.images!.img1.toString(),
