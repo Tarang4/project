@@ -55,7 +55,7 @@ class _PerfumesScreenState extends State<PerfumesScreen> {
             children: [
               StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "5")
+                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "6")
                       .snapshots(),
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

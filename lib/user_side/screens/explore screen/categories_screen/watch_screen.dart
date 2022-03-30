@@ -51,7 +51,7 @@ class _WatchScreenState extends State<WatchScreen> {
             children: [
               StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "3")
+                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "7")
                       .snapshots(),
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

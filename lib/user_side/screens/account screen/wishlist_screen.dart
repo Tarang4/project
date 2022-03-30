@@ -180,12 +180,12 @@ class _WishListScreenState extends State<WishListScreen> {
                                                       color3: productList[
                                                               productIndex]
                                                           .colorCode!
-                                                          .color4
+                                                          .color3
                                                           .toString(),
                                                       color4: productList[
                                                               productIndex]
                                                           .colorCode!
-                                                          .color1
+                                                          .color4
                                                           .toString(),
                                                       size1: productList[
                                                               productIndex]
@@ -218,7 +218,7 @@ class _WishListScreenState extends State<WishListScreen> {
                                       String productIDD = productList[
                                               productIndex]
                                           .productId
-                                          .toString(); //same with this ['color'] not x.color
+                                          .toString();
                                       print(productIDD);
                                     },
                                     child: Container(

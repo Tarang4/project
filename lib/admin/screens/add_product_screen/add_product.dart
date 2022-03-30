@@ -105,15 +105,23 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                             valueChanged: (value) => onChange(value)),
                         radioLayout(
                             value: 3,
-                            name: "Devices",
+                            name: "Kids",
                             valueChanged: (value) => onChange(value)),
                         radioLayout(
                             value: 4,
-                            name: "Gadgets",
+                            name: "Shoes",
                             valueChanged: (value) => onChange(value)),
                         radioLayout(
                             value: 5,
-                            name: "perfumes",
+                            name: "Devices",
+                            valueChanged: (value) => onChange(value)),
+                        radioLayout(
+                            value: 6,
+                            name: "Perfume",
+                            valueChanged: (value) => onChange(value)),
+                        radioLayout(
+                            value: 7,
+                            name: "Watches",
                             valueChanged: (value) => onChange(value)),
                         TextFormField(
                           controller: productName,
@@ -166,12 +174,12 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                           cursorColor: colorGreen,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please Enter Your Name';
+                              return 'Please Enter Price';
                             }
                           },
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
-                          maxLength: 5,
+                          maxLength: 6,
                           decoration: const InputDecoration(
                               counterText: "",
                               focusedBorder: UnderlineInputBorder(

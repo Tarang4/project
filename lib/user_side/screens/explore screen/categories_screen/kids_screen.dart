@@ -55,7 +55,7 @@ class _KidsScreenState extends State<KidsScreen> {
             children: [
               StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "4")
+                      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "3")
                       .snapshots(),
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
