@@ -17,9 +17,9 @@ import '../../untils/toast/flutter_toast_method.dart';
 import 'login_screen.dart';
 
 class ForgetScreen extends StatefulWidget {
-  final String email;
+   String? email;
 
-  const ForgetScreen({Key? key, required this.email}) : super(key: key);
+   ForgetScreen({Key? key,  this.email}) : super(key: key);
 
   @override
   _ForgetScreenState createState() => _ForgetScreenState();
@@ -37,7 +37,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    email = widget.email;
+    email = widget.email!;
   }
 
   @override
@@ -172,7 +172,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
           .then((value) async {
        await pref!.clear();
         ToastMethod.simpleToast(massage: "Send Link Your Email");
-        Navigator.push(context, CupertinoPageRoute(builder: (context)=>LoginScreen()));
+        Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context)=>LoginScreen()));
       }).catchError((onError) {
         if (onError.toString().contains("ERROR_USER_NOT_FOUND")) {
           ToastMethod.simpleToast(massage: "user not Found ");

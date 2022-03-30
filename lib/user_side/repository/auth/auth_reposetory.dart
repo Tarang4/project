@@ -79,12 +79,12 @@ class AuthRepository {
       } else if (e.code == 'wrong-password') {
         hideLoadingDialog(context: context);
         ToastMessage.errorToast(
-            context: context, description: "Invalid Credentials!");
+            context: context, description: "Wrong password!");
         debugPrint('Wrong password provided.');
       } else {
         hideLoadingDialog(context: context);
         ToastMessage.errorToast(
-            context: context, description: "Invalid Credentials!");
+            context: context, description: "internet Connections failed");
         debugPrint("error ---- ${e.code}");
       }
     }

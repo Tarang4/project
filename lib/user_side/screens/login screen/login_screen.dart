@@ -181,8 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.push(
                                   context,
                                   CupertinoPageRoute(
-                                      builder: (context) => ForgetScreen(
-                                          email: emailController.text)));
+                                      builder: (context) => ForgetScreen()));
                             },
                             child: Text(
                               "Forgot Password?",
