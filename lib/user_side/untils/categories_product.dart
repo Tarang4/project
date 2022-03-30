@@ -136,8 +136,6 @@ class _CategoriesProductState extends State<CategoriesProduct> {
     wishListGet();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,6 +151,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                   ImageSlideshow(
                     width: double.infinity,
                     height: 450,
+                    indicatorColor: colorGreen,
                     children: [
                       CachedNetworkImage(
                         fit: BoxFit.cover,
@@ -704,17 +703,22 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Container(
+                                        width: 50,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(30)),
+                                        child: CachedNetworkImage(
+                                          height: 50,
+                                          fit: BoxFit.cover,
                                           width: 50,
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(30)),
-                                          child: Image.network(
-                                            reviewModal.userprofile.toString(),
-                                            height: 50,
-                                            fit: BoxFit.cover,
-                                            width: 50,
-                                          )),
+                                          imageUrl: reviewModal.userprofile
+                                              .toString(),
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(
+                                                  "assets/images/user_profile.png"),
+                                        ),
+                                      ),
                                       const SizedBox(
                                         width: 20,
                                       ),

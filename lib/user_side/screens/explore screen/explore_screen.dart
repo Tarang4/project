@@ -108,20 +108,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
     const CartScreen(),
     const AccountScreen(),
   ];
-  List<QueryDocumentSnapshot<Object?>>? searchProduct;
-  QuerySnapshot? homeProductData;
+
 
   final TextEditingController searchController = TextEditingController();
 
-  // productData() async {
-  //   homeProductData = await HomeRepository.getProduct(
-  //     context: context,
-  //   );
-  //   searchProduct = homeProductData!.docs;
-  //   print("home Data ---------------------------- ${homeProductData!.docs}");
-  //   print("home Data ---------------------------- ${searchProduct}");
-  //   setState(() {});
-  // }
+
 
   @override
   void initState() {
@@ -241,7 +232,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     SizedBox(
                       height: 90,
                       child: ListView.builder(
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           padding: const EdgeInsets.only(left: 16),
                           scrollDirection: Axis.horizontal,
                           itemCount: categoriesList.length,
@@ -367,43 +358,46 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   Navigator.push(
                                       context,
                                       CupertinoPageRoute(
-                                          builder: (context) =>
-                                              CategoriesProduct(
-                                                pImage1: searchProduct![index]
-                                                    ["images"]["img1"],
-                                                pImage2: searchProduct![index]
-                                                    ["images"]["img2"],
-                                                pImage3: searchProduct![index]
-                                                    ["images"]["img3"],
-                                                pImage4: searchProduct![index]
-                                                    ["images"]["img4"],
-                                                pName: searchProduct![index]
-                                                    ["productName"],
-                                                pInfo: searchProduct![index]
-                                                    ["productInfo"],
-                                                pPrice: searchProduct![index]
-                                                    ["productPrice"],
-                                                color1: searchProduct![index]
-                                                    ["ColorCode"]["color1"],
-                                                color2: searchProduct![index]
-                                                    ["ColorCode"]["color2"],
-                                                color3: searchProduct![index]
-                                                    ["ColorCode"]["color3"],
-                                                color4: searchProduct![index]
-                                                    ["ColorCode"]["color4"],
-                                                size1: searchProduct![index]
-                                                    ["size"]["M"],
-                                                size2: searchProduct![index]
-                                                    ["size"]["S"],
-                                                size3: searchProduct![index]
-                                                    ["size"]["XL"],
-                                                size4: searchProduct![index]
-                                                    ["size"]["XXL"],
-                                                review: "",
-                                                reviewStar: "",
-                                                pID: searchProduct![index]
-                                                    ["productId"],
-                                              )));
+                                          builder: (context) => CategoriesProduct(
+                                            pImage1: productModal.images!.img1
+                                                .toString(),
+                                            pImage2: productModal.images!.img2
+                                                .toString(),
+                                            pImage3: productModal.images!.img3
+                                                .toString(),
+                                            pImage4: productModal.images!.img4
+                                                .toString(),
+                                            pName: productModal.productName
+                                                .toString(),
+                                            pInfo: productModal.productInfo
+                                                .toString(),
+                                            pPrice: productModal.productPrice
+                                                .toString(),
+                                            color1: productModal
+                                                .colorCode!.color1
+                                                .toString(),
+                                            color2: productModal
+                                                .colorCode!.color2
+                                                .toString(),
+                                            color3: productModal
+                                                .colorCode!.color3
+                                                .toString(),
+                                            color4: productModal
+                                                .colorCode!.color4
+                                                .toString(),
+                                            size1: productModal.size!.s
+                                                .toString(),
+                                            size2: productModal.size!.m
+                                                .toString(),
+                                            size3: productModal.size!.xL
+                                                .toString(),
+                                            size4: productModal.size!.xXL
+                                                .toString(),
+                                            review: "",
+                                            reviewStar: "",
+                                            pID: productModal.productId
+                                                .toString(),
+                                          )));
                                 },
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
