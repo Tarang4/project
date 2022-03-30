@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
-import 'package:untitled/user_side/repository/home/home_repository.dart';
 import 'package:untitled/user_side/screens/explore%20screen/categories_screen/devices_screen.dart';
 import 'package:untitled/user_side/screens/explore%20screen/seeall_screen.dart';
 import 'package:untitled/user_side/screens/search%20screen/search_screen.dart';
@@ -114,19 +113,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   final TextEditingController searchController = TextEditingController();
 
-  productData() async {
-    homeProductData = await HomeRepository.getProduct(
-      context: context,
-    );
-    searchProduct = homeProductData!.docs;
-    print("home Data ---------------------------- ${homeProductData!.docs}");
-    print("home Data ---------------------------- ${searchProduct}");
-    setState(() {});
-  }
+  // productData() async {
+  //   homeProductData = await HomeRepository.getProduct(
+  //     context: context,
+  //   );
+  //   searchProduct = homeProductData!.docs;
+  //   print("home Data ---------------------------- ${homeProductData!.docs}");
+  //   print("home Data ---------------------------- ${searchProduct}");
+  //   setState(() {});
+  // }
 
   @override
   void initState() {
-    productData();
     super.initState();
   }
 
@@ -353,14 +351,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             itemCount: snapshot.data.docs.length,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            padding: const EdgeInsets.only(
-                                top: 1, left: 5, right: 5),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    mainAxisExtent: Get.size.height / 2.47,
-                                    crossAxisSpacing: 15,
-                                    mainAxisSpacing: 10),
+                              crossAxisCount: 2,
+                              mainAxisExtent: Get.size.height / 2.40,
+                              crossAxisSpacing: 5,
+                              mainAxisSpacing: 10,
+                            ),
                             itemBuilder: (BuildContext ctx, index) {
                               ProductModalAdmin productModal =
                                   ProductModalAdmin.fromJson(
@@ -411,34 +408,30 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              3,
-                                      width: double.infinity,
-                                      clipBehavior: Clip.antiAlias,
-                                      // padding: const EdgeInsets.only(left: 3,right: 3,),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                              color: colorLightGrey,
-                                              blurRadius: 5,
-                                              spreadRadius: 1,
-                                              offset: Offset(3, 3))
-                                        ],
-                                      ),
-                                      child: CachedNetworkImage(
-                                        fit: BoxFit.cover,
-                                        imageUrl: productModal.images!.img1
-                                            .toString(),
-                                        placeholder: (context, url) =>
-                                            const Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                        color: colorGrey)),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
+                                    Card(
+                                      elevation: 4,
+                                      child: Container(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                3,
+                                        width: double.infinity,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: CachedNetworkImage(
+                                          fit: BoxFit.cover,
+                                          imageUrl: productModal.images!.img1
+                                              .toString(),
+                                          placeholder: (context, url) =>
+                                              const Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                          color: colorGrey)),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(
@@ -446,7 +439,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        productModal.productName.toString(),
+                                        " ${productModal.productName.toString()}",
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                             fontSize: 14,
@@ -455,7 +448,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        productModal.productInfo.toString(),
+                                        " ${productModal.productInfo.toString()}",
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                             fontSize: 10,
@@ -463,11 +456,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                             color: colorGrey),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 0,
-                                    ),
                                     Text(
-                                      "₹ ${productModal.productPrice.toString()}",
+                                      " ₹ ${productModal.productPrice.toString()}",
                                       style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.normal,

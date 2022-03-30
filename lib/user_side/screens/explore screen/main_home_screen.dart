@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../config/app_colors.dart';
 import '../account screen/account_screen.dart';
@@ -35,7 +34,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-              splashColor: Colors.white,
+              splashColor: Colors.transparent,
               enableFeedback: false,
               onTap: () {
                 setState(() {
@@ -66,11 +65,11 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                     )
                   ],
                 )
-                    : const Icon(Icons.home_filled),
+                    :  Image.asset("assets/images/icons/explorebtm.png",height: 20),
               )),
           InkWell(
               enableFeedback: false,
-              splashColor: Colors.white,
+              splashColor: Colors.transparent,
               onTap: () {
                 setState(() {
                   pageIndex = 1;
@@ -94,18 +93,18 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                     ),
                     Container(
                       height: 3,
-                      width: 5,
+                      width: 8,
                       decoration: BoxDecoration(
                           color: colorBlack,
                           borderRadius: BorderRadius.circular(10)),
                     )
                   ],
                 )
-                    : const Icon(Icons.card_travel),
+                    :  Image.asset("assets/images/icons/cartbtm.png",height: 20,),
               )),
           InkWell(
             enableFeedback: false,
-            splashColor: Colors.white,
+            splashColor: Colors.transparent,
             onTap: () {
               setState(() {
                 pageIndex = 2;
@@ -136,7 +135,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   )
                 ],
               )
-                  : const Icon(Icons.person),
+                  :  Image.asset("assets/images/icons/userbtm.png",height: 19,),
             ),
           ),
         ],

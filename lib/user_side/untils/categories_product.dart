@@ -204,10 +204,12 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          pName!,
-                          style: defaultTextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 26.00),
+                        Expanded(
+                          child: Text(
+                            pName!,
+                            style: defaultTextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 26.00),
+                          ),
                         ),
                         InkWell(
                           onTap: () {

@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../config/app_colors.dart';
 import 'account screen/account_screen.dart';
 import 'cart screen/cart_screen.dart';

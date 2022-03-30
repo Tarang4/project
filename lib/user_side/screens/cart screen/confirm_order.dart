@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:untitled/user_side/screens/checkout_screen/checkout_address.dart';
+import 'package:untitled/user_side/screens/checkout_screen/checkout_delivery.dart';
 import 'package:untitled/user_side/untils/app_fonts.dart';
 
 import '../../config/app_colors.dart';
@@ -232,10 +234,10 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
                 children: [
                   InkWell(
                     onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     CupertinoPageRoute(
-                      //         builder: (context) => CheckAddress()));
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => CheckoutDelivery()));
                     },
                     child: Container(
                       height: 50,

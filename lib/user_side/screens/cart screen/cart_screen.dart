@@ -143,66 +143,15 @@ class _CartScreenState extends State<CartScreen> {
                                           MediaQuery.of(context).size.height /
                                               84,
                                     ),
-                                    Row(
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              itmes++;
-                                              // quantity==itmes;
-                                            });
-                                          },
-                                          child: Container(
-                                            height: 30,
-                                            width: 32,
-                                            padding: const EdgeInsets.all(10),
-                                            decoration: const BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(4),
-                                                  bottomLeft:
-                                                      Radius.circular(4),
-                                                ),
-                                                color: colorLightGrey),
-                                            child: Image.asset(
-                                                "assets/images/plus.png"),
-                                          ),
-                                        ),
-                                        InkWell(
-                                          child: Container(
-                                              height: 30,
-                                              width: 32,
-                                              alignment: Alignment.center,
-                                              padding: const EdgeInsets.all(5),
-                                              decoration: const BoxDecoration(
-                                                  color: colorLightGrey),
-                                              child: Text(itmes.toString())),
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              if (itmes > 0) {
-                                                itmes--;
-                                                // quantity==itmes;
-
-                                              }
-                                            });
-                                          },
-                                          child: Container(
-                                            height: 30,
-                                            width: 32,
-                                            padding: const EdgeInsets.all(10),
-                                            decoration: const BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                  topRight: Radius.circular(4),
-                                                  bottomRight:
-                                                      Radius.circular(4),
-                                                ),
-                                                color: colorLightGrey),
-                                            child: Image.asset(
-                                                "assets/images/minus.png"),
-                                          ),
-                                        ),
-                                      ],
+                                    Container(
+                                      height: 28,
+                                      width: 80,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: colorLightGrey
+                                      ),
+                                      child: Text("Qty : 1",style: defaultTextStyle(fontWeight: FontWeight.w300,fontSize: 15.0),),
                                     )
                                   ],
                                 ),
