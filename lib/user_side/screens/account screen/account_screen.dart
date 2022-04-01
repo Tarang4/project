@@ -1,12 +1,9 @@
 import 'dart:io';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled/admin/screens/add_product_screen/add_product.dart';
 import 'package:untitled/user_side/screens/account%20screen/profine_screen.dart';
 import 'package:untitled/user_side/screens/account%20screen/wishlist_screen.dart';
 import '../../../admin/screens/admin_home_screen.dart';
@@ -17,10 +14,6 @@ import '../../krish/prectics/home.dart';
 import '../../repository/auth/auth_reposetory.dart';
 import '../../untils/app_fonts.dart';
 import '../../widget/account/account_widget.dart';
-import '../cart screen/cart_screen.dart';
-import '../explore screen/explore_screen.dart';
-import '../login screen/edit_profile_screnn.dart';
-import '../login screen/opt_screen.dart';
 import 'address screen/address_detail.dart';
 import 'cards screen/card_screen.dart';
 

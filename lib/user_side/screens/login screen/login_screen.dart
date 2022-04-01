@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 10,
                         ),
                         Text(
-                          "Login to Continue",
+                          "SignIn to Continue",
                           style: defaultTextStyle(
                               fontSize: 14.0,
                               fontColors: colorGrey,

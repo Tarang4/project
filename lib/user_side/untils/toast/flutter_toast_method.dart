@@ -22,6 +22,16 @@ class ToastMethod{
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,);
   }
+  static  simpleToastLightColorCenter(
+      { BuildContext? context, @required String? massage}){
+    Fluttertoast.showToast(
+      msg:massage.toString(),
+      backgroundColor: Colors.black.withOpacity(0.5),
+      textColor: Colors.white,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,);
+  }
   static  simpleToastTop(
       { BuildContext? context, @required String? massage}){
     Fluttertoast.showToast(

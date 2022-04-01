@@ -169,42 +169,48 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       const SizedBox(
                         width: 13,
                       ),
-                      Stack(
-                        children: [
-                          Container(
-                            height: 44,
-                            width: 44,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(width: 1, color: colorGreen)),
-                          ),
-                          Positioned(
-                            right: 2,
-                            bottom: 2,
-                            top: 2,
-                            left: 2,
-                            child: Container(
-                              height: 40,
-                              clipBehavior: Clip.antiAlias,
-                              width: 40,
-                              child: profilePhoto!.contains("http")
-                                  ? CachedNetworkImage(
-                                      fit: BoxFit.cover,
-                                      imageUrl: profilePhoto!,
-                                      placeholder: (context, url) =>
-                                          const CircularProgressIndicator(
-                                              color: colorGreen),
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
-                                    )
-                                  : Image.asset(assetProfilePhoto!),
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        onTap: (){
+                          Navigator.push(context, CupertinoPageRoute(builder: (context)=>AccountScreen()));
+                        },
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: 44,
+                              width: 44,
                               decoration: BoxDecoration(
-                                  color: colorWhite,
-                                  borderRadius: BorderRadius.circular(30)),
+                                  shape: BoxShape.circle,
+                                  border:
+                                      Border.all(width: 1, color: colorGreen)),
                             ),
-                          ),
-                        ],
+                            Positioned(
+                              right: 2,
+                              bottom: 2,
+                              top: 2,
+                              left: 2,
+                              child: Container(
+                                height: 40,
+                                clipBehavior: Clip.antiAlias,
+                                width: 40,
+                                child: profilePhoto!.contains("http")
+                                    ? CachedNetworkImage(
+                                        fit: BoxFit.cover,
+                                        imageUrl: profilePhoto!,
+                                        placeholder: (context, url) =>
+                                            const CircularProgressIndicator(
+                                                color: colorGreen),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      )
+                                    : Image.asset(assetProfilePhoto!),
+                                decoration: BoxDecoration(
+                                    color: colorWhite,
+                                    borderRadius: BorderRadius.circular(30)),
+                              ),
+                            ),
+                          ],
+                        ),
                       )
                     ],
                   ),
