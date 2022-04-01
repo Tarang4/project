@@ -6,7 +6,6 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:untitled/admin/repository/add_product_photo.dart';
-
 import '../../../user_side/config/app_colors.dart';
 import '../../../user_side/untils/app_fonts.dart';
 import '../../repository/add_product_repository.dart';
@@ -20,7 +19,7 @@ class AddProductAdminSide extends StatefulWidget {
 }
 
 class _AddProductAdminSideState extends State<AddProductAdminSide> {
-  GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
   TextEditingController productName = TextEditingController();
   TextEditingController productDescription = TextEditingController();
   TextEditingController productPrice = TextEditingController();
@@ -57,16 +56,40 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: colorWhite.withOpacity(0.5),
+        title: Text(
+          "Add Product",
+          style: defaultTextStyle(
+              fontSize: 20.0,
+              fontColors: colorBlack,
+              fontWeight: FontWeight.normal),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+            size: 20,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Stack(
         children: [
           SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: Container(
               margin: const EdgeInsets.only(
                 left: 4,
                 right: 4,
-                top: 40,
+                top: 5,
               ),
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 40),
+              padding: const EdgeInsets.only(
+                  left: 10, right: 10, top: 10, bottom: 40),
               child: Column(
                 children: [
                   Form(
@@ -77,52 +100,68 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            radioLayout(
-                                value: 1,
-                                name: "Man",
-                                valueChanged: (value) => onChange(value)),
-                            TextButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
+                            Text(
+                              "Select Category",
+                              style: defaultTextStyle(
+                                  fontColors: colorGreen,
+                                  fontWeight: FontWeight.w100),
+                            ),
+                            Container(
+                              height: 26,
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 5),
+                              clipBehavior: Clip.antiAlias,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(width: 1, color: colorGreen)),
+                              child: DropdownButton(
+                                  borderRadius: BorderRadius.circular(10),
+                                  isDense: true,
+                                  iconEnabledColor: colorGreen,
+                                  value: grpValue,
+                                  style: defaultTextStyle(
+                                      fontWeight: FontWeight.w400),
+                                  alignment: Alignment.center,
+                                  items: const [
+                                    DropdownMenuItem(
+                                      child: Text("Men"),
+                                      value: 1,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text("Women"),
+                                      value: 2,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text("Kids"),
+                                      value: 3,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text("Shoes"),
+                                      value: 4,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text("Devices"),
+                                      value: 5,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text("Perfumes"),
+                                      value: 6,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text("Watches"),
+                                      value: 7,
+                                    ),
+                                  ],
+                                  onChanged: (value) {
                                     setState(() {
-                                      absorbPointer = true;
+                                      grpValue = value as int;
                                     });
-                                    uploadImageFireBase();
-                                  }
-                                },
-                                child: const Text(
-                                  "save",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    color: colorGreen,
-                                  ),
-                                )),
+                                  }),
+                            ),
                           ],
                         ),
-                        radioLayout(
-                            value: 2,
-                            name: "Women",
-                            valueChanged: (value) => onChange(value)),
-                        radioLayout(
-                            value: 3,
-                            name: "Kids",
-                            valueChanged: (value) => onChange(value)),
-                        radioLayout(
-                            value: 4,
-                            name: "Shoes",
-                            valueChanged: (value) => onChange(value)),
-                        radioLayout(
-                            value: 5,
-                            name: "Devices",
-                            valueChanged: (value) => onChange(value)),
-                        radioLayout(
-                            value: 6,
-                            name: "Perfume",
-                            valueChanged: (value) => onChange(value)),
-                        radioLayout(
-                            value: 7,
-                            name: "Watches",
-                            valueChanged: (value) => onChange(value)),
                         TextFormField(
                           controller: productName,
                           cursorColor: colorGreen,
@@ -133,16 +172,18 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                           },
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
-                              focusedBorder: UnderlineInputBorder(
+                          decoration: InputDecoration(
+                              focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: colorGreen)),
                               focusColor: colorGreen,
-                              label: Text(
+                              label: const Text(
                                 "Product Name",
                                 style: TextStyle(
                                   color: colorGreen,
                                 ),
-                              )),
+                              ),
+                              labelStyle: defaultTextStyle(
+                                  fontWeight: FontWeight.w400)),
                         ),
                         const SizedBox(
                           height: 5,
@@ -157,14 +198,17 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                           },
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: colorGreen)),
+                          decoration: InputDecoration(
+                              focusedBorder: const UnderlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: colorGreen)),
                               focusColor: colorGreen,
-                              label: Text(
+                              label: const Text(
                                 "Product Description",
                                 style: TextStyle(color: colorGreen),
-                              )),
+                              ),
+                              labelStyle: defaultTextStyle(
+                                  fontWeight: FontWeight.w400)),
                         ),
                         const SizedBox(
                           height: 5,
@@ -180,15 +224,17 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
                           maxLength: 6,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               counterText: "",
-                              focusedBorder: UnderlineInputBorder(
+                              focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: colorGreen)),
                               focusColor: colorGreen,
-                              label: Text(
+                              label: const Text(
                                 "Product Price",
                                 style: TextStyle(color: colorGreen),
-                              )),
+                              ),
+                              labelStyle: defaultTextStyle(
+                                  fontWeight: FontWeight.w400)),
                         ),
                         const SizedBox(
                           height: 15,
@@ -689,18 +735,22 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                                       height: 100,
                                       width: 80,
                                       clipBehavior: Clip.antiAlias,
-                                      decoration: const BoxDecoration(
+                                      decoration:  BoxDecoration(
                                         color: colorLightGrey,
+                                        borderRadius: BorderRadius.circular(10)
                                       ),
                                       child: Image.file(
                                         image1!,
-                                        fit: BoxFit.contain,
+                                        fit: BoxFit.cover,
                                       ),
                                     )
                                   : Container(
                                       height: 100,
                                       width: 80,
-                                      color: colorLightGrey,
+                                      decoration: BoxDecoration(
+                                          color: colorLightGrey,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
                                       child: const Icon(Icons.add),
                                     ),
                             ),
@@ -713,18 +763,22 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                                       height: 100,
                                       width: 80,
                                       clipBehavior: Clip.antiAlias,
-                                      decoration: const BoxDecoration(
+                                      decoration:  BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
                                         color: colorLightGrey,
                                       ),
                                       child: Image.file(
                                         image2!,
-                                        fit: BoxFit.contain,
+                                        fit: BoxFit.cover,
                                       ),
                                     )
                                   : Container(
                                       height: 100,
                                       width: 80,
-                                      color: colorLightGrey,
+                                      decoration: BoxDecoration(
+                                          color: colorLightGrey,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
                                       child: const Icon(Icons.add),
                                     ),
                             ),
@@ -737,18 +791,22 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                                       height: 100,
                                       width: 80,
                                       clipBehavior: Clip.antiAlias,
-                                      decoration: const BoxDecoration(
+                                      decoration:  BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
                                         color: colorLightGrey,
                                       ),
                                       child: Image.file(
                                         image3!,
-                                        fit: BoxFit.contain,
+                                        fit: BoxFit.cover,
                                       ),
                                     )
                                   : Container(
                                       height: 100,
                                       width: 80,
-                                      color: colorLightGrey,
+                                      decoration: BoxDecoration(
+                                          color: colorLightGrey,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
                                       child: const Icon(Icons.add),
                                     ),
                             ),
@@ -761,23 +819,55 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                                       height: 100,
                                       width: 80,
                                       clipBehavior: Clip.antiAlias,
-                                      decoration: const BoxDecoration(
+                                      decoration:  BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
                                         color: colorLightGrey,
                                       ),
                                       child: Image.file(
                                         image4!,
-                                        fit: BoxFit.contain,
+                                        fit: BoxFit.cover,
                                       ),
                                     )
                                   : Container(
                                       height: 100,
                                       width: 80,
-                                      color: colorLightGrey,
+                                      decoration: BoxDecoration(
+                                          color: colorLightGrey,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
                                       child: const Icon(Icons.add),
                                     ),
                             ),
                           ],
                         ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 25,
+                        ),
+                        InkWell(
+                          splashColor: Colors.transparent,
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              setState(() {
+                                absorbPointer = true;
+                              });
+                              uploadImageFireBase();
+                            }
+                          },
+                          child: Container(
+                            height: 40,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: colorGreen,
+                                borderRadius: BorderRadius.circular(10)),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "SAVE",
+                              style: defaultTextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontColors: colorWhite),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),

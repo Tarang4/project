@@ -109,10 +109,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     const AccountScreen(),
   ];
 
-
   final TextEditingController searchController = TextEditingController();
-
-
 
   @override
   void initState() {
@@ -336,132 +333,126 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     if (snapshot.hasData) {
-                      return Container(
-                        margin: const EdgeInsets.all(10),
-                        child: GridView.builder(
-                            itemCount: snapshot.data.docs.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisExtent: Get.size.height / 2.40,
-                              crossAxisSpacing: 5,
-                              mainAxisSpacing: 10,
-                            ),
-                            itemBuilder: (BuildContext ctx, index) {
-                              ProductModalAdmin productModal =
-                                  ProductModalAdmin.fromJson(
-                                      snapshot.data.docs[index].data());
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      CupertinoPageRoute(
-                                          builder: (context) => CategoriesProduct(
-                                            pImage1: productModal.images!.img1
-                                                .toString(),
-                                            pImage2: productModal.images!.img2
-                                                .toString(),
-                                            pImage3: productModal.images!.img3
-                                                .toString(),
-                                            pImage4: productModal.images!.img4
-                                                .toString(),
-                                            pName: productModal.productName
-                                                .toString(),
-                                            pInfo: productModal.productInfo
-                                                .toString(),
-                                            pPrice: productModal.productPrice
-                                                .toString(),
-                                            color1: productModal
-                                                .colorCode!.color1
-                                                .toString(),
-                                            color2: productModal
-                                                .colorCode!.color2
-                                                .toString(),
-                                            color3: productModal
-                                                .colorCode!.color3
-                                                .toString(),
-                                            color4: productModal
-                                                .colorCode!.color4
-                                                .toString(),
-                                            size1: productModal.size!.s
-                                                .toString(),
-                                            size2: productModal.size!.m
-                                                .toString(),
-                                            size3: productModal.size!.xL
-                                                .toString(),
-                                            size4: productModal.size!.xXL
-                                                .toString(),
-                                            review: "",
-                                            reviewStar: "",
-                                            pID: productModal.productId
-                                                .toString(),
-                                          )));
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Card(
-                                      elevation: 4,
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                3,
-                                        width: double.infinity,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                        ),
-                                        child: CachedNetworkImage(
-                                          fit: BoxFit.cover,
-                                          imageUrl: productModal.images!.img1
-                                              .toString(),
-                                          placeholder: (context, url) =>
-                                              const Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                          color: colorGrey)),
-                                          errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
-                                        ),
+                      return GridView.builder(
+                          padding: EdgeInsets.all(10),
+                          itemCount: snapshot.data.docs.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisExtent: Get.size.height / 2.40,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 10,
+                          ),
+                          itemBuilder: (BuildContext ctx, index) {
+                            ProductModalAdmin productModal =
+                                ProductModalAdmin.fromJson(
+                                    snapshot.data.docs[index].data());
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => CategoriesProduct(
+                                              pImage1: productModal.images!.img1
+                                                  .toString(),
+                                              pImage2: productModal.images!.img2
+                                                  .toString(),
+                                              pImage3: productModal.images!.img3
+                                                  .toString(),
+                                              pImage4: productModal.images!.img4
+                                                  .toString(),
+                                              pName: productModal.productName
+                                                  .toString(),
+                                              pInfo: productModal.productInfo
+                                                  .toString(),
+                                              pPrice: productModal.productPrice
+                                                  .toString(),
+                                              color1: productModal
+                                                  .colorCode!.color1
+                                                  .toString(),
+                                              color2: productModal
+                                                  .colorCode!.color2
+                                                  .toString(),
+                                              color3: productModal
+                                                  .colorCode!.color3
+                                                  .toString(),
+                                              color4: productModal
+                                                  .colorCode!.color4
+                                                  .toString(),
+                                              size1: productModal.size!.s
+                                                  .toString(),
+                                              size2: productModal.size!.m
+                                                  .toString(),
+                                              size3: productModal.size!.xL
+                                                  .toString(),
+                                              size4: productModal.size!.xXL
+                                                  .toString(),
+                                              review: "",
+                                              reviewStar: "",
+                                              pID: productModal.productId
+                                                  .toString(),
+                                            )));
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Card(
+                                    elevation: 4,
+                                    child: Container(
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(5),
+                                      ),
+                                      child: CachedNetworkImage(height: MediaQuery.of(context).size.height/3,
+                                        fit: BoxFit.cover,
+                                        imageUrl: productModal.images!.img1
+                                            .toString(),
+                                        placeholder: (context, url) =>
+                                            const Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        color: colorGrey)),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        " ${productModal.productName.toString()}",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        " ${productModal.productInfo.toString()}",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.normal,
-                                            color: colorGrey),
-                                      ),
-                                    ),
-                                    Text(
-                                      " ₹ ${productModal.productPrice.toString()}",
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      " ${productModal.productName.toString()}",
+                                      overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                           fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                          color: colorGreen),
+                                          fontWeight: FontWeight.w500),
                                     ),
-                                  ],
-                                ),
-                              );
-                            }),
-                      );
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      " ${productModal.productInfo.toString()}",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal,
+                                          color: colorGrey),
+                                    ),
+                                  ),
+                                  Text(
+                                    " ₹ ${productModal.productPrice.toString()}",
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        color: colorGreen),
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
                     } else if (snapshot.hasError) {
                       print("error not found product ${snapshot.hasError}");
                     }

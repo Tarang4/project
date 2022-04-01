@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intrinsic_grid_view/intrinsic_grid_view.dart';
+import 'package:untitled/user_side/repository/add_account/whishlist_repository.dart';
 import '../../../admin/modal/admin_product_modal.dart';
 import '../../config/FireStore_string.dart';
 import '../../config/app_colors.dart';
@@ -74,174 +75,187 @@ class _WishListScreenState extends State<WishListScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
                   WishListModal wishListModal = wishList[index];
-                  return Card(
-                    elevation: 3,
-                    margin: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5,),
-                    child: Container(
-                      height: 120,
-                      margin: const EdgeInsets.only(
-                          top: 7, left: 5, right: 10, bottom:7),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 4,
-                            child: SizedBox(
-                              height: 120,
-                              width: 120,
-                              child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                imageUrl: wishListModal.productImage.toString(),
-                                errorWidget: (context, url, error) => const Icon(
-                                  Icons.error,
-                                  size: 26,
+                  return Dismissible(
+                    background: slideLeftBackground(),
+                    secondaryBackground: slideRightBackground(),
+                    key: Key(wishListModal.productID![index]),
+                    onDismissed: (direction){
+                      if (direction == DismissDirection.endToStart||direction == DismissDirection.startToEnd){
+                        WishListRepository.wishListDelete(context: context, productID: wishListModal.productID.toString());
+                        wishList.removeAt(index);
+                      }
+                    },
+                    child: Card(
+                      elevation: 3,
+                      margin: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5,),
+                      child: InkWell(
+                        onTap: () {
+                          String pid =
+                          wishListModal.productID.toString();
+                          int productIndex = productList
+                              .indexWhere((f) => f.productId == pid);
+
+                          if (productIndex != null) {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) =>
+                                        CategoriesProduct(
+                                          pImage1: productList[
+                                          productIndex]
+                                              .images!
+                                              .img1
+                                              .toString(),
+                                          pImage2: productList[
+                                          productIndex]
+                                              .images!
+                                              .img2
+                                              .toString(),
+                                          pImage3: productList[
+                                          productIndex]
+                                              .images!
+                                              .img3
+                                              .toString(),
+                                          pImage4: productList[
+                                          productIndex]
+                                              .images!
+                                              .img4
+                                              .toString(),
+                                          pName: productList[
+                                          productIndex]
+                                              .productName
+                                              .toString(),
+                                          pInfo: productList[
+                                          productIndex]
+                                              .productInfo
+                                              .toString(),
+                                          pPrice: productList[
+                                          productIndex]
+                                              .productPrice
+                                              .toString(),
+                                          color1: productList[
+                                          productIndex]
+                                              .colorCode!
+                                              .color1
+                                              .toString(),
+                                          color2: productList[
+                                          productIndex]
+                                              .colorCode!
+                                              .color2
+                                              .toString(),
+                                          color3: productList[
+                                          productIndex]
+                                              .colorCode!
+                                              .color3
+                                              .toString(),
+                                          color4: productList[
+                                          productIndex]
+                                              .colorCode!
+                                              .color4
+                                              .toString(),
+                                          size1: productList[
+                                          productIndex]
+                                              .size!
+                                              .s
+                                              .toString(),
+                                          size2: productList[
+                                          productIndex]
+                                              .size!
+                                              .m
+                                              .toString(),
+                                          size3: productList[
+                                          productIndex]
+                                              .size!
+                                              .xL
+                                              .toString(),
+                                          size4: productList[
+                                          productIndex]
+                                              .size!
+                                              .xXL
+                                              .toString(),
+                                          review: "",
+                                          reviewStar: "",
+                                          pID: productList[
+                                          productIndex]
+                                              .productId
+                                              .toString(),
+                                        )));
+                          }
+                          String productIDD = productList[
+                          productIndex]
+                              .productId
+                              .toString();
+                          print(productIDD);
+                        },
+                        child: Container(
+                          height: 120,
+                          margin: const EdgeInsets.only(
+                              top: 7, left: 5, right: 10, bottom:7),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: SizedBox(
+                                  height: 120,
+                                  width: 120,
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    imageUrl: wishListModal.productImage.toString(),
+                                    errorWidget: (context, url, error) => const Icon(
+                                      Icons.error,
+                                      size: 26,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            flex:9,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 12, bottom: 12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    wishListModal.productName.toString(),
-                                    style: defaultTextStyle(
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    "₹ ${wishListModal.productPrice.toString()}",
-                                    style: defaultTextStyle(
-                                        fontSize: 15.0,
-                                        fontColors: colorGreen,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      String pid =
-                                          wishListModal.productID.toString();
-                                      int productIndex = productList
-                                          .indexWhere((f) => f.productId == pid);
-
-                                      if (productIndex != null) {
-                                        Navigator.push(
-                                            context,
-                                            CupertinoPageRoute(
-                                                builder: (context) =>
-                                                    CategoriesProduct(
-                                                      pImage1: productList[
-                                                              productIndex]
-                                                          .images!
-                                                          .img1
-                                                          .toString(),
-                                                      pImage2: productList[
-                                                              productIndex]
-                                                          .images!
-                                                          .img2
-                                                          .toString(),
-                                                      pImage3: productList[
-                                                              productIndex]
-                                                          .images!
-                                                          .img3
-                                                          .toString(),
-                                                      pImage4: productList[
-                                                              productIndex]
-                                                          .images!
-                                                          .img4
-                                                          .toString(),
-                                                      pName: productList[
-                                                              productIndex]
-                                                          .productName
-                                                          .toString(),
-                                                      pInfo: productList[
-                                                              productIndex]
-                                                          .productInfo
-                                                          .toString(),
-                                                      pPrice: productList[
-                                                              productIndex]
-                                                          .productPrice
-                                                          .toString(),
-                                                      color1: productList[
-                                                              productIndex]
-                                                          .colorCode!
-                                                          .color1
-                                                          .toString(),
-                                                      color2: productList[
-                                                              productIndex]
-                                                          .colorCode!
-                                                          .color2
-                                                          .toString(),
-                                                      color3: productList[
-                                                              productIndex]
-                                                          .colorCode!
-                                                          .color3
-                                                          .toString(),
-                                                      color4: productList[
-                                                              productIndex]
-                                                          .colorCode!
-                                                          .color4
-                                                          .toString(),
-                                                      size1: productList[
-                                                              productIndex]
-                                                          .size!
-                                                          .s
-                                                          .toString(),
-                                                      size2: productList[
-                                                              productIndex]
-                                                          .size!
-                                                          .m
-                                                          .toString(),
-                                                      size3: productList[
-                                                              productIndex]
-                                                          .size!
-                                                          .xL
-                                                          .toString(),
-                                                      size4: productList[
-                                                              productIndex]
-                                                          .size!
-                                                          .xXL
-                                                          .toString(),
-                                                      review: "",
-                                                      reviewStar: "",
-                                                      pID: productList[
-                                                              productIndex]
-                                                          .productId
-                                                          .toString(),
-                                                    )));
-                                      }
-                                      String productIDD = productList[
-                                              productIndex]
-                                          .productId
-                                          .toString();
-                                      print(productIDD);
-                                    },
-                                    child: Container(
-                                      height: 30,
-                                      alignment: Alignment.center,
-                                      width: 80,
-                                      child: Text(
-                                        "in stock",
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                flex:9,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 12, bottom: 12),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        wishListModal.productName.toString(),
+                                        style: defaultTextStyle(
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      Text(
+                                        "₹ ${wishListModal.productPrice.toString()}",
                                         style: defaultTextStyle(
                                             fontSize: 15.0,
-                                            fontColors: Colors.white,
+                                            fontColors: colorGreen,
                                             fontWeight: FontWeight.w400),
                                       ),
-                                      decoration: BoxDecoration(
-                                          color: colorGreen,
-                                          borderRadius: BorderRadius.circular(4)),
-                                    ),
-                                  )
-                                ],
+                                      InkWell(
+                                        child: Container(
+                                          height: 30,
+                                          alignment: Alignment.center,
+                                          width: 80,
+                                          child: Text(
+                                            "in stock",
+                                            style: defaultTextStyle(
+                                                fontSize: 15.0,
+                                                fontColors: Colors.white,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          decoration: BoxDecoration(
+                                              color: colorGreen,
+                                              borderRadius: BorderRadius.circular(4)),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   );
@@ -374,5 +388,60 @@ class _WishListScreenState extends State<WishListScreen> {
         });
       });
     });
+  }Widget slideLeftBackground() {
+    return Container(
+      color: colorGreen,
+      child: Align(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: const <Widget>[
+            SizedBox(
+              width: 20,
+            ),
+            Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+            Text(
+              " Delete",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
+              textAlign: TextAlign.right,
+            ),
+          ],
+        ),
+        alignment: Alignment.centerRight,
+      ),
+    );
+  }Widget slideRightBackground() {
+    return Container(
+      color: colorGreen,
+      child: Align(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: const <Widget>[
+            Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+            Text(
+              " Delete",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
+              textAlign: TextAlign.left,
+            ),
+            SizedBox(
+              width: 20,
+            ),
+          ],
+        ),
+        alignment: Alignment.centerLeft,
+      ),
+    );
   }
+
 }

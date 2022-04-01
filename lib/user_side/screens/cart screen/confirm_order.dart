@@ -118,6 +118,9 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
                             style: defaultTextStyle(
                                 fontSize: 18.0, fontWeight: FontWeight.w400),
                             decoration: const InputDecoration(
+                              hintText: "APPLY COUPON CODE",
+                              hintStyle: TextStyle(fontSize: 13
+                              ),
                               counterText: "",
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: colorGreen),

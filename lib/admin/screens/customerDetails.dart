@@ -92,30 +92,32 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                          margin: const EdgeInsets.only(left: 130),
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                          child: CachedNetworkImage(
-                                            fit: BoxFit.cover,
-                                            height: 100,
-                                            width: 100,
-                                            imageUrl: userModal.profilePhoto
-                                                .toString(),
-                                            placeholder: (context, url) =>
-                                                const Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: CircularProgressIndicator(
-                                                  color: colorGreen),
-                                            ),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    const Icon(Icons.error),
-                                          )),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: Container(
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: CachedNetworkImage(
+                                              fit: BoxFit.cover,
+                                              height: 100,
+                                              width: 100,
+                                              imageUrl: userModal.profilePhoto
+                                                  .toString(),
+                                              placeholder: (context, url) =>
+                                                  const Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: CircularProgressIndicator(
+                                                    color: colorGreen),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      const Icon(Icons.error),
+                                            )),
+                                      ),
                                       const SizedBox(
-                                        height: 5,
+                                        height:10 ,
                                       ),
                                       Row(
                                         children: [
@@ -144,7 +146,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                           heading(title: "Gender"),
                                           description(
                                               description:
-                                                  userModal.gender.toString())
+                                                  userModal.gender.toString()=="1"?"Male":"Female")
                                         ],
                                       ),
                                       const SizedBox(
@@ -184,11 +186,15 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                         height: 5,
                                       ),
                                       Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                         children: [
                                           heading(title: "Created Time"),
-                                          description(
-                                              description:
-                                                  userModal.createAt.toString())
+                                          Expanded(
+                                            child: description(
+                                                description:
+                                                    userModal.createAt.toString()),
+                                          )
                                         ],
                                       ),
                                       const SizedBox(
@@ -224,13 +230,9 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      ElevatedButton(
+                                      TextButton(
                                           onPressed: () {},
-                                          style: ElevatedButton.styleFrom(
-                                            primary: colorGreen, // background
-                                            onPrimary: Colors.white, // foreground
-                                          ),
-                                          child: const Text("Delete User"))
+                                          child: const Text("More"))
                                     ],
                                   ),
                                 ),
