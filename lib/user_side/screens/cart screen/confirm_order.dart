@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:untitled/user_side/screens/checkout_screen/checkout_address.dart';
 import 'package:untitled/user_side/screens/checkout_screen/checkout_delivery.dart';
+import 'package:http/http.dart' as http;
 import 'package:untitled/user_side/untils/app_fonts.dart';
 
 import '../../config/app_colors.dart';
@@ -21,6 +25,7 @@ class ConfirmOrder extends StatefulWidget {
 class _ConfirmOrderState extends State<ConfirmOrder> {
   double? gst;
   double? finalprice;
+  Map<String, dynamic>? paymentIntentData;
   final TextEditingController _cupponController = TextEditingController();
 
   @override
@@ -237,10 +242,11 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.push(
+                      makePayment(amount: finalprice);
+                      /*Navigator.push(
                           context,
                           CupertinoPageRoute(
-                              builder: (context) => CheckoutDelivery()));
+                              builder: (context) => CheckoutDelivery()));*/
                     },
                     child: Container(
                       height: 50,
@@ -267,4 +273,92 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
       ),
     );
   }
+
+  Future<void> makePayment({
+    var amount,
+  }) async {
+    try {
+      paymentIntentData = await createPaymentIntent(amount!, 'usd'); //json.decode(response.body);
+      // print('Response body==>${response.body.toString()}');
+      await Stripe.instance
+          .initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+              applePay: false,
+              googlePay: false,
+              testEnv: true,
+              style: ThemeMode.dark,
+              customerId: paymentIntentData!['customer'],
+              paymentIntentClientSecret: paymentIntentData!['client_secret'],
+              customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
+              merchantCountryCode: 'usd',
+              merchantDisplayName: 'SnatchKart'))
+          .then((value) {
+        print("-=--=-=-=-=-Makea 1 Payment");
+      });
+      print("-=--=-=-=-=-Make 2 Payment");
+
+      ///now finally display order sheeet
+      displayPaymentSheet(amount: amount);
+    } catch (e, s) {
+      print("-=--=-=-=-=-Make 3 Payment");
+
+      print('exception:$e$s');
+    }
+  }
+
+  displayPaymentSheet({
+    var amount,
+  }) async {
+    try {
+      await Stripe.instance
+          .presentPaymentSheet(
+          parameters: PresentPaymentSheetParameters(
+            clientSecret: paymentIntentData!['client_secret'],
+            confirmPayment: true,
+          ))
+          .then((newValue) async {
+        print('order intent' + paymentIntentData!['id'].toString());
+        print('order intent' + paymentIntentData!['client_secret'].toString());
+        print('order intent' + paymentIntentData!['amount'].toString());
+        print('order intent' + paymentIntentData.toString());
+        Navigator.pop(context);
+        paymentIntentData = null;
+      }).onError((error, stackTrace) {
+        print('Exception/DISPLAYPAYMENTSHEET==> $error $stackTrace');
+      });
+    } on StripeException catch (e) {
+      print('Exception/DISPLAYPAYMENTSHEET==> $e');
+      showDialog(
+          context: context,
+          builder: (_) => const AlertDialog(
+            content: Text("Cancelled "),
+          ));
+    } catch (e) {
+      print('$e');
+    }
+  }
+
+  createPaymentIntent(num amount, String currency) async {
+    try {
+      Map<String, dynamic> body = {'amount': calculateAmount(amount), 'currency': currency, 'payment_method_types[]': 'card'};
+      print(body);
+      var response = await http.post(Uri.parse('https://api.stripe.com/v1/payment_intents'), body: body, headers: {
+        'Authorization':
+        'Bearer sk_test_51KjqCjSBonexNE031C7BsgyimHZgYH2avxTxpE8DixkuG9NvHd5zhAPlVgiqvL40Wio1u12TdlpHJhNampCW5COL007CUWdIO0',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      });
+      print('Create Intent reponse ===> ${response.body.toString()}');
+      return jsonDecode(response.body);
+    } catch (err) {
+      print('err charging user: ${err.toString()}');
+    }
+  }
+
+  calculateAmount(num amount) {
+    print("---==-=--$amount");
+    final a = (amount) * 100;
+    print("---==-a=--$a");
+    return a.toInt().toString();
+  }
+
 }

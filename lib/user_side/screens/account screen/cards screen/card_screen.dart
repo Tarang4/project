@@ -10,10 +10,6 @@ import '../../../config/FireStore_string.dart';
 import '../../../config/app_colors.dart';
 import '../../../modal/credit_card_model.dart';
 import '../../../untils/app_fonts.dart';
-import '../../../untils/custom_bottomNavigationBar.dart';
-import '../../cart screen/cart_screen.dart';
-import '../../explore screen/explore_screen.dart';
-import '../account_screen.dart';
 import 'addnew_card.dart';
 import 'edit_card.dart';
 
