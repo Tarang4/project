@@ -480,7 +480,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
         fullName: fullName.text,
         phone: phoneController);
 
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => const AddressDetail()));
+    Navigator.pop(context);
   }
 }

@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled/user_side/modal/cart_modal.dart';
 
 import '../../config/app_colors.dart';
 import '../../untils/app_fonts.dart';
 import 'checkout_address.dart';
 
 class CheckoutDelivery extends StatefulWidget {
-  const CheckoutDelivery({Key? key}) : super(key: key);
+  final int total;
+  final List<CartModal>? listOfCart;
+  const CheckoutDelivery({Key? key, required this.total,  required this.listOfCart}) : super(key: key);
 
   @override
   _CheckoutDeliveryState createState() => _CheckoutDeliveryState();
@@ -14,6 +17,17 @@ class CheckoutDelivery extends StatefulWidget {
 
 class _CheckoutDeliveryState extends State<CheckoutDelivery> {
   int grpValue = 1;
+  int? total;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    total=widget.total;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -256,7 +270,7 @@ class _CheckoutDeliveryState extends State<CheckoutDelivery> {
                       Navigator.push(
                           context,
                           CupertinoPageRoute(
-                              builder: (context) => CheckAddress()));
+                              builder: (context) =>  CheckAddress(total: total!.toInt(),cartList:widget.listOfCart)));
                     },
                     child: Container(
                       height: 50,

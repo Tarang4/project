@@ -8,4 +8,5 @@ class FirebaseString{
   static const String productReviewCollection = "productReview";
   static const String productWishListCollection = "product_WishList";
   static const String cartListCollection = "UserCartList";
+  static const String orderCollection = "orders";
 }

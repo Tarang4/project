@@ -8,7 +8,8 @@ import 'package:untitled/user_side/repository/add_account/add_cartlist_repositor
 import '../../config/FireStore_string.dart';
 import '../../config/app_colors.dart';
 import '../../untils/app_fonts.dart';
-import 'confirm_order.dart';
+import 'checkout_delivery.dart';
+import 'checkout_Payment.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({
@@ -148,32 +149,17 @@ class _CartScreenState extends State<CartScreen> {
                                       width: 80,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: colorLightGrey
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: colorLightGrey),
+                                      child: Text(
+                                        "Qty : 1",
+                                        style: defaultTextStyle(
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 15.0),
                                       ),
-                                      child: Text("Qty : 1",style: defaultTextStyle(fontWeight: FontWeight.w300,fontSize: 15.0),),
                                     )
                                   ],
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  CartRepository.cartDetailDelete(
-                                      context: context,
-                                      productId:
-                                          cartModal.productId.toString());
-                                  setState(() {
-                                    total = total -
-                                        int.parse(
-                                            cartModal.productPrice.toString());
-                                  });
-                                },
-                                child: Container(
-                                  margin:
-                                      const EdgeInsets.only(right: 20, top: 75),
-                                  height: 20,
-                                  width: 20,
-                                  child: const Icon(Icons.delete),
                                 ),
                               ),
                             ],
@@ -221,8 +207,8 @@ class _CartScreenState extends State<CartScreen> {
                       Navigator.push(
                           context,
                           CupertinoPageRoute(
-                              builder: (context) =>
-                                  ConfirmOrder(total: total)));
+                              builder: (context) => CheckoutDelivery(
+                                  total: total.toInt(), listOfCart: cartList)));
                     },
                     child: Container(
                       height: 50,

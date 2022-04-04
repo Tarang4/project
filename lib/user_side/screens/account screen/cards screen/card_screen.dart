@@ -9,6 +9,7 @@ import 'package:flutter_credit_card/glassmorphism_config.dart';
 import '../../../config/FireStore_string.dart';
 import '../../../config/app_colors.dart';
 import '../../../modal/credit_card_model.dart';
+import '../../../repository/add_account/add_cards_repository.dart';
 import '../../../untils/app_fonts.dart';
 import 'addnew_card.dart';
 import 'edit_card.dart';
@@ -125,51 +126,76 @@ class _CardsScreenState extends State<CardsScreen> {
                         DebitCardModal debitCardModal =
                             DebitCardModal.fromDocs(snapshot.data.docs[index]);
 
-                        return InkWell(
-                          onTap: () async {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => EditCard(
-                                  id: debitCardModal.cardId.toString(),
-                                  cardName: debitCardModal.cardName.toString(),
-                                  cvv: debitCardModal.cvv.toString(),
-                                  expDate: debitCardModal.expDate.toString(),
-                                  cardNumber:debitCardModal.cardNo.toString() ,
+                        return Column(
+                          children: [
+                            InkWell(
+                              onTap: () async {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) => EditCard(
+                                      id: debitCardModal.cardId.toString(),
+                                      cardName: debitCardModal.cardName.toString(),
+                                      cvv: debitCardModal.cvv.toString(),
+                                      expDate: debitCardModal.expDate.toString(),
+                                      cardNumber:debitCardModal.cardNo.toString() ,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: CreditCardWidget(
+                                glassmorphismConfig: useGlassMorphism
+                                    ? Glassmorphism.defaultConfig()
+                                    : null,
+                                cardNumber: debitCardModal.cardNo.toString(),
+                                expiryDate: debitCardModal.expDate.toString(),
+                                cardHolderName: debitCardModal.cardName.toString(),
+                                cvvCode: debitCardModal.cvv.toString(),
+                                showBackView: isCvvFocused,
+                                obscureCardNumber: true,
+                                obscureCardCvv: true,
+                                isHolderNameVisible: true,
+                                cardBgColor: Colors.green,
+                                backgroundImage: useBackgroundImage
+                                    ? 'assets/card_bg.png'
+                                    : null,
+                                isSwipeGestureEnabled: true,
+                                onCreditCardWidgetChange:
+                                    (CreditCardBrand creditCardBrand) {},
+                                customCardTypeIcons: <CustomCardTypeIcon>[
+                                  CustomCardTypeIcon(
+                                    cardType: CardType.mastercard,
+                                    cardImage: Image.asset(
+                                      'packages/flutter_credit_card/icons/mastercard.png',
+                                      height: 48,
+                                      width: 48,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              onTap: () {
+                                CardRepository.cardDetailDelete(context: context, cardId: debitCardModal.cardId.toString());
+                              },
+                              child: Container(
+                                height: 30,
+                                width: 60,
+                                margin: const EdgeInsets.only( top: 10,bottom: 15),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: colorGreen, borderRadius: BorderRadius.circular(5)),
+                                child: Text(
+                                  "Delete",
+                                  style: defaultTextStyle(
+                                      fontColors: colorWhite,
+                                      fontSize: 13.0,
+                                      fontWeight: FontWeight.w400),
                                 ),
                               ),
-                            );
-                          },
-                          child: CreditCardWidget(
-                            glassmorphismConfig: useGlassMorphism
-                                ? Glassmorphism.defaultConfig()
-                                : null,
-                            cardNumber: debitCardModal.cardNo.toString(),
-                            expiryDate: debitCardModal.expDate.toString(),
-                            cardHolderName: debitCardModal.cardName.toString(),
-                            cvvCode: debitCardModal.cvv.toString(),
-                            showBackView: isCvvFocused,
-                            obscureCardNumber: true,
-                            obscureCardCvv: true,
-                            isHolderNameVisible: true,
-                            cardBgColor: Colors.green,
-                            backgroundImage: useBackgroundImage
-                                ? 'assets/card_bg.png'
-                                : null,
-                            isSwipeGestureEnabled: true,
-                            onCreditCardWidgetChange:
-                                (CreditCardBrand creditCardBrand) {},
-                            customCardTypeIcons: <CustomCardTypeIcon>[
-                              CustomCardTypeIcon(
-                                cardType: CardType.mastercard,
-                                cardImage: Image.asset(
-                                  'packages/flutter_credit_card/icons/mastercard.png',
-                                  height: 48,
-                                  width: 48,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         );
                       },
                     );
