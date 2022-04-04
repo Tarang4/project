@@ -97,77 +97,57 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Select Category",
-                              style: defaultTextStyle(
-                                  fontColors: colorGreen,
-                                  fontWeight: FontWeight.w100),
-                            ),
-                            Container(
-                              height: 26,
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 5),
-                              clipBehavior: Clip.antiAlias,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border:
-                                      Border.all(width: 1, color: colorGreen)),
-                              child: DropdownButton(
-                                  borderRadius: BorderRadius.circular(10),
-                                  isDense: true,
-                                  iconEnabledColor: colorGreen,
-                                  value: grpValue,
-                                  style: defaultTextStyle(
-                                      fontWeight: FontWeight.w400),
-                                  alignment: Alignment.center,
-                                  items: const [
-                                    DropdownMenuItem(
-                                      child: Text("Men"),
-                                      value: 1,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text("Women"),
-                                      value: 2,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text("Kids"),
-                                      value: 3,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text("Shoes"),
-                                      value: 4,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text("Devices"),
-                                      value: 5,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text("Perfumes"),
-                                      value: 6,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text("Watches"),
-                                      value: 7,
-                                    ),
-                                  ],
-                                  onChanged: (value) {
-                                    setState(() {
-                                      grpValue = value as int;
-                                    });
-                                  }),
-                            ),
-                          ],
+                        Text(
+                          "Select Category",
+                          style: defaultTextStyle(
+                              fontColors: colorGreen,
+                              fontWeight: FontWeight.w100),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              radioLayout(
+                                  name: "Men",
+                                  value: 1,
+                                  valueChanged: (value) => onChange(value)),
+                              radioLayout(
+                                  name: "Women",
+                                  value: 2,
+                                  valueChanged: (value) => onChange(value)),
+                              radioLayout(
+                                  name: "Kids",
+                                  value: 3,
+                                  valueChanged: (value) => onChange(value)),
+                              radioLayout(
+                                  name: "Shoes",
+                                  value: 4,
+                                  valueChanged: (value) => onChange(value)),
+                              radioLayout(
+                                  name: "Devices",
+                                  value: 5,
+                                  valueChanged: (value) => onChange(value)),
+                              radioLayout(
+                                  name: "Perfumes",
+                                  value: 6,
+                                  valueChanged: (value) => onChange(value)),
+                              radioLayout(
+                                  name: "Watches",
+                                  value: 7,
+                                  valueChanged: (value) => onChange(value)),
+                            ],
+                          ),
                         ),
                         TextFormField(
                           controller: productName,
                           cursorColor: colorGreen,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please Enter Your Name';
+                              return 'Please Enter Name';
                             }
                           },
                           textCapitalization: TextCapitalization.sentences,
@@ -193,15 +173,14 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                           cursorColor: colorGreen,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please Enter Your Name';
+                              return 'Please Enter Discription';
                             }
                           },
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                               focusedBorder: const UnderlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: colorGreen)),
+                                  borderSide: BorderSide(color: colorGreen)),
                               focusColor: colorGreen,
                               label: const Text(
                                 "Product Description",
@@ -735,10 +714,10 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                                       height: 100,
                                       width: 80,
                                       clipBehavior: Clip.antiAlias,
-                                      decoration:  BoxDecoration(
-                                        color: colorLightGrey,
-                                        borderRadius: BorderRadius.circular(10)
-                                      ),
+                                      decoration: BoxDecoration(
+                                          color: colorLightGrey,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
                                       child: Image.file(
                                         image1!,
                                         fit: BoxFit.cover,
@@ -763,7 +742,7 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                                       height: 100,
                                       width: 80,
                                       clipBehavior: Clip.antiAlias,
-                                      decoration:  BoxDecoration(
+                                      decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: colorLightGrey,
                                       ),
@@ -791,7 +770,7 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                                       height: 100,
                                       width: 80,
                                       clipBehavior: Clip.antiAlias,
-                                      decoration:  BoxDecoration(
+                                      decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: colorLightGrey,
                                       ),
@@ -819,7 +798,7 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                                       height: 100,
                                       width: 80,
                                       clipBehavior: Clip.antiAlias,
-                                      decoration:  BoxDecoration(
+                                      decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: colorLightGrey,
                                       ),
@@ -894,11 +873,32 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
     );
   }
 
-  radioLayout({int? value, ValueChanged? valueChanged, String? name}) => Row(
-        children: [
-          Radio(value: value, groupValue: grpValue, onChanged: valueChanged),
-          Text(name ?? ""),
-        ],
+  radioLayout({int? value, ValueChanged? valueChanged, String? name}) =>
+      Container(
+        margin: const EdgeInsets.only(left: 2, right: 4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7),
+          border: Border.all(color: colorGrey, width: 1),
+        ),
+        child: Row(
+          children: [
+            Radio(
+              value: value,
+              groupValue: grpValue,
+              onChanged: valueChanged,
+              activeColor: colorGreen,
+              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+            ),
+            Text(
+              name ?? "",
+              style:
+                  defaultTextStyle(fontWeight: FontWeight.w400, fontSize: 16.0),
+            ),
+            const SizedBox(
+              width: 7,
+            ),
+          ],
+        ),
       );
 
   onChange(int? value) {
