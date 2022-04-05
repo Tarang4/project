@@ -302,7 +302,6 @@ class _WishListScreenState extends State<WishListScreen> {
                   productList.length,
                   (index) {
                     ProductModalAdmin productModal = productList[index];
-
                     return ProductContainer(
                       pImage: productModal.images!.img1.toString(),
                       pName: productModal.productName.toString(),

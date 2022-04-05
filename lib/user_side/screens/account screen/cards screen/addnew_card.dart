@@ -61,36 +61,38 @@ class _AddCardState extends State<AddCard> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            CreditCardWidget(
-              glassmorphismConfig:
-                  useGlassMorphism ? Glassmorphism.defaultConfig() : null,
-              cardNumber: cardNumber,
-              expiryDate: expiryDate,
-              cardHolderName: cardHolderName,
-              cvvCode: cvvCode,
-              showBackView: isCvvFocused,
-              obscureCardNumber: true,
-              obscureCardCvv: true,
-              isHolderNameVisible: true,
-              cardBgColor: Colors.green,
-              backgroundImage: useBackgroundImage ? 'assets/card_bg.png' : null,
-              isSwipeGestureEnabled: true,
-              onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
-              customCardTypeIcons: <CustomCardTypeIcon>[
-                CustomCardTypeIcon(
-                  cardType: CardType.mastercard,
-                  cardImage: Image.asset(
-                    'packages/flutter_credit_card/icons/mastercard.png',
-                    height: 48,
-                    width: 48,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              CreditCardWidget(
+                glassmorphismConfig:
+                    useGlassMorphism ? Glassmorphism.defaultConfig() : null,
+                cardNumber: cardNumber,
+                expiryDate: expiryDate,
+                cardHolderName: cardHolderName,
+                cvvCode: cvvCode,
+                showBackView: isCvvFocused,
+                obscureCardNumber: true,
+                obscureCardCvv: true,
+                isHolderNameVisible: true,
+                cardBgColor: Colors.green,
+                backgroundImage: useBackgroundImage ? 'assets/card_bg.png' : null,
+                isSwipeGestureEnabled: true,
+                onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
+                customCardTypeIcons: <CustomCardTypeIcon>[
+                  CustomCardTypeIcon(
+                    cardType: CardType.mastercard,
+                    cardImage: Image.asset(
+                      'packages/flutter_credit_card/icons/mastercard.png',
+                      height: 48,
+                      width: 48,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: SingleChildScrollView(
+                ],
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height/1.92,
                 child: Column(
                   children: <Widget>[
                     CreditCardForm(
@@ -164,189 +166,72 @@ class _AddCardState extends State<AddCard> {
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 10,
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => const CardsScreen()));
-                      });
-                    },
-                    child: Container(
-                      height: 50,
-                      width: 146,
-                      margin: const EdgeInsets.only(left: 32),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: colorGreen),
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Text(
-                        "CANCLE",
-                        style: defaultTextStyle(
-                            fontColors: colorBlack,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 10,
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          Navigator.pop(context);
+                        });
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 146,
+                        margin: const EdgeInsets.only(left: 32),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: colorGreen),
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Text(
+                          "CANCLE",
+                          style: defaultTextStyle(
+                              fontColors: colorBlack,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w400),
+                        ),
                       ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      if (formKey.currentState!.validate()) {
-                        insertCard();
-                        print("SAVED");
-                      } else {
-                        print('invalid!');
-                      }
-                    },
-                    child: Container(
-                      height: 50,
-                      width: 146,
-                      margin: const EdgeInsets.only(right: 32),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: colorGreen,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Text(
-                        "SAVE",
-                        style: defaultTextStyle(
-                            fontColors: colorWhite,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400),
+                    InkWell(
+                      onTap: () async {
+                        if (formKey.currentState!.validate()) {
+                          insertCard();
+                          print("SAVED");
+                        } else {
+                          print('invalid!');
+                        }
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 146,
+                        margin: const EdgeInsets.only(right: 32),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: colorGreen,
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Text(
+                          "SAVE",
+                          style: defaultTextStyle(
+                              fontColors: colorWhite,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w400),
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+
+            ],
+          ),
         ),
       ),
       // bottomNavigationBar: buildMyNavBar(context),
     );
   }
-
-  // Container buildMyNavBar(BuildContext context) {
-  //   return Container(
-  //     height: 74,
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       children: [
-  //         InkWell(
-  //             splashColor: Colors.white,
-  //             enableFeedback: false,
-  //             onTap: () {
-  //               setState(() {
-  //                 pageIndex = 0;
-  //               });
-  //             },
-  //             child: Container(
-  //               width: MediaQuery.of(context).size.width / 3,
-  //               alignment: Alignment.center,
-  //               child: pageIndex == 0
-  //                   ? Column(
-  //                       mainAxisSize: MainAxisSize.min,
-  //                       children: [
-  //                         const Text(
-  //                           "Explore",
-  //                           style: TextStyle(
-  //                               fontSize: 14, fontWeight: FontWeight.bold),
-  //                         ),
-  //                         const SizedBox(
-  //                           height: 4,
-  //                         ),
-  //                         Container(
-  //                           height: 3,
-  //                           width: 7,
-  //                           decoration: BoxDecoration(
-  //                               color: colorBlack,
-  //                               borderRadius: BorderRadius.circular(10)),
-  //                         )
-  //                       ],
-  //                     )
-  //                   : const Icon(Icons.home_filled),
-  //             )),
-  //         InkWell(
-  //             enableFeedback: false,
-  //             splashColor: Colors.white,
-  //             onTap: () {
-  //               setState(() {
-  //                 pageIndex = 1;
-  //               });
-  //             },
-  //             child: Container(
-  //               width: MediaQuery.of(context).size.width / 3,
-  //               alignment: Alignment.center,
-  //               child: pageIndex == 1
-  //                   ? Column(
-  //                       mainAxisSize: MainAxisSize.min,
-  //                       children: [
-  //                         const Text(
-  //                           "Cart",
-  //                           style: TextStyle(
-  //                               fontSize: 14, fontWeight: FontWeight.bold),
-  //                         ),
-  //                         const SizedBox(
-  //                           height: 4,
-  //                         ),
-  //                         Container(
-  //                           height: 3,
-  //                           width: 5,
-  //                           decoration: BoxDecoration(
-  //                               color: colorBlack,
-  //                               borderRadius: BorderRadius.circular(10)),
-  //                         )
-  //                       ],
-  //                     )
-  //                   : const Icon(Icons.card_travel),
-  //             )),
-  //         InkWell(
-  //           enableFeedback: false,
-  //           splashColor: Colors.white,
-  //           onTap: () {
-  //             setState(() {
-  //               pageIndex = 2;
-  //             });
-  //           },
-  //           child: Container(
-  //             width: MediaQuery.of(context).size.width / 3,
-  //             alignment: Alignment.center,
-  //             child: pageIndex == 2
-  //                 ? Column(
-  //                     mainAxisSize: MainAxisSize.min,
-  //                     children: [
-  //                       const Text(
-  //                         "Account",
-  //                         style: TextStyle(
-  //                             fontSize: 14, fontWeight: FontWeight.bold),
-  //                       ),
-  //                       const SizedBox(
-  //                         height: 4,
-  //                       ),
-  //                       Container(
-  //                         height: 3,
-  //                         width: 8,
-  //                         decoration: BoxDecoration(
-  //                             color: colorBlack,
-  //                             borderRadius: BorderRadius.circular(10)),
-  //                       )
-  //                     ],
-  //                   )
-  //                 : const Icon(Icons.person),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   void onCreditCardModelChange(CreditCardModel? creditCardModel) {
     setState(() {
       cardNumber = creditCardModel!.cardNumber;
@@ -364,7 +249,6 @@ class _AddCardState extends State<AddCard> {
         cvv: cvvCode.toString(),
         exp_date: expiryDate.toString());
 
-    Navigator.pushReplacement(
-        context, CupertinoPageRoute(builder: (context) => const CardsScreen()));
+    Navigator.pop(context);
   }
 }

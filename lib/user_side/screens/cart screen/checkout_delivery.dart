@@ -269,7 +269,7 @@ class _CheckoutDeliveryState extends State<CheckoutDelivery> {
                     onTap: () {
                       Navigator.push(
                           context,
-                          CupertinoPageRoute(
+                          MaterialPageRoute(
                               builder: (context) =>  CheckAddress(total: total!.toInt(),cartList:widget.listOfCart)));
                     },
                     child: Container(

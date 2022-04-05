@@ -45,8 +45,7 @@ class CardRepository {
 
       debugPrint('yes add card');
     } else {
-      ToastMethod.simpleToast(context: context, massage: "no add detail");
-
+      ToastMethod.simpleToastLightColor(context: context, massage: "Sorry Try Again");
       debugPrint('No add card');
     }
   }

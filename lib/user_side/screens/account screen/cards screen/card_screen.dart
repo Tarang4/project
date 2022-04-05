@@ -36,8 +36,6 @@ class _CardsScreenState extends State<CardsScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   List<DebitCardModal> cardList = [];
 
-
-
   getUserCards() {
     FirebaseFirestore.instance
         .collection(FirebaseString.userCollection)
@@ -66,8 +64,8 @@ class _CardsScreenState extends State<CardsScreen> {
     });
   }
 
-  final CollectionReference user = FirebaseFirestore.instance
-      .collection(FirebaseString.userCollection);
+  final CollectionReference user =
+      FirebaseFirestore.instance.collection(FirebaseString.userCollection);
 
   @override
   void initState() {
@@ -122,7 +120,6 @@ class _CardsScreenState extends State<CardsScreen> {
                       physics: const BouncingScrollPhysics(),
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (BuildContext context, int index) {
-
                         DebitCardModal debitCardModal =
                             DebitCardModal.fromDocs(snapshot.data.docs[index]);
 
@@ -135,10 +132,13 @@ class _CardsScreenState extends State<CardsScreen> {
                                   CupertinoPageRoute(
                                     builder: (context) => EditCard(
                                       id: debitCardModal.cardId.toString(),
-                                      cardName: debitCardModal.cardName.toString(),
+                                      cardName:
+                                          debitCardModal.cardName.toString(),
                                       cvv: debitCardModal.cvv.toString(),
-                                      expDate: debitCardModal.expDate.toString(),
-                                      cardNumber:debitCardModal.cardNo.toString() ,
+                                      expDate:
+                                          debitCardModal.expDate.toString(),
+                                      cardNumber:
+                                          debitCardModal.cardNo.toString(),
                                     ),
                                   ),
                                 );
@@ -149,7 +149,8 @@ class _CardsScreenState extends State<CardsScreen> {
                                     : null,
                                 cardNumber: debitCardModal.cardNo.toString(),
                                 expiryDate: debitCardModal.expDate.toString(),
-                                cardHolderName: debitCardModal.cardName.toString(),
+                                cardHolderName:
+                                    debitCardModal.cardName.toString(),
                                 cvvCode: debitCardModal.cvv.toString(),
                                 showBackView: isCvvFocused,
                                 obscureCardNumber: true,
@@ -174,34 +175,15 @@ class _CardsScreenState extends State<CardsScreen> {
                                 ],
                               ),
                             ),
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              onTap: () {
-                                CardRepository.cardDetailDelete(context: context, cardId: debitCardModal.cardId.toString());
-                              },
-                              child: Container(
-                                height: 30,
-                                width: 60,
-                                margin: const EdgeInsets.only( top: 10,bottom: 15),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: colorGreen, borderRadius: BorderRadius.circular(5)),
-                                child: Text(
-                                  "Delete",
-                                  style: defaultTextStyle(
-                                      fontColors: colorWhite,
-                                      fontSize: 13.0,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ),
                           ],
                         );
                       },
                     );
                   }
                   return Center(
-                    child: CircularProgressIndicator(color: colorGreen,),
+                    child: CircularProgressIndicator(
+                      color: colorGreen,
+                    ),
                   );
                 },
               ),
@@ -215,7 +197,7 @@ class _CardsScreenState extends State<CardsScreen> {
               child: Container(
                 height: 50,
                 width: 146,
-                margin: const EdgeInsets.only(left: 200, top: 10,bottom: 15),
+                margin: const EdgeInsets.only(left: 200, top: 10, bottom: 15),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     color: colorGreen, borderRadius: BorderRadius.circular(5)),
@@ -233,5 +215,4 @@ class _CardsScreenState extends State<CardsScreen> {
       ),
     );
   }
-
 }

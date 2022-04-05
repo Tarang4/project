@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/constants.dart';
 
@@ -52,11 +53,10 @@ class _ProductContainerState extends State<ProductContainer> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height / 3,
-            width: MediaQuery.of(context).size.width/2,
+            width: MediaQuery.of(context).size.width / 2,
             clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              boxShadow: const [
+            decoration: const BoxDecoration(
+              boxShadow: [
                 BoxShadow(
                     color: colorLightGrey,
                     blurRadius: 5,
@@ -72,7 +72,9 @@ class _ProductContainerState extends State<ProductContainer> {
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 14,
+          ),
           Text(
             name,
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
@@ -82,6 +84,7 @@ class _ProductContainerState extends State<ProductContainer> {
           ),
           Text(
             info,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
                 fontSize: 10, fontWeight: FontWeight.normal, color: colorGrey),
           ),

@@ -171,8 +171,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       ),
                       InkWell(
                         splashColor: Colors.transparent,
-                        onTap: (){
-                          Navigator.push(context, CupertinoPageRoute(builder: (context)=>AccountScreen()));
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => AccountScreen()));
                         },
                         child: Stack(
                           children: [
@@ -408,11 +411,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                     elevation: 4,
                                     child: Container(
                                       clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(5),
-                                      ),
-                                      child: CachedNetworkImage(height: MediaQuery.of(context).size.height/3,
+                                      decoration: BoxDecoration(),
+                                      child: CachedNetworkImage(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                3,
                                         fit: BoxFit.cover,
                                         imageUrl: productModal.images!.img1
                                             .toString(),
@@ -724,11 +727,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ],
               ),
               SizedBox(
-                height: 380,
+                height: 370,
                 child: StreamBuilder(
                     stream: FirebaseFirestore.instance
-                        .collection(FirebaseString.productCollection)
-                        .where("categories", isEqualTo: "2")
+                        .collection(
+                          FirebaseString.productCollection,
+                        )
+                        .where("categories", isEqualTo: "1")
                         .snapshots(),
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot) {
