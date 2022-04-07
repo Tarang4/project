@@ -27,6 +27,7 @@ class _ProductEditState extends State<ProductEdit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 2,
         automaticallyImplyLeading: false,
         backgroundColor: colorWhite,
         title: Text(

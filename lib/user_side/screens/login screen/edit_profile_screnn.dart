@@ -275,7 +275,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           color: Colors.transparent,
                           margin: EdgeInsets.only(top: 15),
                           child: ScrollDatePicker(
-                            style: DatePickerStyle(
+                            style: const DatePickerStyle(
                                 selectedTextStyle: TextStyle(
                                     color: colorGreen,
                                     fontWeight: FontWeight.w500)),
@@ -321,23 +321,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         const SizedBox(
                           height: 29,
                         ),
-                        // TextButton(
-                        //   onPressed: () {
-                        //     // Navigator.push(
-                        //     //     context,
-                        //     //     CupertinoPageRoute(
-                        //     //         builder: (context) => ForgotPassword(
-                        //     //           email: '',
-                        //     //         )));
-                        //   },
-                        //   child: Text(
-                        //     "Forgot Password",
-                        //     style: TextStyle(
-                        //         fontSize: 14.0,
-                        //         fontWeight: FontWeight.w400,
-                        //         color: colorGreen),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),

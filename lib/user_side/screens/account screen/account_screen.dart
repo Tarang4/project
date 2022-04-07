@@ -10,7 +10,6 @@ import '../../../admin/screens/admin_home_screen.dart';
 import '../../../main.dart';
 import '../../config/Localstorage_string.dart';
 import '../../config/app_colors.dart';
-import '../../krish/prectics/home.dart';
 import '../../repository/auth/auth_reposetory.dart';
 import '../../untils/app_fonts.dart';
 import '../../widget/account/account_widget.dart';
@@ -212,10 +211,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     title: "Notifications",
                     icon: "assets/images/icons/Icon_Alert.png",
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
+
                     }),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 50,

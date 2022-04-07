@@ -21,7 +21,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
     double _w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        elevation: 3,
+        elevation: 2,
         automaticallyImplyLeading: false,
         backgroundColor: colorWhite,
         title: Text(
@@ -62,7 +62,6 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                         itemBuilder: (BuildContext context, int index) {
                           UserModal userModal = UserModal.fromJson(
                               snapshot.data.docs[index].data());
-
                           return AnimationConfiguration.staggeredList(
                             position: index,
                             delay: const Duration(milliseconds: 100),
@@ -146,7 +145,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                           heading(title: "Gender"),
                                           description(
                                               description:
-                                                  userModal.gender.toString()=="1"?"Male":"Female")
+                                                  userModal.gender.toString()=="1"?"Female":"Male")
                                         ],
                                       ),
                                       const SizedBox(
@@ -230,9 +229,6 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      TextButton(
-                                          onPressed: () {},
-                                          child: const Text("More"))
                                     ],
                                   ),
                                 ),

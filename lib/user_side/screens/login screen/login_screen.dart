@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   save() async {
     final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
+    await SharedPreferences.getInstance();
     sharedPreferences.setBool("isLogin", true);
   }
 
@@ -42,7 +42,10 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.175,
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.175,
               ),
               Form(
                 key: loginScreenKey,
@@ -151,11 +154,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               suffixIcon: IconButton(
                                 icon: isPassword
                                     ? Icon(
-                                        Icons.visibility,
-                                        color: Colors.black,
-                                      )
+                                  Icons.visibility,
+                                  color: Colors.black,
+                                )
                                     : Icon(Icons.visibility_off,
-                                        color: Colors.black),
+                                    color: Colors.black),
                                 onPressed: () {
                                   setState(() {
                                     isPassword = !isPassword;
@@ -178,10 +181,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: () {
+                              if (loginScreenKey.currentState!.validate()){
                               Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (context) => ForgetScreen()));
+                              context,
+                              CupertinoPageRoute(
+                              builder: (context) => ForgetScreen()));
+                              }
                             },
                             child: Text(
                               "Forgot Password?",
@@ -196,17 +201,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         InkWell(
                           onTap: () async {
                             if (loginScreenKey.currentState!.validate()) {
-
-                                AuthRepository.signIn(
-                                    context: context,
-                                    email: emailController.value.text,
-                                    password: passwordController.value.text);
-
+                              AuthRepository.signIn(
+                                  context: context,
+                                  email: emailController.value.text,
+                                  password: passwordController.value.text);
                             }
                           },
                           child: Container(
                             height: 50,
-                            width: MediaQuery.of(context).size.height,
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .height,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(4),
                               color: colorGreen,
@@ -226,7 +232,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height/3.2,),
+              SizedBox(height: MediaQuery
+                  .of(context)
+                  .size
+                  .height / 3.2,),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: RichText(

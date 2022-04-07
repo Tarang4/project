@@ -11,6 +11,8 @@ import '../../user_side/config/Localstorage_string.dart';
 import '../../user_side/config/app_colors.dart';
 import '../../user_side/screens/login screen/all_type_screnn.dart';
 import '../../user_side/untils/app_fonts.dart';
+import 'notification_admin.dart';
+import 'order_history.dart';
 import 'customerDetails.dart';
 
 class AdminHome extends StatefulWidget {
@@ -60,57 +62,129 @@ class _AdminHomeState extends State<AdminHome> {
                 padding: const EdgeInsets.all(18.0),
                 child: Column(
                   children: [
-                    Text(FirebaseAuth.instance.currentUser!.email.toString()),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => ProductEdit()));
-                      },
-                      child: Container(
-                        height: 50,
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: colorGrey.withOpacity(0.3),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => ProductEdit()));
+                              },
+                              child: Container(
+                                height: 150,
+                                width: 150,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Image.asset("assets/images/icons/search.png",height: 110,)
+                              ),
+                            ),
+                            Text(
+                              "Product Edit",
+                              style: defaultTextStyle(
+                                  fontSize: 18.0,
+                                  fontColors: colorBlack,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
                         ),
-                        child: Text(
-                          "Product Edit",
-                          style: defaultTextStyle(
-                              fontSize: 20.0,
-                              fontColors: colorBlack,
-                              fontWeight: FontWeight.normal),
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => CustomerDetails()));
+                              },
+                              child: Container(
+                                height: 150,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                alignment: Alignment.center,
+                                child: Image.asset("assets/images/icons/team.png",height: 110,)
+                              ),
+                            ),
+                            Text(
+                              "User Information",
+                              style: defaultTextStyle(
+                                  fontSize: 18.0,
+                                  fontColors: colorBlack,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
                         ),
-                      ),
+
+                      ],
                     ),
-                    SizedBox(
-                      height: 14,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => CustomerDetails()));
-                      },
-                      child: Container(
-                        height: 50,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: colorGrey.withOpacity(0.3),
+                    SizedBox(height: 15,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => OrderHistory()));
+                              },
+                              child: Container(
+                                height: 150,
+                                width: 150,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Image.asset("assets/images/icons/online-shopping.png",height: 110,)
+                              ),
+                            ),
+                            Text(
+                              "Order History",
+                              style: defaultTextStyle(
+                                  fontSize: 18.0,
+                                  fontColors: colorBlack,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
                         ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "User Information",
-                          style: defaultTextStyle(
-                              fontSize: 20.0,
-                              fontColors: colorBlack,
-                              fontWeight: FontWeight.normal),
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => NotificationAdmin()));
+                              },
+                              child: Container(
+                                height: 150,
+                                width: 150,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Image.asset("assets/images/icons/gift.png",height: 110,)
+                              ),
+                            ),
+                            Text(
+                              "Nottification",
+                              style: defaultTextStyle(
+                                  fontSize: 18.0,
+                                  fontColors: colorBlack,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
