@@ -387,7 +387,8 @@ class _WishListScreenState extends State<WishListScreen> {
         });
       });
     });
-  }Widget slideLeftBackground() {
+  }
+  Widget slideLeftBackground() {
     return Container(
       color: colorGreen,
       child: Align(

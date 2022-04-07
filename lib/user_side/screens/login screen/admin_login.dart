@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/user_side/untils/toast/flutter_toast_method.dart';
+import '../../../admin/repository/admin_autho_repository.dart';
 import '../../../admin/screens/admin_home_screen.dart';
 import '../../../main.dart';
 import '../../config/Localstorage_string.dart';
@@ -10,6 +11,7 @@ import '../../config/app_colors.dart';
 import '../../untils/app_fonts.dart';
 import '../../untils/loading_dialog/dialog.dart';
 import '../../untils/toast/toast_message.dart';
+import 'forget_screen.dart';
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({Key? key}) : super(key: key);
@@ -171,51 +173,67 @@ class _AdminLoginState extends State<AdminLogin> {
                         const SizedBox(
                           height: 19,
                         ),
+                        Align(alignment: Alignment.centerRight,
+                          child: TextButton(onPressed: (){
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => ForgetScreen(email: emailController.text,)));
+                          }, child: Text(
+                            "Forgot Password?",
+                            style: defaultTextStyle(
+                                fontSize: 14.0, fontWeight: FontWeight.w400),
+                          ),),
+                        ),
                         const SizedBox(
                           height: 25,
                         ),
                         InkWell(
                           onTap: () async {
                             if (loginScreenKey.currentState!.validate()) {
-                              final FirebaseAuth _auth = FirebaseAuth.instance;
-                              User? user;
 
-                              try {
-                                UserCredential userCredential =
-                                    await _auth.signInWithEmailAndPassword(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                );
-                                user = userCredential.user;
-                                if (user != null) {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      CupertinoPageRoute(
-                                          builder: (context) =>
-                                              const AdminHome()));
-                                  pref!.setBool("isAdminLigIn", true);
-                                }
-                              } on FirebaseAuthException catch (e) {
-                                if (e.code == 'user-not-found') {
-                                  hideLoadingDialog(context: context);
-                                  ToastMessage.errorToast(
-                                      context: context,
-                                      description: "Invalid Credentials!");
-                                  debugPrint('No user found for that email.');
-                                } else if (e.code == 'wrong-password') {
-                                  hideLoadingDialog(context: context);
-                                  ToastMessage.errorToast(
-                                      context: context,
-                                      description: "Wrong password provided.");
-                                  debugPrint('Wrong password provided.');
-                                } else {
-                                  hideLoadingDialog(context: context);
-                                  ToastMessage.errorToast(
-                                      context: context,
-                                      description: "error ---- ${e.code}");
-                                  debugPrint("error ---- ${e.code}");
-                                }
-                              }
+                              AdminAuthRepository.adminSignIn(context: context, email: emailController.text, password: passwordController.text, adminId: '');
+
+                              // final FirebaseAuth _auth = FirebaseAuth.instance;
+                              // User? user;
+                              //
+                              // try {
+                              //   UserCredential userCredential =
+                              //       await _auth.signInWithEmailAndPassword(
+                              //     email: emailController.text,
+                              //     password: passwordController.text,
+                              //   );
+                              //   user = userCredential.user;
+                              //   if (user != null) {
+                              //     Navigator.pushReplacement(
+                              //         context,
+                              //         CupertinoPageRoute(
+                              //             builder: (context) =>
+                              //                 const AdminHome()));
+                              //     pref!.setBool("isAdminLigIn", true);
+                              //   }
+                              // } on FirebaseAuthException catch (e) {
+                              //   if (e.code == 'user-not-found') {
+                              //     hideLoadingDialog(context: context);
+                              //     ToastMessage.errorToast(
+                              //         context: context,
+                              //         description: "Invalid Credentials!");
+                              //     debugPrint('No user found for that email.');
+                              //   } else if (e.code == 'wrong-password') {
+                              //     hideLoadingDialog(context: context);
+                              //     ToastMessage.errorToast(
+                              //         context: context,
+                              //         description: "Wrong password provided.");
+                              //     debugPrint('Wrong password provided.');
+                              //   }
+                              //   else {
+                              //     hideLoadingDialog(context: context);
+                              //     ToastMessage.errorToast(
+                              //         context: context,
+                              //         description: "error ---- ${e.code}");
+                              //     debugPrint("error ---- ${e.code}");
+                              //   }
+                              // }
                             }
                           },
                           child: Container(

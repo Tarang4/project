@@ -13,6 +13,7 @@ import '../../config/app_colors.dart';
 import '../../repository/auth/auth_reposetory.dart';
 import '../../untils/app_fonts.dart';
 import '../../widget/account/account_widget.dart';
+import 'treckorder_screen.dart';
 import 'address screen/address_detail.dart';
 import 'cards screen/card_screen.dart';
 
@@ -188,7 +189,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       Navigator.push(
                           context,
                           CupertinoPageRoute(
-                              builder: (context) => const AdminHome()));
+                              builder: (context) => const TrackOrderScreen()));
                     }),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 50,

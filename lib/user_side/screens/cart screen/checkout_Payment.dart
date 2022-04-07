@@ -17,6 +17,7 @@ import 'package:untitled/user_side/screens/cart%20screen/checkout_delivery.dart'
 import 'package:http/http.dart' as http;
 import 'package:untitled/user_side/untils/app_fonts.dart';
 
+import '../../../admin/repository/admin_order_repository.dart';
 import '../../config/FireStore_string.dart';
 import '../../config/app_colors.dart';
 import '../../modal/credit_card_model.dart';
@@ -545,7 +546,25 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
                   children: [
                     InkWell(
                       onTap: () {
-                        OrderRepository.orderAdd(
+                        OrderRepository.orderAddUser(
+                          context: context,
+                          total: widget.total.toString(),
+                          GST: gst.toString(),
+                          discount: "100",
+                          finalTotal: finalprice.toString(),
+                          addressId: widget.addressID.toString(),
+                          cardId: cardID.toString(),
+                          method: method.toString(),
+                          cvv: cvv.toString(),
+                          cardName: cardName.toString(),
+                          cardNo: cardNo.toString(),
+                          expDate: exp_date.toString(),
+                          addressPhone: widget.addPhoneNo.toString(),
+                          address: widget.address.toString(),
+                          addressFullName: widget.addFullName.toString(),
+                          cartList: widget.cartList,
+                        );
+                        AdminOrderRepository.orderAddAdmin(
                           context: context,
                           total: widget.total.toString(),
                           GST: gst.toString(),

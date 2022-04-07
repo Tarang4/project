@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:untitled/user_side/modal/cart_modal.dart';
 
-import '../../modal/address_modal.dart';
-import '../../untils/toast/flutter_toast_method.dart';
-import '../../config/FireStore_string.dart';
+import '../../user_side/config/FireStore_string.dart';
+import '../../user_side/modal/cart_modal.dart';
+import '../../user_side/untils/toast/flutter_toast_method.dart';
 
-class OrderRepository {
-  static orderAddUser({
+class AdminOrderRepository{
+  static orderAddAdmin({
     @required BuildContext? context,
     @required String? total,
     @required String? GST,
@@ -43,8 +41,8 @@ class OrderRepository {
       });
     }
     final CollectionReference _orderCollection = firebaseFirestore
-        .collection(FirebaseString.userCollection)
-        .doc(id)
+        .collection(FirebaseString.adminCollection)
+        .doc("rha4OKCNrwpPoDiDtTvq")
         .collection(FirebaseString.orderCollection);
     DateTime orderDate = DateTime.now();
     String orderId = _orderCollection.doc().id.toString();
@@ -78,34 +76,13 @@ class OrderRepository {
       await _orderCollection.add(orderData);
 
       ToastMethod.simpleToastLightColor(
-          context: context, massage: "✔ Card Added");
+          context: context, massage: "✔ Admin Added");
 
       debugPrint('yes add card');
     } else {
-      ToastMethod.simpleToast(context: context, massage: "no add detail");
+      ToastMethod.simpleToast(context: context, massage: "no add detail admin");
 
       debugPrint('No add card');
     }
   }
-
-
-
-  // static orderDelete({
-  //   @required BuildContext? context,
-  //   @required String? orderId,
-  // }) {
-  //   final FirebaseAuth _auth = FirebaseAuth.instance;
-  //   var id = _auth.currentUser?.uid;
-  //
-  //   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  //
-  //   final CollectionReference _cardCollection = firebaseFirestore
-  //       .collection(FirebaseString.userCollection)
-  //       .doc(id)
-  //       .collection(FirebaseString.cardCollection);
-  //
-  //   _cardCollection.where('cardId', whereIn: [cardId]).get().then((snapshot) {
-  //     snapshot.docs[0].reference.delete();
-  //   });
-  // }
 }
