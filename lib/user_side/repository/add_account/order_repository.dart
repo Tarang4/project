@@ -53,6 +53,9 @@ class OrderRepository {
       "UserId": id,
       "OrderId": orderId,
       "Total": total,
+      "conform": false,
+      "delivered": false,
+      "cancel": false,
       "date": orderDate.toString(),
       "FinalTotal": finalTotal,
       "GST": GST,
@@ -88,24 +91,62 @@ class OrderRepository {
     }
   }
 
+  static orderUpdate({
+    @required BuildContext? context,
+    @required String? orderId,
+    @required bool? cancel,
+    @required bool? conform,
+    @required bool? delivered,
+  }) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    var id = _auth.currentUser?.uid;
 
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  // static orderDelete({
-  //   @required BuildContext? context,
-  //   @required String? orderId,
-  // }) {
-  //   final FirebaseAuth _auth = FirebaseAuth.instance;
-  //   var id = _auth.currentUser?.uid;
-  //
-  //   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  //
-  //   final CollectionReference _cardCollection = firebaseFirestore
-  //       .collection(FirebaseString.userCollection)
-  //       .doc(id)
-  //       .collection(FirebaseString.cardCollection);
-  //
-  //   _cardCollection.where('cardId', whereIn: [cardId]).get().then((snapshot) {
-  //     snapshot.docs[0].reference.delete();
-  //   });
-  // }
+    final CollectionReference _cardCollection = firebaseFirestore
+        .collection(FirebaseString.userCollection)
+        .doc(id)
+        .collection(FirebaseString.orderCollection);
+
+    Map<String, dynamic> orderData = <String, dynamic>{
+      "cancel": cancel==null?false:true,
+      "conform": conform==null?false:true,
+      "delivered": delivered==null?false:true,
+    };
+
+    if (id != null) {
+      _cardCollection.where("OrderId", isEqualTo: orderId).get().then((res) {
+        res.docs.forEach((result) {
+          _cardCollection.doc(result.id).update(orderData);
+        });
+      });
+
+      ToastMethod.simpleToastLightColor(context: context, massage: "✔ Updated");
+
+      debugPrint('yes update card');
+    } else {
+      ToastMethod.simpleToastLightColor(context: context, massage: "no update");
+
+      debugPrint('No update card');
+    }
+  }
+
+// static orderDelete({
+//   @required BuildContext? context,
+//   @required String? orderId,
+// }) {
+//   final FirebaseAuth _auth = FirebaseAuth.instance;
+//   var id = _auth.currentUser?.uid;
+//
+//   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+//
+//   final CollectionReference _cardCollection = firebaseFirestore
+//       .collection(FirebaseString.userCollection)
+//       .doc(id)
+//       .collection(FirebaseString.cardCollection);
+//
+//   _cardCollection.where('cardId', whereIn: [cardId]).get().then((snapshot) {
+//     snapshot.docs[0].reference.delete();
+//   });
+// }
 }

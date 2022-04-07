@@ -51,6 +51,9 @@ class AdminOrderRepository{
       "UserId": id,
       "OrderId": orderId,
       "Total": total,
+      "conform": false,
+      "delivered": false,
+      "cancel": false,
       "date": orderDate.toString(),
       "FinalTotal": finalTotal,
       "GST": GST,
@@ -83,6 +86,45 @@ class AdminOrderRepository{
       ToastMethod.simpleToast(context: context, massage: "no add detail admin");
 
       debugPrint('No add card');
+    }
+  }
+  static orderUpdate({
+    @required BuildContext? context,
+    @required String? orderId,
+    @required bool? cancel,
+    @required bool? conform,
+    @required bool? delivered,
+  }) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    var id = _auth.currentUser?.uid;
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    final CollectionReference _cardCollection = firebaseFirestore
+        .collection(FirebaseString.adminCollection)
+        .doc("rha4OKCNrwpPoDiDtTvq")
+        .collection(FirebaseString.orderCollection);
+
+    Map<String, dynamic> orderData = <String, dynamic>{
+      "cancel": cancel==null?false:true,
+      "conform": conform==null?false:true,
+      "delivered": delivered==null?false:true,
+    };
+
+    if (id != null) {
+      _cardCollection.where("OrderId", isEqualTo: orderId).get().then((res) {
+        res.docs.forEach((result) {
+          _cardCollection.doc(result.id).update(orderData);
+        });
+      });
+
+      ToastMethod.simpleToastLightColor(context: context, massage: "✔ Updated");
+
+      debugPrint('yes update card');
+    } else {
+      ToastMethod.simpleToastLightColor(context: context, massage: "no update");
+
+      debugPrint('No update card');
     }
   }
 }

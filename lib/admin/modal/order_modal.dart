@@ -2,6 +2,9 @@ class OrderModal {
   String? userId;
   String? orderId;
   String? total;
+  bool? conform;
+  bool? delivered;
+  bool? cancel;
   String? date;
   String? finalTotal;
   String? gST;
@@ -15,6 +18,9 @@ class OrderModal {
       {this.userId,
         this.orderId,
         this.total,
+        this.conform,
+        this.delivered,
+        this.cancel,
         this.date,
         this.finalTotal,
         this.gST,
@@ -28,6 +34,9 @@ class OrderModal {
     userId = json['UserId'];
     orderId = json['OrderId'];
     total = json['Total'];
+    conform = json['conform'];
+    delivered = json['delivered'];
+    cancel = json['cancel'];
     date = json['date'];
     finalTotal = json['FinalTotal'];
     gST = json['GST'];
@@ -52,6 +61,9 @@ class OrderModal {
     data['UserId'] = userId;
     data['OrderId'] = orderId;
     data['Total'] = total;
+    data['conform'] = conform;
+    data['delivered'] = delivered;
+    data['cancel'] = cancel;
     data['date'] = date;
     data['FinalTotal'] = finalTotal;
     data['GST'] = gST;
