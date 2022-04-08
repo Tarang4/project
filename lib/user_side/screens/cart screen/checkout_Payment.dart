@@ -53,7 +53,6 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
   late int id;
   int? grpValue;
   String? method;
-
   String? cardID;
   String? cardName;
   String? cardNo;
@@ -69,15 +68,15 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
   bool useBackgroundImage = false;
   OutlineInputBorder? border;
   double? gst;
+  double? discount;
   double? finalprice;
   String? uid;
-  bool isCard = false;
+  bool isCard = true;
 
   bool isCOD = false;
-
-  bool isNET = false;
   Map<String, dynamic>? paymentIntentData;
-  final TextEditingController _cupponController = TextEditingController();
+
+  TextEditingController discountController =TextEditingController();
 
   @override
   void initState() {
@@ -91,7 +90,7 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
   @override
   Widget build(BuildContext context) {
     gst = ((18 * widget.total!) / 100);
-    finalprice = gst! + double.parse(widget.total.toString());
+    finalprice = gst! + double.parse(widget.total.toString())-discount!;
     return WillPopScope(
       onWillPop: () {
         Navigator.pushAndRemoveUntil(
@@ -239,7 +238,7 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
               Container(
                 margin: const EdgeInsets.only(left: 15, right: 15),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Column(
                       children: [
@@ -249,14 +248,13 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
                               _paymentClick(
                                 one: true,
                                 two: false,
-                                three: false,
                               );
                               method = "Card Payment";
                             });
                           },
                           child: Container(
                             height: 45,
-                            width: 100,
+                            width: 150,
                             padding: const EdgeInsets.only(right: 10, left: 6),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
@@ -293,14 +291,13 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
                               _paymentClick(
                                 one: false,
                                 two: true,
-                                three: false,
                               );
                               method = "Cash on Delivery";
                             });
                           },
                           child: Container(
                             height: 50,
-                            width: 100,
+                            width: 150,
                             padding: const EdgeInsets.only(right: 10, left: 6),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
@@ -328,50 +325,6 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
                         ),
                       ],
                     ),
-                    Column(
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _paymentClick(
-                                  one: false,
-                                  two: false,
-                                  three: true,
-                                );
-                                method = "Net Bancking";
-                              });
-                            },
-                            child: Container(
-                              height: 50,
-                              width: 100,
-                              padding:
-                                  const EdgeInsets.only(right: 10, left: 6),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color: isNET == true
-                                      ? colorGreen
-                                      : colorLightGrey,
-                                  width: 1.5,
-                                ),
-                              ),
-                              child: Image.asset(
-                                "assets/images/icons/online-banking.png",
-                                color: isNET == true ? null : colorLightGrey,
-                                height: 30,
-                              ),
-                            )),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "Net Banking",
-                          style: defaultTextStyle(
-                              fontWeight: FontWeight.w300, fontSize: 14.0),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
@@ -383,7 +336,7 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
                 height: 20,
               ),
               Container(
-                height: 234,
+                height: 244,
                 width: double.infinity,
                 margin: const EdgeInsets.all(15),
                 padding: const EdgeInsets.all(15),
@@ -411,6 +364,7 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
                             margin: EdgeInsets.only(left: 8),
                             padding: const EdgeInsets.all(1),
                             child: TextFormField(
+                              controller: discountController,
                               cursorColor: colorGreen,
                               cursorHeight: 18,
                               cursorWidth: 1.2,
@@ -438,7 +392,26 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
                                     borderRadius: BorderRadius.circular(10)),
                                 primary: colorGreen, // background
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                FocusScopeNode currentFocus = FocusScope.of(context);
+                                if (!currentFocus.hasPrimaryFocus) {
+                                  currentFocus.unfocus();
+                                  setState(() {
+                                    if(discountController.text=="SNATCHSHIP"){
+                                      discount=80;
+                                    }
+                                    if(discountController.text=="100LUCKY"){
+                                      discount=100;
+                                    }
+                                    if(discountController.text=="WELCOME200"){
+                                      discount=200;
+                                    }
+                                    else{
+                                      discount=0;
+                                    }
+                                  });
+                                }
+                              },
                               child: Text(
                                 "APPLY",
                                 style: defaultTextStyle(
@@ -449,6 +422,7 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
                         ],
                       ),
                     ),
+                    SizedBox(height: 10,),
                     Container(
                       margin: const EdgeInsets.only(
                           left: 15, right: 15, top: 10, bottom: 10),
@@ -499,10 +473,7 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
                                 fontWeight: FontWeight.w300),
                           ),
                           const Spacer(),
-                          Text(
-                            widget.total.toString(),
-                            style: defaultTextStyle(),
-                          ),
+                            Text(discount.toString(),style: defaultTextStyle(),),
                         ],
                       ),
                     ),
@@ -613,12 +584,10 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
   _paymentClick({
     bool one = false,
     bool two = false,
-    bool three = false,
   }) {
     setState(() {
       isCard = one;
       isCOD = two;
-      isNET = three;
     });
   }
 

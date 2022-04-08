@@ -80,28 +80,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
         products: "1354 Products"),
   ];
   List<ProductModal> productList = [];
-  List<RecoList> recoList = [
-    RecoList(
-        image: "assets/images/reco2.png",
-        name: "Wireless Remote",
-        info: "Tesla Inc",
-        price: "790"),
-    RecoList(
-        image: "assets/images/reco2.png",
-        name: "Airdrops",
-        info: "Apple Inc",
-        price: "120"),
-    RecoList(
-        image: "assets/images/reco1.png",
-        name: "Wireless Remote",
-        info: "Tesla Inc",
-        price: "790"),
-    RecoList(
-        image: "assets/images/reco2.png",
-        name: "Airdrops",
-        info: "Apple Inc",
-        price: "120"),
-  ];
   int pageIndex = 0;
   final pages = [
     const ExploreScreen(),
@@ -465,7 +443,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     } else if (snapshot.hasError) {
                       print("error not found product ${snapshot.hasError}");
                     }
-
                     return const Center(
                         child: CircularProgressIndicator(
                       color: colorGreen,

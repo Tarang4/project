@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/user_side/modal/cart_modal.dart';
+import 'package:untitled/user_side/untils/toast/flutter_toast_method.dart';
 import '../../config/FireStore_string.dart';
 import '../../config/app_colors.dart';
 import '../../modal/address_modal.dart';
@@ -172,7 +173,7 @@ class _CheckAddressState extends State<CheckAddress> {
                     InkWell(
                       splashColor: Colors.transparent,
                       onTap: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const AddNewAddress()));
@@ -260,8 +261,6 @@ class _CheckAddressState extends State<CheckAddress> {
                                             ],
                                           ),
                                           Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               TextButton(
                                                 onPressed: () {
@@ -378,7 +377,11 @@ class _CheckAddressState extends State<CheckAddress> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
+                          if(addressID==null){
+                            ToastMethod.simpleToastLightColorCenter(massage: "Add Your Address !");
+                          }
+                          else {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CheckoutPayment(
@@ -388,6 +391,7 @@ class _CheckAddressState extends State<CheckAddress> {
                                       total: widget.total.toInt(),
                                       addressID: addressID.toString(),
                                       cartList: widget.cartList)));
+                          }
                         },
                         child: Container(
                           height: 50,

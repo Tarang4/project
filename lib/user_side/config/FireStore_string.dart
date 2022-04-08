@@ -11,4 +11,5 @@ class FirebaseString{
   static const String cartListCollection = "UserCartList";
   static const String orderCollection = "orders";
   static const String couponCollection = "coupon";
+  static const String notificationCollection = "notification";
 }

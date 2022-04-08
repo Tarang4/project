@@ -59,7 +59,7 @@ class AdminAuthRepository {
         if (userDetailModel
             .toString()
             .isNotEmpty) {
-          ToastMethod.simpleToastLightColorCenter(
+          ToastMethod.simpleToastLightColor(
               massage: "Welcome to SnatchKart Admin");
           Navigator.pushReplacement(
               context!,

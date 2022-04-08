@@ -218,44 +218,6 @@ class _CheckoutDeliveryState extends State<CheckoutDelivery> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 30,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16, bottom: 10),
-                    child: Text(
-                      "Nominated Delivery",
-                      style: defaultTextStyle(),
-                    ),
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 34),
-                          child: Text(
-                            "Pick a particular date from calender and order will be delivered on selected date",
-                            style: defaultTextStyle(
-                                fontSize: 16.0, fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(right: 16),
-                        alignment: Alignment.topCenter,
-                        child: Radio(
-                            value: 3,
-                            activeColor: colorGreen,
-                            groupValue: grpValue,
-                            onChanged: (int? value) {
-                              setState(() {
-                                grpValue = value!;
-                              });
-                            }),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 30,
-                  ),
                 ],
               ),
             ),

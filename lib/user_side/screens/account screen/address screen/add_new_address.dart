@@ -377,7 +377,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                           },
                           controller: pin,maxLength: 6,
                           textCapitalization: TextCapitalization.sentences,
-                          textInputAction: TextInputAction.next,
+                          textInputAction: TextInputAction.done,
                           keyboardType: TextInputType.number,
                           cursorColor: colorGreen,
                           cursorHeight: 22,
@@ -410,10 +410,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const AddressDetail()));
+                        Navigator.pop(context);
                       });
                     },
                     child: Container(

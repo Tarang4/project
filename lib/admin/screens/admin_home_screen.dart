@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled/admin/screens/notification_screen_addmin.dart';
 import 'package:untitled/admin/screens/product_edit.dart';
 import 'package:untitled/user_side/untils/toast/flutter_toast_method.dart';
 
@@ -11,7 +12,7 @@ import '../../user_side/config/Localstorage_string.dart';
 import '../../user_side/config/app_colors.dart';
 import '../../user_side/screens/login screen/all_type_screnn.dart';
 import '../../user_side/untils/app_fonts.dart';
-import 'notification_admin.dart';
+import 'notification_add_admin.dart';
 import 'order_history.dart';
 import 'customerDetails.dart';
 
@@ -163,7 +164,7 @@ class _AdminHomeState extends State<AdminHome> {
                                 Navigator.push(
                                     context,
                                     CupertinoPageRoute(
-                                        builder: (context) => NotificationAdmin()));
+                                        builder: (context) => NotificationAdminScreen()));
                               },
                               child: Container(
                                 height: 150,

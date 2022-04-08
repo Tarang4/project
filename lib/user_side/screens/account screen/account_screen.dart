@@ -13,6 +13,7 @@ import '../../config/app_colors.dart';
 import '../../repository/auth/auth_reposetory.dart';
 import '../../untils/app_fonts.dart';
 import '../../widget/account/account_widget.dart';
+import 'notification_screen.dart';
 import 'treckorder_screen.dart';
 import 'address screen/address_detail.dart';
 import 'cards screen/card_screen.dart';
@@ -212,7 +213,10 @@ class _AccountScreenState extends State<AccountScreen> {
                     title: "Notifications",
                     icon: "assets/images/icons/Icon_Alert.png",
                     onPressed: () {
-
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const NotificationScreen()));
                     }),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 50,

@@ -194,46 +194,6 @@ class _AdminLoginState extends State<AdminLogin> {
 
                               AdminAuthRepository.adminSignIn(context: context, email: emailController.text, password: passwordController.text, adminId: '');
 
-                              // final FirebaseAuth _auth = FirebaseAuth.instance;
-                              // User? user;
-                              //
-                              // try {
-                              //   UserCredential userCredential =
-                              //       await _auth.signInWithEmailAndPassword(
-                              //     email: emailController.text,
-                              //     password: passwordController.text,
-                              //   );
-                              //   user = userCredential.user;
-                              //   if (user != null) {
-                              //     Navigator.pushReplacement(
-                              //         context,
-                              //         CupertinoPageRoute(
-                              //             builder: (context) =>
-                              //                 const AdminHome()));
-                              //     pref!.setBool("isAdminLigIn", true);
-                              //   }
-                              // } on FirebaseAuthException catch (e) {
-                              //   if (e.code == 'user-not-found') {
-                              //     hideLoadingDialog(context: context);
-                              //     ToastMessage.errorToast(
-                              //         context: context,
-                              //         description: "Invalid Credentials!");
-                              //     debugPrint('No user found for that email.');
-                              //   } else if (e.code == 'wrong-password') {
-                              //     hideLoadingDialog(context: context);
-                              //     ToastMessage.errorToast(
-                              //         context: context,
-                              //         description: "Wrong password provided.");
-                              //     debugPrint('Wrong password provided.');
-                              //   }
-                              //   else {
-                              //     hideLoadingDialog(context: context);
-                              //     ToastMessage.errorToast(
-                              //         context: context,
-                              //         description: "error ---- ${e.code}");
-                              //     debugPrint("error ---- ${e.code}");
-                              //   }
-                              // }
                             }
                           },
                           child: Container(

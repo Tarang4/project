@@ -416,7 +416,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
                           },
                           controller: pin,maxLength: 6,
                           textCapitalization: TextCapitalization.sentences,
-                          textInputAction: TextInputAction.next,
+                          textInputAction: TextInputAction.done,
                           keyboardType: TextInputType.number,
                           cursorColor: colorGreen,
                           cursorHeight: 22,
