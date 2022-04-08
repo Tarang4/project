@@ -14,7 +14,8 @@ class NotificationAdminScreen extends StatefulWidget {
   const NotificationAdminScreen({Key? key}) : super(key: key);
 
   @override
-  _NotificationAdminScreenState createState() => _NotificationAdminScreenState();
+  _NotificationAdminScreenState createState() =>
+      _NotificationAdminScreenState();
 }
 
 class _NotificationAdminScreenState extends State<NotificationAdminScreen> {
@@ -54,87 +55,118 @@ class _NotificationAdminScreenState extends State<NotificationAdminScreen> {
       ),
       body: SafeArea(
           child: Column(
-            children: [
-              Expanded(
-                child: AnimationLimiter(
-                  child: StreamBuilder(
-                    stream: FirebaseFirestore.instance.collection(FirebaseString.adminCollection).doc("rha4OKCNrwpPoDiDtTvq")
-                        .collection(FirebaseString.notificationCollection)
-                        .snapshots(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                      if (snapshot.hasData) {
-                        return ListView.builder(
-                          padding: EdgeInsets.all(10),
-                          physics: const BouncingScrollPhysics(
-                              parent: AlwaysScrollableScrollPhysics()),
-                          itemCount: snapshot.data.docs.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            NotificationModal modal = NotificationModal.fromJson(
-                                snapshot.data.docs[index].data());
-                            return AnimationConfiguration.staggeredList(
-                              position: index,
-                              delay: const Duration(milliseconds: 100),
-                              child: SlideAnimation(
-                                duration: const Duration(milliseconds: 2500),
-                                curve: Curves.fastLinearToSlowEaseIn,
-                                verticalOffset: -250,
-                                child: ScaleAnimation(
-                                  duration: const Duration(milliseconds: 1500),
-                                  curve: Curves.fastLinearToSlowEaseIn,
-                                  child: Container(
-                                    margin: const EdgeInsets.only(bottom: 15),
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(16)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-                                          blurRadius: 40,
-                                          spreadRadius: 10,
-                                        ),
-                                      ],
+        children: [
+          Expanded(
+            child: AnimationLimiter(
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection(FirebaseString.adminCollection)
+                    .doc("rha4OKCNrwpPoDiDtTvq")
+                    .collection(FirebaseString.notificationCollection)
+                    .snapshots(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      padding: EdgeInsets.all(10),
+                      physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      itemCount: snapshot.data.docs.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        NotificationModal modal = NotificationModal.fromJson(
+                            snapshot.data.docs[index].data());
+                        return AnimationConfiguration.staggeredList(
+                          position: index,
+                          delay: const Duration(milliseconds: 100),
+                          child: SlideAnimation(
+                            duration: const Duration(milliseconds: 2500),
+                            curve: Curves.fastLinearToSlowEaseIn,
+                            verticalOffset: -250,
+                            child: ScaleAnimation(
+                              duration: const Duration(milliseconds: 1500),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 15),
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(16)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 40,
+                                      spreadRadius: 10,
                                     ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-
-                                        Text(modal.title.toString()),
-                                        TextButton(onPressed: () { NotificationRepository.deleteNotification(notificationId: modal.notificationId.toString()); },
-                                        child: Text("delete")),
-                                        const SizedBox(
-                                          height:10 ,
+                                        Text(
+                                          modal.title.toString(),
+                                          style: defaultTextStyle(),
                                         ),
-                                        Text(modal.description.toString()),
-                                        Text(modal.notificationDate.toString()),
-                                        Text(modal.notificationTime.toString()),
-                                        Text(modal.notificationId.toString()),
-
+                                        IconButton(
+                                            onPressed: () {
+                                              NotificationRepository
+                                                  .deleteNotification(
+                                                      notificationId: modal
+                                                          .notificationId
+                                                          .toString());
+                                            },
+                                            icon: const Icon(
+                                              Icons.cancel_rounded,
+                                              color: colorGrey,
+                                            ))
                                       ],
                                     ),
-                                  ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(modal.description.toString()),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(modal.notificationDate.toString(),
+                                            style: defaultTextStyle(
+                                                fontSize: 10.0,
+                                                fontWeight: FontWeight.w300,
+                                                fontColors: colorGrey)),
+                                        Text(
+                                          modal.notificationTime.toString(),
+                                          style: defaultTextStyle(
+                                              fontSize: 10.0,
+                                              fontWeight: FontWeight.w500,
+                                              fontColors: colorGrey),
+                                        ),
+                                      ],
+                                    )
+                                  ],
                                 ),
                               ),
-                            );
-                          },
+                            ),
+                          ),
                         );
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: colorGreen,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              )
-            ],
+                      },
+                    );
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: colorGreen,
+                    ),
+                  );
+                },
+              ),
+            ),
           )
-      ),
+        ],
+      )),
     );
   }
 }
-

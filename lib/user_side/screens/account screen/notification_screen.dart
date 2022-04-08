@@ -8,7 +8,6 @@ import '../../config/FireStore_string.dart';
 import '../../config/app_colors.dart';
 import '../../untils/app_fonts.dart';
 
-
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
 
@@ -43,88 +42,103 @@ class _NotificationScreenState extends State<NotificationScreen> {
           },
         ),
       ),
-
       body: SafeArea(
           child: Column(
-            children: [
-              Expanded(
-                child: AnimationLimiter(
-                  child: StreamBuilder(
-                    stream: FirebaseFirestore.instance.collection(FirebaseString.adminCollection).doc("rha4OKCNrwpPoDiDtTvq")
-                        .collection(FirebaseString.notificationCollection).orderBy('notificationDate', descending: true)
-                        .snapshots(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                      if (snapshot.hasData) {
-                        return ListView.builder(
-                          padding: EdgeInsets.all(10),
-                          physics: const BouncingScrollPhysics(
-                              parent: AlwaysScrollableScrollPhysics()),
-                          itemCount: snapshot.data.docs.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            NotificationModal modal = NotificationModal.fromJson(
-                                snapshot.data.docs[index].data());
-                            return AnimationConfiguration.staggeredList(
-                              position: index,
-                              delay: const Duration(milliseconds: 100),
-                              child: SlideAnimation(
-                                duration: const Duration(milliseconds: 2500),
-                                curve: Curves.fastLinearToSlowEaseIn,
-                                verticalOffset: -250,
-                                child: ScaleAnimation(
-                                  duration: const Duration(milliseconds: 1500),
-                                  curve: Curves.fastLinearToSlowEaseIn,
-                                  child: Container(
-                                    margin: const EdgeInsets.only(bottom: 15),
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(16)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-                                          blurRadius: 40,
-                                          spreadRadius: 10,
-                                        ),
-                                      ],
+        children: [
+          Expanded(
+            child: AnimationLimiter(
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection(FirebaseString.adminCollection)
+                    .doc("rha4OKCNrwpPoDiDtTvq")
+                    .collection(FirebaseString.notificationCollection)
+                    .orderBy('notificationDate', descending: true)
+                    .snapshots(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      padding: EdgeInsets.all(10),
+                      physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      itemCount: snapshot.data.docs.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        NotificationModal modal = NotificationModal.fromJson(
+                            snapshot.data.docs[index].data());
+                        return AnimationConfiguration.staggeredList(
+                          position: index,
+                          delay: const Duration(milliseconds: 100),
+                          child: SlideAnimation(
+                            duration: const Duration(milliseconds: 2500),
+                            curve: Curves.fastLinearToSlowEaseIn,
+                            verticalOffset: -250,
+                            child: ScaleAnimation(
+                              duration: const Duration(milliseconds: 1500),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 15),
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(16)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 40,
+                                      spreadRadius: 10,
                                     ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      modal.title.toString(),
+                                      style: defaultTextStyle(),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(modal.description.toString()),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-
-                                        Text(modal.title.toString()),
-                                        const SizedBox(
-                                          height:10 ,
+                                        Text(modal.notificationDate.toString(),
+                                            style: defaultTextStyle(
+                                                fontSize: 10.0,
+                                                fontWeight: FontWeight.w300,
+                                                fontColors: colorGrey)),
+                                        Text(
+                                          modal.notificationTime.toString(),
+                                          style: defaultTextStyle(
+                                              fontSize: 10.0,
+                                              fontWeight: FontWeight.w500,
+                                              fontColors: colorGrey),
                                         ),
-                                        Text(modal.description.toString()),
-                                        Text(modal.notificationDate.toString()),
-                                        Text(modal.notificationTime.toString()),
-                                        Text(modal.notificationId.toString()),
-
                                       ],
-                                    ),
-                                  ),
+                                    )
+                                  ],
                                 ),
                               ),
-                            );
-                          },
+                            ),
+                          ),
                         );
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: colorGreen,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              )
-            ],
+                      },
+                    );
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: colorGreen,
+                    ),
+                  );
+                },
+              ),
+            ),
           )
-      ),
+        ],
+      )),
     );
   }
 }
-

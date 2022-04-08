@@ -73,7 +73,6 @@ class _NotificationAdminState extends State<NotificationAdmin> {
                         ),
                       ),
                     ),
-
                     const SizedBox(
                       height: 15,
                     ),
@@ -101,9 +100,12 @@ class _NotificationAdminState extends State<NotificationAdmin> {
                 ),
               ),
               InkWell(
-                onTap: (){
-                  if(_formkeyNotification.currentState!.validate()){
-NotificationRepository.notificationAdd(context: context, title: notiTitle.text, disc: notiDisc.text);
+                onTap: () {
+                  if (_formkeyNotification.currentState!.validate()) {
+                    NotificationRepository.notificationAdd(
+                        context: context,
+                        title: notiTitle.text,
+                        disc: notiDisc.text);
                   }
                 },
                 child: Container(
@@ -116,8 +118,7 @@ NotificationRepository.notificationAdd(context: context, title: notiTitle.text, 
                   child: Text(
                     "Confirm",
                     style: defaultTextStyle(
-                        fontColors: colorWhite,
-                        fontWeight: FontWeight.w400),
+                        fontColors: colorWhite, fontWeight: FontWeight.w400),
                   ),
                 ),
               )
