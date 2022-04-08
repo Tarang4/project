@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/admin/repository/notification_repository.dart';
 import '../../user_side/config/app_colors.dart';
 import '../../user_side/untils/app_fonts.dart';
 
@@ -72,26 +73,7 @@ class _NotificationAdminState extends State<NotificationAdmin> {
                         ),
                       ),
                     ),
-                    TextFormField(
-                      cursorColor: colorGreen,
-                      controller: notiDisc,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please Enter Discription';
-                        }
-                      },
-                      decoration: InputDecoration(
-                        label: Text("NotiFication Discription",
-                            style: defaultTextStyle(
-                                fontSize: 17.0, fontColors: colorGreen)),
-                        border: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: colorGreen),
-                        ),
-                        focusedBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: colorGreen),
-                        ),
-                      ),
-                    ),
+
                     const SizedBox(
                       height: 15,
                     ),
@@ -121,7 +103,7 @@ class _NotificationAdminState extends State<NotificationAdmin> {
               InkWell(
                 onTap: (){
                   if(_formkeyNotification.currentState!.validate()){
-
+NotificationRepository.notificationAdd(context: context, title: notiTitle.text, disc: notiDisc.text);
                   }
                 },
                 child: Container(
