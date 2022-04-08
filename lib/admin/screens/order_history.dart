@@ -20,8 +20,8 @@ class OrderHistory extends StatefulWidget {
 }
 
 class _OrderHistoryState extends State<OrderHistory> {
-  late bool orderConfirm;
-  late bool isDeliverd;
+   bool? orderConfirm=false;
+   bool? isDeliverd=false;
   List<UserModal> userList = [];
   List<OrderModal> orderList = [];
 
@@ -321,7 +321,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                               onTap: () {
                                                 confirmAlert();
                                               },
-                                              child: orderConfirm
+                                              child: orderConfirm==false
                                                   ? Container(
                                                 height: 30,
                                                 width: 100,
@@ -367,7 +367,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                               onTap: () {
                                                 deliverdAlert();
                                               },
-                                              child: isDeliverd
+                                              child: isDeliverd==false
                                                   ? Container(
                                                 height: 30,
                                                 width: 100,
@@ -453,12 +453,12 @@ class _OrderHistoryState extends State<OrderHistory> {
         ),
         btnOkOnPress: () {
           setState(() {
-            orderConfirm=false;
+            orderConfirm=true;
           });
         },
         btnCancelOnPress: () {
           setState(() {
-            orderConfirm=true;
+            orderConfirm=false;
           });
         })
         .show();
@@ -476,12 +476,12 @@ class _OrderHistoryState extends State<OrderHistory> {
         ),
         btnOkOnPress: () {
           setState(() {
-            isDeliverd=false;
+            isDeliverd=true;
           });
         },
         btnCancelOnPress: () {
           setState(() {
-            isDeliverd=true;
+            isDeliverd=false;
           });
         })
         .show();
