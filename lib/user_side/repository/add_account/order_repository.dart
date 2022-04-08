@@ -3,8 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/user_side/modal/cart_modal.dart';
-
-import '../../modal/address_modal.dart';
+import 'package:intl/intl.dart';
 import '../../untils/toast/flutter_toast_method.dart';
 import '../../config/FireStore_string.dart';
 
@@ -29,7 +28,6 @@ class OrderRepository {
   }) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     var id = _auth.currentUser?.uid;
-    // Future<List<AddressModal>> addresData= getUserAddress(addressId: addressId);
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     List? listOfCart = [];
     for (int i = 0; i < cartList!.length; i++) {
@@ -39,14 +37,23 @@ class OrderRepository {
         "productName": cartModal.productName.toString(),
         "PID": cartModal.productId.toString(),
         "CartId": cartModal.addId.toString(),
-        "productPrice": cartModal.productPrice.toString()
+        "productPrice": cartModal.productPrice.toString(),
+        "color": cartModal.productColor.toString(),
+        "size": cartModal.productSize.toString()
       });
     }
     final CollectionReference _orderCollection = firebaseFirestore
         .collection(FirebaseString.userCollection)
         .doc(id)
         .collection(FirebaseString.orderCollection);
-    DateTime orderDate = DateTime.now();
+    DateTime dateTime = DateTime.now();
+
+    final DateFormat formatter = DateFormat.yMMMMd('en_US');
+    final DateFormat formatterTime = DateFormat.jm();
+
+    final String orderDate = formatter.format(dateTime);
+    final String orderTime = formatterTime.format(dateTime);
+
     String orderId = _orderCollection.doc().id.toString();
 
     Map<String, dynamic> orderData = <String, dynamic>{
@@ -56,7 +63,8 @@ class OrderRepository {
       "conform": false,
       "delivered": false,
       "cancel": false,
-      "date": orderDate.toString(),
+      "orderDate": orderDate.toString(),
+      "orderTime": orderTime.toString(),
       "FinalTotal": finalTotal,
       "GST": GST,
       "Discount": discount,
@@ -66,15 +74,15 @@ class OrderRepository {
         "addId": addressId,
         "fullName": addressFullName,
         "Address": address,
-        "phoneNo": addressPhone,
+        "phoneNo": addressPhone
       },
       "CardDetail": {
         "cardId": cardId,
         "cardName": cardName,
         "cardNo": cardNo,
         "exp_date": expDate,
-        "cvv": cvv,
-      },
+        "cvv": cvv
+      }
     };
 
     if (id != null) {

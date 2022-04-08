@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import '../../user_side/config/FireStore_string.dart';
 import '../../user_side/modal/cart_modal.dart';
 import '../../user_side/untils/toast/flutter_toast_method.dart';
-
+  import 'package:intl/intl.dart';
 class AdminOrderRepository{
   static orderAddAdmin({
     @required BuildContext? context,
@@ -37,14 +37,23 @@ class AdminOrderRepository{
         "productName": cartModal.productName.toString(),
         "PID": cartModal.productId.toString(),
         "CartId": cartModal.addId.toString(),
-        "productPrice": cartModal.productPrice.toString()
+        "productPrice": cartModal.productPrice.toString(),
+        "color": cartModal.productColor.toString(),
+        "size": cartModal.productSize.toString(),
       });
     }
     final CollectionReference _orderCollection = firebaseFirestore
         .collection(FirebaseString.adminCollection)
         .doc("rha4OKCNrwpPoDiDtTvq")
         .collection(FirebaseString.orderCollection);
-    DateTime orderDate = DateTime.now();
+    DateTime dateTime = DateTime.now();
+
+    final DateFormat formatter = DateFormat.yMMMMd('en_US');
+    final DateFormat formatterTime = DateFormat.jm();
+
+    final String orderDate = formatter.format(dateTime);
+    final String orderTime = formatterTime.format(dateTime);
+
     String orderId = _orderCollection.doc().id.toString();
 
     Map<String, dynamic> orderData = <String, dynamic>{
@@ -54,7 +63,8 @@ class AdminOrderRepository{
       "conform": false,
       "delivered": false,
       "cancel": false,
-      "date": orderDate.toString(),
+      "orderDate": orderDate.toString(),
+      "orderTime": orderTime.toString(),
       "FinalTotal": finalTotal,
       "GST": GST,
       "Discount": discount,

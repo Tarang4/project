@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/admin/modal/order_modal.dart';
 import 'package:untitled/user_side/modal/product_modal.dart';
+import 'package:untitled/user_side/untils/toast/flutter_toast_method.dart';
 import '../../../main.dart';
 import '../../config/FireStore_string.dart';
 import '../../config/Localstorage_string.dart';
@@ -38,12 +39,12 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
   getOrderData() async {
     OrderModal orderModal = OrderModal();
     String usrId = pref!.getString(LocalStorageKey.userId)!;
-
+try{
     await FirebaseFirestore.instance
         .collection("Users")
         .doc(usrId)
         .collection("orders")
-        .orderBy('date', descending: true)
+        .orderBy('orderDate', descending: true)
         .get()
         .then(
       (value) {
@@ -53,8 +54,10 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
             orderList.add(orderModal);
           });
         }
-      },
-    );
+      });}catch(e){
+  ToastMethod.simpleToast(massage: "error $e");
+}
+
   }
 
   @override
@@ -105,7 +108,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        orderModalPrint.date.toString(),
+                        orderModalPrint.orderDate.toString(),
                         style: defaultTextStyle(
                             fontSize: 17.0, fontWeight: FontWeight.w400),
                       ),
@@ -163,6 +166,16 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                                 fontSize: 14.0,
                                                 fontColors: colorGreen,
                                                 fontWeight: FontWeight.w400),
+                                          ), const SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text(
+                                            " ${orderModalPrint.productDetail![indexx].size.toString()}",
+                                            style: defaultTextStyle(
+                                                fontSize: 14.0,
+                                                fontColors: colorBlack,
+                                                fontWeight:
+                                                FontWeight.w400),
                                           ),
                                         ],
                                       ),
@@ -261,7 +274,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                             fontWeight: FontWeight.w400),
                                       )
                                     : Text(
-                                        "Delete Order",
+                                        "Cancel Order",
                                         style: defaultTextStyle(
                                             fontSize: 15.0,
                                             fontColors: Colors.white,

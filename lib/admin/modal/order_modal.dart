@@ -5,7 +5,8 @@ class OrderModal {
   bool? conform;
   bool? delivered;
   bool? cancel;
-  String? date;
+  String? orderDate;
+  String? orderTime;
   String? finalTotal;
   String? gST;
   String? discount;
@@ -21,7 +22,8 @@ class OrderModal {
         this.conform,
         this.delivered,
         this.cancel,
-        this.date,
+        this.orderDate,
+        this.orderTime,
         this.finalTotal,
         this.gST,
         this.discount,
@@ -37,7 +39,8 @@ class OrderModal {
     conform = json['conform'];
     delivered = json['delivered'];
     cancel = json['cancel'];
-    date = json['date'];
+    orderDate = json['orderDate'];
+    orderTime = json['orderTime'];
     finalTotal = json['FinalTotal'];
     gST = json['GST'];
     discount = json['Discount'];
@@ -57,14 +60,15 @@ class OrderModal {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['UserId'] = userId;
     data['OrderId'] = orderId;
     data['Total'] = total;
     data['conform'] = conform;
     data['delivered'] = delivered;
     data['cancel'] = cancel;
-    data['date'] = date;
+    data['orderDate'] = orderDate;
+    data['orderTime'] = orderTime;
     data['FinalTotal'] = finalTotal;
     data['GST'] = gST;
     data['Discount'] = discount;
@@ -89,13 +93,17 @@ class ProductDetail {
   String? pID;
   String? cartId;
   String? productPrice;
+  String? color;
+  String? size;
 
   ProductDetail(
       {this.productImage,
         this.productName,
         this.pID,
         this.cartId,
-        this.productPrice});
+        this.productPrice,
+        this.color,
+        this.size});
 
   ProductDetail.fromJson(Map<String, dynamic> json) {
     productImage = json['productImage'];
@@ -103,15 +111,19 @@ class ProductDetail {
     pID = json['PID'];
     cartId = json['CartId'];
     productPrice = json['productPrice'];
+    color = json['color'];
+    size = json['size'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['productImage'] = productImage;
     data['productName'] = productName;
     data['PID'] = pID;
     data['CartId'] = cartId;
     data['productPrice'] = productPrice;
+    data['color'] = color;
+    data['size'] = size;
     return data;
   }
 }
@@ -132,7 +144,7 @@ class AddressDetail {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['addId'] = addId;
     data['fullName'] = fullName;
     data['Address'] = address;
@@ -159,7 +171,7 @@ class CardDetail {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['cardId'] = cardId;
     data['cardName'] = cardName;
     data['cardNo'] = cardNo;
