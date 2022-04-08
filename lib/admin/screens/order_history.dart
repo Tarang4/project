@@ -1,11 +1,15 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:expandable/expandable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/admin/modal/order_modal.dart';
 import '../../user_side/config/FireStore_string.dart';
 import '../../user_side/config/app_colors.dart';
 import '../../user_side/modal/user_model.dart';
+import '../../user_side/repository/auth/auth_reposetory.dart';
 import '../../user_side/untils/app_fonts.dart';
 
 class OrderHistory extends StatefulWidget {
@@ -16,7 +20,8 @@ class OrderHistory extends StatefulWidget {
 }
 
 class _OrderHistoryState extends State<OrderHistory> {
-  bool orderConfirm = true;
+  late bool orderConfirm;
+  late bool isDeliverd;
   List<UserModal> userList = [];
   List<OrderModal> orderList = [];
 
@@ -68,9 +73,9 @@ class _OrderHistoryState extends State<OrderHistory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
+        elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: colorWhite,
+        backgroundColor: colorWhite.withOpacity(0.2),
         title: Text(
           "Order History",
           style: defaultTextStyle(
@@ -90,10 +95,11 @@ class _OrderHistoryState extends State<OrderHistory> {
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             ListView.builder(
-                physics: const BouncingScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
                 itemCount: orderList.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
@@ -106,19 +112,23 @@ class _OrderHistoryState extends State<OrderHistory> {
                     child: ExpandableNotifier(
                         child: Padding(
                       padding: const EdgeInsets.all(10),
-                      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            orderModalPrint.orderDate.toString(), style: defaultTextStyle(
-                              fontSize: 18.0,
-                              fontColors: Colors.black,
-                              fontWeight:
-                              FontWeight.w600),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              orderModalPrint.orderDate.toString(), style: defaultTextStyle(
+                                fontSize: 18.0,
+                                fontColors: Colors.black,
+                                fontWeight:
+                                FontWeight.w600),
+                            ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 15,
                           ),
                           Card(
+                            elevation: 7,
                             clipBehavior: Clip.antiAlias,
                             child: Column(
                               children: <Widget>[
@@ -157,7 +167,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                                   height: 5,
                                                 ),
                                                 Text(
-                                                  "\$ ${orderModalPrint.productDetail![indexx].productPrice.toString()}",
+                                                  "₹ ${orderModalPrint.productDetail![indexx].productPrice.toString()}",
                                                   style: defaultTextStyle(
                                                       fontSize: 14.0,
                                                       fontColors: colorGreen,
@@ -183,10 +193,10 @@ class _OrderHistoryState extends State<OrderHistory> {
                                                       width: 20,
                                                     ),
                                                     Container(
+                                                      height: 15,
+                                                      width: 15,
                                                       decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5),
+                                                        shape: BoxShape.circle,
                                                         color: Color(int.parse(
                                                             orderModalPrint
                                                                 .productDetail![
@@ -194,8 +204,6 @@ class _OrderHistoryState extends State<OrderHistory> {
                                                                 .color
                                                                 .toString())),
                                                       ),
-                                                      height: 12,
-                                                      width: 60,
                                                     )
                                                   ],
                                                 ),
@@ -243,7 +251,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     header: Padding(
                                         padding: const EdgeInsets.all(10),
                                         child: Text(
-                                          "Order Id : ${orderModalPrint.orderId.toString()}",
+                                          "Order ID : ${orderModalPrint.orderId.toString()}",
                                           style:
                                               defaultTextStyle(fontSize: 14.0),
                                         )),
@@ -258,119 +266,150 @@ class _OrderHistoryState extends State<OrderHistory> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          "user Name : ${orderModalPrint.addressDetail!.fullName.toString()}",
+                                          "User Name : ${orderModalPrint.addressDetail!.fullName.toString()}",
                                           style:
-                                              defaultTextStyle(fontSize: 14.0),
+                                              defaultTextStyle(fontSize: 14.0,fontWeight: FontWeight.w500),
                                         ),
                                         Text(
-                                          "Method ${orderModalPrint.method.toString()}",
+                                          "Method : ${orderModalPrint.method.toString()}",
                                           style: defaultTextStyle(
                                             fontSize: 14.0,
+                                              fontWeight: FontWeight.w500
                                           ),
                                         ),
                                         Text(
-                                          "total : ${orderModalPrint.total.toString()}",
+                                          "Total : ${orderModalPrint.total.toString()}",
+                                          style:
+                                              defaultTextStyle(fontSize: 14.0,fontWeight: FontWeight.w500),
+                                        ),
+                                        Text(
+                                          "Discount : ${orderModalPrint.discount.toString()}",
+                                          style:
+                                              defaultTextStyle(fontSize: 14.0,fontWeight: FontWeight.w500),
+                                        ),
+                                        Text(
+                                          "18% GST : ${orderModalPrint.gST.toString()}",
+                                          style:
+                                              defaultTextStyle(fontSize: 14.0,fontWeight: FontWeight.w500),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.only(top: 8,bottom: 8),
+                                          child: DottedLine(dashColor: colorGreen),
+                                        ),
+                                        Text(
+                                          "Order Price : ${orderModalPrint.finalTotal.toString()}\n",
+                                          style:
+                                              defaultTextStyle(fontSize: 14.0,fontWeight: FontWeight.w700),
+                                        ),
+                                        Text(
+                                          "Address : \n${orderModalPrint.addressDetail!.address.toString()} \n",
                                           style:
                                               defaultTextStyle(fontSize: 14.0),
                                         ),
                                         Text(
-                                          "Discount: ${orderModalPrint.discount.toString()}",
-                                          style:
-                                              defaultTextStyle(fontSize: 14.0),
-                                        ),
-                                        Text(
-                                          "18% GST: ${orderModalPrint.gST.toString()}",
-                                          style:
-                                              defaultTextStyle(fontSize: 14.0),
-                                        ),
-                                        Text(
-                                          "-----------------------------------------------",
-                                          style:
-                                              defaultTextStyle(fontSize: 18.0),
-                                        ),
-                                        Text(
-                                          "Order Price : ${orderModalPrint.finalTotal.toString()}",
-                                          style:
-                                              defaultTextStyle(fontSize: 14.0),
-                                        ),
-                                        Text(
-                                          "Card Number :${orderModalPrint.cardDetail!.cardNo.toString()} ",
-                                          style:
-                                              defaultTextStyle(fontSize: 14.0),
-                                        ),
-                                        Text(
-                                          "CVV :${orderModalPrint.cardDetail!.cvv.toString()}   Exp Date:${orderModalPrint.cardDetail!.expDate.toString()}",
-                                          style:
-                                              defaultTextStyle(fontSize: 14.0),
-                                        ),
-                                        Text(
-                                          "Card Detaile: ${orderModalPrint.cardDetail!.cardName.toString()}",
+                                          "Mobile No : ${orderModalPrint.addressDetail!.phoneNo.toString()}",
                                           style: defaultTextStyle(
                                               fontSize: 14.0,
-                                              fontWeight: FontWeight.w300),
-                                        ),
-                                        Text(
-                                          "Address Delevered Name :${orderModalPrint.addressDetail!.fullName.toString()} ",
-                                          style:
-                                              defaultTextStyle(fontSize: 14.0),
-                                        ),
-                                        Text(
-                                          "Address :${orderModalPrint.addressDetail!.address.toString()} ",
-                                          style:
-                                              defaultTextStyle(fontSize: 14.0),
-                                        ),
-                                        Text(
-                                          "Mobile No:${orderModalPrint.addressDetail!.phoneNo.toString()}",
-                                          style: defaultTextStyle(
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.w300),
+                                              fontWeight: FontWeight.w700),
                                         ),
                                         const SizedBox(
                                           height: 15,
                                         ),
-                                        InkWell(
-                                          onTap: () {},
-                                          child: orderConfirm
-                                              ? Container(
-                                                  height: 25,
-                                                  width: 100,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      color: colorGreen,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      border: Border.all(
-                                                          width: 1,
-                                                          color: colorGreen)),
-                                                  child: Text(
-                                                    "CONFIRM",
-                                                    style: defaultTextStyle(
-                                                        fontSize: 14.0,
-                                                        fontColors: colorWhite,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                )
-                                              : Container(
-                                                  height: 25,
-                                                  width: 100,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      border: Border.all(
-                                                          width: 1,
-                                                          color: colorGreen)),
-                                                  child: Text(
-                                                    "✓ CHECKED",
-                                                    style: defaultTextStyle(
-                                                        fontSize: 14.0,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
+                                        Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                confirmAlert();
+                                              },
+                                              child: orderConfirm
+                                                  ? Container(
+                                                height: 30,
+                                                width: 100,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.redAccent,
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        10),
+                                                    border: Border.all(
+                                                        width: 1,color: Colors.redAccent)),
+                                                child: Text(
+                                                  "CONFIRM",
+                                                  style: defaultTextStyle(
+                                                      fontSize: 14.0,
+                                                      fontColors: colorWhite,
+                                                      fontWeight:
+                                                      FontWeight.w500),
                                                 ),
+                                              )
+                                                  : Container(
+                                                height: 30,
+                                                width: 100,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        10),
+                                                    border: Border.all(
+                                                        width: 1,
+                                                        color: colorGreen)),
+                                                child: Text(
+                                                  "✓ DONE",
+                                                  style: defaultTextStyle(
+                                                      fontSize: 14.0,
+                                                      fontWeight:
+                                                      FontWeight.w500),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 10,),
+                                            InkWell(
+                                              onTap: () {
+                                                deliverdAlert();
+                                              },
+                                              child: isDeliverd
+                                                  ? Container(
+                                                height: 30,
+                                                width: 100,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.redAccent,
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        10),
+                                                    border: Border.all(
+                                                        width: 1,
+                                                        color: Colors.redAccent)),
+                                                child: Text(
+                                                  "DELIVERD",
+                                                  style: defaultTextStyle(
+                                                      fontSize: 14.0,
+                                                      fontColors: colorWhite,
+                                                      fontWeight:
+                                                      FontWeight.w500),
+                                                ),
+                                              )
+                                                  : Container(
+                                                height: 30,
+                                                width: 100,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        10),
+                                                    border: Border.all(
+                                                        width: 1,
+                                                        color: colorGreen)),
+                                                child: Text(
+                                                  "✓ DONE ",
+                                                  style: defaultTextStyle(
+                                                      fontSize: 14.0,
+                                                      fontWeight:
+                                                      FontWeight.w500),
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         )
                                       ],
                                     ),
@@ -400,5 +439,51 @@ class _OrderHistoryState extends State<OrderHistory> {
         ),
       ),
     );
+  }
+  confirmAlert() {
+    AwesomeDialog(
+        context: context,
+        animType: AnimType.SCALE,
+        dialogType: DialogType.QUESTION,
+        body: const Center(
+          child: Text(
+            "Order Confirm !!",
+            style: TextStyle(fontSize: 15),
+          ),
+        ),
+        btnOkOnPress: () {
+          setState(() {
+            orderConfirm=false;
+          });
+        },
+        btnCancelOnPress: () {
+          setState(() {
+            orderConfirm=true;
+          });
+        })
+        .show();
+  }
+  deliverdAlert() {
+    AwesomeDialog(
+        context: context,
+        animType: AnimType.SCALE,
+        dialogType: DialogType.QUESTION,
+        body: const Center(
+          child: Text(
+            "Product Deliverd !!",
+            style: TextStyle(fontSize: 15),
+          ),
+        ),
+        btnOkOnPress: () {
+          setState(() {
+            isDeliverd=false;
+          });
+        },
+        btnCancelOnPress: () {
+          setState(() {
+            isDeliverd=true;
+          });
+        })
+        .show();
   }
 }
