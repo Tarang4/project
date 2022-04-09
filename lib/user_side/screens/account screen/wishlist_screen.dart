@@ -101,6 +101,9 @@ class _WishListScreenState extends State<WishListScreen> {
                                 CupertinoPageRoute(
                                     builder: (context) =>
                                         CategoriesProduct(
+                                          categories: productList[
+                                          productIndex].categories
+                                              .toString(),
                                           pImage1: productList[
                                           productIndex]
                                               .images!
@@ -312,6 +315,8 @@ class _WishListScreenState extends State<WishListScreen> {
                             context,
                             CupertinoPageRoute(
                                 builder: (context) => CategoriesProduct(
+                                  categories: productModal.categories
+                                      .toString(),
                                       pImage1:
                                           productModal.images!.img1.toString(),
                                       pImage2:

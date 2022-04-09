@@ -32,6 +32,7 @@ class CategoriesProduct extends StatefulWidget {
   final String size4;
   final String review;
   final String reviewStar;
+  final String categories;
 
   const CategoriesProduct(
       {Key? key,
@@ -52,7 +53,8 @@ class CategoriesProduct extends StatefulWidget {
       required this.size4,
       required this.review,
       required this.reviewStar,
-      required this.pID})
+      required this.pID,
+      required this.categories})
       : super(key: key);
 
   @override
@@ -94,9 +96,9 @@ class _CategoriesProductState extends State<CategoriesProduct> {
   bool isColorTwo = false;
   bool isColorThree = false;
   bool isColorFour = false;
-
-  // Object perfume= FirebaseFirestore.instance
-  //      .collection(FirebaseString.productCollection).where("categories",isEqualTo: "1")??false;
+  bool? device;
+  bool? perfume;
+  bool? watch;
 
   @override
   void initState() {
@@ -132,6 +134,10 @@ class _CategoriesProductState extends State<CategoriesProduct> {
     size3 = widget.size3 == "true" ? "XL" : "";
     size4 = widget.size4 == "true" ? "XXL" : "";
     isSelected = false;
+
+    device = widget.categories == "5" ? true : false;
+    perfume = widget.categories == "6" ? true : false;
+    watch = widget.categories == "7" ? true : false;
     wishListGet();
   }
 
@@ -149,49 +155,49 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ImageSlideshow(
-                    width: double.infinity,
-                    height: 450,
-                    indicatorColor: colorGreen,
-                    children: [
-                      CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: pImage1.toString(),
-                        errorWidget: (context, url, error) => const Icon(
-                          Icons.error,
-                          size: 35,
+                      width: double.infinity,
+                      height: 450,
+                      indicatorColor: colorGreen,
+                      children: [
+                        CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: pImage1.toString(),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            size: 35,
+                          ),
                         ),
-                      ),
-                      CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: pImage2.toString(),
-                        errorWidget: (context, url, error) => const Icon(
-                          Icons.error,
-                          size: 35,
+                        CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: pImage2.toString(),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            size: 35,
+                          ),
                         ),
-                      ),
-                      CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: pImage3.toString(),
-                        errorWidget: (context, url, error) => const Icon(
-                          Icons.error,
-                          size: 35,
+                        CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: pImage3.toString(),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            size: 35,
+                          ),
                         ),
-                      ),
-                      CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: pImage4.toString(),
-                        errorWidget: (context, url, error) => const Icon(
-                          Icons.error,
-                          size: 35,
+                        CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: pImage4.toString(),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            size: 35,
+                          ),
                         ),
-                      ),
-                    ],
-                    onPageChanged: (value) {
-                      print('Page changed: $value');
-                    },
-                    autoPlayInterval: 8000,
-                    isLoop: true,
-                      ),
+                      ],
+                      onPageChanged: (value) {
+                        print('Page changed: $value');
+                      },
+                      autoPlayInterval: 8000,
+                      isLoop: true,
+                    ),
                     const SizedBox(
                       height: 17,
                     ),
@@ -458,8 +464,9 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                               color: isColorOne == true
                                                   ? colorGreen
                                                   : color1!,
-                                              width:
-                                                  isColorOne == true ? 2.3 : 1.3,
+                                              width: isColorOne == true
+                                                  ? 2.3
+                                                  : 1.3,
                                             ),
                                           ),
                                           margin:
@@ -495,8 +502,9 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                               color: isColorTwo == true
                                                   ? colorGreen
                                                   : color2!,
-                                              width:
-                                                  isColorTwo == true ? 2.3 : 1.3,
+                                              width: isColorTwo == true
+                                                  ? 2.3
+                                                  : 1.3,
                                             ),
                                           ),
                                           margin:
@@ -570,8 +578,9 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                               color: isColorFour == true
                                                   ? colorGreen
                                                   : color4!,
-                                              width:
-                                                  isColorFour == true ? 2.3 : 1.3,
+                                              width: isColorFour == true
+                                                  ? 2.3
+                                                  : 1.3,
                                             ),
                                           ),
                                           margin:
@@ -714,7 +723,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                             width: 50,
                                             imageUrl: reviewModal.userprofile
                                                 .toString(),
-                                            errorWidget: (context, url, error) =>
+                                            errorWidget: (context, url,
+                                                    error) =>
                                                 Image.asset(
                                                     "assets/images/user_profile.png"),
                                           ),
@@ -745,11 +755,12 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: MediaQuery.of(context)
-                                                            .size
-                                                            .width /
-                                                        100 *
-                                                        10,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            100 *
+                                                            10,
                                                   ),
                                                   Container(
                                                     width: 100,
@@ -759,7 +770,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                               .star
                                                               .toString()),
                                                           (index) => Container(
-                                                                child: const Icon(
+                                                                child:
+                                                                    const Icon(
                                                                   Icons.star,
                                                                   size: 20,
                                                                   color:
@@ -774,9 +786,11 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                 height: 3,
                                               ),
                                               Text(
-                                                reviewModal.reviewText.toString(),
+                                                reviewModal.reviewText
+                                                    .toString(),
                                                 style: defaultTextStyle(
-                                                    fontWeight: FontWeight.normal,
+                                                    fontWeight:
+                                                        FontWeight.normal,
                                                     fontSize: 15.50,
                                                     height: 1.2,
                                                     wordSpacing: 1.00),
@@ -838,7 +852,6 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                     onTap: () {
                       try {
                         if (size != null && color != null) {
-                          // CartController.instance.productId(pID.toString());
                           CartRepository.cartDetailAdd(
                             context: context,
                             productId: pID.toString(),
@@ -850,10 +863,55 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             productSize: size.toString(),
                           );
                         } else {
-                          ToastMethod.simpleToast(massage: "size & color Enter");
+                          if (device == true) {
+                            CartRepository.cartDetailAdd(
+                              context: context,
+                              productId: pID.toString(),
+                              productName: pName.toString(),
+                              productPrice: pPrice.toString(),
+                              productImage: pImage1.toString(),
+                              productColor:
+                                  "0x${color?.value.toRadixString(16).toString()}",
+                              productSize: size.toString(),
+                            );
+                          }
+                          if (perfume == true) {
+                            CartRepository.cartDetailAdd(
+                              context: context,
+                              productId: pID.toString(),
+                              productName: pName.toString(),
+                              productPrice: pPrice.toString(),
+                              productImage: pImage1.toString(),
+                              productColor:
+                                  "0x${color?.value.toRadixString(16).toString()}",
+                              productSize: size.toString(),
+                            );
+                          }
+                          if (watch == true) {
+                            CartRepository.cartDetailAdd(
+                              context: context,
+                              productId: pID.toString(),
+                              productName: pName.toString(),
+                              productPrice: pPrice.toString(),
+                              productImage: pImage1.toString(),
+                              productColor:
+                                  "0x${color?.value.toRadixString(16).toString()}",
+                              productSize: size.toString(),
+                            );
+                          }
+                          if (size == null && color == null) {
+                            if (device == true ||
+                                perfume == true ||
+                                watch == true) {
+                            } else {
+                              ToastMethod.simpleToast(
+                                  massage: "size & color Enter");
+                            }
+                          }
                         }
                       } catch (e) {
-                        ToastMethod.simpleToast(massage: "error not add Cart $e");
+                        ToastMethod.simpleToast(
+                            massage: "error not add Cart $e");
                       }
                     },
                     child: Container(

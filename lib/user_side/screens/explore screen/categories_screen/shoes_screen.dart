@@ -103,6 +103,8 @@ class _ShoesScreenState extends State<ShoesScreen> {
                                           color4: productModal
                                               .colorCode!.color4
                                               .toString(),
+                                          categories: productModal.categories
+                                              .toString(),
                                           size1: productModal.size!.s
                                               .toString(),
                                           size2: productModal.size!.m

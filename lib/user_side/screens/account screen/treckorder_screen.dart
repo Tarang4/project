@@ -114,15 +114,15 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                         cancel == false
                             ? Container()
                             : Align(
-                                alignment: Alignment.bottomRight,
-                                child: Text(
-                                  "Order Cancelled",
-                                  style: defaultTextStyle(
-                                      fontColors: Colors.red,
-                                      fontSize: 15.0,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
+                          alignment: Alignment.bottomRight,
+                          child: Text(
+                            "Order Cancelled",
+                            style: defaultTextStyle(
+                                fontColors: Colors.red,
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
                         Container(
                           padding: const EdgeInsets.only(
                               top: 15, left: 15, right: 15, bottom: 15),
@@ -133,16 +133,16 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                             children: [
                               Column(
                                 children:
-                                    List.generate(productDetail, (indexx) {
+                                List.generate(productDetail, (indexx) {
                                   return Container(
                                     margin: const EdgeInsets.only(bottom: 8),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               orderModalPrint
@@ -192,7 +192,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                                   .toString(),
                                               errorWidget:
                                                   (context, url, error) =>
-                                                      const Icon(
+                                              const Icon(
                                                 Icons.error,
                                                 size: 25,
                                               ),
@@ -270,19 +270,19 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                   width: 100,
                                   child: cancel == true
                                       ? Text(
-                                          "Cancelled",
-                                          style: defaultTextStyle(
-                                              fontSize: 15.0,
-                                              fontColors: Colors.white,
-                                              fontWeight: FontWeight.w400),
-                                        )
+                                    "Cancelled",
+                                    style: defaultTextStyle(
+                                        fontSize: 15.0,
+                                        fontColors: Colors.white,
+                                        fontWeight: FontWeight.w400),
+                                  )
                                       : Text(
-                                          "Cancel Order",
-                                          style: defaultTextStyle(
-                                              fontSize: 15.0,
-                                              fontColors: Colors.white,
-                                              fontWeight: FontWeight.w400),
-                                        ),
+                                    "Cancel Order",
+                                    style: defaultTextStyle(
+                                        fontSize: 15.0,
+                                        fontColors: Colors.white,
+                                        fontWeight: FontWeight.w400),
+                                  ),
                                   decoration: BoxDecoration(
                                       color: cancel == true
                                           ? Colors.red
@@ -379,11 +379,11 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                     "Confirm",
                                     style: defaultTextStyle(
                                         fontSize:
-                                            conform == true ? 18 : 15.0,
+                                        conform == true ? 18 : 15.0,
                                         fontColors: cancel == false
                                             ? conform == true
-                                                ? colorGreen
-                                                : colorBlack
+                                            ? colorGreen
+                                            : colorBlack
                                             : Colors.red.withOpacity(0.7),
                                         fontWeight: conform == true
                                             ? FontWeight.w400
@@ -393,11 +393,11 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                     "Delivered",
                                     style: defaultTextStyle(
                                         fontSize:
-                                            delivered == true ? 18 : 15.0,
+                                        delivered == true ? 18 : 15.0,
                                         fontColors: cancel == false
                                             ? conform == true
-                                                ? colorGreen
-                                                : colorBlack
+                                            ? colorGreen
+                                            : colorBlack
                                             : Colors.red.withOpacity(0.7),
                                         fontWeight: delivered == true
                                             ? FontWeight.w400

@@ -342,6 +342,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                     context,
                                     CupertinoPageRoute(
                                         builder: (context) => CategoriesProduct(
+                                          categories: productModal.categories
+                                              .toString(),
                                               pImage1: productModal.images!.img1
                                                   .toString(),
                                               pImage2: productModal.images!.img2
@@ -737,6 +739,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                       CupertinoPageRoute(
                                           builder: (context) =>
                                               CategoriesProduct(
+                                                categories: productModal.categories
+                                                    .toString(),
                                                 pImage1: productModal
                                                     .images!.img1
                                                     .toString(),

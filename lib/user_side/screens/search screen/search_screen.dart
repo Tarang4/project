@@ -155,6 +155,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                 context,
                                 CupertinoPageRoute(
                                     builder: (context) => CategoriesProduct(
+                                      categories: productModal.categories
+                                          .toString(),
                                           pImage1: productModal.images!.img1
                                               .toString(),
                                           pImage2: productModal.images!.img2
