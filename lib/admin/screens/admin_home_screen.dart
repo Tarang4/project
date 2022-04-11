@@ -60,7 +60,7 @@ class _AdminHomeState extends State<AdminHome> {
             ),
             body: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(18.0),
+                padding: const EdgeInsets.all(24.0),
                 child: Column(
                   children: [
                     Row(

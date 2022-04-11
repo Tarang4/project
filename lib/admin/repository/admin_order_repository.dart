@@ -88,9 +88,6 @@ class AdminOrderRepository{
     if (id != null) {
       await _orderCollection.add(orderData);
 
-      ToastMethod.simpleToastLightColor(
-          context: context, massage: "✔ Admin Added");
-
       debugPrint('yes add card');
     } else {
       ToastMethod.simpleToast(context: context, massage: "no add detail admin");
@@ -129,8 +126,6 @@ try{
         }
       });
 
-      ToastMethod.simpleToastLightColor(context: context, massage: "✔ Updated admin");
-
       debugPrint('yes update card');}
     catch (e){
       ToastMethod.simpleToastLightColor(context: context, massage: "not error $e");
@@ -138,24 +133,4 @@ try{
       debugPrint('yes erro card');}
 // catch (e){}
     }
-
-// static orderDelete({
-//   @required BuildContext? context,
-//   @required String? orderId,
-// }) {
-//
-//
-//   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-//
-//   final CollectionReference _orderCollection = firebaseFirestore
-//       .collection(FirebaseString.adminCollection)
-//       .doc("rha4OKCNrwpPoDiDtTvq")
-//       .collection(FirebaseString.orderCollection);
-//
-//
-//   _orderCollection.where('cardId', whereIn: [cardId]).get().then((snapshot) {
-//     snapshot.docs[0].reference.delete();
-//   });
-// }
-
 }

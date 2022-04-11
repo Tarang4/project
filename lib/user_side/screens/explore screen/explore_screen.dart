@@ -342,8 +342,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                     context,
                                     CupertinoPageRoute(
                                         builder: (context) => CategoriesProduct(
-                                          categories: productModal.categories
-                                              .toString(),
+                                              categories: productModal
+                                                  .categories
+                                                  .toString(),
                                               pImage1: productModal.images!.img1
                                                   .toString(),
                                               pImage2: productModal.images!.img2
@@ -450,88 +451,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       color: colorGreen,
                     ));
                   }),
-              /*StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection(FirebaseString.productCollection)
-                      .snapshots(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    if (snapshot.hasData) {
-                      return IntrinsicGridView.vertical(
-                        padding:
-                            const EdgeInsets.only(top: 1, left: 5, right: 5),
-                        columnCount: 2,
-                        verticalSpace: 14,
-                        horizontalSpace: 16,
-                        children: List.generate(
-                          searchProduct!.docs.length,
-                          (index) {
-                            ProductModalAdmin productModal =
-                                ProductModalAdmin.fromJson(
-                                    );
-                            return ProductContainer(
-                              pImage: productModal.images!.img1.toString(),
-                              pName: productModal.productName.toString(),
-                              pInfo: productModal.productInfo.toString(),
-                              pPrice: productModal.productPrice.toString(),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => CategoriesProduct(
-                                              pImage1: productModal.images!.img1
-                                                  .toString(),
-                                              pImage2: productModal.images!.img2
-                                                  .toString(),
-                                              pImage3: productModal.images!.img3
-                                                  .toString(),
-                                              pImage4: productModal.images!.img4
-                                                  .toString(),
-                                              pName: productModal.productName
-                                                  .toString(),
-                                              pInfo: productModal.productInfo
-                                                  .toString(),
-                                              pPrice: productModal.productPrice
-                                                  .toString(),
-                                              color1: productModal
-                                                  .colorCode!.color1
-                                                  .toString(),
-                                              color2: productModal
-                                                  .colorCode!.color2
-                                                  .toString(),
-                                              color3: productModal
-                                                  .colorCode!.color3
-                                                  .toString(),
-                                              color4: productModal
-                                                  .colorCode!.color4
-                                                  .toString(),
-                                              size1: productModal.size!.s
-                                                  .toString(),
-                                              size2: productModal.size!.m
-                                                  .toString(),
-                                              size3: productModal.size!.xL
-                                                  .toString(),
-                                              size4: productModal.size!.xXL
-                                                  .toString(),
-                                              review: "",
-                                              reviewStar: "",
-                                              pID: productModal.productId
-                                                  .toString(),
-                                            )));
-                              },
-                            );
-                          },
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      print("error not found product ${snapshot.hasError}");
-                    }
 
-                    return const Center(
-                        child: CircularProgressIndicator(
-                      color: colorGreen,
-                    ));
-                  }),*/
               Container(
                 margin: const EdgeInsets.only(
                   top: 15,
@@ -565,7 +485,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             imageUrl: imageList[i],
                             placeholder: (context, url) => const Center(
                                 child: CircularProgressIndicator(
-                                    color: colorGrey)),
+                                    color: colorGreen)),
                             errorWidget: (context, url, error) =>
                                 const Icon(Icons.error),
                           ),
@@ -712,7 +632,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         .collection(
                           FirebaseString.productCollection,
                         )
-                        .where("categories", isEqualTo: "1")
+                        .where("categories", isEqualTo: "4")
                         .snapshots(),
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot) {
@@ -739,7 +659,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                       CupertinoPageRoute(
                                           builder: (context) =>
                                               CategoriesProduct(
-                                                categories: productModal.categories
+                                                categories: productModal
+                                                    .categories
                                                     .toString(),
                                                 pImage1: productModal
                                                     .images!.img1

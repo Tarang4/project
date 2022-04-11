@@ -4,6 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/user_side/modal/cart_modal.dart';
 import 'package:intl/intl.dart';
+import 'package:untitled/user_side/screens/account%20screen/treckorder_screen.dart';
+import 'package:untitled/user_side/screens/explore%20screen/explore_screen.dart';
+import 'package:untitled/user_side/screens/explore%20screen/main_home_screen.dart';
+import 'package:untitled/user_side/screens/home_screen.dart';
 import '../../untils/toast/flutter_toast_method.dart';
 import '../../config/FireStore_string.dart';
 
@@ -88,8 +92,18 @@ class OrderRepository {
     if (id != null) {
       await _orderCollection.add(orderData);
 
-      ToastMethod.simpleToastLightColor(
-          context: context, massage: "✔ Card Added");
+      ScaffoldMessenger.of(context!).showSnackBar(
+        SnackBar(
+          content: const Text('✔  Your Order placed Successfully\n     Have Nice Day !'),
+          action: SnackBarAction(
+            label: '',
+            onPressed: () {
+              // Code to execute.
+            },
+          ),
+        ),
+      );
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const MainHomeScreen()));
 
       debugPrint('yes add card');
     } else {
@@ -133,7 +147,7 @@ class OrderRepository {
       });
 
       ToastMethod.simpleToastLightColor(
-          context: context, massage: "✔ Cancelled");
+          context: context, massage: "✔ Done Successfully ");
 
       debugPrint('yes update card');
     }

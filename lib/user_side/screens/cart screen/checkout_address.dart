@@ -378,7 +378,7 @@ class _CheckAddressState extends State<CheckAddress> {
                       InkWell(
                         onTap: () {
                           if(addressID==null){
-                            ToastMethod.simpleToastLightColorCenter(massage: "Add Your Address !");
+                            ToastMethod.simpleToastLightColor(massage: "Add Your Address !");
                           }
                           else {
                             Navigator.push(

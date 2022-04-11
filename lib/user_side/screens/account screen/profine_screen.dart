@@ -5,8 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scroll_date_picker/scroll_date_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:path/path.dart' as Path;
 import '../../../main.dart';
 import '../../config/Localstorage_string.dart';
 import '../../config/app_colors.dart';
@@ -105,6 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Align(
                         alignment: Alignment.center,
                         child: InkWell(
+                          customBorder: const CircleBorder(),
                             splashColor: Colors.transparent,
                             onTap: () => openImageDialog(),
                             child: _photo != null
@@ -113,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Container(
                                           height: 110,
                                           width: 110,
-                                          margin: EdgeInsets.all(3),
+                                          margin: const EdgeInsets.all(3),
                                           clipBehavior: Clip.antiAlias,
                                           decoration: const BoxDecoration(
                                             shape: BoxShape.circle,
@@ -131,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           height: 120,
                                           width: 120,
                                           decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
+                                              shape: BoxShape.circle,
                                               border: Border.all(
                                                   color: colorGreen, width: 1)),
                                         ),
@@ -178,6 +177,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               shape: BoxShape.circle,
                                               border: Border.all(
                                                   color: colorGreen, width: 1)),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 4,
+                                        right: 6,
+                                        child: Container(
+                                          height: 25,
+                                          width: 25,
+                                          alignment: Alignment.center,
+                                          decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: colorWhite,),
+                                          child: const Icon(
+                                            Icons.linked_camera_outlined,
+                                            size: 15,
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 2,
+                                        right: 3.5,
+                                        child: Container(
+                                          height: 30,
+                                          width: 30,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  width: 1.2, color: colorGreen)),
                                         ),
                                       ),
                                     ],
@@ -329,6 +357,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: double.infinity,
                         height: 33,
                         child: TextFormField(
+                          readOnly: true,
                           controller: _birthDateController,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
@@ -362,7 +391,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             setState(() {
                               _selectedDate = value;
                               _birthDateController.text =
-                                  "${_selectedDate.day.toString()} -${_selectedDate.month.toString()} -${_selectedDate.year.toString()}";
+                              "${_selectedDate.day.toString()} -${_selectedDate.month.toString()} -${_selectedDate.year.toString()}";
                             });
                           },
                         ),

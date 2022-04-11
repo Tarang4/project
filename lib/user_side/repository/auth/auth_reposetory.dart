@@ -65,7 +65,7 @@ class AuthRepository {
             pref!.setString(LocalStorageKey.profilePhoto, userDetailModel[LocalStorageKey.profilePhoto]);
           }
           Navigator.pushReplacement(context!,
-              CupertinoPageRoute(builder: (context) => MainHomeScreen()));
+              CupertinoPageRoute(builder: (context) => const MainHomeScreen()));
         }
       } else {
         ToastMethod.simpleToast(massage: "no get else in");

@@ -875,8 +875,6 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                               "null",
                               productSize: "null",
                             );
-                            ToastMethod.simpleToast(
-                                massage: "device Save as");
                           }
                           if (perfume == true) {
                             CartRepository.cartDetailAdd(
@@ -889,8 +887,6 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                   "null",
                               productSize: "null",
                             );
-                            ToastMethod.simpleToast(
-                                massage: "perfum Save as");
                           }
                           if (watch == true) {
                             CartRepository.cartDetailAdd(
@@ -903,8 +899,6 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                               "null",
                               productSize: "null",
                             );
-                            ToastMethod.simpleToast(
-                                massage: "watch Save as");
                           }
                           if (size == null && color == null) {
                             if (device == true ||
@@ -915,6 +909,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                   massage: "size & color Enter");
                             }
                           }
+
                         }
                       } catch (e) {
                         ToastMethod.simpleToast(

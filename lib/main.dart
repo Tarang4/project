@@ -21,7 +21,7 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-Future<void> _firebaseMessagingBackgroundHandler( message) async {
+Future<void> _firebaseMessagingBackgroundHandler(message) async {
   await Firebase.initializeApp();
 
   print('A bg message just showed up :  ${message.messageId}');
@@ -31,9 +31,9 @@ SharedPreferences? pref = SharedPreferences.getInstance() as SharedPreferences;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);   
-    await flutterLocalNotificationsPlugin
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
@@ -59,7 +59,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   @override
-  void initState()  {
+  void initState() {
     // TODO: implement initState
     super.initState();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -103,14 +103,15 @@ class _MainScreenState extends State<MainScreen> {
       }
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: ThemeData(colorScheme: ColorScheme.fromSwatch().copyWith(secondary: colorGreen)),
+      theme: ThemeData(
+          colorScheme:
+              ColorScheme.fromSwatch().copyWith(secondary: colorGreen)),
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
     );
   }
 }
-

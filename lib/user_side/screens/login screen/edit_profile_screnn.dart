@@ -38,7 +38,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String? urlImage;
   final ImagePicker picker = ImagePicker();
   File? _photo;
-  String? assetsImage="assets/images/user_profile.png" ;
+  String? assetsImage = "assets/images/user_profile.png";
+
   String prefEmail = pref!.getString(LocalStorageKey.email)!;
   DateTime _selectedDate = DateTime.now();
 
@@ -47,12 +48,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     // TODO: implement initState
     super.initState();
     password = widget.password;
-   }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Container(
           margin: const EdgeInsets.only(top: 0),
           padding: const EdgeInsets.only(left: 16, right: 16),
@@ -73,44 +75,89 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Edit Your Details",
                           style: TextStyle(
                               fontSize: 30.0, fontWeight: FontWeight.w700),
                         ),
-
                         const SizedBox(
                           height: 10,
                         ),
-                        InkWell(
-                          onTap: () => openImageDialog(),
-                          child: _photo != null
-                              ? Container(
-                                  height: 100,
-                                  width: 100,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(70),
-                                  ),
-                                  child: Image.file(
-                                    _photo!,
-                                    fit: BoxFit.cover,
-                                  ))
-                              :
-                          Container(
-                            height: 100,
-                            width: 100,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(70),
-                                color: Colors.grey.withOpacity(0.5)),
-                            child:Image.asset(assetsImage!)),
-
+                        Stack(
+                          children: [
+                            Positioned(
+                              bottom: 2.3,
+                              left: 2.3,
+                              child: InkWell(
+                                onTap: () => openImageDialog(),
+                                child: _photo != null
+                                    ? Container(
+                                        height: 100,
+                                        width: 100,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(70),
+                                        ),
+                                        child: Image.file(
+                                          _photo!,
+                                          fit: BoxFit.cover,
+                                        ))
+                                    : Container(
+                                        height: 100,
+                                        width: 100,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(70),
+                                            color: Colors.grey.withOpacity(0.5)),
+                                        child: Image.asset(assetsImage!)),
+                              ),
+                            ),
+                            Positioned(
+                              child: Container(
+                                height: 105,
+                                width: 105,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border:
+                                        Border.all(color: colorGreen, width: 1)),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 2,
+                              child: Container(
+                                height: 28,
+                                width: 28,
+                                alignment: Alignment.center,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: colorWhite),
+                                child: const Icon(
+                                  Icons.linked_camera_outlined,
+                                  size: 16,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 1.5,
+                              child: Container(
+                                height: 30,
+                                width: 30,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        width: 1.2, color: colorGreen)),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(
                           height: 20,
                         ),
-                        Text(
+                        const Text(
                           "First Name",
                           style: TextStyle(
                               fontSize: 14.0,
@@ -126,7 +173,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           child: TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Please Enter Your Name';
+                                return 'Please Enter Your First Name';
                               }
                             },
                             controller: _fNameController,
@@ -151,7 +198,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Text(
+                        const Text(
                           "Last Name",
                           style: TextStyle(
                               fontSize: 14.0,
@@ -167,7 +214,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           child: TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Please Enter Your Name';
+                                return 'Please Enter Last Name';
                               }
                             },
                             controller: _lNameController,
@@ -192,8 +239,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         const SizedBox(
                           height: 15,
                         ),
-                        Text("Gender",
-                            style: TextStyle(
+                        const Text("Gender",
+                            style: const TextStyle(
                                 color: colorGrey,
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.w400)),
@@ -220,7 +267,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             ? colorGreen
                                             : colorGrey,
                                       )),
-                                      margin: EdgeInsets.only(
+                                      margin: const EdgeInsets.only(
                                           top: 10, right: 10, bottom: 10),
                                       child: Text(
                                           index == 0
@@ -240,7 +287,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text("BirthDate",
+                        const Text("BirthDate",
                             style: TextStyle(
                                 color: colorGrey,
                                 fontSize: 14.0,
@@ -273,7 +320,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         Container(
                           height: 200,
                           color: Colors.transparent,
-                          margin: EdgeInsets.only(top: 15),
+                          margin: const EdgeInsets.only(top: 15),
                           child: ScrollDatePicker(
                             style: const DatePickerStyle(
                                 selectedTextStyle: TextStyle(
@@ -293,7 +340,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-
                         InkWell(
                           onTap: () {
                             if (updateScreenKey.currentState!.validate()) {
@@ -338,7 +384,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         context: context,
         builder: (BuildContext context) {
           return CupertinoActionSheet(
-            title: Text(
+            title: const Text(
               "select",
               style: TextStyle(fontSize: 25),
             ),
@@ -417,7 +463,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           context: context,
         ).then((value) {
           Navigator.push(context,
-              CupertinoPageRoute(builder: (context) => MainHomeScreen()));
+              CupertinoPageRoute(builder: (context) => const MainHomeScreen()));
         });
       } else {
         print(" no download url ");
@@ -431,8 +477,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         profilePhoto: assetsImage,
         context: context,
       ).then((value) {
-        Navigator.push(
-            context, CupertinoPageRoute(builder: (context) => ExploreScreen()));
+        Navigator.push(context,
+            CupertinoPageRoute(builder: (context) => const ExploreScreen()));
       });
       print(" no photo found file ");
     }

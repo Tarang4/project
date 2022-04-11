@@ -130,7 +130,6 @@ class _OrderHistoryState extends State<OrderHistory> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
@@ -149,7 +148,9 @@ class _OrderHistoryState extends State<OrderHistory> {
                                   clipBehavior: Clip.antiAlias,
                                   child: Column(
                                     children: <Widget>[
-                                      const SizedBox(height: 15,),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
                                       Container(
                                         padding: const EdgeInsets.only(
                                             left: 15, right: 15),
@@ -161,117 +162,134 @@ class _OrderHistoryState extends State<OrderHistory> {
                                               (indexx) {
                                             return Container(
                                               margin: const EdgeInsets.only(
-                                                  bottom: 8),
+                                                bottom: 10,
+                                              ),
+                                              decoration: const BoxDecoration(
+                                                border: Border(
+                                                  bottom: BorderSide(
+                                                      width: 1.0,
+                                                      color: colorLightGrey),
+                                                ),
+                                              ),
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                // mainAxisAlignment:
+                                                //     MainAxisAlignment
+                                                //         .spaceBetween,
                                                 children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        orderModalPrint
-                                                            .productDetail![
-                                                                indexx]
-                                                            .productName
-                                                            .toString(),
-                                                        style: defaultTextStyle(
-                                                            fontSize: 18.0,
-                                                            fontColors:
-                                                                Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Text(
-                                                        "₹ ${orderModalPrint.productDetail![indexx].productPrice.toString()}",
-                                                        style: defaultTextStyle(
-                                                            fontSize: 14.0,
-                                                            fontColors:
-                                                                colorGreen,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 13,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            orderModalPrint
+                                                  Expanded(
+                                                    flex: 3,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          orderModalPrint
+                                                              .productDetail![
+                                                                  indexx]
+                                                              .productName
+                                                              .toString(),
+                                                          style: defaultTextStyle(
+                                                              fontSize: 18.0,
+                                                              fontColors:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                          "₹ ${orderModalPrint.productDetail![indexx].productPrice.toString()}",
+                                                          style: defaultTextStyle(
+                                                              fontSize: 14.0,
+                                                              fontColors:
+                                                                  colorGreen,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                                "Size : ${orderModalPrint.productDetail![indexx].size.toString() == "null" ? " " : orderModalPrint.productDetail![indexx].size.toString()}",
+                                                                style: defaultTextStyle(
+                                                                    fontSize:
+                                                                        14.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500)),
+                                                            const SizedBox(
+                                                              width: 20,
+                                                            ),
+                                                            Text("Color : ",
+                                                                style: defaultTextStyle(
+                                                                    fontSize:
+                                                                        14.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500)),
+                                                            Container(
+                                                              height: 15,
+                                                              width: 15,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: Color(int.parse(orderModalPrint
+                                                                            .productDetail![
+                                                                                indexx]
+                                                                            .color
+                                                                            .toString() ==
+                                                                        "null"
+                                                                    ? "0xffffff"
+                                                                    : orderModalPrint
                                                                         .productDetail![
                                                                             indexx]
-                                                                        .size
-                                                                        .toString() ==
-                                                                    "null"
-                                                                ? " "
-                                                                : orderModalPrint
-                                                                    .productDetail![
-                                                                        indexx]
-                                                                    .size
-                                                                    .toString(),
-                                                            style:
-                                                                defaultTextStyle(
-                                                                    fontSize:
-                                                                        14.0),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 20,
-                                                          ),
-                                                          Container(
-                                                            height: 15,
-                                                            width: 15,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              color: Color(int.parse(orderModalPrint
-                                                                          .productDetail![
-                                                                              indexx]
-                                                                          .color
-                                                                          .toString() ==
-                                                                      "null"
-                                                                  ? "0xffffff"
-                                                                  : orderModalPrint
-                                                                      .productDetail![
-                                                                          indexx]
-                                                                      .color
-                                                                      .toString())),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ],
+                                                                        .color
+                                                                        .toString())),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                  Text(
-                                                    "QTY: 1",
-                                                    style: defaultTextStyle(
-                                                        fontSize: 14.0,
-                                                        fontWeight:
-                                                            FontWeight.w300),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Text(
+                                                      "QTY: 1",
+                                                      style: defaultTextStyle(
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                              FontWeight.w300),
+                                                    ),
                                                   ),
-                                                  Container(
-                                                    height: 70,
-                                                    width: 70,
-                                                    child: CachedNetworkImage(
-                                                      fit: BoxFit.cover,
-                                                      imageUrl: orderModalPrint
-                                                          .productDetail![
-                                                              indexx]
-                                                          .productImage
-                                                          .toString(),
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          const Icon(
-                                                        Icons.error,
-                                                        size: 25,
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Container(
+                                                      height: 70,
+                                                      width: 70,
+                                                      margin: EdgeInsets.only(bottom: 10),
+                                                      child: CachedNetworkImage(
+                                                        fit: BoxFit.cover,
+                                                        imageUrl: orderModalPrint
+                                                            .productDetail![
+                                                                indexx]
+                                                            .productImage
+                                                            .toString(),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            const Icon(
+                                                          Icons.error,
+                                                          size: 25,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -371,29 +389,36 @@ class _OrderHistoryState extends State<OrderHistory> {
                                               const SizedBox(
                                                 height: 15,
                                               ),
-                                              Text(
-                                                "cancel :${cancel.toString()}",
-                                                style: defaultTextStyle(
-                                                    fontSize: 15.0,
-                                                    fontColors: colorGreen,
-                                                    fontWeight:
+                                              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                   "Cancel : ${cancel.toString()==true?"Yes":"No"}",
+                                                    style: defaultTextStyle(
+                                                        fontSize: 15.0,
+                                                        fontColors: colorGreen,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                  Text(
+                                                    "Conform : ${conform.toString()==true?"Yes":"No"}",
+                                                    style: defaultTextStyle(
+                                                        fontSize: 15.0,
+                                                        fontColors: colorGreen,
+                                                        fontWeight:
                                                         FontWeight.w500),
+                                                  ),
+                                                  Text(
+                                                    "Delivered : ${delivered.toString()==true?"Yes":"No"}",
+                                                    style: defaultTextStyle(
+                                                        fontSize: 15.0,
+                                                        fontColors: colorGreen,
+                                                        fontWeight:
+                                                        FontWeight.w500),
+                                                  ),
+                                                ],
                                               ),
-                                              Text(
-                                                "conform :${conform.toString()}",
-                                                style: defaultTextStyle(
-                                                    fontSize: 15.0,
-                                                    fontColors: colorGreen,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                              Text(
-                                                "delivered :${delivered.toString()}",
-                                                style: defaultTextStyle(
-                                                    fontSize: 15.0,
-                                                    fontColors: colorGreen,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                              const SizedBox(
+                                                height: 20,
                                               ),
                                               Row(
                                                 children: [
@@ -407,7 +432,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                                               .QUESTION,
                                                           body: const Center(
                                                             child: Text(
-                                                              "Order CONFIRM !!",
+                                                              "ORDER CONFIRM !!",
                                                               style: TextStyle(
                                                                   fontSize: 15),
                                                             ),
@@ -521,7 +546,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                                             ),
                                                           ),
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 10,
                                                   ),
                                                   InkWell(
@@ -534,16 +559,16 @@ class _OrderHistoryState extends State<OrderHistory> {
                                                               .QUESTION,
                                                           body: const Center(
                                                             child: Text(
-                                                              "Order delivered !!",
+                                                              "ORDER DELIVERD !!",
                                                               style: TextStyle(
                                                                   fontSize: 15),
                                                             ),
                                                           ),
                                                           btnOkOnPress: () {
-                                                            if (delivered ==
+                                                            if (isDeliverd ==
                                                                 false) {
                                                               setState(() {
-                                                                delivered =
+                                                                isDeliverd =
                                                                     true;
                                                               });
                                                               OrderRepository
@@ -583,7 +608,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                                               );
                                                             } else {
                                                               setState(() {
-                                                                delivered =
+                                                                isDeliverd =
                                                                     true;
                                                               });
                                                             }
