@@ -129,10 +129,10 @@ class _CategoriesProductState extends State<CategoriesProduct> {
         ? Colors.transparent
         : Color(int.parse(widget.color4));
 
-    size1 = widget.size2 == "true" ? "S" : "";
-    size2 = widget.size1 == "true" ? "M" : "";
-    size3 = widget.size3 == "true" ? "XL" : "";
-    size4 = widget.size4 == "true" ? "XXL" : "";
+    size1 = widget.size2 == "true" ? widget.categories=="4"?"8":"S" : "";
+    size2 = widget.size1 == "true" ?  widget.categories=="4"?"9":"M"  : "";
+    size3 = widget.size3 == "true" ?  widget.categories=="4"?"10":"XL"  : "";
+    size4 = widget.size4 == "true" ?  widget.categories=="4"?"11":"XXL"  : "";
     isSelected = false;
 
     device = widget.categories == "5" ? true : false;
@@ -271,7 +271,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             ),
                             Row(
                               children: [
-                                size1 == "S"
+                                size1 == "S"||size1=="8"||widget.categories=="3"
                                     ? GestureDetector(
                                         onTap: () {
                                           setState(() {
@@ -281,7 +281,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                               four: false,
                                               three: false,
                                             );
-                                            size = "S";
+                                            size =widget.categories=="3"?"1-2 Yr":size1.toString();
                                           });
                                         },
                                         child: Container(
@@ -299,7 +299,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                             ),
                                           ),
                                           child: Text(
-                                            size1!,
+                                            widget.categories=="3"?"1-2 Yr":size1!,
                                             style: defaultTextStyle(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 13.00,
@@ -309,7 +309,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                           ),
                                         ))
                                     : Container(),
-                                size2 == "M"
+                                size2 == "M"||size2=="9"||widget.categories=="3"
                                     ? GestureDetector(
                                         onTap: () {
                                           setState(() {
@@ -319,7 +319,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                               four: false,
                                               three: false,
                                             );
-                                            size = "M";
+                                            size = widget.categories=="3"?"4-5 Yr":size2.toString();
                                           });
                                         },
                                         child: Container(
@@ -337,7 +337,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                             ),
                                           ),
                                           child: Text(
-                                            size2!,
+    widget.categories=="3"?"3-5 Yr":size2!,
                                             style: defaultTextStyle(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 13.00,
@@ -347,7 +347,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                           ),
                                         ))
                                     : Container(),
-                                size3 == "XL"
+                                size3 == "XL"||size3=="10"||widget.categories=="3"
                                     ? GestureDetector(
                                         onTap: () {
                                           setState(() {
@@ -357,7 +357,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                               four: false,
                                               three: true,
                                             );
-                                            size = "XL";
+                                            size =widget.categories=="3"?"5-6 Yr": size3.toString();
                                           });
                                         },
                                         child: Container(
@@ -375,7 +375,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                             ),
                                           ),
                                           child: Text(
-                                            size3!,
+    widget.categories=="3"?"5-7 Yr":size3!,
                                             style: defaultTextStyle(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 13.00,
@@ -385,7 +385,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                           ),
                                         ))
                                     : Container(),
-                                size4 == "XXL"
+                                size4 == "XXL"||size4=="11"||widget.categories=="3"
                                     ? GestureDetector(
                                         onTap: () {
                                           setState(() {
@@ -395,7 +395,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                               four: true,
                                               three: false,
                                             );
-                                            size = "XXL";
+                                            size = widget.categories=="3"?"7+ Yr":size4.toString();
                                           });
                                         },
                                         child: Container(
@@ -413,7 +413,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                             ),
                                           ),
                                           child: Text(
-                                            size4!,
+    widget.categories=="3"?"7+ Yr": size4!,
                                             style: defaultTextStyle(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 13.00,
