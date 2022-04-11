@@ -100,41 +100,62 @@ class AdminOrderRepository{
   }
   static orderUpdate({
     @required BuildContext? context,
-    @required String? orderId,
+    @required String? finalTotal,
+    @required String? date,
     @required bool? cancel,
     @required bool? conform,
     @required bool? delivered,
   }) async {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    var id = _auth.currentUser?.uid;
+
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-    final CollectionReference _cardCollection = firebaseFirestore
+    final CollectionReference _orderCollection = firebaseFirestore
         .collection(FirebaseString.adminCollection)
         .doc("rha4OKCNrwpPoDiDtTvq")
         .collection(FirebaseString.orderCollection);
 
     Map<String, dynamic> orderData = <String, dynamic>{
-      "cancel": cancel==null?false:true,
-      "conform": conform==null?false:true,
-      "delivered": delivered==null?false:true,
+      "cancel": cancel,
+      "conform": conform,
+      "delivered": delivered,
     };
+try{
 
-    if (id != null) {
-      _cardCollection.where("OrderId", isEqualTo: orderId).get().then((res) {
-        res.docs.forEach((result) {
-          _cardCollection.doc(result.id).update(orderData);
-        });
+  _orderCollection.where("FinalTotal", isEqualTo: finalTotal).where("orderDate", isEqualTo: date).get().then((res) {
+
+    for (var result in res.docs) {
+          _orderCollection.doc(result.id).update(orderData);
+        }
       });
 
-      ToastMethod.simpleToastLightColor(context: context, massage: "✔ Updated");
+      ToastMethod.simpleToastLightColor(context: context, massage: "✔ Updated admin");
 
-      debugPrint('yes update card');
-    } else {
-      ToastMethod.simpleToastLightColor(context: context, massage: "no update");
+      debugPrint('yes update card');}
+    catch (e){
+      ToastMethod.simpleToastLightColor(context: context, massage: "not error $e");
 
-      debugPrint('No update card');
+      debugPrint('yes erro card');}
+// catch (e){}
     }
-  }
+
+// static orderDelete({
+//   @required BuildContext? context,
+//   @required String? orderId,
+// }) {
+//
+//
+//   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+//
+//   final CollectionReference _orderCollection = firebaseFirestore
+//       .collection(FirebaseString.adminCollection)
+//       .doc("rha4OKCNrwpPoDiDtTvq")
+//       .collection(FirebaseString.orderCollection);
+//
+//
+//   _orderCollection.where('cardId', whereIn: [cardId]).get().then((snapshot) {
+//     snapshot.docs[0].reference.delete();
+//   });
+// }
+
 }

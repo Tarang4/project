@@ -807,7 +807,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             );
                           }
                           return const Center(
-                            child: const CircularProgressIndicator(
+                            child: CircularProgressIndicator(
                               color: colorGreen,
                             ),
                           );
@@ -862,6 +862,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                 "0x${color?.value.toRadixString(16).toString()}",
                             productSize: size.toString(),
                           );
+
                         } else {
                           if (device == true) {
                             CartRepository.cartDetailAdd(
@@ -871,9 +872,11 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                               productPrice: pPrice.toString(),
                               productImage: pImage1.toString(),
                               productColor:
-                                  "0x${color?.value.toRadixString(16).toString()}",
-                              productSize: size.toString(),
+                              "null",
+                              productSize: "null",
                             );
+                            ToastMethod.simpleToast(
+                                massage: "device Save as");
                           }
                           if (perfume == true) {
                             CartRepository.cartDetailAdd(
@@ -883,9 +886,11 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                               productPrice: pPrice.toString(),
                               productImage: pImage1.toString(),
                               productColor:
-                                  "0x${color?.value.toRadixString(16).toString()}",
-                              productSize: size.toString(),
+                                  "null",
+                              productSize: "null",
                             );
+                            ToastMethod.simpleToast(
+                                massage: "perfum Save as");
                           }
                           if (watch == true) {
                             CartRepository.cartDetailAdd(
@@ -895,9 +900,11 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                               productPrice: pPrice.toString(),
                               productImage: pImage1.toString(),
                               productColor:
-                                  "0x${color?.value.toRadixString(16).toString()}",
-                              productSize: size.toString(),
+                              "null",
+                              productSize: "null",
                             );
+                            ToastMethod.simpleToast(
+                                massage: "watch Save as");
                           }
                           if (size == null && color == null) {
                             if (device == true ||

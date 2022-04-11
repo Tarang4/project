@@ -14,6 +14,7 @@ import '../../repository/auth/auth_reposetory.dart';
 import '../../untils/app_fonts.dart';
 import '../../widget/account/account_widget.dart';
 import 'notification_screen.dart';
+import 'order_history_user.dart';
 import 'treckorder_screen.dart';
 import 'address screen/address_detail.dart';
 import 'cards screen/card_screen.dart';
@@ -174,10 +175,10 @@ class _AccountScreenState extends State<AccountScreen> {
                     title: "Order History",
                     icon: "assets/images/icons/Icon_History.png",
                     onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => ));
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => const UserOrderHistoryScreen()));
                     }),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 50,

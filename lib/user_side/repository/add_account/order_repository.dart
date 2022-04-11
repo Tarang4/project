@@ -100,8 +100,10 @@ class OrderRepository {
   }
 
   static orderUpdate({
-    @required BuildContext? context,
-    @required String? orderId,
+    @required BuildContext? context,    @required String? finalTotal,
+
+    @required String? date,
+    @required String? userId,
     @required bool? cancel,
     @required bool? conform,
     @required bool? delivered,
@@ -111,34 +113,37 @@ class OrderRepository {
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-    final CollectionReference _cardCollection = firebaseFirestore
+    final CollectionReference _orderCollection = firebaseFirestore
         .collection(FirebaseString.userCollection)
-        .doc(id)
+        .doc(userId)
         .collection(FirebaseString.orderCollection);
 
     Map<String, dynamic> orderData = <String, dynamic>{
-      "cancel": cancel==null?false:true,
-      "conform": conform==null?false:true,
-      "delivered": delivered==null?false:true,
+      "cancel": cancel,
+      "conform": conform,
+      "delivered": delivered,
     };
 
-    if (id != null) {
-      _cardCollection.where("OrderId", isEqualTo: orderId).get().then((res) {
+    try {
+      _orderCollection.where("FinalTotal", isEqualTo: finalTotal).where(
+          "orderDate", isEqualTo: date).get().then((res) {
         res.docs.forEach((result) {
-          _cardCollection.doc(result.id).update(orderData);
+          _orderCollection.doc(result.id).update(orderData);
         });
       });
 
-      ToastMethod.simpleToastLightColor(context: context, massage: "✔ Updated");
+      ToastMethod.simpleToastLightColor(
+          context: context, massage: "✔ Cancelled");
 
       debugPrint('yes update card');
-    } else {
-      ToastMethod.simpleToastLightColor(context: context, massage: "no update");
-
-      debugPrint('No update card');
     }
-  }
+    catch(e){
+      ToastMethod.simpleToastLightColor(context: context, massage: "Not Cancelled");
 
+      debugPrint('No update card');}
+
+  }
+//
 // static orderDelete({
 //   @required BuildContext? context,
 //   @required String? orderId,
@@ -151,9 +156,9 @@ class OrderRepository {
 //   final CollectionReference _cardCollection = firebaseFirestore
 //       .collection(FirebaseString.userCollection)
 //       .doc(id)
-//       .collection(FirebaseString.cardCollection);
+//       .collection(FirebaseString.orderCollection);
 //
-//   _cardCollection.where('cardId', whereIn: [cardId]).get().then((snapshot) {
+//   _cardCollection.where('OrderId', whereIn: [orderId]).get().then((snapshot) {
 //     snapshot.docs[0].reference.delete();
 //   });
 // }
