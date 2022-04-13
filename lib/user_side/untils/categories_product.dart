@@ -261,7 +261,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            widget.categories=="5"||widget.categories=="6"||widget.categories=="7"?
+                            const SizedBox():Text(
                               "Size",
                               style: defaultTextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 16.00),
@@ -428,7 +429,8 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            widget.categories=="6"||widget.categories=="7"?
+                            const SizedBox():Text(
                               "Color",
                               style: defaultTextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 16.00),
@@ -595,7 +597,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                           ],
                         )),
                     const SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -608,7 +610,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                       ),
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 10,
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(

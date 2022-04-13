@@ -166,7 +166,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
   forgetPassword() async {
     final FirebaseAuth auth = await FirebaseAuth.instance;
     User? user = FirebaseAuth.instance.currentUser;
-    if (user?.email == emailController.text ) {
+    if (user?.email == emailController.text ||widget.email==emailController.text) {
       await auth
           .sendPasswordResetEmail(email: emailController.text)
           .then((value) async {

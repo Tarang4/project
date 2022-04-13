@@ -132,7 +132,7 @@ class _PerfumesScreenState extends State<PerfumesScreen> {
                       print("error not found product ${snapshot.hasError}");
                     }
 
-                    return Center(
+                    return const Center(
                         child: CircularProgressIndicator(
                           color: colorGreen,
                         ));

@@ -902,8 +902,10 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
       );
 
   onChange(int? value) {
+
     setState(() {
       grpValue = value;
+      // value==1?"ME";
     });
   }
 

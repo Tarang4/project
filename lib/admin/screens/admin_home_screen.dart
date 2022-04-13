@@ -53,7 +53,7 @@ class _AdminHomeState extends State<AdminHome> {
                               builder: (context) => const LoginTypes()));
                     },
                     child: Text(
-                      'LogOut  ${pref!.getBool("isAdminLigIn").toString()}',
+                      'LogOut ',
                       style: TextStyle(color: Colors.black),
                     ))
               ],

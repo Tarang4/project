@@ -170,7 +170,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             text4.text +
                             text5.text +
                             text6.text;
-                        print(otp);ToastMethod.simpleToast(massage: "OTP:$otp:");
+                        print(otp);
 
                       },
                       child: Container(

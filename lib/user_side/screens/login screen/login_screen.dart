@@ -181,12 +181,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: () {
-                              if (loginScreenKey.currentState!.validate()){
+                              // if (loginScreenKey.currentState!.validate()){
                               Navigator.push(
                               context,
                               CupertinoPageRoute(
-                              builder: (context) => ForgetScreen()));
-                              }
+                              builder: (context) => ForgetScreen(email: emailController.text,)));
+
                             },
                             child: Text(
                               "Forgot Password?",

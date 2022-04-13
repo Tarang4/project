@@ -321,7 +321,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     if (snapshot.hasData) {
                       return GridView.builder(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           itemCount: snapshot.data.docs.length,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
