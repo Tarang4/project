@@ -1,13 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/user_side/modal/cart_modal.dart';
 import 'package:intl/intl.dart';
-import 'package:untitled/user_side/screens/account%20screen/treckorder_screen.dart';
-import 'package:untitled/user_side/screens/explore%20screen/explore_screen.dart';
-import 'package:untitled/user_side/screens/explore%20screen/main_home_screen.dart';
-import 'package:untitled/user_side/screens/home_screen.dart';
+import '../../screens/explore screen/main_home_screen.dart';
 import '../../untils/toast/flutter_toast_method.dart';
 import '../../config/FireStore_string.dart';
 
@@ -54,7 +50,6 @@ class OrderRepository {
 
     final DateFormat formatter = DateFormat.yMMMMd('en_US');
     final DateFormat formatterTime = DateFormat.jm();
-
     final String orderDate = formatter.format(dateTime);
     final String orderTime = formatterTime.format(dateTime);
 
@@ -94,7 +89,7 @@ class OrderRepository {
 
       ScaffoldMessenger.of(context!).showSnackBar(
         SnackBar(
-          content: const Text('✔  Your Order placed Successfully\n     Have Nice Day !'),
+          content: const Text('✔  Your Order placed Successfully\n      Have Nice Day !'),
           action: SnackBarAction(
             label: '',
             onPressed: () {
@@ -103,7 +98,8 @@ class OrderRepository {
           ),
         ),
       );
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const MainHomeScreen()));
+      Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context)=>MainHomeScreen()),ModalRoute.withName("/"));
+
 
       debugPrint('yes add card');
     } else {
