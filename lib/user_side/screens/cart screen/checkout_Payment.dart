@@ -514,8 +514,7 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
                           ),
                           const Spacer(),
                           Text(
-                            finalprice.toString(),
-                            // int.parse(finalprice.toString()).toStringAsFixed(2),
+                            finalprice!.toStringAsFixed(2),
                             style: defaultTextStyle(),
                           ),
                         ],

@@ -104,9 +104,12 @@ class _LoginTypesState extends State<LoginTypes> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Icon(Icons.mail_outline_outlined)),
+                              const Padding(
+                                padding: EdgeInsets.all(12),
+                                child: Icon(
+                                  Icons.mark_email_read_outlined,
+                                ),
+                              ),
                               Text(
                                 "Continue With Gmail",
                                 style: defaultTextStyle(
@@ -164,8 +167,13 @@ class _LoginTypesState extends State<LoginTypes> {
           padding: const EdgeInsets.all(8.0),
           child: TextButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminLogin()));
-              }, child: const Text("Admin Login",style: TextStyle(color: colorGreen),)),
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AdminLogin()));
+              },
+              child: const Text(
+                "Admin Login",
+                style: TextStyle(color: colorGreen),
+              )),
         )
       ],
     )));

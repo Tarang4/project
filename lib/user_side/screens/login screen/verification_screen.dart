@@ -197,7 +197,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             text5.text +
                             text6.text;
                         print(otp);
-                        ToastMethod.simpleToast(massage: "OTP:$otp:");
                         PhoneAuthCredential phoneAuthCredential =
                             PhoneAuthProvider.credential(
                                 verificationId: verificationId!,
@@ -244,11 +243,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             print(
                 "is Signup --------------------------------------------------------");
             AuthRepository.signup(
-                    context: context,
-                    name: widget.name,
-                    email: widget.email,
-                    phone: widget.phoneNumber,
-                    password: widget.password);
+                context: context,
+                name: widget.name,
+                email: widget.email,
+                phone: widget.phoneNumber,
+                password: widget.password);
           } else {
             print(
                 "is login----------------------------------------------------");

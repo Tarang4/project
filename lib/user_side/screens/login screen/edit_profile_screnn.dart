@@ -86,34 +86,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         Stack(
                           children: [
                             Positioned(
-                              bottom: 2.3,
-                              left: 2.3,
-                              child: InkWell(
-                                onTap: () => openImageDialog(),
-                                child: _photo != null
-                                    ? Container(
-                                        height: 100,
-                                        width: 100,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(70),
-                                        ),
-                                        child: Image.file(
-                                          _photo!,
-                                          fit: BoxFit.cover,
-                                        ))
-                                    : Container(
-                                        height: 100,
-                                        width: 100,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(70),
-                                            color: Colors.grey.withOpacity(0.5)),
-                                        child: Image.asset(assetsImage!)),
-                              ),
-                            ),
-                            Positioned(
                               child: Container(
                                 height: 105,
                                 width: 105,
@@ -121,6 +93,36 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     shape: BoxShape.circle,
                                     border:
                                         Border.all(color: colorGreen, width: 1)),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 2.3,
+                              left: 2.3,
+                              child: InkWell(
+                                customBorder: const CircleBorder(),
+                                highlightColor: Colors.transparent,
+                                onTap: () => openImageDialog(),
+                                child: _photo != null
+                                    ? Container(
+                                    height: 100,
+                                    width: 100,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(70),
+                                    ),
+                                    child: Image.file(
+                                      _photo!,
+                                      fit: BoxFit.cover,
+                                    ))
+                                    : Container(
+                                    height: 100,
+                                    width: 100,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(70),
+                                        color: Colors.grey.withOpacity(0.5)),
+                                    child: Image.asset(assetsImage!)),
                               ),
                             ),
                             Positioned(
@@ -240,7 +242,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           height: 15,
                         ),
                         const Text("Gender",
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: colorGrey,
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.w400)),
@@ -287,7 +289,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text("BirthDate",
+                        const Text("BOD",
                             style: TextStyle(
                                 color: colorGrey,
                                 fontSize: 14.0,
@@ -295,10 +297,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Container(
+                        SizedBox(
                           width: double.infinity,
                           height: 33,
                           child: TextFormField(
+                            enabled: false,
                             controller: _birthDateController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.number,

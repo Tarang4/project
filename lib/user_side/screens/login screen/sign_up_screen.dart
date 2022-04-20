@@ -2,7 +2,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:untitled/user_side/screens/login%20screen/verification_screen.dart';
 import '../../config/app_colors.dart';
@@ -120,7 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Text(
+                        const Text(
                           "Enter Phone Number",
                           style: TextStyle(
                               fontSize: 14.0,
@@ -132,12 +131,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         IntlPhoneField(
                           cursorColor: colorGreen,
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                           disableLengthCheck: false,
                           textAlignVertical: TextAlignVertical.center,
-                          dropdownTextStyle: TextStyle(fontSize: 16),
+                          dropdownTextStyle: const TextStyle(fontSize: 16),
                           dropdownIcon:
-                              Icon(Icons.arrow_drop_down, color: colorGreen),
+                              const Icon(Icons.arrow_drop_down, color: colorGreen),
                           decoration: const InputDecoration(
                             hintText: 'Phone Number',
                             focusedBorder: UnderlineInputBorder(
@@ -184,7 +183,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: colorBlack,
                                 fontSize: 18,
                                 fontWeight: FontWeight.normal),
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
 
                               border: UnderlineInputBorder(
                                 borderSide: BorderSide(color: colorGreen),
@@ -232,11 +231,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             decoration: InputDecoration(
                               suffixIcon: IconButton(
                                 icon: isPassword
-                                    ? Icon(
+                                    ? const Icon(
                                         Icons.visibility,
                                         color: Colors.black,
                                       )
-                                    : Icon(Icons.visibility_off,
+                                    : const Icon(Icons.visibility_off,
                                         color: Colors.black),
                                 onPressed: () {
                                   setState(() {
@@ -244,10 +243,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   });
                                 },
                               ),
-                              border: UnderlineInputBorder(
+                              border: const UnderlineInputBorder(
                                 borderSide: BorderSide(color: colorGreen),
                               ),
-                              focusedBorder: UnderlineInputBorder(
+                              focusedBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(color: colorGreen),
                               ),
                             ),
