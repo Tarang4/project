@@ -73,7 +73,7 @@ class _ProductEditState extends State<ProductEdit> {
                           context,
                           CupertinoPageRoute(
                               builder: (context) => CategoriesSeeProduct(categories: '2',)));
-                    },child: Container(height: 40,width: 100,child: Text("women"),)),
+                    },child: SizedBox(height: 40,width: 100,child: Text("women"),)),
 
                     InkWell(onTap: (){
                       Navigator.push(
@@ -335,16 +335,7 @@ class _ProductEditState extends State<ProductEdit> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: colorGreen,
-        child: const Icon(
-          Icons.add,
-        ),
-        onPressed: () {
-          Navigator.of(context).push(CupertinoPageRoute(
-              builder: (context) => const AddProductAdminSide()));
-        },
-      ),
+
     );
   }
 }

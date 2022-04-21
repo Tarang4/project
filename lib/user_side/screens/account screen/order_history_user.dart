@@ -180,19 +180,65 @@ class _UserOrderHistoryScreenState extends State<UserOrderHistoryScreen> {
                                                         height: 5,
                                                       ),
                                                       Text(
-                                                        "Size : ${orderModalPrint.productDetail![indexx].size.toString()}",
+                                                        orderModalPrint
+                                                            .productDetail![
+                                                        indexx]
+                                                            .size
+                                                            .toString() !=
+                                                            "null"
+                                                            ? "Size : ${orderModalPrint.productDetail![indexx].size.toString()}"
+                                                            : "",
                                                         style: defaultTextStyle(
                                                             fontSize: 14.0,
                                                             fontColors: colorBlack,
                                                             fontWeight:
                                                             FontWeight.w400),
                                                       ),
+                                                      const SizedBox(
+                                                        height: 2,
+                                                      ),
+                                                      orderModalPrint
+                                                          .productDetail![
+                                                      indexx]
+                                                          .color
+                                                          .toString() ==
+                                                          "null"
+                                                          ? Container()
+                                                          : Row(
+                                                        children: [
+                                                          Text(
+                                                            "Color : ",
+                                                            style: defaultTextStyle(
+                                                                fontSize:
+                                                                14.0,
+                                                                fontColors:
+                                                                colorBlack,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                          ),
+                                                          Container(
+                                                            height: 20,
+                                                            width: 20,
+                                                            decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                    20),
+                                                                color: Color(int.parse(orderModalPrint
+                                                                    .productDetail![
+                                                                indexx]
+                                                                    .color
+                                                                    .toString()))),
+                                                          )
+                                                        ],
+                                                      ),
                                                     ],
                                                   ),
                                                   Card(
                                                     child: Container(
-                                                      height: 70,
-                                                      width: 70,
+                                                      height: 75,
+                                                      width: 75,
                                                       clipBehavior: Clip.antiAlias,
                                                       decoration: BoxDecoration(
                                                           borderRadius:

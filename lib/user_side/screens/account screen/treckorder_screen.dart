@@ -130,16 +130,30 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                 height: 10,
                               ),
                               cancel == false
-                                  ? (delivered==true&&conform==true)?Align(
-                                alignment: Alignment.bottomRight,
-                                child: Text(
-                                  "Order Deleverd",
-                                  style: defaultTextStyle(
-                                      fontColors: colorGreen,
-                                      fontSize: 15.0,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ):Container()
+                                  ? (conform == true && delivered == false)
+                                      ? Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: Text(
+                                            "Order conform",
+                                            style: defaultTextStyle(
+                                                fontColors: colorYellow,
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        )
+                                      : delivered == true
+                                          ? Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: Text(
+                                                "Order delivered",
+                                                style: defaultTextStyle(
+                                                    fontColors: colorGreen,
+                                                    fontSize: 15.0,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            )
+                                          : Container()
                                   : Align(
                                       alignment: Alignment.bottomRight,
                                       child: Text(
@@ -200,19 +214,65 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                                     height: 5,
                                                   ),
                                                   Text(
-                                                    "Size : ${orderModalPrint.productDetail![indexx].size.toString()}",
+                                                    orderModalPrint
+                                                                .productDetail![
+                                                                    indexx]
+                                                                .size
+                                                                .toString() !=
+                                                            "null"
+                                                        ? "Size : ${orderModalPrint.productDetail![indexx].size.toString()}"
+                                                        : "",
                                                     style: defaultTextStyle(
                                                         fontSize: 14.0,
                                                         fontColors: colorBlack,
                                                         fontWeight:
                                                             FontWeight.w400),
                                                   ),
+                                                  const SizedBox(
+                                                    height: 2,
+                                                  ),
+                                                  orderModalPrint
+                                                              .productDetail![
+                                                                  indexx]
+                                                              .color
+                                                              .toString() ==
+                                                          "null"
+                                                      ? Container()
+                                                      : Row(
+                                                          children: [
+                                                            Text(
+                                                              "Color : ",
+                                                              style: defaultTextStyle(
+                                                                  fontSize:
+                                                                      14.0,
+                                                                  fontColors:
+                                                                      colorBlack,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
+                                                            ),
+                                                            Container(
+                                                              height: 20,
+                                                              width: 20,
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
+                                                                  color: Color(int.parse(orderModalPrint
+                                                                      .productDetail![
+                                                                          indexx]
+                                                                      .color
+                                                                      .toString()))),
+                                                            )
+                                                          ],
+                                                        ),
                                                 ],
                                               ),
                                               Card(
                                                 child: Container(
-                                                  height: 70,
-                                                  width: 70,
+                                                  height: 75,
+                                                  width: 75,
                                                   clipBehavior: Clip.antiAlias,
                                                   decoration: BoxDecoration(
                                                       borderRadius:
@@ -278,92 +338,97 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                         ),
                                       ],
                                     ),
-                                   (delivered==true&&conform==true)?Container():
-                                    InkWell(
-                                      onTap: () {
-                                        AwesomeDialog(
-                                            context: context,
-                                            animType: AnimType.SCALE,
-                                            dialogType: DialogType.QUESTION,
-                                            body: const Center(
-                                              child: Text(
-                                                "Order Delete !!",
-                                                style: TextStyle(fontSize: 15),
+                                    (delivered == true && conform == true)
+                                        ? Container()
+                                        : cancel == true
+                                            ? Container()
+                                            : InkWell(
+                                                onTap: () {
+                                                  AwesomeDialog(
+                                                      context: context,
+                                                      animType: AnimType.SCALE,
+                                                      dialogType:
+                                                          DialogType.QUESTION,
+                                                      body: const Center(
+                                                        child: Text(
+                                                          "Order Delete !!",
+                                                          style: TextStyle(
+                                                              fontSize: 15),
+                                                        ),
+                                                      ),
+                                                      btnOkOnPress: () {
+                                                        if (cancel == false) {
+                                                          setState(() {
+                                                            cancel = true;
+                                                          });
+                                                          OrderRepository
+                                                              .orderUpdate(
+                                                            context: context,
+                                                            finalTotal:
+                                                                orderModalPrint
+                                                                    .finalTotal
+                                                                    .toString(),
+                                                            cancel: true,
+                                                            conform: conform,
+                                                            delivered:
+                                                                delivered,
+                                                            date:
+                                                                orderModalPrint
+                                                                    .orderDate
+                                                                    .toString(),
+                                                            userId: usrId
+                                                                .toString(),
+                                                          );
+                                                          AdminOrderRepository
+                                                              .orderUpdate(
+                                                            context: context,
+                                                            finalTotal:
+                                                                orderModalPrint
+                                                                    .finalTotal
+                                                                    .toString(),
+                                                            cancel: true,
+                                                            conform: conform,
+                                                            delivered:
+                                                                delivered,
+                                                            date:
+                                                                orderModalPrint
+                                                                    .orderDate
+                                                                    .toString(),
+                                                          );
+                                                        } else {
+                                                          setState(() {
+                                                            cancel = true;
+                                                          });
+                                                        }
+                                                      },
+                                                      btnCancelOnPress: () {
+                                                        setState(() {
+                                                          cancel = false;
+                                                        });
+                                                      }).show();
+                                                },
+                                                child: Container(
+                                                  margin: const EdgeInsets.only(
+                                                      top: 15),
+                                                  height: 30,
+                                                  alignment: Alignment.center,
+                                                  width: 100,
+                                                  child: Text(
+                                                    "Cancel Order",
+                                                    style: defaultTextStyle(
+                                                        fontSize: 15.0,
+                                                        fontColors:
+                                                            Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                      color: colorYellow,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4)),
+                                                ),
                                               ),
-                                            ),
-                                            btnOkOnPress: () {
-                                              if (cancel == false) {
-                                                setState(() {
-                                                  cancel = true;
-                                                });
-                                                OrderRepository.orderUpdate(
-                                                  context: context,
-                                                  finalTotal: orderModalPrint
-                                                      .finalTotal
-                                                      .toString(),
-                                                  cancel: true,
-                                                  conform: conform,
-                                                  delivered: delivered,
-                                                  date: orderModalPrint
-                                                      .orderDate
-                                                      .toString(),
-                                                  userId: usrId.toString(),
-                                                );
-                                                AdminOrderRepository
-                                                    .orderUpdate(
-                                                  context: context,
-                                                  finalTotal: orderModalPrint
-                                                      .finalTotal
-                                                      .toString(),
-                                                  cancel: true,
-                                                  conform: conform,
-                                                  delivered: delivered,
-                                                  date: orderModalPrint
-                                                      .orderDate
-                                                      .toString(),
-                                                );
-                                              } else {
-                                                setState(() {
-                                                  cancel = true;
-                                                });
-                                              }
-                                            },
-                                            btnCancelOnPress: () {
-                                              setState(() {
-                                                cancel = false;
-                                              });
-                                            }).show();
-                                      },
-                                      child: Container(
-                                        margin: const EdgeInsets.only(top: 15),
-                                        height: 30,
-                                        alignment: Alignment.center,
-                                        width: 100,
-                                        child: cancel == true
-                                            ? Text(
-                                                "Cancelled",
-                                                style: defaultTextStyle(
-                                                    fontSize: 15.0,
-                                                    fontColors: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              )
-                                            : Text(
-                                                "Cancel Order",
-                                                style: defaultTextStyle(
-                                                    fontSize: 15.0,
-                                                    fontColors: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              ),
-                                        decoration: BoxDecoration(
-                                            color: cancel == true
-                                                ? Colors.red
-                                                : colorYellow,
-                                            borderRadius:
-                                                BorderRadius.circular(4)),
-                                      ),
-                                    ),
                                     const SizedBox(
                                       height: 20,
                                     ),
@@ -384,9 +449,8 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                               color: cancel == false
-                                                  ? conform == true
-                                                      ? colorGreen
-                                                      : colorBlack
+                                                  ? colorGreen
+                                                  // : colorBlack
                                                   : Colors.red.withOpacity(0.7),
                                             ),
                                           ),
@@ -394,7 +458,9 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                         Expanded(
                                             child: Container(
                                           height: 1,
-                                          color: colorBlack,
+                                          color: conform == true
+                                              ? colorGreen
+                                              : colorBlack,
                                         )),
                                         Container(
                                           height: 25,
@@ -419,7 +485,9 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                         Expanded(
                                             child: Container(
                                           height: 1,
-                                          color:delivered==true?colorGreen: colorBlack,
+                                          color: delivered == true
+                                              ? colorGreen
+                                              : colorBlack,
                                         )),
                                         Container(
                                           height: 25,
@@ -456,7 +524,9 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                           "Placed     ",
                                           style: defaultTextStyle(
                                               fontSize: 18.0,
-                                              fontColors: colorGreen,
+                                              fontColors: cancel == false
+                                                  ? colorGreen
+                                                  : Colors.red.withOpacity(0.7),
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text(
@@ -476,8 +546,9 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                                         Text(
                                           "Delivered",
                                           style: defaultTextStyle(
-                                              fontSize:
-                                                  delivered == true ? 18.0 : 15.0,
+                                              fontSize: delivered == true
+                                                  ? 18.0
+                                                  : 15.0,
                                               fontColors: cancel == false
                                                   ? conform == true
                                                       ? colorGreen

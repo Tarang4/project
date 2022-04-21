@@ -429,7 +429,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             const SizedBox(
                               height: 10,
                             ),
-                            widget.categories=="6"||widget.categories=="7"?
+                            widget.categories=="6"||widget.categories=="7"||widget.categories=="5"?
                             const SizedBox():Text(
                               "Color",
                               style: defaultTextStyle(
@@ -438,7 +438,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Row(
+                            widget.categories=="6"||widget.categories=="7"||widget.categories=="5"? Container():Row(
                               children: [
                                 color1 == Colors.transparent
                                     ? Container()

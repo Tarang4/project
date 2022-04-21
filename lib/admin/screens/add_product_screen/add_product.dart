@@ -12,7 +12,10 @@ import '../../repository/add_product_repository.dart';
 import 'add_photo_screen/add_photo_screen.dart';
 
 class AddProductAdminSide extends StatefulWidget {
-  const AddProductAdminSide({Key? key}) : super(key: key);
+  final String categories;
+
+  const AddProductAdminSide({Key? key, required this.categories})
+      : super(key: key);
 
   @override
   State<AddProductAdminSide> createState() => _AddProductAdminSideState();
@@ -39,10 +42,10 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
   File? image3;
   File? image4;
 
-  Color? mycolor1 = Colors.redAccent;
-  Color? mycolor2 = Colors.green;
-  Color? mycolor3 = Colors.yellow;
-  Color? mycolor4 = Colors.blue;
+  Color? mycolor1 = const Color(0xffe0b94c);
+  Color? mycolor2 = const Color(0xff000000);
+  Color? mycolor3 = const Color(0xff399956);
+  Color? mycolor4 = const Color(0xffffffff);
 
   bool absorbPointer = false;
 
@@ -53,6 +56,29 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
   String? urlImage3;
   String? urlImage4;
 
+  String? categoryName;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    categoryName = widget.categories == "1"
+        ? "Male"
+        : widget.categories == "2"
+            ? "Women"
+            : widget.categories == "3"
+                ? "Kids"
+                : widget.categories == "4"
+                    ? "Shoes"
+                    : widget.categories == "5"
+                        ? "Devices"
+                        : widget.categories == "6"
+                            ? "Perfumes"
+                            : widget.categories == "7"
+                                ? "watch"
+                                : "Men";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +87,7 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
         automaticallyImplyLeading: false,
         backgroundColor: colorWhite.withOpacity(0.5),
         title: Text(
-          "Add Product",
+          "Add $categoryName Product ",
           style: defaultTextStyle(
               fontSize: 20.0,
               fontColors: colorBlack,
@@ -86,10 +112,10 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
               margin: const EdgeInsets.only(
                 left: 4,
                 right: 4,
-                top: 5,
+                top: 0,
               ),
               padding: const EdgeInsets.only(
-                  left: 10, right: 10, top: 10, bottom: 40),
+                  left: 10, right: 10, top: 0, bottom: 40),
               child: Column(
                 children: [
                   Form(
@@ -97,476 +123,444 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Select Category",
-                          style: defaultTextStyle(
-                              fontColors: colorGreen,
-                              fontWeight: FontWeight.w100),
+                        const Text(
+                          "Product Name",
+                          style: TextStyle(color: colorGreen, fontSize: 16),
                         ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        SingleChildScrollView(
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              radioLayout(
-                                  name: "Men",
-                                  value: 1,
-                                  valueChanged: (value) => onChange(value)),
-                              radioLayout(
-                                  name: "Women",
-                                  value: 2,
-                                  valueChanged: (value) => onChange(value)),
-                              radioLayout(
-                                  name: "Kids",
-                                  value: 3,
-                                  valueChanged: (value) => onChange(value)),
-                              radioLayout(
-                                  name: "Shoes",
-                                  value: 4,
-                                  valueChanged: (value) => onChange(value)),
-                              radioLayout(
-                                  name: "Devices",
-                                  value: 5,
-                                  valueChanged: (value) => onChange(value)),
-                              radioLayout(
-                                  name: "Perfumes",
-                                  value: 6,
-                                  valueChanged: (value) => onChange(value)),
-                              radioLayout(
-                                  name: "Watches",
-                                  value: 7,
-                                  valueChanged: (value) => onChange(value)),
-                            ],
+                        Container(
+                          height: 30,
+                          child: TextFormField(
+                            controller: productName,
+                            cursorColor: colorGreen,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please Enter Name';
+                              }
+                            },
+                            textCapitalization: TextCapitalization.sentences,
+                            textInputAction: TextInputAction.next,
+                            decoration: InputDecoration(
+                                focusedBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: colorGreen)),
+                                focusColor: colorGreen,
+
+                                labelStyle: defaultTextStyle(
+                                    fontWeight: FontWeight.w400)),
                           ),
-                        ),
-                        TextFormField(
-                          controller: productName,
-                          cursorColor: colorGreen,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please Enter Name';
-                            }
-                          },
-                          textCapitalization: TextCapitalization.sentences,
-                          textInputAction: TextInputAction.next,
-                          decoration: InputDecoration(
-                              focusedBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: colorGreen)),
-                              focusColor: colorGreen,
-                              label: const Text(
-                                "Product Name",
-                                style: TextStyle(
-                                  color: colorGreen,
-                                ),
-                              ),
-                              labelStyle: defaultTextStyle(
-                                  fontWeight: FontWeight.w400)),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        TextFormField(
-                          controller: productDescription,
-                          cursorColor: colorGreen,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please Enter Discription';
-                            }
-                          },
-                          textCapitalization: TextCapitalization.sentences,
-                          textInputAction: TextInputAction.next,
-                          decoration: InputDecoration(
-                              focusedBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: colorGreen)),
-                              focusColor: colorGreen,
-                              label: const Text(
-                                "Product Description",
-                                style: TextStyle(color: colorGreen),
-                              ),
-                              labelStyle: defaultTextStyle(
-                                  fontWeight: FontWeight.w400)),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        TextFormField(
-                          controller: productPrice,
-                          cursorColor: colorGreen,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please Enter Price';
-                            }
-                          },
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          maxLength: 6,
-                          decoration: InputDecoration(
-                              counterText: "",
-                              focusedBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: colorGreen)),
-                              focusColor: colorGreen,
-                              label: const Text(
-                                "Product Price",
-                                style: TextStyle(color: colorGreen),
-                              ),
-                              labelStyle: defaultTextStyle(
-                                  fontWeight: FontWeight.w400)),
                         ),
                         const SizedBox(
                           height: 15,
                         ),
                         const Text(
-                          "Select Color:",
+                          "Product Description",
                           style: TextStyle(color: colorGreen, fontSize: 16),
                         ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text('Pick a color!'),
-                                        content: SingleChildScrollView(
-                                          child: ColorPicker(
-                                            pickerColor: mycolor1!,
-                                            //default color
-                                            onColorChanged: (Color color) {
-                                              //on color picked
-                                              setState(() {
-                                                mycolor1 = color;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          InkWell(
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Container(
-                                              height: 30,
-                                              width: 70,
-                                              margin: const EdgeInsets.all(10),
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                  boxShadow: const [
-                                                    BoxShadow(
-                                                        color: colorLightGrey,
-                                                        blurRadius: 0.9,
-                                                        spreadRadius: 0.9,
-                                                        offset:
-                                                            Offset(0.7, 0.7))
-                                                  ],
-                                                  color: colorGreen,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: colorGreen)),
-                                              child: Text(
-                                                "DONE",
-                                                style: defaultTextStyle(
-                                                    fontWeight: FontWeight.w300,
-                                                    fontColors: colorWhite,
-                                                    fontSize: 14.0),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              },
-                              child: Container(
-                                height: 30,
-                                width: 70,
-                                margin: const EdgeInsets.only(bottom: 5),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        width: 1, color: colorGreen)),
-                                child: const Text("Color 1"),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text('Pick a color!'),
-                                        content: SingleChildScrollView(
-                                          child: ColorPicker(
-                                            pickerColor: mycolor2!,
-                                            //default color
-                                            onColorChanged: (Color color) {
-                                              //on color picked
-                                              setState(() {
-                                                mycolor2 = color;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          InkWell(
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Container(
-                                              height: 30,
-                                              width: 70,
-                                              margin: const EdgeInsets.all(10),
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                  boxShadow: const [
-                                                    BoxShadow(
-                                                        color: colorLightGrey,
-                                                        blurRadius: 0.9,
-                                                        spreadRadius: 0.9,
-                                                        offset:
-                                                            Offset(0.7, 0.7))
-                                                  ],
-                                                  color: colorGreen,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: colorGreen)),
-                                              child: Text(
-                                                "DONE",
-                                                style: defaultTextStyle(
-                                                    fontWeight: FontWeight.w300,
-                                                    fontColors: colorWhite,
-                                                    fontSize: 14.0),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              },
-                              child: Container(
-                                height: 30,
-                                width: 70,
-                                margin: const EdgeInsets.only(bottom: 5),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        width: 1, color: colorGreen)),
-                                child: const Text("Color 2"),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text('Pick a color!'),
-                                        content: SingleChildScrollView(
-                                          child: ColorPicker(
-                                            pickerColor: mycolor3!,
-                                            //default color
-                                            onColorChanged: (Color color) {
-                                              //on color picked
-                                              setState(() {
-                                                mycolor3 = color;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          InkWell(
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Container(
-                                              height: 30,
-                                              width: 70,
-                                              margin: const EdgeInsets.all(10),
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                  boxShadow: const [
-                                                    BoxShadow(
-                                                        color: colorLightGrey,
-                                                        blurRadius: 0.9,
-                                                        spreadRadius: 0.9,
-                                                        offset:
-                                                            Offset(0.7, 0.7))
-                                                  ],
-                                                  color: colorGreen,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: colorGreen)),
-                                              child: Text(
-                                                "DONE",
-                                                style: defaultTextStyle(
-                                                    fontWeight: FontWeight.w300,
-                                                    fontColors: colorWhite,
-                                                    fontSize: 14.0),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              },
-                              child: Container(
-                                height: 30,
-                                width: 70,
-                                margin: const EdgeInsets.only(bottom: 5),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        width: 1, color: colorGreen)),
-                                child: const Text("Color 3"),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text('Pick a color!'),
-                                        content: SingleChildScrollView(
-                                          child: ColorPicker(
-                                            pickerColor: mycolor4!,
-                                            //default color
-                                            onColorChanged: (Color color) {
-                                              //on color picked
-                                              setState(() {
-                                                mycolor4 = color;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          InkWell(
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Container(
-                                              height: 30,
-                                              width: 70,
-                                              margin: const EdgeInsets.all(10),
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                  boxShadow: const [
-                                                    BoxShadow(
-                                                        color: colorLightGrey,
-                                                        blurRadius: 0.9,
-                                                        spreadRadius: 0.9,
-                                                        offset:
-                                                            Offset(0.7, 0.7))
-                                                  ],
-                                                  color: colorGreen,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: colorGreen)),
-                                              child: Text(
-                                                "DONE",
-                                                style: defaultTextStyle(
-                                                    fontWeight: FontWeight.w300,
-                                                    fontColors: colorWhite,
-                                                    fontSize: 14.0),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              },
-                              child: Container(
-                                height: 30,
-                                width: 70,
-                                margin: const EdgeInsets.only(bottom: 5),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        width: 1, color: colorGreen)),
-                                child: const Text("Color 4"),
-                              ),
-                            ),
-                          ],
+                        Container(height: 30,
+                          child: TextFormField(
+                            controller: productDescription,
+                            cursorColor: colorGreen,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please Enter Discription';
+                              }
+                            },
+                            textCapitalization: TextCapitalization.sentences,
+                            textInputAction: TextInputAction.next,
+                            decoration: InputDecoration(
+                                focusedBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: colorGreen)),
+                                focusColor: colorGreen,
+
+                                labelStyle: defaultTextStyle(
+                                    fontWeight: FontWeight.w400)),
+                          ),
                         ),
                         const SizedBox(
                           height: 15,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        const Text(
+                          "Product Price",
+                          style: TextStyle(color: colorGreen, fontSize: 16),
+                        ),
+                        Container(height: 30,
+                          child: TextFormField(
+                            controller: productPrice,
+                            cursorColor: colorGreen,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please Enter Price';
+                              }
+                            },
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.number,
+                            maxLength: 6,
+                            decoration: InputDecoration(
+                                counterText: "",
+                                focusedBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: colorGreen)),
+                                focusColor: colorGreen,
+
+                                labelStyle: defaultTextStyle(
+                                    fontWeight: FontWeight.w400)),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        (  widget.categories=="5"||widget.categories=="6"||widget.categories=="7")?Container(): Column(crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: mycolor1,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  width: 1,
-                                  color: Colors.black,
-                                ),
-                              ),
+                            const Text(
+                              "Select Color:",
+                              style: TextStyle(color: colorGreen, fontSize: 16),
                             ),
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: mycolor2,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  width: 1,
-                                  color: Colors.black,
-                                ),
-                              ),
+                            const SizedBox(
+                              height: 15,
                             ),
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: mycolor3,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  width: 1,
-                                  color: Colors.black,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                InkWell(
+                                  splashColor: Colors.transparent,
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text('Pick a color!'),
+                                            content: SingleChildScrollView(
+                                              child: ColorPicker(
+                                                pickerColor: mycolor1!,
+                                                //default color
+                                                onColorChanged: (Color color) {
+                                                  //on color picked
+                                                  setState(() {
+                                                    mycolor1 = color;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            actions: <Widget>[
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Container(
+                                                  height: 30,
+                                                  width: 70,
+                                                  margin: const EdgeInsets.all(10),
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      boxShadow: const [
+                                                        BoxShadow(
+                                                            color: colorLightGrey,
+                                                            blurRadius: 0.9,
+                                                            spreadRadius: 0.9,
+                                                            offset:
+                                                            Offset(0.7, 0.7))
+                                                      ],
+                                                      color: colorGreen,
+                                                      borderRadius:
+                                                      BorderRadius.circular(10),
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color: colorGreen)),
+                                                  child: Text(
+                                                    "DONE",
+                                                    style: defaultTextStyle(
+                                                        fontWeight: FontWeight.w300,
+                                                        fontColors: colorWhite,
+                                                        fontSize: 14.0),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: 70,
+                                    margin: const EdgeInsets.only(bottom: 5),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            width: 1, color: colorGreen)),
+                                    child: const Text("Color 1"),
+                                  ),
                                 ),
-                              ),
+                                InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text('Pick a color!'),
+                                            content: SingleChildScrollView(
+                                              child: ColorPicker(
+                                                pickerColor: mycolor2!,
+                                                //default color
+                                                onColorChanged: (Color color) {
+                                                  //on color picked
+                                                  setState(() {
+                                                    mycolor2 = color;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            actions: <Widget>[
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Container(
+                                                  height: 30,
+                                                  width: 70,
+                                                  margin: const EdgeInsets.all(10),
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      boxShadow: const [
+                                                        BoxShadow(
+                                                            color: colorLightGrey,
+                                                            blurRadius: 0.9,
+                                                            spreadRadius: 0.9,
+                                                            offset:
+                                                            Offset(0.7, 0.7))
+                                                      ],
+                                                      color: colorGreen,
+                                                      borderRadius:
+                                                      BorderRadius.circular(10),
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color: colorGreen)),
+                                                  child: Text(
+                                                    "DONE",
+                                                    style: defaultTextStyle(
+                                                        fontWeight: FontWeight.w300,
+                                                        fontColors: colorWhite,
+                                                        fontSize: 14.0),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: 70,
+                                    margin: const EdgeInsets.only(bottom: 5),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            width: 1, color: colorGreen)),
+                                    child: const Text("Color 2"),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text('Pick a color!'),
+                                            content: SingleChildScrollView(
+                                              child: ColorPicker(
+                                                pickerColor: mycolor3!,
+                                                //default color
+                                                onColorChanged: (Color color) {
+                                                  //on color picked
+                                                  setState(() {
+                                                    mycolor3 = color;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            actions: <Widget>[
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Container(
+                                                  height: 30,
+                                                  width: 70,
+                                                  margin: const EdgeInsets.all(10),
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      boxShadow: const [
+                                                        BoxShadow(
+                                                            color: colorLightGrey,
+                                                            blurRadius: 0.9,
+                                                            spreadRadius: 0.9,
+                                                            offset:
+                                                            Offset(0.7, 0.7))
+                                                      ],
+                                                      color: colorGreen,
+                                                      borderRadius:
+                                                      BorderRadius.circular(10),
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color: colorGreen)),
+                                                  child: Text(
+                                                    "DONE",
+                                                    style: defaultTextStyle(
+                                                        fontWeight: FontWeight.w300,
+                                                        fontColors: colorWhite,
+                                                        fontSize: 14.0),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: 70,
+                                    margin: const EdgeInsets.only(bottom: 5),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            width: 1, color: colorGreen)),
+                                    child: const Text("Color 3"),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text('Pick a color!'),
+                                            content: SingleChildScrollView(
+                                              child: ColorPicker(
+                                                pickerColor: mycolor4!,
+                                                //default color
+                                                onColorChanged: (Color color) {
+                                                  //on color picked
+                                                  setState(() {
+                                                    mycolor4 = color;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            actions: <Widget>[
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Container(
+                                                  height: 30,
+                                                  width: 70,
+                                                  margin: const EdgeInsets.all(10),
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      boxShadow: const [
+                                                        BoxShadow(
+                                                            color: colorLightGrey,
+                                                            blurRadius: 0.9,
+                                                            spreadRadius: 0.9,
+                                                            offset:
+                                                            Offset(0.7, 0.7))
+                                                      ],
+                                                      color: colorGreen,
+                                                      borderRadius:
+                                                      BorderRadius.circular(10),
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color: colorGreen)),
+                                                  child: Text(
+                                                    "DONE",
+                                                    style: defaultTextStyle(
+                                                        fontWeight: FontWeight.w300,
+                                                        fontColors: colorWhite,
+                                                        fontSize: 14.0),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: 70,
+                                    margin: const EdgeInsets.only(bottom: 5),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            width: 1, color: colorGreen)),
+                                    child: const Text("Color 4"),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: mycolor4,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  width: 1,
-                                  color: Colors.black,
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: mycolor1,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: mycolor2,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: mycolor3,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: mycolor4,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
+
                         const SizedBox(
                           height: 10,
                         ),
-                        Card(
+                        (  widget.categories=="5"||widget.categories=="6"||widget.categories=="7")? Container():Card(
                           elevation: 3,
                           child: Container(
                             padding: const EdgeInsets.all(10),
@@ -602,7 +596,7 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                                             },
                                           ),
                                         ),
-                                        const Text("S"),
+                                         Text(widget.categories=="4"?"7":"S"),
                                       ],
                                     ),
                                     Column(
@@ -624,7 +618,8 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                                                 });
                                               }),
                                         ),
-                                        const Text("M"),
+                                        Text(widget.categories=="4"?"8":"M"),
+
                                       ],
                                     ),
                                     Column(
@@ -646,7 +641,8 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                                                 });
                                               }),
                                         ),
-                                        const Text("XL"),
+                                        Text(widget.categories=="4"?"9":"XL"),
+
                                       ],
                                     ),
                                     Column(
@@ -668,7 +664,8 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                                                 });
                                               }),
                                         ),
-                                        const Text("XXL"),
+                                        Text(widget.categories=="4"?"10":"XXL"),
+
                                       ],
                                     ),
                                   ],
@@ -902,7 +899,6 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
       );
 
   onChange(int? value) {
-
     setState(() {
       grpValue = value;
       // value==1?"ME";
@@ -983,7 +979,7 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
                       productName: productName.text,
                       productPrice: productPrice.text,
                       productInfo: productDescription.text,
-                      categories: "$grpValue",
+                      categories: widget.categories,
                       img1: urlImage1,
                       img2: urlImage2,
                       img3: urlImage3,

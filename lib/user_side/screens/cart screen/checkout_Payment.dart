@@ -531,47 +531,94 @@ class _CheckoutPaymentState extends State<CheckoutPayment> {
                   children: [
                     InkWell(
                       onTap: () {
-                        if(grpValue==null){
-                          ToastMethod.simpleToastLightColor(massage: "Add Your Card Details !");
+                        if( method == "Card Payment"|| method == "Cash on Delivery"){
+                          if( method == "Cash on Delivery"){
+                            OrderRepository.orderAddUser(
+                              context: context,
+                              total: widget.total.toString(),
+                              GST: gst.toString(),
+                              discount: discount.toString(),
+                              finalTotal: finalprice.toString(),
+                              addressId: widget.addressID.toString(),
+                              cardId: cardID.toString(),
+                              method: method.toString(),
+                              cvv: cvv.toString(),
+                              cardName: cardName.toString(),
+                              cardNo: cardNo.toString(),
+                              expDate: exp_date.toString(),
+                              addressPhone: widget.addPhoneNo.toString(),
+                              address: widget.address.toString(),
+                              addressFullName: widget.addFullName.toString(),
+                              cartList: widget.cartList,
+                            );
+                            AdminOrderRepository.orderAddAdmin(
+                              context: context,
+                              total: widget.total.toString(),
+                              GST: gst.toString(),
+                              discount: discount.toString(),
+                              finalTotal: finalprice.toString(),
+                              addressId: widget.addressID.toString(),
+                              cardId: cardID.toString(),
+                              method: method.toString(),
+                              cvv: cvv.toString(),
+                              cardName: cardName.toString(),
+                              cardNo: cardNo.toString(),
+                              expDate: exp_date.toString(),
+                              addressPhone: widget.addPhoneNo.toString(),
+                              address: widget.address.toString(),
+                              addressFullName: widget.addFullName.toString(),
+                              cartList: widget.cartList,
+                            );
+                          }
+                          else{
+                            if(grpValue==null){
+                              ToastMethod.simpleToastLightColor(massage: "Add Your Card Details !");
+                            }
+                            else {
+                              OrderRepository.orderAddUser(
+                                context: context,
+                                total: widget.total.toString(),
+                                GST: gst.toString(),
+                                discount: discount.toString(),
+                                finalTotal: finalprice.toString(),
+                                addressId: widget.addressID.toString(),
+                                cardId: cardID.toString(),
+                                method: method.toString(),
+                                cvv: cvv.toString(),
+                                cardName: cardName.toString(),
+                                cardNo: cardNo.toString(),
+                                expDate: exp_date.toString(),
+                                addressPhone: widget.addPhoneNo.toString(),
+                                address: widget.address.toString(),
+                                addressFullName: widget.addFullName.toString(),
+                                cartList: widget.cartList,
+                              );
+                              AdminOrderRepository.orderAddAdmin(
+                                context: context,
+                                total: widget.total.toString(),
+                                GST: gst.toString(),
+                                discount: discount.toString(),
+                                finalTotal: finalprice.toString(),
+                                addressId: widget.addressID.toString(),
+                                cardId: cardID.toString(),
+                                method: method.toString(),
+                                cvv: cvv.toString(),
+                                cardName: cardName.toString(),
+                                cardNo: cardNo.toString(),
+                                expDate: exp_date.toString(),
+                                addressPhone: widget.addPhoneNo.toString(),
+                                address: widget.address.toString(),
+                                addressFullName: widget.addFullName.toString(),
+                                cartList: widget.cartList,
+                              );
+                            }
+                          }
                         }
-                        else {
-                          OrderRepository.orderAddUser(
-                            context: context,
-                            total: widget.total.toString(),
-                            GST: gst.toString(),
-                            discount: discount.toString(),
-                            finalTotal: finalprice.toString(),
-                            addressId: widget.addressID.toString(),
-                            cardId: cardID.toString(),
-                            method: method.toString(),
-                            cvv: cvv.toString(),
-                            cardName: cardName.toString(),
-                            cardNo: cardNo.toString(),
-                            expDate: exp_date.toString(),
-                            addressPhone: widget.addPhoneNo.toString(),
-                            address: widget.address.toString(),
-                            addressFullName: widget.addFullName.toString(),
-                            cartList: widget.cartList,
-                          );
-                          AdminOrderRepository.orderAddAdmin(
-                            context: context,
-                            total: widget.total.toString(),
-                            GST: gst.toString(),
-                            discount: discount.toString(),
-                            finalTotal: finalprice.toString(),
-                            addressId: widget.addressID.toString(),
-                            cardId: cardID.toString(),
-                            method: method.toString(),
-                            cvv: cvv.toString(),
-                            cardName: cardName.toString(),
-                            cardNo: cardNo.toString(),
-                            expDate: exp_date.toString(),
-                            addressPhone: widget.addPhoneNo.toString(),
-                            address: widget.address.toString(),
-                            addressFullName: widget.addFullName.toString(),
-                            cartList: widget.cartList,
-                          );
+                        else{
+                          ToastMethod.simpleToastLightColor(massage: "Select Method !");
+
                         }
+
                       },
                       child: Container(
                         height: 50,

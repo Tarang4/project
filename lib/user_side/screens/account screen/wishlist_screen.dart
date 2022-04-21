@@ -22,8 +22,8 @@ class WishListScreen extends StatefulWidget {
 }
 
 class _WishListScreenState extends State<WishListScreen> {
-  String? uid;
   List<ProductModalAdmin> productList = [];
+  List<ProductModalAdmin> productPerfumesList = [];
   List<WishListModal> wishList = [];
 
   @override
@@ -33,9 +33,11 @@ class _WishListScreenState extends State<WishListScreen> {
     super.initState();
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
-    uid = user?.uid;
+    // String? uid = user?.uid;
+
     getProducts();
     getWishList();
+    getProductsPerfumes();
   }
 
   @override
@@ -102,81 +104,78 @@ class _WishListScreenState extends State<WishListScreen> {
                           int productIndex =
                               productList.indexWhere((f) => f.productId == pid);
 
-                          if (productIndex != null) {
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => CategoriesProduct(
-                                          categories: productList[productIndex]
-                                              .categories
-                                              .toString(),
-                                          pImage1: productList[productIndex]
-                                              .images!
-                                              .img1
-                                              .toString(),
-                                          pImage2: productList[productIndex]
-                                              .images!
-                                              .img2
-                                              .toString(),
-                                          pImage3: productList[productIndex]
-                                              .images!
-                                              .img3
-                                              .toString(),
-                                          pImage4: productList[productIndex]
-                                              .images!
-                                              .img4
-                                              .toString(),
-                                          pName: productList[productIndex]
-                                              .productName
-                                              .toString(),
-                                          pInfo: productList[productIndex]
-                                              .productInfo
-                                              .toString(),
-                                          pPrice: productList[productIndex]
-                                              .productPrice
-                                              .toString(),
-                                          color1: productList[productIndex]
-                                              .colorCode!
-                                              .color1
-                                              .toString(),
-                                          color2: productList[productIndex]
-                                              .colorCode!
-                                              .color2
-                                              .toString(),
-                                          color3: productList[productIndex]
-                                              .colorCode!
-                                              .color3
-                                              .toString(),
-                                          color4: productList[productIndex]
-                                              .colorCode!
-                                              .color4
-                                              .toString(),
-                                          size1: productList[productIndex]
-                                              .size!
-                                              .s
-                                              .toString(),
-                                          size2: productList[productIndex]
-                                              .size!
-                                              .m
-                                              .toString(),
-                                          size3: productList[productIndex]
-                                              .size!
-                                              .xL
-                                              .toString(),
-                                          size4: productList[productIndex]
-                                              .size!
-                                              .xXL
-                                              .toString(),
-                                          review: "",
-                                          reviewStar: "",
-                                          pID: productList[productIndex]
-                                              .productId
-                                              .toString(),
-                                        )));
-                          }
-                          String productIDD =
-                              productList[productIndex].productId.toString();
-                          print(productIDD);
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => CategoriesProduct(
+                                        categories: productList[productIndex]
+                                            .categories
+                                            .toString(),
+                                        pImage1: productList[productIndex]
+                                            .images!
+                                            .img1
+                                            .toString(),
+                                        pImage2: productList[productIndex]
+                                            .images!
+                                            .img2
+                                            .toString(),
+                                        pImage3: productList[productIndex]
+                                            .images!
+                                            .img3
+                                            .toString(),
+                                        pImage4: productList[productIndex]
+                                            .images!
+                                            .img4
+                                            .toString(),
+                                        pName: productList[productIndex]
+                                            .productName
+                                            .toString(),
+                                        pInfo: productList[productIndex]
+                                            .productInfo
+                                            .toString(),
+                                        pPrice: productList[productIndex]
+                                            .productPrice
+                                            .toString(),
+                                        color1: productList[productIndex]
+                                            .colorCode!
+                                            .color1
+                                            .toString(),
+                                        color2: productList[productIndex]
+                                            .colorCode!
+                                            .color2
+                                            .toString(),
+                                        color3: productList[productIndex]
+                                            .colorCode!
+                                            .color3
+                                            .toString(),
+                                        color4: productList[productIndex]
+                                            .colorCode!
+                                            .color4
+                                            .toString(),
+                                        size1: productList[productIndex]
+                                            .size!
+                                            .s
+                                            .toString(),
+                                        size2: productList[productIndex]
+                                            .size!
+                                            .m
+                                            .toString(),
+                                        size3: productList[productIndex]
+                                            .size!
+                                            .xL
+                                            .toString(),
+                                        size4: productList[productIndex]
+                                            .size!
+                                            .xXL
+                                            .toString(),
+                                        review: "",
+                                        reviewStar: "",
+                                        pID: productList[productIndex]
+                                            .productId
+                                            .toString(),
+                                      )));
+                          // String productIDD =
+                          //     productList[productIndex].productId.toString();
                         },
                         child: Container(
                           height: 120,
@@ -297,9 +296,9 @@ class _WishListScreenState extends State<WishListScreen> {
                 verticalSpace: 14,
                 horizontalSpace: 16,
                 children: List.generate(
-                  10,
+                  productPerfumesList.length,
                   (index) {
-                    ProductModalAdmin productModal = productList[index];
+                    ProductModalAdmin productModal = productPerfumesList[index];
                     return ProductContainer(
                       pImage: productModal.images!.img1.toString(),
                       pName: productModal.productName.toString(),
@@ -361,10 +360,23 @@ class _WishListScreenState extends State<WishListScreen> {
         .collection(FirebaseString.productCollection)
         .get()
         .then((querySnapshot) {
-      querySnapshot.docs.forEach((result) {
+      for (var result in querySnapshot.docs) {
         productModalAdmin = ProductModalAdmin.fromJson(result.data());
         productList.add(productModalAdmin);
-      });
+      }
+    });
+  }
+  getProductsPerfumes() {
+    ProductModalAdmin productModalAdmin = ProductModalAdmin();
+
+    FirebaseFirestore.instance
+        .collection(FirebaseString.productCollection).where("categories",isEqualTo: "6")
+        .get()
+        .then((querySnapshot) {
+      for (var result in querySnapshot.docs) {
+        productModalAdmin = ProductModalAdmin.fromJson(result.data());
+        productPerfumesList.add(productModalAdmin);
+      }
     });
   }
 
@@ -380,12 +392,12 @@ class _WishListScreenState extends State<WishListScreen> {
         .collection(FirebaseString.wishListCollection)
         .get()
         .then((value) {
-      value.docs.forEach((element) {
+      for (var element in value.docs) {
         setState(() {
           wishListModal = WishListModal.fromJson(element.data());
           wishList.add(wishListModal);
         });
-      });
+      }
     });
   }
 

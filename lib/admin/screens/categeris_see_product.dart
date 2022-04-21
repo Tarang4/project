@@ -9,6 +9,7 @@ import '../../user_side/config/app_colors.dart';
 import '../../user_side/untils/app_fonts.dart';
 import '../modal/admin_product_modal.dart';
 import '../repository/add_product_repository.dart';
+import 'add_product_screen/add_product.dart';
 
 class CategoriesSeeProduct extends StatefulWidget {
   final String categories;
@@ -21,15 +22,50 @@ class CategoriesSeeProduct extends StatefulWidget {
 }
 
 class _CategoriesSeeProductState extends State<CategoriesSeeProduct> {
+  String? categoryName;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    categoryName = widget.categories == "1"
+        ? "Male"
+        : widget.categories == "2"
+            ? "Women"
+            : widget.categories == "3"
+                ? "Kids"
+                : widget.categories == "4"
+                    ? "Shoes"
+                    : widget.categories == "5"
+                        ? "Devices"
+                        : widget.categories == "6"
+                            ? "Perfumes"
+                            : widget.categories == "7"
+                                ? "watch"
+                                : "Men";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: colorGreen,
+        child: const Icon(
+          Icons.add,
+        ),
+        onPressed: () {
+          Navigator.of(context).push(CupertinoPageRoute(
+              builder: (context) => AddProductAdminSide(
+                    categories: widget.categories.toString(),
+                  )));
+        },
+      ),
       appBar: AppBar(
         elevation: 2,
         automaticallyImplyLeading: false,
         backgroundColor: colorWhite,
         title: Text(
-          "Product Edit",
+          "$categoryName Product",
           style: defaultTextStyle(
               fontSize: 20.0,
               fontColors: colorBlack,
@@ -67,6 +103,10 @@ class _CategoriesSeeProductState extends State<CategoriesSeeProduct> {
                         ProductModalAdmin productModal =
                             ProductModalAdmin.fromJson(
                                 snapshot.data.docs[index].data());
+                        String sSize = productModal.size!.s.toString();
+                        String mSize = productModal.size!.m.toString();
+                        String xlSize = productModal.size!.xL.toString();
+                        String xxlSize = productModal.size!.xXL.toString();
 
                         return Card(
                           elevation: 3,
@@ -78,7 +118,7 @@ class _CategoriesSeeProductState extends State<CategoriesSeeProduct> {
                               children: [
                                 Row(
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       height: 180,
                                       width: 150,
                                       child: CachedNetworkImage(
@@ -103,7 +143,7 @@ class _CategoriesSeeProductState extends State<CategoriesSeeProduct> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Categories : ${productModal.categories.toString()}",
+                                            "Categories : $categoryName",
                                             style: defaultTextStyle(
                                                 fontSize: 14.0,
                                                 fontColors: colorBlack,
@@ -142,78 +182,136 @@ class _CategoriesSeeProductState extends State<CategoriesSeeProduct> {
                                           const SizedBox(
                                             height: 7,
                                           ),
-                                          Text(
-                                            "S:${productModal.size!.s.toString()}             M:${productModal.size!.m.toString()} \nXL:${productModal.size!.xL.toString()}          XXL:${productModal.size!.xXL.toString()}",
-                                            style: defaultTextStyle(
-                                                fontSize: 12.0,
-                                                fontColors: colorBlack,
-                                                fontWeight: FontWeight.normal),
-                                          ),
+                                          (widget.categories == "5" ||
+                                                  widget.categories == "6" ||
+                                                  widget.categories == "7")
+                                              ? Container()
+                                              : Row(
+                                                  children: [
+                                                    Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(widget.categories=="4"?sSize=="true"? "7: Available":"7: Unavailable":
+                                                         sSize=="true"? "S: Available":"S: Unavailable",
+                                                          style: defaultTextStyle(
+                                                              fontSize: 12.0,
+                                                              fontColors:
+                                                                  colorBlack,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal),
+                                                        ),
+                                                        Text(widget.categories=="4"?sSize=="true"? "8: Available":"8: Unavailable":
+                                                          mSize=="true"? "M: Available":"M: Unavailable",
+                                                          style: defaultTextStyle(
+                                                              fontSize: 12.0,
+                                                              fontColors:
+                                                                  colorBlack,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(width: 10,),
+                                                    Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(widget.categories=="4"?sSize=="true"? "9: Available":"9: Unavailable":
+                                                          xlSize=="true"? "XL: Available":"XL: Unavailable",
+                                                          style: defaultTextStyle(
+                                                              fontSize: 12.0,
+                                                              fontColors:
+                                                                  colorBlack,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal),
+                                                        ),
+                                                        Text(widget.categories=="4"?sSize=="true"? "10: Available":"10:Unavailable":
+                                                          xxlSize=="true"? "XXL: Available":"XXL: Unavailable",
+                                                          style: defaultTextStyle(
+                                                              fontSize: 12.0,
+                                                              fontColors:
+                                                                  colorBlack,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
                                           const SizedBox(
                                             height: 15,
                                           ),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                height: 20,
-                                                width: 30,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: colorBlack),
-                                                  shape: BoxShape.circle,
-                                                  color: Color(int.parse(
-                                                      productModal
-                                                          .colorCode!.color1
-                                                          .toString())),
+                                          (widget.categories == "5" ||
+                                                  widget.categories == "6" ||
+                                                  widget.categories == "7")
+                                              ? Container()
+                                              : Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      height: 20,
+                                                      width: 30,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            width: 1,
+                                                            color: colorBlack),
+                                                        shape: BoxShape.circle,
+                                                        color: Color(int.parse(
+                                                            productModal
+                                                                .colorCode!
+                                                                .color1
+                                                                .toString())),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 20,
+                                                      width: 30,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            width: 1,
+                                                            color: colorBlack),
+                                                        shape: BoxShape.circle,
+                                                        color: Color(int.parse(
+                                                            productModal
+                                                                .colorCode!
+                                                                .color2
+                                                                .toString())),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 20,
+                                                      width: 30,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            width: 1,
+                                                            color: colorBlack),
+                                                        shape: BoxShape.circle,
+                                                        color: Color(int.parse(
+                                                            productModal
+                                                                .colorCode!
+                                                                .color3
+                                                                .toString())),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 20,
+                                                      width: 30,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            width: 1,
+                                                            color: colorBlack),
+                                                        shape: BoxShape.circle,
+                                                        color: Color(int.parse(
+                                                            productModal
+                                                                .colorCode!
+                                                                .color4
+                                                                .toString())),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-                                              Container(
-                                                height: 20,
-                                                width: 30,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: colorBlack),
-                                                  shape: BoxShape.circle,
-                                                  color: Color(int.parse(
-                                                      productModal
-                                                          .colorCode!.color2
-                                                          .toString())),
-                                                ),
-                                              ),
-                                              Container(
-                                                height: 20,
-                                                width: 30,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: colorBlack),
-                                                  shape: BoxShape.circle,
-                                                  color: Color(int.parse(
-                                                      productModal
-                                                          .colorCode!.color3
-                                                          .toString())),
-                                                ),
-                                              ),
-                                              Container(
-                                                height: 20,
-                                                width: 30,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: colorBlack),
-                                                  shape: BoxShape.circle,
-                                                  color: Color(int.parse(
-                                                      productModal
-                                                          .colorCode!.color4
-                                                          .toString())),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
                                           const SizedBox(
                                             height: 6,
                                           ),
