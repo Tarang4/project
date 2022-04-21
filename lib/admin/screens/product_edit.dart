@@ -28,9 +28,9 @@ class _ProductEditState extends State<ProductEdit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
+        elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: colorWhite,
+        backgroundColor: colorWhite.withOpacity(0.3),
         title: Text(
           "Product Edit",
           style: defaultTextStyle(
@@ -58,268 +58,269 @@ class _ProductEditState extends State<ProductEdit> {
             return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
-                padding: const EdgeInsets.all(18.0),
+                padding: const EdgeInsets.only( left: 10,top: 25,right: 10),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    InkWell(onTap: (){
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => const CategoriesSeeProduct(categories: '1',)));
-                    },child: Container(height: 40,width: 100,child: Text("men"),)),
-
-                    InkWell(onTap: (){
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => CategoriesSeeProduct(categories: '2',)));
-                    },child: SizedBox(height: 40,width: 100,child: Text("women"),)),
-
-                    InkWell(onTap: (){
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => const CategoriesSeeProduct(categories: '3',)));
-                    },child: Container(height: 40,width: 100,child: Text("kids"),)),
-
-                    InkWell(onTap: (){
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => const CategoriesSeeProduct(categories: '4',)));
-                    },child: Container(height: 40,width: 100,child: Text("shoes"),)),
-
-                    InkWell(onTap: (){
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => const CategoriesSeeProduct(categories: '5',)));
-                    },child: Container(height: 40,width: 100,child: Text("device"),)),
-
-                    InkWell(onTap: (){
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => CategoriesSeeProduct(categories: '6',)));
-                    },child: Container(height: 40,width: 100,child: Text("perfume"),)),
-
-                    InkWell(onTap: (){
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => CategoriesSeeProduct(categories: '7',)));
-                    },child: Container(height: 40,width: 100,child: Text("watch"),)),
-
-                    // ListView.builder(
-                    //   physics: const NeverScrollableScrollPhysics(),
-                    //   itemCount: snapshot.data.docs.length,
-                    //   shrinkWrap: true,
-                    //   itemBuilder: (BuildContext context, int index) {
-                    //     ProductModalAdmin productModal =
-                    //         ProductModalAdmin.fromJson(
-                    //             snapshot.data.docs[index].data());
-                    //
-                    //
-                    //
-                    //
-                    //     return Card(
-                    //       elevation: 3,
-                    //       child: Container(
-                    //         padding: const EdgeInsets.all(12),
-                    //         margin: const EdgeInsets.only(top: 5, bottom: 5),
-                    //         child: Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: [
-                    //             Row(
-                    //               children: [
-                    //                 Container(
-                    //                   height: 180,
-                    //                   width: 150,
-                    //                   child: CachedNetworkImage(
-                    //                     fit: BoxFit.cover,
-                    //                     imageUrl: productModal
-                    //                         .images!.img1
-                    //                         .toString(),
-                    //                     placeholder: (context, url) =>
-                    //                     const Center(
-                    //                         child:
-                    //                         CircularProgressIndicator(
-                    //                             color:
-                    //                             colorGreen)),
-                    //                     errorWidget:
-                    //                         (context, url, error) =>
-                    //                     new Icon(Icons.error),
-                    //                   ),
-                    //                 ),
-                    //                 const SizedBox(
-                    //                   width: 12,
-                    //                 ),
-                    //                 Expanded(
-                    //                   child: Column(
-                    //                     crossAxisAlignment:
-                    //                         CrossAxisAlignment.start,
-                    //                     children: [
-                    //                       Text(
-                    //                         "Categories : ${productModal.categories.toString()}",
-                    //                         style: defaultTextStyle(
-                    //                             fontSize: 14.0,
-                    //                             fontColors: colorBlack,
-                    //                             fontWeight: FontWeight.w300),
-                    //                       ),
-                    //                       const SizedBox(
-                    //                         height: 9,
-                    //                       ),
-                    //                       Text(
-                    //                         productModal.productName.toString(),
-                    //                         style: defaultTextStyle(
-                    //                             fontSize: 16.0,
-                    //                             fontColors: colorBlack,
-                    //                             fontWeight: FontWeight.w700),
-                    //                       ),
-                    //                       const SizedBox(
-                    //                         height: 5,
-                    //                       ),
-                    //                       Text(
-                    //                         productModal.productInfo.toString(),
-                    //                         style: defaultTextStyle(
-                    //                             fontSize: 12.0,
-                    //                             fontColors: colorBlack,
-                    //                             fontWeight: FontWeight.w100),
-                    //                       ),
-                    //                       const SizedBox(
-                    //                         height: 5,
-                    //                       ),
-                    //                       Text(
-                    //                         "₹${productModal.productPrice.toString()}",
-                    //                         style: defaultTextStyle(
-                    //                             fontSize: 15.0,
-                    //                             fontColors: colorBlack,
-                    //                             fontWeight: FontWeight.bold),
-                    //                       ),
-                    //                       const SizedBox(
-                    //                         height: 7,
-                    //                       ),
-                    //                       Text(
-                    //                         "S:${productModal.size!.s.toString()}             M:${productModal.size!.m.toString()} \nXL:${productModal.size!.xL.toString()}          XXL:${productModal.size!.xXL.toString()}",
-                    //                         style: defaultTextStyle(
-                    //                             fontSize: 12.0,
-                    //                             fontColors: colorBlack,
-                    //                             fontWeight: FontWeight.normal),
-                    //                       ),
-                    //                       const SizedBox(
-                    //                         height: 15,
-                    //                       ),
-                    //                       Row(
-                    //                         crossAxisAlignment:
-                    //                             CrossAxisAlignment.start,
-                    //                         children: [
-                    //                           Container(
-                    //                             height: 20,
-                    //                             width: 30,
-                    //                             decoration: BoxDecoration(
-                    //                               border: Border.all(
-                    //                                   width: 1,
-                    //                                   color: colorBlack),
-                    //                               shape: BoxShape.circle,
-                    //                               color: Color(int.parse(
-                    //                                   productModal
-                    //                                       .colorCode!.color1
-                    //                                       .toString())),
-                    //                             ),
-                    //                           ),
-                    //                           Container(
-                    //                             height: 20,
-                    //                             width: 30,
-                    //                             decoration: BoxDecoration(
-                    //                               border: Border.all(
-                    //                                   width: 1,
-                    //                                   color: colorBlack),
-                    //                               shape: BoxShape.circle,
-                    //                               color: Color(int.parse(
-                    //                                   productModal
-                    //                                       .colorCode!.color2
-                    //                                       .toString())),
-                    //                             ),
-                    //                           ),
-                    //                           Container(
-                    //                             height: 20,
-                    //                             width: 30,
-                    //                             decoration: BoxDecoration(
-                    //                               border: Border.all(
-                    //                                   width: 1,
-                    //                                   color: colorBlack),
-                    //                               shape: BoxShape.circle,
-                    //                               color: Color(int.parse(
-                    //                                   productModal
-                    //                                       .colorCode!.color3
-                    //                                       .toString())),
-                    //                             ),
-                    //                           ),
-                    //                           Container(
-                    //                             height: 20,
-                    //                             width: 30,
-                    //                             decoration: BoxDecoration(
-                    //                               border: Border.all(
-                    //                                   width: 1,
-                    //                                   color: colorBlack),
-                    //                               shape: BoxShape.circle,
-                    //                               color: Color(int.parse(
-                    //                                   productModal
-                    //                                       .colorCode!.color4
-                    //                                       .toString())),
-                    //                             ),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                       const SizedBox(
-                    //                         height: 6,
-                    //                       ),
-                    //                       const SizedBox(
-                    //                         height: 9,
-                    //                       ),
-                    //                       Text(
-                    //                         "Id : ${productModal.productId.toString()}",
-                    //                         style: defaultTextStyle(
-                    //                             fontSize: 12.0,
-                    //                             fontColors: colorBlack,
-                    //                             fontWeight: FontWeight.normal),
-                    //                       ),
-                    //                     ],
-                    //                   ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //             const SizedBox(
-                    //               height: 15,
-                    //             ),
-                    //             InkWell(
-                    //               onTap: () {
-                    //                 ProductRepository.deleteProducts(
-                    //                     id: productModal.productId.toString());
-                    //               },
-                    //               child: Container(
-                    //                 height: 40,
-                    //                 width: 150,
-                    //                 child: Text(
-                    //                   "Delete Producrt",
-                    //                   style: defaultTextStyle(
-                    //                       fontSize: 14.0,
-                    //                       fontColors: Colors.white,
-                    //                       fontWeight: FontWeight.normal),
-                    //                 ),
-                    //                 decoration: BoxDecoration(
-                    //                   color: Colors.red,
-                    //                   borderRadius: BorderRadius.circular(10),
-                    //                 ),
-                    //                 alignment: Alignment.center,
-                    //               ),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     );
-                    //   },
-                    // )
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) =>
+                                          const CategoriesSeeProduct(
+                                            categories: '1',
+                                          )));
+                            },
+                            child: Container(
+                              height: 135,
+                              width: 100,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(),
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/manadmin.png",
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Men",
+                                      style: defaultTextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) =>
+                                          const CategoriesSeeProduct(
+                                            categories: '2',
+                                          )));
+                            },
+                            child: Container(
+                              height: 135,
+                              width: 100,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(),
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/womenadmin.png",
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Women",
+                                      style: defaultTextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ],
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height/75,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) =>
+                                          const CategoriesSeeProduct(
+                                            categories: '3',
+                                          )));
+                            },
+                            child: Container(
+                              height: 135,
+                              width: 100,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(),
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/kidsadmin.png",
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Kids",
+                                      style: defaultTextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) =>
+                                          const CategoriesSeeProduct(
+                                            categories: '4',
+                                          )));
+                            },
+                            child: Container(
+                              height: 135,
+                              width: 100,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(),
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/shoesadmin.png",
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Shoes",
+                                      style: defaultTextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ],
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height/75,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) =>
+                                          const CategoriesSeeProduct(
+                                            categories: '5',
+                                          )));
+                            },
+                            child: Container(
+                              height: 135,
+                              width: 100,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(),
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/devicesadmin.png",
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Devices",
+                                      style: defaultTextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) =>
+                                          const CategoriesSeeProduct(
+                                            categories: '6',
+                                          )));
+                            },
+                            child: Container(
+                              height: 135,
+                              width: 100,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(),
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/perfumeadmin.png",
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Perfumes",
+                                      style: defaultTextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ],
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height/75,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 40),
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) =>
+                                        const CategoriesSeeProduct(
+                                          categories: '7',
+                                        )));
+                          },
+                          child: Container(
+                            height: 135,
+                            width: 100,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(),
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  "assets/images/watchadmin.png",
+                                  fit: BoxFit.cover,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Watch",
+                                    style: defaultTextStyle(
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+                    ),
                   ],
                 ),
               ),
@@ -335,7 +336,6 @@ class _ProductEditState extends State<ProductEdit> {
           );
         },
       ),
-
     );
   }
 }

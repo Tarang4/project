@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/user_side/screens/login%20screen/admin_login.dart';
 import 'package:untitled/user_side/screens/login%20screen/sign_up_screen.dart';
-
 import '../../config/app_colors.dart';
 import '../../untils/app_fonts.dart';
 import 'login_screen.dart';
@@ -51,7 +50,7 @@ class _LoginTypesState extends State<LoginTypes> {
                       Text(
                         "Welcome To,",
                         style: defaultTextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.w700),
+                            fontSize: 18.0, fontWeight: FontWeight.w700),
                       ),
                       Text(
                         "SnatchKart,",
@@ -91,7 +90,7 @@ class _LoginTypesState extends State<LoginTypes> {
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) => SignUpScreen()));
+                                  builder: (context) => const SignUpScreen()));
                         },
                         child: Container(
                           height: 50,
@@ -131,7 +130,7 @@ class _LoginTypesState extends State<LoginTypes> {
                             Navigator.push(
                                 context,
                                 CupertinoPageRoute(
-                                    builder: (context) => LoginScreen()));
+                                    builder: (context) => const LoginScreen()));
                           });
                         },
                         child: Container(
@@ -162,13 +161,13 @@ class _LoginTypesState extends State<LoginTypes> {
             ],
           ),
         ),
-        Spacer(),
+        const Spacer(),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextButton(
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AdminLogin()));
+                    MaterialPageRoute(builder: (context) => const AdminLogin()));
               },
               child: const Text(
                 "Admin Login",

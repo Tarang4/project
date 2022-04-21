@@ -62,12 +62,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: const Icon(Icons.arrow_back)),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.06,
+                  height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 Card(
+                  elevation: 5,
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 16, right: 16, top: 30, bottom: 16),
+                        left: 16, right: 16, top: 20, bottom: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -295,6 +296,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ),
+                SizedBox(height: MediaQuery.of(context).size.height/10.5,),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: RichText(
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text: 'Powered by ',
+                          style: defaultTextStyle(
+                              fontWeight: FontWeight.w100,
+                              fontSize: 10.0,
+                              fontColors: colorGrey)),
+                      TextSpan(
+                          text: 'SnatchKart',
+                          style: defaultTextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12.0,
+                              fontColors: colorGreen)),
+                    ]),
+                  ),
+                )
               ],
             ),
           ),

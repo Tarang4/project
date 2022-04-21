@@ -39,18 +39,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
   String? profilePhoto = pref!.getString(LocalStorageKey.profilePhoto)!;
   String? assetProfilePhoto = "assets/images/user_profile.png";
   List<CategoriesModal> categoriesList = [
-    CategoriesModal(catImage: "assets/images/icons/man.png", catName: "Man"),
+    CategoriesModal(catImage: "assets/images/icons/manadmin.png", catName: "Man"),
     CategoriesModal(
-        catImage: "assets/images/icons/women.png", catName: "Women"),
-    CategoriesModal(catImage: "assets/images/icons/kids.png", catName: "Kids"),
+        catImage: "assets/images/icons/womenadmin.png", catName: "Women"),
+    CategoriesModal(catImage: "assets/images/icons/kidsadmin.png", catName: "Kids"),
     CategoriesModal(
-        catImage: "assets/images/icons/shoes.png", catName: "Shoes"),
+        catImage: "assets/images/icons/shoesadmin.png", catName: "Shoes"),
     CategoriesModal(
-        catImage: "assets/images/icons/devices.png", catName: "Devices"),
+        catImage: "assets/images/icons/devicesadmin.png", catName: "Devices"),
     CategoriesModal(
-        catImage: "assets/images/icons/perfume.png", catName: "Perfume"),
+        catImage: "assets/images/icons/perfumeadmin.png", catName: "Perfume"),
     CategoriesModal(
-        catImage: "assets/images/icons/watch.png", catName: "Watches"),
+        catImage: "assets/images/icons/watchadmin.png", catName: "Watches"),
   ];
   final List<String> imageList = [
     "https://images.unsplash.com/photo-1585565804112-f201f68c48b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",

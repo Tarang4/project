@@ -51,18 +51,20 @@ class _AdminLoginState extends State<AdminLogin> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Welcome,",
-                              style: defaultTextStyle(
-                                  fontSize: 30.0, fontWeight: FontWeight.w700),
-                            ),
-                          ],
+                        Text(
+                          "Welcome To,",
+                          style: defaultTextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.w700),
+                        ),
+                        Text(
+                          "SnatchKart,",
+                          style: defaultTextStyle(
+                              fontColors: colorGreen,
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.w700),
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         Text(
                           "Admin......",
@@ -173,17 +175,23 @@ class _AdminLoginState extends State<AdminLogin> {
                         const SizedBox(
                           height: 19,
                         ),
-                        Align(alignment: Alignment.centerRight,
-                          child: TextButton(onPressed: (){
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => ForgetScreen(email: emailController.text,)));
-                          }, child: Text(
-                            "Forgot Password?",
-                            style: defaultTextStyle(
-                                fontSize: 14.0, fontWeight: FontWeight.w400),
-                          ),),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) => ForgetScreen(
+                                            email: emailController.text,
+                                          )));
+                            },
+                            child: Text(
+                              "Forgot Password?",
+                              style: defaultTextStyle(
+                                  fontSize: 14.0, fontWeight: FontWeight.w400),
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           height: 25,
@@ -191,9 +199,11 @@ class _AdminLoginState extends State<AdminLogin> {
                         InkWell(
                           onTap: () async {
                             if (loginScreenKey.currentState!.validate()) {
-
-                              AdminAuthRepository.adminSignIn(context: context, email: emailController.text, password: passwordController.text, adminId: '');
-
+                              AdminAuthRepository.adminSignIn(
+                                  context: context,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  adminId: '');
                             }
                           },
                           child: Container(
@@ -212,12 +222,34 @@ class _AdminLoginState extends State<AdminLogin> {
                                   fontWeight: FontWeight.w400),
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
                 ),
               ),
+              SizedBox(height: MediaQuery.of(context).size.height/4.5,),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                          text: 'Powered by ',
+                          style: defaultTextStyle(
+                              fontWeight: FontWeight.w100,
+                              fontSize: 10.0,
+                              fontColors: colorGrey)),
+                      TextSpan(
+                          text: 'SnatchKart',
+                          style: defaultTextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12.0,
+                              fontColors: colorGreen)),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),

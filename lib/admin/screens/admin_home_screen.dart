@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:untitled/user_side/untils/toast/flutter_toast_method.dart';
 import '../../main.dart';
 import '../../user_side/config/Localstorage_string.dart';
 import '../../user_side/config/app_colors.dart';
+import '../../user_side/repository/auth/auth_reposetory.dart';
 import '../../user_side/screens/login screen/all_type_screnn.dart';
 import '../../user_side/untils/app_fonts.dart';
 import 'notification_add_admin.dart';
@@ -46,16 +48,9 @@ class _AdminHomeState extends State<AdminHome> {
               actions: [
                 FlatButton(
                     onPressed: () {
-                      pref!.setBool("isAdminLigIn", false);
-                      Navigator.pushReplacement(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => const LoginTypes()));
+                      logOutAlert();
                     },
-                    child: Text(
-                      'LogOut ',
-                      style: TextStyle(color: Colors.black),
-                    ))
+                    child: const Icon(Icons.logout))
               ],
             ),
             body: SafeArea(
@@ -73,7 +68,7 @@ class _AdminHomeState extends State<AdminHome> {
                                 Navigator.push(
                                     context,
                                     CupertinoPageRoute(
-                                        builder: (context) => ProductEdit()));
+                                        builder: (context) => const ProductEdit()));
                               },
                               child: Container(
                                 height: 150,
@@ -88,7 +83,7 @@ class _AdminHomeState extends State<AdminHome> {
                             Text(
                               "Product Edit",
                               style: defaultTextStyle(
-                                  fontSize: 18.0,
+                                  fontSize: 15.0,
                                   fontColors: colorBlack,
                                   fontWeight: FontWeight.w500),
                             ),
@@ -101,7 +96,7 @@ class _AdminHomeState extends State<AdminHome> {
                                 Navigator.push(
                                     context,
                                     CupertinoPageRoute(
-                                        builder: (context) => CustomerDetails()));
+                                        builder: (context) => const CustomerDetails()));
                               },
                               child: Container(
                                 height: 150,
@@ -116,7 +111,7 @@ class _AdminHomeState extends State<AdminHome> {
                             Text(
                               "User Information",
                               style: defaultTextStyle(
-                                  fontSize: 18.0,
+                                  fontSize: 15.0,
                                   fontColors: colorBlack,
                                   fontWeight: FontWeight.w500),
                             ),
@@ -125,7 +120,7 @@ class _AdminHomeState extends State<AdminHome> {
 
                       ],
                     ),
-                    SizedBox(height: 15,),
+                    const SizedBox(height: 15,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -136,7 +131,7 @@ class _AdminHomeState extends State<AdminHome> {
                                 Navigator.push(
                                     context,
                                     CupertinoPageRoute(
-                                        builder: (context) => OrderHistory()));
+                                        builder: (context) => const OrderHistory()));
                               },
                               child: Container(
                                 height: 150,
@@ -151,7 +146,7 @@ class _AdminHomeState extends State<AdminHome> {
                             Text(
                               "Order History",
                               style: defaultTextStyle(
-                                  fontSize: 18.0,
+                                  fontSize: 15.0,
                                   fontColors: colorBlack,
                                   fontWeight: FontWeight.w500),
                             ),
@@ -164,7 +159,7 @@ class _AdminHomeState extends State<AdminHome> {
                                 Navigator.push(
                                     context,
                                     CupertinoPageRoute(
-                                        builder: (context) => NotificationAdminScreen()));
+                                        builder: (context) => const NotificationAdminScreen()));
                               },
                               child: Container(
                                 height: 150,
@@ -179,7 +174,7 @@ class _AdminHomeState extends State<AdminHome> {
                             Text(
                               "Nottification",
                               style: defaultTextStyle(
-                                  fontSize: 18.0,
+                                  fontSize: 15.0,
                                   fontColors: colorBlack,
                                   fontWeight: FontWeight.w500),
                             ),
@@ -187,6 +182,27 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                       ],
                     ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: 'Powered by ',
+                                style: defaultTextStyle(
+                                    fontWeight: FontWeight.w100,
+                                    fontSize: 10.0,
+                                    fontColors: colorGrey)),
+                            TextSpan(
+                                text: 'SnatchKart',
+                                style: defaultTextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 12.0,
+                                    fontColors: colorGreen)),
+                          ]),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -236,4 +252,25 @@ class _AdminHomeState extends State<AdminHome> {
   //
   //   super.dispose();
   // }
+  logOutAlert() {
+    AwesomeDialog(
+        context: context,
+        animType: AnimType.SCALE,
+        dialogType: DialogType.NO_HEADER,
+        body: const Center(
+          child: Text(
+            "Are you sure want to Log Out ?",
+            style: TextStyle(fontSize: 15),
+          ),
+        ),
+        btnOkOnPress: () {
+          pref!.setBool("isAdminLigIn", false);
+          Navigator.pushReplacement(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => const LoginTypes()));
+        },
+        btnCancelOnPress: () {})
+        .show();
+  }
 }

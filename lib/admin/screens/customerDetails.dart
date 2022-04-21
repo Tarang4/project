@@ -21,9 +21,9 @@ class _CustomerDetailsState extends State<CustomerDetails> {
     double _w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
+        elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: colorWhite,
+        backgroundColor: colorWhite.withOpacity(0.5),
         title: Text(
           "Customer Details",
           style: defaultTextStyle(
