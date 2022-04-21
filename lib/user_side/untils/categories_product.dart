@@ -682,7 +682,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                         ),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 200,
                       child: StreamBuilder(
                         stream: FirebaseFirestore.instance
@@ -744,7 +744,7 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Container(
+                                                  SizedBox(
                                                     width: 150,
                                                     child: Text(
                                                       reviewModal.userName
@@ -764,22 +764,19 @@ class _CategoriesProductState extends State<CategoriesProduct> {
                                                             100 *
                                                             10,
                                                   ),
-                                                  Container(
+                                                  SizedBox(
                                                     width: 100,
                                                     child: Row(
                                                       children: List.generate(
                                                           int.parse(reviewModal
                                                               .star
                                                               .toString()),
-                                                          (index) => Container(
-                                                                child:
-                                                                    const Icon(
+                                                          (index) => const Icon(
                                                                   Icons.star,
                                                                   size: 20,
                                                                   color:
-                                                                      colorYellow,
-                                                                ),
-                                                              )),
+                                                            colorYellow,
+                                                                )),
                                                     ),
                                                   )
                                                 ],

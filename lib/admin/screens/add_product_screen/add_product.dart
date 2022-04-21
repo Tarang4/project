@@ -935,7 +935,7 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
 
   uploadImageFireBase() async {
     if (image1 != null) {
-      final destination = 'product/$grpValue/${productName.text}';
+      final destination = 'product/${widget.categories}/${productName.text}';
 
       UploadTask? uploadTask =
           ProductPhotoRepository.uploadFile(destination, image1!, "1");
@@ -945,7 +945,7 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
 
         urlImage1 = await downloadUrl.ref.getDownloadURL();
         if (image2 != null) {
-          final destination = 'product/$grpValue/${productName.text}';
+          final destination = 'product/${widget.categories}/${productName.text}';
 
           UploadTask? uploadTask =
               ProductPhotoRepository.uploadFile(destination, image2!, "2");
@@ -955,7 +955,7 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
 
             urlImage2 = await downloadUrl.ref.getDownloadURL();
             if (image3 != null) {
-              final destination = 'product/$grpValue/${productName.text}';
+              final destination = 'product/${widget.categories}/${productName.text}';
               UploadTask? uploadTask =
                   ProductPhotoRepository.uploadFile(destination, image3!, "3");
 
@@ -964,7 +964,7 @@ class _AddProductAdminSideState extends State<AddProductAdminSide> {
 
                 urlImage3 = await downloadUrl.ref.getDownloadURL();
                 if (image4 != null) {
-                  final destination = 'product/$grpValue/${productName.text}';
+                  final destination = 'product/${widget.categories}/${productName.text}';
 
                   UploadTask? uploadTask = ProductPhotoRepository.uploadFile(
                       destination, image4!, "4");
